@@ -104,7 +104,7 @@ Next: Say 'prototype hubspot-config' to build interactive prototype
 
 ## Prototype
 
-Build a Storybook prototype and update Notion.
+Build a Storybook prototype, deploy it, and get a live URL.
 
 ```
 @Cursor prototype hubspot-config
@@ -116,15 +116,22 @@ Or:
 @Cursor proto hubspot-config
 ```
 
+Or with specific instructions:
+
+```
+@Cursor proto hubspot-config "Add a toggle for validation rules"
+```
+
 **What it does:**
 
-- Reads PRD and Design Brief
-- Creates React components with Storybook stories
-- Updates Design Brief status in Notion to "In Progress"
-- Adds Figma/Storybook links if applicable
-- Documents migration notes
+1. Reads PRD and Design Brief for context
+2. Creates React components with Storybook stories
+3. Commits and pushes to main
+4. Triggers Chromatic deployment (via GitHub Action)
+5. Sends you a **live preview URL** in Slack
+6. Updates Design Brief status in Notion
 
-**Slack response:**
+**Slack response (immediate):**
 
 ```
 ✅ Prototype created for hubspot-config!
@@ -134,10 +141,24 @@ Or:
 - HubSpotFieldMapper.stories.tsx
 - SyncStatusIndicator.tsx
 
-📋 Design Brief updated in Notion
-
-To preview: cd prototypes && pnpm storybook
+⏳ Deploying to Chromatic... You'll receive a live link in ~2 minutes.
 ```
+
+**Slack response (after deploy):**
+
+```
+🎨 New Storybook Prototype Ready!
+
+Preview your prototype:
+https://main--abc123.chromatic.com
+
+[📱 Open Storybook] [🔍 View in Chromatic]
+
+Branch: main
+Commit: abc123
+```
+
+**📱 Mobile access:** Click the Storybook link directly from Slack on your phone!
 
 ---
 
@@ -225,3 +246,21 @@ All pages are automatically linked via Notion relations.
 - **One step at a time**: Research → PM → Prototype
 - **Check Notion links**: Click them directly from Slack on mobile
 - **Local files are backup**: Everything is also saved in pm-workspace
+- **Prototype on mobile**: Open Chromatic links directly in your phone browser
+
+---
+
+## Setup (One-Time)
+
+### Required for Prototype Live Links
+
+To get live Storybook URLs on your phone, you need to set up Chromatic:
+
+1. **Create Chromatic account**: [chromatic.com](https://www.chromatic.com) → Sign in with GitHub
+2. **Add pm-workspace project** → Copy the Project Token
+3. **Add GitHub secrets** in `pm-workspace` repo settings:
+   - `CHROMATIC_PROJECT_TOKEN` - From Chromatic dashboard
+   - `SLACK_BOT_TOKEN` - From Slack app (xoxb-...)
+   - `SLACK_CHANNEL_ID` - Channel for notifications
+
+See `.pm-workspace/research/storybook-live-preview-research.md` for detailed instructions.

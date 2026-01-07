@@ -1,0 +1,129 @@
+# Deploy Storybook to Chromatic and send preview URL to Slack
+# Triggers on pushes to prototypes/ folder
+
+name: Deploy Storybook Preview
+
+on:
+  push:
+    paths:
+      - 'prototypes/**'
+    branches:
+      - main
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      notify_slack:
+        description: 'Send Slack notification with preview URL'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  deploy-storybook:
+    runs-on: ubuntu-latest
+    
+    outputs:
+      storybook_url: ${{ steps.chromatic.outputs.storybookUrl }}
+      build_url: ${{ steps.chromatic.outputs.buildUrl }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: prototypes/package-lock.json
+
+      - name: Install dependencies
+        working-directory: prototypes
+        run: npm ci
+
+      - name: Build Storybook
+        working-directory: prototypes
+        run: npm run build-storybook
+
+      - name: Deploy to Chromatic
+        id: chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookBuildDir: prototypes/storybook-static
+          exitZeroOnChanges: true
+          exitOnceUploaded: true
+
+      - name: Output URLs
+        run: |
+          echo "🎨 Storybook URL: ${{ steps.chromatic.outputs.storybookUrl }}"
+          echo "🔗 Build URL: ${{ steps.chromatic.outputs.buildUrl }}"
+
+  notify-slack:
+    needs: deploy-storybook
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.notify_slack != 'false' }}
+    
+    steps:
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🎨 New Storybook Prototype Ready!"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Preview your prototype:*\n${{ needs.deploy-storybook.outputs.storybook_url }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n`${{ github.ref_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n`${{ github.sha }}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "📱 Open Storybook"
+                      },
+                      "url": "${{ needs.deploy-storybook.outputs.storybook_url }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "🔍 View in Chromatic"
+                      },
+                      "url": "${{ needs.deploy-storybook.outputs.build_url }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
