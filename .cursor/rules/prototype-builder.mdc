@@ -1,0 +1,47 @@
+---
+description: "Build prototypes in local Storybook environment"
+globs: ["prototypes/**/*"]
+alwaysApply: false
+---
+
+# Prototype Builder Rules
+
+## Local Storybook Setup
+All prototypes go in /prototypes/ which is gitignored.
+
+When building prototypes:
+1. Read the PRD from @.pm-workspace/initiatives/[project]/prd.md
+2. Study existing patterns in @elephant-ai/web/src/components/
+3. Create new components in /prototypes/src/components/
+4. Always create .stories.tsx files
+5. Use the same tech stack: React, TypeScript, Tailwind
+
+## Storybook Commands
+- Start: `cd prototypes && pnpm storybook`
+- Build: `cd prototypes && pnpm build-storybook`
+
+## Code Conventions (Match Main Repo)
+- TypeScript strict mode
+- React functional components with hooks
+- Tailwind for styling (shadcn/ui patterns)
+- Follow existing component patterns from @elephant-ai/web/src/components/
+
+## Component Structure
+```
+prototypes/src/components/
+├── [ComponentName]/
+│   ├── [ComponentName].tsx
+│   ├── [ComponentName].stories.tsx
+│   └── index.ts
+```
+
+## When Prototype is Ready
+1. Document in .pm-workspace/initiatives/[project]/prototype-notes.md
+2. List components ready for migration
+3. Note any dependencies or patterns that differ from main
+
+## Importing from Main Repo
+You can reference types and utilities from the main repo:
+- Types: Study patterns in @elephant-ai/web/src/components/ but recreate locally
+- Utils: Copy needed utilities to prototypes/src/lib/
+- Don't create direct imports to main repo (keeps prototypes portable)
