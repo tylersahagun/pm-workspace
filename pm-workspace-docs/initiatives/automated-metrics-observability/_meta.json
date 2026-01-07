@@ -1,0 +1,35 @@
+{
+  "$schema": "pm-workspace-meta-v1",
+  "initiative": "automated-metrics-observability",
+  "hypothesis_id": "hyp-automated-metrics-observability",
+  "phase": "define",
+  "sub_phase": null,
+  "status": "on_track",
+  "priority": "P2",
+  "owner": "tyler",
+  "personas": [
+    "sales-leader",
+    "revops"
+  ],
+  "pillar": "data-knowledge",
+  "created_at": "2026-01-08T09:46:14.509127",
+  "updated_at": "2026-01-08T09:46:14.509228",
+  "phase_history": [
+    {
+      "phase": "define",
+      "entered": "2026-01-08T09:46:14.509127",
+      "exited": null
+    }
+  ],
+  "blockers": [],
+  "next_action": "Review define phase status",
+  "graduation_criteria": {},
+  "timeline": {
+    "started": "2026-01-08",
+    "target_launch": null
+  },
+  "metrics": {
+    "days_in_phase": 7,
+    "total_iterations": 0
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "$schema": "pm-workspace-hypotheses-index-v1",
+  "last_updated": "2026-01-15T18:38:06.757178",
+  "total": 9,
+  "by_status": {
+    "active": 0,
+    "validated": 0,
+    "committed": 9,
+    "retired": 0
+  },
+  "hypotheses": [
+    {
+      "id": "hyp-automated-metrics-observability",
+      "name": "Automated Metrics Observability",
+      "status": "committed",
+      "initiative_id": "automated-metrics-observability",
+      "problem_statement": "\n**Today's pain:** When new AI features launch, the team can't quickly answer basic questions like:\n- How many users are using this feature?\n- Is the AI response quality good?\n- What's our cost per feature/workspace/model?",
+      "personas": [
+        "sales-leader",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.740724",
+      "validated_at": "2026-01-15T18:38:06.740725"
+    },
+    {
+      "id": "hyp-call-import-engine",
+      "name": "Call Import Engine",
+      "status": "committed",
+      "initiative_id": "call-import-engine",
+      "problem_statement": "\nWhen customers switch from Gong, Grain, or other call recording platforms to AskElephant, they face a frustrating experience:\n\n> \"When I was onboarding, it was really hard to show someone the platform... The conversation was literally like, 'When is your next call?' Looks like you have a call tomorrow at twelve. So over twenty-four hours passed...\" \u2014 Tyler\n",
+      "personas": [
+        "sales-rep",
+        "sales-leader",
+        "csm",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.742674",
+      "validated_at": "2026-01-15T18:38:06.742675"
+    },
+    {
+      "id": "hyp-condorcet-jury-eval",
+      "name": "Condorcet Jury Eval",
+      "status": "committed",
+      "initiative_id": "condorcet-jury-eval",
+      "problem_statement": "Problem identified in condorcet-jury-eval initiative",
+      "personas": [
+        "sales-rep"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.743067",
+      "validated_at": "2026-01-15T18:38:06.743068"
+    },
+    {
+      "id": "hyp-condorcet-jury-system",
+      "name": "Condorcet Jury System",
+      "status": "committed",
+      "initiative_id": "condorcet-jury-system",
+      "problem_statement": "\n### Current State\n\nThe existing PM workflow (`research \u2192 PM \u2192 proto`) operates without systematic user validation:\n",
+      "personas": [
+        "sales-rep",
+        "sales-leader",
+        "csm",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.744713",
+      "validated_at": "2026-01-15T18:38:06.744714"
+    },
+    {
+      "id": "hyp-customer-journey-map",
+      "name": "Customer Journey Map",
+      "status": "committed",
+      "initiative_id": "customer-journey-map",
+      "problem_statement": "Reps and leaders are overwhelmed by noisy alerts that lack context, making it hard to know what to do next in a deal. They need a story-like summary of where a customer is in their journey, why it matters, and what actions move the deal forward. The current view feels like pipeline status, not a guided path tailored to the customer\u2019s journey, and it does not reflect the product channel context that changes how the journey should be interpreted.\n\n### Evidence\n- \"I want a hierarchy of information ",
+      "personas": [
+        "sales-rep",
+        "sales-leader",
+        "csm",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.748384",
+      "validated_at": "2026-01-15T18:38:06.748441"
+    },
+    {
+      "id": "hyp-feature-availability-audit",
+      "name": "Feature Availability Audit",
+      "status": "committed",
+      "initiative_id": "feature-availability-audit",
+      "problem_statement": "\n### The Problem\n\nAskElephant has accumulated 116 feature flags over time with no cleanup process. This creates:\n",
+      "personas": [
+        "sales-leader",
+        "sales-rep",
+        "csm",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.750815",
+      "validated_at": "2026-01-15T18:38:06.750817"
+    },
+    {
+      "id": "hyp-hubspot-agent-config-ui",
+      "name": "Hubspot Agent Config Ui",
+      "status": "committed",
+      "initiative_id": "hubspot-agent-config-ui",
+      "problem_statement": "\n### What problem?\n\nConfiguring the HubSpot agent to update CRM fields correctly requires complex prompt engineering spread across 3-4 workflow nodes. Users spend **100+ hours** learning to configure agents through trial and error, with zero visibility into what's happening or why.\n",
+      "personas": [
+        "sales-rep",
+        "sales-leader",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.753359",
+      "validated_at": "2026-01-15T18:38:06.753361"
+    },
+    {
+      "id": "hyp-release-lifecycle-process",
+      "name": "Release Lifecycle Process",
+      "status": "committed",
+      "initiative_id": "release-lifecycle-process",
+      "problem_statement": "\n### The Problem\n\nAskElephant has no standardized process for how features move from idea to customer hands. This causes:\n",
+      "personas": [
+        "sales-leader",
+        "csm",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.755383",
+      "validated_at": "2026-01-15T18:38:06.755384"
+    },
+    {
+      "id": "hyp-universal-signal-tables",
+      "name": "Universal Signal Tables",
+      "status": "committed",
+      "initiative_id": "universal-signal-tables",
+      "problem_statement": "\nSales leaders have rich conversational data across thousands of calls but no way to systematically extract, filter, and aggregate insights. Currently:\n\n- **Insights are locked in transcripts** requiring manual review or one-off AI queries\n- **Signal configuration is burdensome** (2+ hours for complex setups like School AI's 25 annotations)",
+      "personas": [
+        "sales-rep",
+        "sales-leader",
+        "revops"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-15T18:38:06.757083",
+      "validated_at": "2026-01-15T18:38:06.757084"
+    }
+  ]
+}

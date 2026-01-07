@@ -1,0 +1,3 @@
+[submodule "elephant-ai"]
+	path = elephant-ai
+	url = https://github.com/AskElephant/elephant-ai.git

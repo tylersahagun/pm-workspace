@@ -1,0 +1,38 @@
+{
+  "$schema": "pm-workspace-signals-index-v1",
+  "last_updated": "2026-01-15T20:45:24.118876",
+  "total_signals": 1,
+  "by_source": {
+    "transcript": 1,
+    "ticket": 0,
+    "issue": 0,
+    "conversation": 0
+  },
+  "by_status": {
+    "unprocessed": 1,
+    "processed": 0
+  },
+  "signals": [
+    {
+      "id": "sig-2026-01-15-1225d797",
+      "type": "transcript",
+      "source": "test-customer-call.md",
+      "topic": "customer-call-acme-corp",
+      "captured_at": "2026-01-15T20:45:24.118321",
+      "status": "unprocessed",
+      "problems_extracted": [
+        "Currently they have to click each one individually which is a problem for their workflow"
+      ],
+      "personas_mentioned": [
+        "sales-rep",
+        "csm",
+        "revops"
+      ],
+      "severity": "medium",
+      "word_count": 109,
+      "file_path": "signals/transcripts/2026-01-15-customer-call-acme-corp-1225d797.md",
+      "hypothesis_matches": [],
+      "hypothesis_candidates": []
+    }
+  ]
+}

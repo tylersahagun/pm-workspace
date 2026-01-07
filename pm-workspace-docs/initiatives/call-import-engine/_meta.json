@@ -1,0 +1,37 @@
+{
+  "$schema": "pm-workspace-meta-v1",
+  "initiative": "call-import-engine",
+  "hypothesis_id": "hyp-call-import-engine",
+  "phase": "define",
+  "sub_phase": null,
+  "status": "on_track",
+  "priority": "P2",
+  "owner": "tyler",
+  "personas": [
+    "sales-rep",
+    "sales-leader",
+    "csm",
+    "revops"
+  ],
+  "pillar": "customer-trust",
+  "created_at": "2026-01-12T18:24:47.128294",
+  "updated_at": "2026-01-13T13:16:22.088800",
+  "phase_history": [
+    {
+      "phase": "define",
+      "entered": "2026-01-12T18:24:47.128294",
+      "exited": null
+    }
+  ],
+  "blockers": [],
+  "next_action": "Review define phase status",
+  "graduation_criteria": {},
+  "timeline": {
+    "started": "2026-01-12",
+    "target_launch": null
+  },
+  "metrics": {
+    "days_in_phase": 2,
+    "total_iterations": 0
+  }
+}

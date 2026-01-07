@@ -1,0 +1,2 @@
+- [ ] PMM does training at beta release
+- [ ] Talk with support around documentation and 
