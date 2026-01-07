@@ -62,8 +62,8 @@ jobs:
   notify-slack:
     needs: deploy-storybook
     runs-on: ubuntu-latest
-    # Only run if Slack secrets are configured
-    if: ${{ github.event.inputs.notify_slack != 'false' && secrets.SLACK_BOT_TOKEN != '' }}
+    # Skip Slack notification for now - enable after adding SLACK_BOT_TOKEN and SLACK_CHANNEL_ID secrets
+    if: false
     
     steps:
       - name: Send Slack notification
