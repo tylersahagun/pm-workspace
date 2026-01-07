@@ -44,18 +44,15 @@ jobs:
         working-directory: prototypes
         run: npm ci
 
-      - name: Build Storybook
-        working-directory: prototypes
-        run: npm run build-storybook
-
       - name: Deploy to Chromatic
         id: chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          storybookBuildDir: prototypes/storybook-static
+          workingDir: prototypes
           exitZeroOnChanges: true
-          exitOnceUploaded: true
+          autoAcceptChanges: main  # Auto-accept on main branch
+          onlyChanged: true  # Only test changed stories
 
       - name: Output URLs
         run: |
@@ -65,7 +62,8 @@ jobs:
   notify-slack:
     needs: deploy-storybook
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.notify_slack != 'false' }}
+    # Only run if Slack secrets are configured
+    if: ${{ github.event.inputs.notify_slack != 'false' && secrets.SLACK_BOT_TOKEN != '' }}
     
     steps:
       - name: Send Slack notification
