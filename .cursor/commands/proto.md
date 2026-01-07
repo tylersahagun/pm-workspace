@@ -39,8 +39,9 @@ prototypes/src/components/[ComponentName]/
 When you push changes to `prototypes/`:
 - GitHub Action automatically builds Storybook
 - Deploys to Chromatic CDN
-- Live URL available at: `https://695ece8a989a140b6546402c-[hash].chromatic.com/`
+- **Permanent live URL**: `https://main--695ece8a989a140b6546402c.chromatic.com`
 - Accessible on mobile devices!
+- Takes ~2 minutes to reflect new changes after push
 
 ## Local Preview (Optional)
 
@@ -48,12 +49,16 @@ Run `cd prototypes && npm install && npm run storybook` to preview locally befor
 
 ## Slack Response
 
-After building, reply with:
+After building, ALWAYS reply with the live URL:
 ```
 ✅ Prototype created for [project]!
 
-🎨 Components: [list]
-⏳ Deploying to Chromatic... Live link in ~2 minutes.
+🎨 Components: [list of what was created]
+
+📱 Live Preview (ready in ~2 min):
+https://main--695ece8a989a140b6546402c.chromatic.com
+
 📋 Design Brief updated in Notion
+💾 Local: .pm-workspace/initiatives/[project]/prototype-notes.md
 ```
 

@@ -131,7 +131,7 @@ Or with specific instructions:
 5. Sends you a **live preview URL** in Slack
 6. Updates Design Brief status in Notion
 
-**Slack response (immediate):**
+**Slack response:**
 
 ```
 ✅ Prototype created for hubspot-config!
@@ -141,24 +141,14 @@ Or with specific instructions:
 - HubSpotFieldMapper.stories.tsx
 - SyncStatusIndicator.tsx
 
-⏳ Deploying to Chromatic... You'll receive a live link in ~2 minutes.
+📱 Live Preview (ready in ~2 min):
+https://main--695ece8a989a140b6546402c.chromatic.com
+
+📋 Design Brief updated in Notion
+💾 Local: .pm-workspace/initiatives/hubspot-config/prototype-notes.md
 ```
 
-**Slack response (after deploy):**
-
-```
-🎨 New Storybook Prototype Ready!
-
-Preview your prototype:
-https://main--abc123.chromatic.com
-
-[📱 Open Storybook] [🔍 View in Chromatic]
-
-Branch: main
-Commit: abc123
-```
-
-**📱 Mobile access:** Click the Storybook link directly from Slack on your phone!
+**📱 Mobile access:** Click the Storybook link directly from Slack on your phone! The URL always shows the latest prototype.
 
 ---
 

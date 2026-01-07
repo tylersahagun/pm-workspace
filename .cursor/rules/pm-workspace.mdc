@@ -309,7 +309,7 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 8. Document in `.pm-workspace/initiatives/[name]/prototype-notes.md`
 9. **Commit and push to main** with message "feat(prototype): [description] - [name]"
    - This triggers the Chromatic GitHub Action automatically
-10. Reply to Slack immediately:
+10. Reply to Slack with live URL:
 ```
 ✅ Prototype created for [name]!
 
@@ -318,19 +318,18 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 - [ComponentName].stories.tsx
 - [etc...]
 
-⏳ **Deploying to Chromatic...**
-You'll receive a live preview link in ~2 minutes.
+📱 **Live Preview (ready in ~2 min):**
+https://main--695ece8a989a140b6546402c.chromatic.com
 
 📋 Design Brief updated in Notion
-
 💾 Local: .pm-workspace/initiatives/[name]/prototype-notes.md
 ```
 
-**Chromatic Integration**: 
-- The push to `prototypes/**` triggers `.github/workflows/deploy-storybook.yml`
-- Chromatic builds and hosts the Storybook
-- The live URL is: `https://695ece8a989a140b6546402c-[hash].chromatic.com/`
-- When Slack notifications are enabled, the URL will be sent automatically
+**Chromatic URL**: 
+- Always use this permanent URL: `https://main--695ece8a989a140b6546402c.chromatic.com`
+- This URL always shows the latest Storybook from the main branch
+- Works on mobile devices - just click and view!
+- Takes ~2 minutes after push to reflect new changes
 
 ---
 
