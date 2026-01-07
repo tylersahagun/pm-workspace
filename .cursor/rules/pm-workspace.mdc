@@ -291,6 +291,8 @@ Ready to build a prototype? Say 'prototype [name]'
 
 **Trigger**: "prototype [initiative-name]" or "proto [initiative-name]"
 
+Optional: Include specific instructions after the name (e.g., "proto hubspot-config add validation toggle")
+
 **Steps**:
 1. Read PRD at `.pm-workspace/initiatives/[name]/prd.md`
 2. Read Design Brief at `.pm-workspace/initiatives/[name]/design-brief.md`
@@ -298,12 +300,37 @@ Ready to build a prototype? Say 'prototype [name]'
    - `elephant-ai/web/src/components/`
    - `prototypes/src/components/`
 4. Create components in `prototypes/src/components/[ComponentName]/`
-5. Create Storybook stories
+   - Use React 18 + TypeScript (strict mode)
+   - Use Tailwind CSS for styling
+   - Match conventions from the main repo
+5. Create Storybook stories (`.stories.tsx`)
 6. Update Figma Link on the Design Brief in Notion (if applicable)
 7. Update Design Brief status to "In Progress" in Notion
 8. Document in `.pm-workspace/initiatives/[name]/prototype-notes.md`
-9. Commit and push with message "Prototype: [name]"
-10. Reply to Slack with component list and instruction to run Storybook
+9. **Commit and push to main** with message "feat(prototype): [description] - [name]"
+   - This triggers the Chromatic GitHub Action automatically
+10. Reply to Slack immediately:
+```
+✅ Prototype created for [name]!
+
+🎨 **Components created:**
+- [ComponentName].tsx
+- [ComponentName].stories.tsx
+- [etc...]
+
+⏳ **Deploying to Chromatic...**
+You'll receive a live preview link in ~2 minutes.
+
+📋 Design Brief updated in Notion
+
+💾 Local: .pm-workspace/initiatives/[name]/prototype-notes.md
+```
+
+**Chromatic Integration**: 
+- The push to `prototypes/**` triggers `.github/workflows/deploy-storybook.yml`
+- Chromatic builds and hosts the Storybook
+- The live URL is: `https://695ece8a989a140b6546402c-[hash].chromatic.com/`
+- When Slack notifications are enabled, the URL will be sent automatically
 
 ---
 
