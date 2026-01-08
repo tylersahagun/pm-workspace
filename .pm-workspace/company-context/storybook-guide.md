@@ -198,15 +198,23 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 ```
 
-## Prototype Storybook (Separate)
+## Prototype Components
 
-The `pm-workspace/prototypes/` folder has its own independent Storybook:
-- Different Chromatic project
-- For PM prototyping, not production components
-- Runs on same port (6006) but from different location
+Prototypes are now built directly in the elephant-ai codebase:
+
+**Location:** `elephant-ai/web/src/components/prototypes/`
+
+This allows prototypes to:
+- Use real UI components from `@/components/ui/`
+- Appear in the same Storybook as production components
+- Be tested in context (e.g., inside WorkflowNodeSheet)
+- Go through normal PR review
+
+Navigate to "Prototypes" section in Storybook to see active prototypes.
 
 ```bash
-# Prototype Storybook
-cd prototypes && npm run storybook
+# All components in one Storybook
+cd elephant-ai
+npm run storybook -w web
 ```
 

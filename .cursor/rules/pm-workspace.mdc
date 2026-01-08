@@ -296,40 +296,38 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 **Steps**:
 1. Read PRD at `.pm-workspace/initiatives/[name]/prd.md`
 2. Read Design Brief at `.pm-workspace/initiatives/[name]/design-brief.md`
-3. Check existing patterns in:
-   - `elephant-ai/web/src/components/`
-   - `prototypes/src/components/`
-4. Create components in `prototypes/src/components/[ComponentName]/`
+3. Check existing patterns in `elephant-ai/web/src/components/`
+4. Create components in `elephant-ai/web/src/components/prototypes/[ProjectName]/`
    - Use React 18 + TypeScript (strict mode)
    - Use Tailwind CSS for styling
+   - Use real UI components: `import { Button } from '@/components/ui/button'`
    - Match conventions from the main repo
-5. Create Storybook stories (`.stories.tsx`)
+5. Create Storybook stories (`.stories.tsx`) with `Prototypes/` title prefix
 6. Update Figma Link on the Design Brief in Notion (if applicable)
 7. Update Design Brief status to "In Progress" in Notion
 8. Document in `.pm-workspace/initiatives/[name]/prototype-notes.md`
-9. **Commit and push to main** with message "feat(prototype): [description] - [name]"
-   - This triggers the Chromatic GitHub Action automatically
-10. Reply to Slack with live URL:
+9. **Commit and push elephant-ai submodule** with message "feat(prototype): [description] - [name]"
+   - This triggers Firebase Hosting preview on PR
+10. Reply to Slack with preview info:
 ```
 ✅ Prototype created for [name]!
 
 🎨 **Components created:**
-- [ComponentName].tsx
-- [ComponentName].stories.tsx
-- [etc...]
+- elephant-ai/web/src/components/prototypes/[ProjectName]/[ComponentName].tsx
+- elephant-ai/web/src/components/prototypes/[ProjectName]/[ComponentName].stories.tsx
 
-📱 **Live Preview (ready in ~2 min):**
-https://main--695ece8a989a140b6546402c.chromatic.com
+📱 **Preview:**
+- Local: `cd elephant-ai && npm run storybook -w web` (http://localhost:6006)
+- PR Preview: Firebase Hosting URL (auto-generated on PR)
 
 📋 Design Brief updated in Notion
 💾 Local: .pm-workspace/initiatives/[name]/prototype-notes.md
 ```
 
-**Chromatic URL**: 
-- Always use this permanent URL: `https://main--695ece8a989a140b6546402c.chromatic.com`
-- This URL always shows the latest Storybook from the main branch
-- Works on mobile devices - just click and view!
-- Takes ~2 minutes after push to reflect new changes
+**Storybook URL**: 
+- Local development: `http://localhost:6006`
+- PR previews are deployed to Firebase Hosting automatically
+- Navigate to "Prototypes" section in Storybook sidebar
 
 ---
 
@@ -349,10 +347,16 @@ https://main--695ece8a989a140b6546402c.chromatic.com
 
 ```
 pm-workspace/
-├── elephant-ai/              # Submodule - main codebase (READ ONLY)
+├── elephant-ai/                    # Submodule - main codebase
+│   └── web/src/components/
+│       ├── prototypes/             # NEW: Prototype components
+│       │   ├── README.md
+│       │   └── [ProjectName]/      # e.g., HubSpotConfig/
+│       ├── ui/                     # shadcn/ui components
+│       └── workflows/              # Workflow builder components
 ├── .pm-workspace/
-│   ├── company-context/      # Product vision, personas, tech stack
-│   ├── initiatives/          # One folder per initiative
+│   ├── company-context/            # Product vision, personas, tech stack
+│   ├── initiatives/                # One folder per initiative
 │   │   └── [name]/
 │   │       ├── prd.md              # Main PRD/Overview
 │   │       ├── research.md         # Research notes
@@ -360,11 +364,10 @@ pm-workspace/
 │   │       ├── engineering-spec.md # Technical documentation
 │   │       ├── gtm-brief.md        # Marketing documentation
 │   │       ├── decisions.md        # Decision log
-│   │       └── prototype-notes.md  # Prototype migration notes
-│   ├── research/             # General research
-│   └── knowledge-base-sync/  # Synced transcripts/docs
-└── prototypes/
-    └── src/components/       # Storybook prototypes
+│   │       └── prototype-notes.md  # Prototype notes
+│   ├── research/                   # General research
+│   └── knowledge-base-sync/        # Synced transcripts/docs
+└── prototypes/                     # DEPRECATED: Old prototype location
 ```
 
 ---

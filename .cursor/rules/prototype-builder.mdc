@@ -1,47 +1,85 @@
 ---
-description: "Build prototypes in local Storybook environment"
-globs: ["prototypes/**/*"]
+description: "Build prototypes in elephant-ai Storybook"
+globs: ["elephant-ai/web/src/components/prototypes/**/*"]
 alwaysApply: false
 ---
 
 # Prototype Builder Rules
 
-## Local Storybook Setup
-All prototypes go in /prototypes/ which is gitignored.
+## Prototype Location
+All prototypes go in `elephant-ai/web/src/components/prototypes/`.
 
-When building prototypes:
-1. Read the PRD from @.pm-workspace/initiatives/[project]/prd.md
-2. Study existing patterns in @elephant-ai/web/src/components/
-3. Create new components in /prototypes/src/components/
-4. Always create .stories.tsx files
-5. Use the same tech stack: React, TypeScript, Tailwind
+This allows prototypes to:
+- Use real UI components from `@/components/ui/`
+- Appear alongside production components in Storybook
+- Be tested in context (e.g., inside WorkflowNodeSheet)
+- Go through PR review before merging
+
+## Before Building
+1. Read the PRD: `.pm-workspace/initiatives/[project]/prd.md`
+2. Read the Design Brief: `.pm-workspace/initiatives/[project]/design-brief.md`
+3. Study existing patterns in `elephant-ai/web/src/components/`
+4. Check if there are Storybook stories for related components
+
+## When Building Prototypes
+1. Create folder: `elephant-ai/web/src/components/prototypes/[ProjectName]/`
+2. Always create `.stories.tsx` files with `Prototypes/` title prefix
+3. Use real UI components: `import { Button } from '@/components/ui/button'`
+4. Follow the same conventions as production code
 
 ## Storybook Commands
-- Start: `cd prototypes && pnpm storybook`
-- Build: `cd prototypes && pnpm build-storybook`
+```bash
+# From elephant-ai root
+npm run storybook -w web    # Opens at http://localhost:6006
+
+# Build static version
+npm run build-storybook -w web
+```
 
 ## Code Conventions (Match Main Repo)
 - TypeScript strict mode
 - React functional components with hooks
-- Tailwind for styling (shadcn/ui patterns)
-- Follow existing component patterns from @elephant-ai/web/src/components/
+- Tailwind CSS for styling
+- shadcn/ui components from `@/components/ui/`
+- Follow patterns from `elephant-ai/web/src/components/`
 
 ## Component Structure
 ```
-prototypes/src/components/
-├── [ComponentName]/
-│   ├── [ComponentName].tsx
-│   ├── [ComponentName].stories.tsx
-│   └── index.ts
+elephant-ai/web/src/components/prototypes/
+├── README.md
+└── [ProjectName]/
+    ├── [ComponentName].tsx
+    ├── [ComponentName].stories.tsx
+    ├── types.ts
+    └── index.ts
 ```
 
-## When Prototype is Ready
-1. Document in .pm-workspace/initiatives/[project]/prototype-notes.md
-2. List components ready for migration
-3. Note any dependencies or patterns that differ from main
+## Story Title Convention
+Use `Prototypes/` prefix to organize in Storybook sidebar:
+```typescript
+const meta = {
+  title: 'Prototypes/[ProjectName]/[ComponentName]',
+  component: ComponentName,
+};
+```
 
-## Importing from Main Repo
-You can reference types and utilities from the main repo:
-- Types: Study patterns in @elephant-ai/web/src/components/ but recreate locally
-- Utils: Copy needed utilities to prototypes/src/lib/
-- Don't create direct imports to main repo (keeps prototypes portable)
+## After Building
+1. Document in `.pm-workspace/initiatives/[project]/prototype-notes.md`
+2. List any deviations from the PRD
+3. Note what needs to happen for production migration
+4. Commit to elephant-ai and push to create a PR
+5. PR will get Firebase Hosting preview with Storybook
+
+## Moving to Production
+When a prototype is approved:
+1. Move component files to the appropriate production folder
+2. Update imports if needed
+3. Remove `Prototypes/` prefix from story title
+4. Replace mock data with real data fetching
+5. Add unit tests
+
+## Context Testing
+To see prototypes in real context, use the WorkflowNodeSheet story:
+- `workflows/WorkflowNodeSheet` - Provides the panel context
+- Pass your prototype component as children
+- See how it looks inside the actual workflow builder
