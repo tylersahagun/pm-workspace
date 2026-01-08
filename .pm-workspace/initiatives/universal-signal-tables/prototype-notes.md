@@ -170,9 +170,52 @@ Prototype uses local React state. Main repo should consider:
 
 ---
 
+## Chat Emphasis Variants (Jan 7)
+
+Based on Woody's feedback about Cursor's planning agent, created three alternative prototypes exploring different levels of AI chat as the primary controller.
+
+### Variant Comparison
+
+| Variant | AI Emphasis | Description | Inspiration |
+|---------|-------------|-------------|-------------|
+| **A. Chat-First** | 100% | Chat is primary; table appears as "artifact" | Claude Artifacts, Cursor Agent |
+| **B. Chat-Central** | 70% | Chat takes lead; table/builder always visible | Cursor Chat + Editor |
+| **C. Chat-Companion** | 30% | Traditional builder; chat is floating helper | GitHub Copilot, VS Code |
+
+### Key Design Question
+
+> "When I use the Cursor plan agent and it shows me a flowchart, then I review the plan... I have to understand it." — Woody
+
+**Where does trust come from?**
+- **Chat-First:** Trust the AI, inspect when curious
+- **Chat-Central:** AI builds, you watch and verify in real-time
+- **Chat-Companion:** You build, AI assists when asked
+
+### Files Created
+
+| File | Description |
+|------|-------------|
+| `variants/ChatFirstTables.tsx` | Full-screen chat, table as artifact |
+| `variants/ChatCentralTables.tsx` | Three-panel: Chat | Table | Builder |
+| `variants/ChatCompanionTables.tsx` | Traditional builder + floating chat |
+| `variants/ChatVariants.stories.tsx` | Stories with comparison view |
+| `variants/index.ts` | Barrel exports |
+
+### Recommended Next Step
+
+**Chat-Central (Variant B)** appears to best balance:
+- AI assistance for speed
+- Transparency for trust
+- Manual control for precision
+
+Discuss with team before finalizing direction.
+
+---
+
 ## Next Steps
 
 1. **Design Review (Jan 8)** - Walk through prototype with Adam
+   - **NEW:** Include chat variant comparison discussion
 2. **User Testing Prep** - Prepare script for testing with Matt's team
 3. **Phase 2 Components** - Template modal, saved tables list
 4. **Engineering Handoff** - Review with Dylan post-Global Chat
