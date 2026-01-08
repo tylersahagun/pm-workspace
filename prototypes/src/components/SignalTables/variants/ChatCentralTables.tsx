@@ -37,7 +37,6 @@ interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
   action?: 'add_column' | 'update_filter' | 'run_table';
   actionData?: any;
 }
@@ -48,7 +47,6 @@ export function ChatCentralTables() {
       id: 'welcome',
       role: 'assistant',
       content: "What would you like to learn from your calls? I'll build the table for you.",
-      timestamp: new Date(),
     },
   ]);
   const [input, setInput] = React.useState('');
@@ -70,7 +68,6 @@ export function ChatCentralTables() {
       id: `user-${Date.now()}`,
       role: 'user',
       content: message,
-      timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
@@ -95,7 +92,6 @@ export function ChatCentralTables() {
         id: `ai-${Date.now()}`,
         role: 'assistant',
         content: '✅ Added "Competitor Mentioned" column. Want me to also track which competitor was mentioned?',
-        timestamp: new Date(),
         action: 'add_column',
         actionData: newCol,
       };
@@ -119,7 +115,6 @@ export function ChatCentralTables() {
           id: `ai-${Date.now()}`,
           role: 'assistant',
           content: '✅ Added "Which Competitor" column with conditional execution (only runs if competitor was mentioned). Ready to run on 8 engagements?',
-          timestamp: new Date(),
           action: 'add_column',
           actionData: newCol,
         };
@@ -128,7 +123,6 @@ export function ChatCentralTables() {
           id: `ai-${Date.now()}`,
           role: 'assistant',
           content: "Let me add a column for that. What specifically do you want to track?",
-          timestamp: new Date(),
         };
       }
     } else if (lower.includes('run') || lower.includes('go')) {
@@ -137,7 +131,6 @@ export function ChatCentralTables() {
         id: `ai-${Date.now()}`,
         role: 'assistant',
         content: '🔄 Running extraction on 8 engagements...',
-        timestamp: new Date(),
         action: 'run_table',
       };
 
@@ -150,7 +143,6 @@ export function ChatCentralTables() {
             id: `ai-done-${Date.now()}`,
             role: 'assistant',
             content: '✅ Done! Found competitors in 4 of 8 calls. Gong was mentioned most (3 times). Any other analysis you want to run?',
-            timestamp: new Date(),
           },
         ]);
       }, 2500);
@@ -168,7 +160,6 @@ export function ChatCentralTables() {
         id: `ai-${Date.now()}`,
         role: 'assistant',
         content: '✅ Added "Objection Raised" column. Want me to categorize the types of objections too?',
-        timestamp: new Date(),
         action: 'add_column',
       };
     } else {
@@ -176,7 +167,6 @@ export function ChatCentralTables() {
         id: `ai-${Date.now()}`,
         role: 'assistant',
         content: `I can help with that! Here are some columns I can create:\n\n• **Competitor mentions** - track when competitors come up\n• **Objections** - identify concerns raised\n• **Next steps** - extract commitments made\n• **Custom** - just describe what you need\n\nWhat would you like?`,
-        timestamp: new Date(),
       };
     }
 

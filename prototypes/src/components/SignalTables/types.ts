@@ -21,8 +21,8 @@ export interface TableColumn {
 
 export interface TableFilters {
   dateRange: {
-    start: Date;
-    end: Date;
+    start: string;
+    end: string;
   };
   repIds: string[];
   meetingTypes: string[];
@@ -36,16 +36,16 @@ export interface SignalTable {
   name: string;
   filters: TableFilters;
   columns: TableColumn[];
-  createdAt: Date;
-  updatedAt: Date;
-  lastRunAt: Date | null;
+  createdAt: string;
+  updatedAt: string;
+  lastRunAt: string | null;
   status: TableStatus;
 }
 
 export interface Engagement {
   id: string;
   title: string;
-  date: Date;
+  date: string;
   rep: string;
   type: 'call' | 'meeting' | 'demo';
   duration: number; // minutes
@@ -200,7 +200,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-1',
     title: 'Acme Corp Q4 Review',
-    date: new Date('2026-01-06T10:30:00'),
+    date: 'Jan 6, 10:30 AM',
     rep: 'Pete Mitchell',
     type: 'call',
     duration: 32,
@@ -209,7 +209,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-2',
     title: 'Beta Inc Renewal Discussion',
-    date: new Date('2026-01-05T14:00:00'),
+    date: 'Jan 5, 2:00 PM',
     rep: 'Sara Chen',
     type: 'meeting',
     duration: 45,
@@ -218,7 +218,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-3',
     title: 'Gamma Labs Product Demo',
-    date: new Date('2026-01-05T11:00:00'),
+    date: 'Jan 5, 11:00 AM',
     rep: 'Alex Rivera',
     type: 'demo',
     duration: 58,
@@ -227,7 +227,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-4',
     title: 'Delta Systems Discovery',
-    date: new Date('2026-01-04T16:30:00'),
+    date: 'Jan 4, 4:30 PM',
     rep: 'Pete Mitchell',
     type: 'call',
     duration: 28,
@@ -236,7 +236,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-5',
     title: 'Epsilon AI Follow-up',
-    date: new Date('2026-01-04T09:00:00'),
+    date: 'Jan 4, 9:00 AM',
     rep: 'Jordan Lee',
     type: 'call',
     duration: 22,
@@ -245,7 +245,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-6',
     title: 'Zeta Cloud Contract Review',
-    date: new Date('2026-01-03T15:00:00'),
+    date: 'Jan 3, 3:00 PM',
     rep: 'Sara Chen',
     type: 'meeting',
     duration: 40,
@@ -254,7 +254,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-7',
     title: 'Eta Software Intro Call',
-    date: new Date('2026-01-03T10:00:00'),
+    date: 'Jan 3, 10:00 AM',
     rep: 'Alex Rivera',
     type: 'call',
     duration: 35,
@@ -263,7 +263,7 @@ export const SAMPLE_ENGAGEMENTS: Engagement[] = [
   {
     id: 'eng-8',
     title: 'Theta Analytics Demo',
-    date: new Date('2026-01-02T14:30:00'),
+    date: 'Jan 2, 2:30 PM',
     rep: 'Jordan Lee',
     type: 'demo',
     duration: 52,

@@ -35,7 +35,6 @@ interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
   artifact?: {
     type: 'table_config' | 'table_preview' | 'thinking';
     data?: any;
@@ -48,7 +47,6 @@ export function ChatFirstTables() {
       id: 'welcome',
       role: 'assistant',
       content: "Hi! I'm here to help you analyze your team's calls. What would you like to learn from your engagements?",
-      timestamp: new Date(),
     },
   ]);
   const [input, setInput] = React.useState('');
@@ -81,7 +79,6 @@ export function ChatFirstTables() {
         id: thinkingId,
         role: 'assistant',
         content: '',
-        timestamp: new Date(),
         artifact: { type: 'thinking' },
       },
     ]);
@@ -120,7 +117,6 @@ export function ChatFirstTables() {
         id: `msg-${Date.now()}`,
         role: 'assistant',
         content: "I've set up a competitor analysis for you. Here's what I'll extract from your last 30 days of calls:",
-        timestamp: new Date(),
         artifact: {
           type: 'table_config',
           data: { columns, matchCount: 8 },
@@ -132,7 +128,6 @@ export function ChatFirstTables() {
         id: `msg-${Date.now()}`,
         role: 'assistant',
         content: "Done! I've analyzed 8 calls. Here's what I found:",
-        timestamp: new Date(),
         artifact: {
           type: 'table_preview',
           data: { results: SAMPLE_COLUMN_RESULTS },
@@ -143,7 +138,6 @@ export function ChatFirstTables() {
         id: `msg-${Date.now()}`,
         role: 'assistant',
         content: `I can help you analyze that. Would you like me to:\n\n• Track **competitor mentions** across calls\n• Identify **objections** that come up\n• Find **pricing discussions**\n• Extract **next steps** commitments\n\nJust tell me what you're curious about!`,
-        timestamp: new Date(),
       };
     }
 
@@ -159,7 +153,6 @@ export function ChatFirstTables() {
       id: `user-${Date.now()}`,
       role: 'user',
       content: input.trim(),
-      timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -214,7 +207,7 @@ export function ChatFirstTables() {
                 onClick={() => {
                   setMessages((prev) => [
                     ...prev,
-                    { id: 'run', role: 'user', content: 'Run it!', timestamp: new Date() },
+                    { id: 'run', role: 'user', content: 'Run it!' },
                   ]);
                   simulateAIResponse('run it');
                 }}
