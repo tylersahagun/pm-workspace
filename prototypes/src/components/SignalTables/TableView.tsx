@@ -53,13 +53,9 @@ export function TableView({
     }
   };
 
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-    }).format(date);
+  const formatDate = (date: string) => {
+    // Date is already formatted as a string
+    return date;
   };
 
   const formatDuration = (minutes: number) => {

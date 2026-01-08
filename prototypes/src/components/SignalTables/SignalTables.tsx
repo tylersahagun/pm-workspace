@@ -73,10 +73,7 @@ export function SignalTables({
   // Filtered engagements (mock filtering)
   const filteredEngagements = React.useMemo(() => {
     return SAMPLE_ENGAGEMENTS.filter((eng) => {
-      // Date filter
-      if (eng.date < filters.dateRange.start || eng.date > filters.dateRange.end) {
-        return false;
-      }
+      // Date filter - skipped for prototype (dates are pre-formatted strings)
       // Rep filter
       if (filters.repIds.length > 0) {
         const repMatch = filters.repIds.some(
