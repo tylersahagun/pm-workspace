@@ -24,7 +24,7 @@ import {
 
 interface SignalTablesProps {
   tableName?: string;
-  lastRunAt?: Date | null;
+  lastRunAt?: string | null;
   onBack?: () => void;
 }
 
@@ -32,7 +32,6 @@ interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
   columnSuggestion?: {
     name: string;
     prompt: string;
@@ -48,8 +47,8 @@ export function SignalTables({
   // State
   const [filters, setFilters] = React.useState<TableFilters>({
     dateRange: {
-      start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-      end: new Date(),
+      start: '2025-12-07',
+      end: '2026-01-07',
     },
     repIds: [],
     meetingTypes: [],
@@ -126,7 +125,6 @@ export function SignalTables({
       id: `msg-${Date.now()}`,
       role: 'user',
       content: message,
-      timestamp: new Date(),
     };
     setChatMessages((prev) => [...prev, userMessage]);
     setIsChatProcessing(true);
@@ -174,7 +172,6 @@ export function SignalTables({
       id: `msg-${Date.now() + 1}`,
       role: 'assistant',
       content: `I'll create a column to detect ${suggestion.name.toLowerCase()}. Here's what I suggest:`,
-      timestamp: new Date(),
       columnSuggestion: suggestion,
     };
 

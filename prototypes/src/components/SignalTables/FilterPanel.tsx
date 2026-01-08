@@ -41,7 +41,10 @@ export function FilterPanel({
     start.setDate(start.getDate() - days);
     onFiltersChange({
       ...filters,
-      dateRange: { start, end },
+      dateRange: { 
+        start: start.toISOString().split('T')[0], 
+        end: end.toISOString().split('T')[0] 
+      },
     });
   };
 

@@ -6,7 +6,6 @@ interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
   columnSuggestion?: {
     name: string;
     prompt: string;

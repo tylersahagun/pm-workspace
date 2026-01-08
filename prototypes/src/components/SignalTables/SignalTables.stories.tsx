@@ -33,7 +33,7 @@ export const Default: Story = {
 export const WithLastRun: Story = {
   args: {
     tableName: 'Q4 Objection Tracking',
-    lastRunAt: new Date('2026-01-05T14:30:00'),
+    lastRunAt: 'Jan 5, 2:30 PM',
   },
 };
 
@@ -42,8 +42,8 @@ export const FilterPanelStory: StoryObj<typeof FilterPanel> = {
   render: () => {
     const [filters, setFilters] = React.useState<TableFilters>({
       dateRange: {
-        start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-        end: new Date(),
+        start: '2025-12-07',
+        end: '2026-01-07',
       },
       repIds: [],
       meetingTypes: [],
@@ -171,7 +171,6 @@ export const ChatInputStory: StoryObj<typeof ChatInput> = {
         id: string;
         role: 'user' | 'assistant';
         content: string;
-        timestamp: Date;
         columnSuggestion?: {
           name: string;
           prompt: string;
@@ -183,13 +182,11 @@ export const ChatInputStory: StoryObj<typeof ChatInput> = {
         id: '1',
         role: 'user',
         content: 'I want to know if competitors were mentioned',
-        timestamp: new Date(),
       },
       {
         id: '2',
         role: 'assistant',
         content: "I'll create a column to detect competitor mentions. Here's what I suggest:",
-        timestamp: new Date(),
         columnSuggestion: {
           name: 'Competitor Mentioned',
           prompt: 'Was any competitor mentioned in this conversation? Answer Yes or No.',
