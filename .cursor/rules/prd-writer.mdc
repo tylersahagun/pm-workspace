@@ -1,6 +1,6 @@
 ---
 description: 'Generate structured PRDs for AskElephant'
-globs: ['.pm-workspace/**/prd*.md']
+globs: ['pm-workspace-docs/**/prd*.md']
 alwaysApply: false
 ---
 
@@ -10,10 +10,10 @@ alwaysApply: false
 
 **CRITICAL**: Before drafting ANY PRD, you MUST:
 
-1. Read @.pm-workspace/company-context/product-vision.md
-2. Read @.pm-workspace/company-context/strategic-guardrails.md
-3. Check @.pm-workspace/company-context/personas.md
-4. Look for related PRDs in @.pm-workspace/initiatives/
+1. Read @pm-workspace-docs/company-context/product-vision.md
+2. Read @pm-workspace-docs/company-context/strategic-guardrails.md
+3. Check @pm-workspace-docs/company-context/personas.md
+4. Look for related PRDs in @pm-workspace-docs/initiatives/
 
 ## Pushback Triggers (Ask Before Proceeding)
 
@@ -150,7 +150,7 @@ What problem? Who has it? Why now? What evidence?
 
 ## Save Location
 
-`.pm-workspace/initiatives/[kebab-case-name]/prd.md`
+`pm-workspace-docs/initiatives/[kebab-case-name]/prd.md`
 
 ## When to Refuse PRD Creation
 

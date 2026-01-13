@@ -41,8 +41,8 @@ Use these data source IDs when creating pages:
 **Trigger**: "research [initiative-name]" or a pasted transcript
 
 **Steps**:
-1. Check if initiative exists at `.pm-workspace/initiatives/[name]/`
-   - If not, create it from `.pm-workspace/initiatives/_template/`
+1. Check if initiative exists at `pm-workspace-docs/initiatives/[name]/`
+   - If not, create it from `pm-workspace-docs/initiatives/_template/`
 
 2. Analyze the transcript/context and extract:
    - TL;DR (2-3 sentences)
@@ -52,7 +52,7 @@ Use these data source IDs when creating pages:
    - Feature requests with severity/frequency
    - Open questions
 
-3. Save to `.pm-workspace/initiatives/[name]/research.md`
+3. Save to `pm-workspace-docs/initiatives/[name]/research.md`
 
 4. **Create Notion Feedback entry**:
    ```
@@ -83,15 +83,15 @@ This creates a complete project structure in both pm-workspace AND Notion.
 **Steps**:
 
 ### Step 1: Read Context
-- `.pm-workspace/company-context/product-vision.md`
-- `.pm-workspace/company-context/personas.md`
-- `.pm-workspace/initiatives/[name]/research.md`
+- `pm-workspace-docs/company-context/product-vision.md`
+- `pm-workspace-docs/company-context/personas.md`
+- `pm-workspace-docs/initiatives/[name]/research.md`
 
 ### Step 2: Generate Documentation
 Create/update four pieces of documentation:
 
 #### A. Project Overview (Main PRD)
-Save to `.pm-workspace/initiatives/[name]/prd.md`
+Save to `pm-workspace-docs/initiatives/[name]/prd.md`
 
 Content structure:
 ```markdown
@@ -120,7 +120,7 @@ Content structure:
 ```
 
 #### B. Design Brief
-Save to `.pm-workspace/initiatives/[name]/design-brief.md`
+Save to `pm-workspace-docs/initiatives/[name]/design-brief.md`
 
 Content structure:
 ```markdown
@@ -146,7 +146,7 @@ Content structure:
 ```
 
 #### C. Engineering Spec
-Save to `.pm-workspace/initiatives/[name]/engineering-spec.md`
+Save to `pm-workspace-docs/initiatives/[name]/engineering-spec.md`
 
 Content structure:
 ```markdown
@@ -181,7 +181,7 @@ Content structure:
 ```
 
 #### D. GTM/Marketing Brief
-Save to `.pm-workspace/initiatives/[name]/gtm-brief.md`
+Save to `pm-workspace-docs/initiatives/[name]/gtm-brief.md`
 
 Content structure:
 ```markdown
@@ -277,10 +277,10 @@ Commit all local files with message "PRD: [name]"
 - GTM Plan: [URL]
 
 📁 **Local Files:**
-- .pm-workspace/initiatives/[name]/prd.md
-- .pm-workspace/initiatives/[name]/design-brief.md
-- .pm-workspace/initiatives/[name]/engineering-spec.md
-- .pm-workspace/initiatives/[name]/gtm-brief.md
+- pm-workspace-docs/initiatives/[name]/prd.md
+- pm-workspace-docs/initiatives/[name]/design-brief.md
+- pm-workspace-docs/initiatives/[name]/engineering-spec.md
+- pm-workspace-docs/initiatives/[name]/gtm-brief.md
 
 Ready to build a prototype? Say 'prototype [name]'
 ```
@@ -294,8 +294,8 @@ Ready to build a prototype? Say 'prototype [name]'
 Optional: Include specific instructions after the name (e.g., "proto hubspot-config add validation toggle")
 
 **Steps**:
-1. Read PRD at `.pm-workspace/initiatives/[name]/prd.md`
-2. Read Design Brief at `.pm-workspace/initiatives/[name]/design-brief.md`
+1. Read PRD at `pm-workspace-docs/initiatives/[name]/prd.md`
+2. Read Design Brief at `pm-workspace-docs/initiatives/[name]/design-brief.md`
 3. Check existing patterns in `elephant-ai/web/src/components/`
 4. Create components in `elephant-ai/web/src/components/prototypes/[ProjectName]/`
    - Use React 18 + TypeScript (strict mode)
@@ -305,7 +305,7 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 5. Create Storybook stories (`.stories.tsx`) with `Prototypes/` title prefix
 6. Update Figma Link on the Design Brief in Notion (if applicable)
 7. Update Design Brief status to "In Progress" in Notion
-8. Document in `.pm-workspace/initiatives/[name]/prototype-notes.md`
+8. Document in `pm-workspace-docs/initiatives/[name]/prototype-notes.md`
 9. **Commit and push elephant-ai submodule** with message "feat(prototype): [description] - [name]"
    - This triggers Firebase Hosting preview on PR
 10. Reply to Slack with preview info:
@@ -321,7 +321,7 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 - PR Preview: Firebase Hosting URL (auto-generated on PR)
 
 📋 Design Brief updated in Notion
-💾 Local: .pm-workspace/initiatives/[name]/prototype-notes.md
+💾 Local: pm-workspace-docs/initiatives/[name]/prototype-notes.md
 ```
 
 **Storybook URL**: 
@@ -336,7 +336,7 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 **Trigger**: "new initiative [name]" or "create initiative [name]"
 
 **Steps**:
-1. Copy `.pm-workspace/initiatives/_template/` to `.pm-workspace/initiatives/[name]/`
+1. Copy `pm-workspace-docs/initiatives/_template/` to `pm-workspace-docs/initiatives/[name]/`
 2. If context provided, update the PRD title and initial notes
 3. Commit and push with message "New initiative: [name]"
 4. Reply with confirmation and next steps
@@ -349,12 +349,12 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 pm-workspace/
 ├── elephant-ai/                    # Submodule - main codebase
 │   └── web/src/components/
-│       ├── prototypes/             # NEW: Prototype components
+│       ├── prototypes/             # Prototype components
 │       │   ├── README.md
 │       │   └── [ProjectName]/      # e.g., HubSpotConfig/
 │       ├── ui/                     # shadcn/ui components
 │       └── workflows/              # Workflow builder components
-├── .pm-workspace/
+├── pm-workspace-docs/
 │   ├── company-context/            # Product vision, personas, tech stack
 │   ├── initiatives/                # One folder per initiative
 │   │   └── [name]/
@@ -366,8 +366,10 @@ pm-workspace/
 │   │       ├── decisions.md        # Decision log
 │   │       └── prototype-notes.md  # Prototype notes
 │   ├── research/                   # General research
+│   ├── personas/                   # Synthetic personas for jury system
+│   ├── scripts/                    # Automation scripts
 │   └── knowledge-base-sync/        # Synced transcripts/docs
-└── prototypes/                     # DEPRECATED: Old prototype location
+└── prototypes/                     # Standalone prototypes (not in elephant-ai)
 ```
 
 ---
@@ -408,7 +410,7 @@ If something fails:
 ## After Each Workflow
 
 Always:
-1. Save to local pm-workspace files FIRST (never lose work)
+1. Save to local pm-workspace-docs files FIRST (never lose work)
 2. Create/update Notion pages
 3. Commit and push local changes
 4. Reply in Slack with links and next steps

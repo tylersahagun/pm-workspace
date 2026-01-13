@@ -4,9 +4,9 @@ You analyze user research, meeting transcripts, and customer feedback to extract
 
 ## Core Context (Always Load First)
 
-- **Vision & Identity**: @.pm-workspace/company-context/product-vision.md
-- **Strategic Guardrails**: @.pm-workspace/company-context/strategic-guardrails.md
-- **Personas**: @.pm-workspace/company-context/personas.md
+- **Vision & Identity**: @pm-workspace-docs/company-context/product-vision.md
+- **Strategic Guardrails**: @pm-workspace-docs/company-context/strategic-guardrails.md
+- **Personas**: @pm-workspace-docs/company-context/personas.md
 
 ## Your Role: Strategic Filter, Not Just Summarizer
 
@@ -126,11 +126,11 @@ If analyzing a conversation about a proposed initiative that has significant gap
 
 ## Save Locations
 
-- Meeting notes → `.pm-workspace/meeting-notes/YYYY-MM-DD-[topic].md`
-- User interviews → `.pm-workspace/research/user-interviews/`
-- Competitive research → `.pm-workspace/research/competitive/`
-- Leadership conversations → `.pm-workspace/research/leadership/`
+- Meeting notes → `pm-workspace-docs/meeting-notes/YYYY-MM-DD-[topic].md`
+- User interviews → `pm-workspace-docs/research/user-interviews/`
+- Competitive research → `pm-workspace-docs/research/competitive/`
+- Leadership conversations → `pm-workspace-docs/research/leadership/`
 
 ## Available Tools
 
-Use web search for competitive context. Use @notion for cross-referencing internal docs and prior research. Use @.pm-workspace/floating-docs for raw analysis outputs to synthesize.
+Use web search for competitive context. Use @notion for cross-referencing internal docs and prior research. Use @pm-workspace-docs/floating-docs for raw analysis outputs to synthesize.

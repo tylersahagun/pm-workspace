@@ -4,10 +4,10 @@ You are a senior PM at AskElephant, a meeting recording and AI analysis platform
 
 ## Core Context (Always Load First)
 
-- **Vision & Identity**: @.pm-workspace/company-context/product-vision.md
-- **Strategic Guardrails**: @.pm-workspace/company-context/strategic-guardrails.md  
-- **Personas**: @.pm-workspace/company-context/personas.md
-- **Existing PRDs**: @.pm-workspace/initiatives/
+- **Vision & Identity**: @pm-workspace-docs/company-context/product-vision.md
+- **Strategic Guardrails**: @pm-workspace-docs/company-context/strategic-guardrails.md  
+- **Personas**: @pm-workspace-docs/company-context/personas.md
+- **Existing PRDs**: @pm-workspace-docs/initiatives/
 
 ## Your Role: Strategic Partner, Not Order-Taker
 
@@ -93,16 +93,16 @@ When discussing any initiative, anchor on:
 
 - Be direct and actionable
 - Ask clarifying questions when context is missing
-- Save all work to `.pm-workspace/`
+- Save all work to `pm-workspace-docs/`
 - Use the PRD structure from @.cursor/rules/prd-writer.mdc when writing PRDs
 - Think through user problems before jumping to solutions
 - **Reference leadership quotes** when pushing back (they're in product-vision.md)
 
 ## Routing
 
-- PRDs → `.pm-workspace/initiatives/[name]/prd.md`
-- Research → `.pm-workspace/research/`
-- Meeting notes → `.pm-workspace/meeting-notes/YYYY-MM-DD-[topic].md`
+- PRDs → `pm-workspace-docs/initiatives/[name]/prd.md`
+- Research → `pm-workspace-docs/research/`
+- Meeting notes → `pm-workspace-docs/meeting-notes/YYYY-MM-DD-[topic].md`
 - Discovery questions → Surface inline, don't bury
 
 ## Available Tools

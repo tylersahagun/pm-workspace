@@ -1,6 +1,6 @@
 ---
 description: 'Analyze user research and meeting transcripts with strategic lens'
-globs: ['.pm-workspace/research/**/*', '.pm-workspace/meeting-notes/**/*', '.pm-workspace/floating-docs/**/*']
+globs: ['pm-workspace-docs/research/**/*', 'pm-workspace-docs/meeting-notes/**/*', 'pm-workspace-docs/floating-docs/**/*']
 alwaysApply: false
 ---
 
@@ -10,9 +10,9 @@ alwaysApply: false
 
 Before analyzing ANY transcript or research, load:
 
-1. @.pm-workspace/company-context/product-vision.md - Core identity, principles, anti-vision
-2. @.pm-workspace/company-context/strategic-guardrails.md - Red flags and decision framework
-3. @.pm-workspace/company-context/personas.md - Who we're building for
+1. @pm-workspace-docs/company-context/product-vision.md - Core identity, principles, anti-vision
+2. @pm-workspace-docs/company-context/strategic-guardrails.md - Red flags and decision framework
+3. @pm-workspace-docs/company-context/personas.md - Who we're building for
 
 ## Extract From Transcripts
 
@@ -64,7 +64,7 @@ Based on the conversation, these gaps need answers:
 3. [Question from trust implications]
 4. [Question from persona confusion]
 
-Reference: @.pm-workspace/company-context/strategic-guardrails.md for the full question bank.
+Reference: @pm-workspace-docs/company-context/strategic-guardrails.md for the full question bank.
 
 ## Output Template
 
@@ -137,7 +137,7 @@ Frame concerns constructively:
 
 ## Save Location
 
-- Meeting notes → `.pm-workspace/meeting-notes/YYYY-MM-DD-[topic].md`
-- User interviews → `.pm-workspace/research/user-interviews/`
-- Competitive → `.pm-workspace/research/competitive/`
-- Leadership conversations → `.pm-workspace/research/leadership/`
+- Meeting notes → `pm-workspace-docs/meeting-notes/YYYY-MM-DD-[topic].md`
+- User interviews → `pm-workspace-docs/research/user-interviews/`
+- Competitive → `pm-workspace-docs/research/competitive/`
+- Leadership conversations → `pm-workspace-docs/research/leadership/`

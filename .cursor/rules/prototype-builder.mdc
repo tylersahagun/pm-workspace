@@ -1,85 +1,172 @@
 ---
-description: "Build prototypes in elephant-ai Storybook"
+description: "Build human-centric AI prototypes with creative exploration"
 globs: ["elephant-ai/web/src/components/prototypes/**/*"]
 alwaysApply: false
 ---
 
 # Prototype Builder Rules
 
-## Prototype Location
-All prototypes go in `elephant-ai/web/src/components/prototypes/`.
+Build prototypes that explore multiple creative directions, meet human-centric AI design standards, and enable informed design decisions.
 
-This allows prototypes to:
-- Use real UI components from `@/components/ui/`
-- Appear alongside production components in Storybook
-- Be tested in context (e.g., inside WorkflowNodeSheet)
-- Go through PR review before merging
+## Design Principles (Always Apply)
 
-## Before Building
-1. Read the PRD: `.pm-workspace/initiatives/[project]/prd.md`
-2. Read the Design Brief: `.pm-workspace/initiatives/[project]/design-brief.md`
-3. Study existing patterns in `elephant-ai/web/src/components/`
-4. Check if there are Storybook stories for related components
+### Trust Before Automation
+- New features start as suggestions, not automations
+- Show receipts (evidence) for every AI decision
+- Make confidence levels explicit
+- Graceful failure > silent failure
 
-## When Building Prototypes
-1. Create folder: `elephant-ai/web/src/components/prototypes/[ProjectName]/`
-2. Always create `.stories.tsx` files with `Prototypes/` title prefix
-3. Use real UI components: `import { Button } from '@/components/ui/button'`
-4. Follow the same conventions as production code
+### Emotional Design
+- **Visceral**: Polish signals investment and care
+- **Behavioral**: Consistent, predictable interactions
+- **Reflective**: User feels augmented, not replaced
 
-## Storybook Commands
-```bash
-# From elephant-ai root
-npm run storybook -w web    # Opens at http://localhost:6006
+### Persona Awareness
+- **Reps fear**: Surveillance, replacement, embarrassment
+- **Managers fear**: Losing touch, surveillance culture
+- **RevOps fear**: Ungovernable AI, lack of auditability
 
-# Build static version
-npm run build-storybook -w web
+## Creative Exploration (Required)
+
+For each major component, create 2-3 creative directions:
+
+| Direction | User Control | Trust Required | Best Persona |
+|-----------|-------------|----------------|--------------|
+| Option A | Maximum | Low | New users, skeptics |
+| Option B | Balanced | Medium | Most users |
+| Option C | Minimal | High | Power users |
+
+## Required AI States
+
+Every AI feature needs ALL of these states in Storybook:
+
+```typescript
+// Required story exports
+export const Loading: Story = { ... };
+export const LoadingLong: Story = { ... };  // 3+ seconds
+export const Success: Story = { ... };
+export const Error: Story = { ... };
+export const LowConfidence: Story = { ... };
+export const Empty: Story = { ... };
 ```
 
-## Code Conventions (Match Main Repo)
-- TypeScript strict mode
-- React functional components with hooks
-- Tailwind CSS for styling
-- shadcn/ui components from `@/components/ui/`
-- Follow patterns from `elephant-ai/web/src/components/`
+### State Design Specs
+
+| State | Visual | Copy | Animation |
+|-------|--------|------|-----------|
+| Loading (short) | Spinner | None | Pulse |
+| Loading (long) | Progress stages | "Analyzing..." | Transitions |
+| Success | Check, muted | Brief, affirming | Scale+fade 150ms |
+| Error | Warning icon | Honest + solution | Gentle shake |
+| Low Confidence | Muted, dotted | "I think..." | None |
+| Empty | Illustration | Encouraging | Fade in |
 
 ## Component Structure
+
 ```
-elephant-ai/web/src/components/prototypes/
-├── README.md
-└── [ProjectName]/
-    ├── [ComponentName].tsx
-    ├── [ComponentName].stories.tsx
-    ├── types.ts
-    └── index.ts
+elephant-ai/web/src/components/prototypes/[ProjectName]/
+├── [ComponentName].tsx
+├── [ComponentName].stories.tsx   # All options + all states
+├── [ComponentName].docs.mdx      # Design rationale
+├── types.ts
+└── index.ts
 ```
 
-## Story Title Convention
-Use `Prototypes/` prefix to organize in Storybook sidebar:
+## Story Organization
+
 ```typescript
 const meta = {
   title: 'Prototypes/[ProjectName]/[ComponentName]',
   component: ComponentName,
 };
+
+// Creative Options
+export const OptionA_MaxControl: Story = { ... };
+export const OptionB_Balanced: Story = { ... };
+export const OptionC_Efficient: Story = { ... };
+
+// Required States
+export const Loading: Story = { ... };
+export const LoadingLong: Story = { ... };
+export const Success: Story = { ... };
+export const Error: Story = { ... };
+export const LowConfidence: Story = { ... };
+export const Empty: Story = { ... };
+```
+
+## Design Checklists
+
+### Before Coding
+- [ ] Read PRD and Design Brief
+- [ ] Understand which personas this serves
+- [ ] Identify trust level required
+- [ ] Plan 2-3 creative directions
+
+### During Build
+- [ ] All AI states implemented
+- [ ] Receipts/evidence visible for AI decisions
+- [ ] Confidence levels shown appropriately
+- [ ] Error recovery path exists
+- [ ] Undo available for AI actions
+
+### Before Review
+- [ ] Keyboard navigable
+- [ ] Screen reader compatible
+- [ ] Color contrast sufficient
+- [ ] No surveillance vibes
+- [ ] User feels capable, not dependent
+
+## Versioning
+
+Preserve iterations for comparison:
+
+```typescript
+// Version in story name
+export const V1_OptionA: Story = { ... };
+export const V2_OptionA_Refined: Story = { ... };
+
+// Or use folders
+// v1/, v2/, v3/
+```
+
+## Anti-Patterns
+
+🚩 **Single option** - Always explore 2-3 directions
+🚩 **Missing states** - All AI states required
+🚩 **Confident wrongness** - Show uncertainty appropriately
+🚩 **Silent failure** - Always explain what went wrong
+🚩 **Surveillance vibes** - "Helps you" not "reports on you"
+🚩 **Replacement framing** - Augment, don't replace
+🚩 **No receipts** - Show evidence for AI decisions
+
+## Tech Stack
+
+- React 18 + TypeScript (strict mode)
+- Tailwind CSS
+- shadcn/ui from `@/components/ui/`
+- Functional components with hooks
+
+## Storybook Commands
+
+```bash
+cd elephant-ai
+npm run storybook -w web    # http://localhost:6006
+npm run build-storybook -w web
 ```
 
 ## After Building
-1. Document in `.pm-workspace/initiatives/[project]/prototype-notes.md`
-2. List any deviations from the PRD
-3. Note what needs to happen for production migration
-4. Commit to elephant-ai and push to create a PR
-5. PR will get Firebase Hosting preview with Storybook
 
-## Moving to Production
-When a prototype is approved:
-1. Move component files to the appropriate production folder
-2. Update imports if needed
-3. Remove `Prototypes/` prefix from story title
-4. Replace mock data with real data fetching
-5. Add unit tests
+Document in `.pm-workspace/initiatives/[project]/prototype-notes.md`:
+
+1. Options created with rationale
+2. Comparison table
+3. Recommended direction
+4. Open questions for review
+5. Trust/emotion assessment for each option
 
 ## Context Testing
-To see prototypes in real context, use the WorkflowNodeSheet story:
-- `workflows/WorkflowNodeSheet` - Provides the panel context
-- Pass your prototype component as children
-- See how it looks inside the actual workflow builder
+
+Test prototypes in real context:
+- `workflows/WorkflowNodeSheet` - Panel context
+- Embed prototype as children
+- Verify it feels native

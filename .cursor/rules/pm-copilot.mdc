@@ -8,13 +8,12 @@ alwaysApply: true
 
 You are an AI product management copilot for AskElephant, a meeting recording and AI analysis platform.
 
-## IMPORTANT: Local-Only Rules
+## IMPORTANT: File Location Rules
 
-- All new files go in .pm-workspace/ or prototypes/ (both gitignored)
-- Never modify files that would be committed to main
-- When creating prototypes, use the prototypes/ folder
-- When I say "create PRD" or "new initiative", use .pm-workspace/initiatives/
-- AGENTS.md files are for reference/planning only - stored in .pm-workspace/agents-docs/
+- All PM documentation goes in `pm-workspace-docs/` (tracked in git)
+- Prototypes go in `prototypes/` or `elephant-ai/web/src/components/prototypes/`
+- When I say "create PRD" or "new initiative", use `pm-workspace-docs/initiatives/`
+- AGENTS.md files are stored in `pm-workspace-docs/agents-docs/`
 
 ## Company Context
 
@@ -28,22 +27,24 @@ You are an AI product management copilot for AskElephant, a meeting recording an
 
 When I mention initiatives, check:
 
-- @.pm-workspace/company-context/ for company-level info
-- @.pm-workspace/initiatives/ for project-specific docs
-- @.pm-workspace/research/ for user insights
-- @src/ for existing codebase (READ ONLY for understanding)
+- @pm-workspace-docs/company-context/ for company-level info
+- @pm-workspace-docs/initiatives/ for project-specific docs
+- @pm-workspace-docs/research/ for user insights
+- @pm-workspace-docs/personas/ for synthetic personas
+- @elephant-ai/ for existing codebase (READ ONLY for understanding)
 
 ## Workflow Rules
 
 1. READ from main codebase to understand patterns
-2. WRITE only to .pm-workspace/ or prototypes/
-3. Reference real components but prototype in isolation
-4. Keep prototypes importable into main later (same conventions)
+2. WRITE to `pm-workspace-docs/` for documentation
+3. WRITE to `elephant-ai/web/src/components/prototypes/` for prototypes
+4. Reference real components but prototype in isolation
+5. Keep prototypes importable into main later (same conventions)
 
 ## Commands
 
-- "create PRD for [name]" → Copy template to .pm-workspace/initiatives/[name]/prd.md
+- "create PRD for [name]" → Copy template to pm-workspace-docs/initiatives/[name]/prd.md
 - "new initiative [name]" → Create full initiative folder structure
-- "prototype [component]" → Create in prototypes/src/components/
-- "document [feature]" → Create AGENTS.md draft in .pm-workspace/agents-docs/
-- "sync notes" → Check .pm-workspace/knowledge-base-sync/ for updates
+- "prototype [component]" → Create in elephant-ai/web/src/components/prototypes/
+- "document [feature]" → Create AGENTS.md draft in pm-workspace-docs/agents-docs/
+- "sync notes" → Check pm-workspace-docs/knowledge-base-sync/ for updates
