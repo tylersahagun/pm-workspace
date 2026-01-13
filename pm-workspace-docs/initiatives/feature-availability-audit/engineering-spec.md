@@ -1,438 +1,427 @@
-# Engineering Spec: Feature Availability & Release Process
+# Engineering Spec: Feature Flag Cleanup
 
 ## Overview
 
-Technical implementation plan for the feature availability audit initiative, covering flag cleanup, beta toggle infrastructure, and release tracking.
+Technical specification for cleaning up AskElephant's feature flag technical debt: removing dead flags, graduating GA flags, and consolidating duplicates.
 
 **Related PRD:** [prd.md](./prd.md)  
-**Status:** Not Started  
-**Type:** Technical Spec  
+**Status:** In Progress  
+**Type:** Technical Debt Cleanup  
 **Complexity:** Medium  
-**Estimated Effort:** 3-4 weeks engineering time
+**Estimated Effort:** 5-6 weeks (incremental)
 
 ---
 
 ## Technical Overview
 
-### Architecture Approach
-
-1. **Phase 1 (Cleanup):** Remove stale/dead flags from PostHog and codebase
-2. **Phase 2 (Infrastructure):** Add stage metadata to flags, create beta cohort system
-3. **Phase 3 (UI):** Beta toggle settings panel with real-time flag updates
-
-### Key Components
+### Current State
 
 ```
-┌─────────────────┐     ┌──────────────┐     ┌─────────────────┐
-│   PostHog       │────▶│   Backend    │────▶│   Frontend      │
-│   Feature Flags │     │   API        │     │   Settings UI   │
-└─────────────────┘     └──────────────┘     └─────────────────┘
-        │                      │                      │
-        ▼                      ▼                      ▼
-   Stage metadata        Beta enrollment       Toggle controls
-   TTL tracking          User preferences      Badge components
-   Analytics             Workspace settings    Toast feedback
+PostHog Feature Flags
+├── Active: 116 flags
+├── Effectively Disabled: 20 flags (dead code risk)
+├── 100% GA: 8 flags (should remove wrapper)
+├── Duplicates/Related: ~20 flags (consolidation candidates)
+└── Legitimate Beta: ~68 flags (keep as-is)
 ```
 
----
+### Target State
 
-## Data Model Changes
-
-### PostHog Flag Metadata (No DB Change)
-
-Leverage PostHog's existing tag/metadata system:
-
-```json
-{
-  "flag_key": "auto-tagging-v2",
-  "stage": "beta",
-  "ttl_start": "2025-10-15",
-  "ttl_days": 90,
-  "description": "Automatically tag meetings based on content",
-  "category": "automation"
-}
 ```
-
-### User Preferences (Existing Table Extension)
-
-```sql
--- Add to existing user_preferences or create new table
-ALTER TABLE user_preferences 
-ADD COLUMN beta_features_enabled JSONB DEFAULT '[]';
-
--- Example value: ["auto-tagging-v2", "global-chat-enabled"]
-```
-
-### Workspace Settings (Existing Table Extension)
-
-```sql
--- Workspace-level beta feature settings
-ALTER TABLE workspace_settings
-ADD COLUMN beta_features_policy JSONB DEFAULT '{"mode": "opt-in", "enabled_features": []}';
-
--- Modes: "opt-in" (users choose), "enabled" (on for all), "disabled" (off for all)
+PostHog Feature Flags
+├── Active: <60 flags
+├── Dead/Stale: 0 flags
+├── All flags have: stage, owner, TTL metadata
+└── Quarterly review process established
 ```
 
 ---
 
-## API Changes
+## Phase 1: Dead Flag Removal (11 flags)
 
-### New Endpoints
+### Identification Criteria
 
-#### GET `/api/beta-features`
-Returns available beta features for current user/workspace.
+A flag is "dead" if:
+- Status: Inactive in PostHog, OR
+- Rollout: 0% for >90 days, OR
+- Code: No references found in codebase
 
-**Response:**
-```json
-{
-  "features": [
-    {
-      "key": "auto-tagging-v2",
-      "name": "Auto-Tagging V2",
-      "description": "Automatically tag meetings based on content",
-      "stage": "beta",
-      "enabled": false,
-      "workspace_policy": "opt-in"
-    }
-  ]
-}
-```
-
-#### POST `/api/beta-features/{key}/toggle`
-Enable or disable a beta feature for current user.
-
-**Request:**
-```json
-{
-  "enabled": true
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "feature": "auto-tagging-v2",
-  "enabled": true
-}
-```
-
-#### GET `/api/beta-features/status` (Internal/Admin)
-Returns all features with stage information for dashboard.
-
-### Modified Endpoints
-
-#### GET `/api/feature-flags`
-Add stage metadata to existing feature flag responses:
-
-```json
-{
-  "flags": {
-    "auto-tagging-v2": {
-      "enabled": true,
-      "stage": "beta",
-      "badge_label": "Beta"
-    }
-  }
-}
-```
-
----
-
-## Frontend Components
-
-### New Components
-
-#### `<BetaFeaturesSettings />`
-Settings panel for beta feature toggles.
-
-```tsx
-// src/components/settings/BetaFeaturesSettings.tsx
-interface BetaFeature {
-  key: string;
-  name: string;
-  description: string;
-  stage: 'lab' | 'alpha' | 'beta';
-  enabled: boolean;
-  workspacePolicy: 'opt-in' | 'enabled' | 'disabled';
-}
-
-export function BetaFeaturesSettings() {
-  const { features, toggleFeature, isLoading } = useBetaFeatures();
-  
-  return (
-    <SettingsSection title="Beta Features">
-      <p className="text-muted">
-        Try new features before they're released to everyone.
-      </p>
-      {features.map(feature => (
-        <BetaFeatureCard 
-          key={feature.key}
-          feature={feature}
-          onToggle={toggleFeature}
-        />
-      ))}
-    </SettingsSection>
-  );
-}
-```
-
-#### `<StageBadge />`
-Reusable badge component for feature stages.
-
-```tsx
-// src/components/ui/StageBadge.tsx
-interface StageBadgeProps {
-  stage: 'lab' | 'alpha' | 'beta';
-  size?: 'sm' | 'md';
-}
-
-export function StageBadge({ stage, size = 'sm' }: StageBadgeProps) {
-  const config = {
-    lab: { label: 'Experimental', icon: '🧪', color: 'purple' },
-    alpha: { label: 'Alpha', icon: '🔷', color: 'blue' },
-    beta: { label: 'Beta', icon: '🟡', color: 'amber' },
-  };
-  
-  return (
-    <Badge variant={config[stage].color} size={size}>
-      {config[stage].icon} {config[stage].label}
-    </Badge>
-  );
-}
-```
-
-#### `<BetaFeatureCard />`
-Individual feature toggle card.
-
-```tsx
-// src/components/settings/BetaFeatureCard.tsx
-export function BetaFeatureCard({ feature, onToggle }) {
-  return (
-    <Card className="flex items-center justify-between p-4">
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="font-medium">{feature.name}</span>
-          <StageBadge stage={feature.stage} />
-        </div>
-        <p className="text-sm text-muted">{feature.description}</p>
-      </div>
-      <Switch 
-        checked={feature.enabled}
-        onCheckedChange={(checked) => onToggle(feature.key, checked)}
-        disabled={feature.workspacePolicy === 'disabled'}
-      />
-    </Card>
-  );
-}
-```
-
-### Modified Components
-
-- **Settings navigation:** Add "Beta Features" menu item
-- **Feature-specific components:** Add `<StageBadge />` where features are displayed
-
----
-
-## Backend Services
-
-### BetaFeatureService
+### Removal Procedure
 
 ```typescript
-// services/BetaFeatureService.ts
-export class BetaFeatureService {
-  
-  async getAvailableFeatures(userId: string, workspaceId: string): Promise<BetaFeature[]> {
-    // 1. Get all flags with stage metadata from PostHog
-    // 2. Filter to lab/alpha/beta stages
-    // 3. Check workspace policy
-    // 4. Check user's enabled features
-    // 5. Return merged list
-  }
-  
-  async toggleFeature(userId: string, featureKey: string, enabled: boolean): Promise<void> {
-    // 1. Validate feature exists and is toggleable
-    // 2. Update user preferences
-    // 3. Update PostHog group membership (if needed)
-    // 4. Track analytics event
-  }
-  
-  async isFeatureEnabled(userId: string, featureKey: string): Promise<boolean> {
-    // Check if user has feature enabled (user pref + workspace policy + flag status)
-  }
-}
+// For each dead flag:
+
+// Step 1: Search codebase
+rg "flag_name" --type ts --type tsx --type js
+
+// Step 2: Document affected files
+// Step 3: Remove flag checks
+// Step 4: Remove from PostHog
+// Step 5: Verify no regression
 ```
 
-### PostHog Integration Updates
+### Dead Flags to Remove
+
+#### 1. `team-invites`
+- **Status:** 0% rollout, ~18 months old
+- **Risk:** Low
+- **Files to check:**
+  ```
+  web/src/components/settings/TeamSettings.tsx
+  web/src/hooks/useTeamInvites.ts
+  ```
+- **Action:** Remove flag checks, remove unused code
+
+#### 2. `meeting-actions`
+- **Status:** Inactive
+- **Risk:** Low
+- **Files to check:**
+  ```
+  web/src/components/meeting/MeetingActions.tsx
+  ```
+- **Action:** Remove flag + dead code path
+
+#### 3. `new-invite-flow`
+- **Status:** 0% rollout, never launched
+- **Risk:** Low
+- **Files to check:**
+  ```
+  web/src/components/onboarding/InviteFlow*.tsx
+  ```
+- **Action:** Remove flag + new invite flow code (keep old flow)
+
+#### 4. `action-items-page`
+- **Status:** Inactive
+- **Risk:** Low
+- **Action:** Remove flag + associated page component
+
+#### 5. `workflows-v3`
+- **Status:** Inactive
+- **Risk:** Medium (may be future work)
+- **Decision needed:** Archive vs. keep for future
+- **Action:** If removing, just archive flag (no code exists yet)
+
+#### 6. `be-fine-tuning-page-refresh`
+- **Status:** Inactive
+- **Risk:** Low
+- **Action:** Remove flag
+
+#### 7. `homepage-workflows`
+- **Status:** Internal only, never shipped
+- **Risk:** Low
+- **Action:** Remove flag + code
+
+#### 8. `calendar-write-permission`
+- **Status:** 0% rollout
+- **Risk:** Low
+- **Action:** Remove flag
+
+#### 9. `ai-search-filters`
+- **Status:** 0% rollout
+- **Risk:** Low
+- **Action:** Remove flag + any related code
+
+#### 10. `bot-jit-scheduling-enabled`
+- **Status:** 0% (AskElephant internal test)
+- **Risk:** Medium
+- **Decision needed:** Keep for testing or remove
+- **Action:** If removing, remove flag + code
+
+#### 11. `free-trial`
+- **Status:** Inactive + 0%
+- **Risk:** Low
+- **Action:** Remove flag
+
+### Removal Script Template
 
 ```typescript
-// services/PostHogService.ts additions
+// scripts/remove-feature-flag.ts
+import { searchCodebase, removeFromPosthog, createPR } from './utils';
 
-async getBetaFlags(): Promise<PostHogFlag[]> {
-  // Filter flags by stage metadata
-  return this.flags.filter(f => 
-    ['lab', 'alpha', 'beta'].includes(f.metadata?.stage)
-  );
-}
-
-async enrollUserInBeta(userId: string, featureKey: string): Promise<void> {
-  // Add user to feature flag targeting
-  await posthog.capture({
-    distinctId: userId,
-    event: 'beta_feature_enrolled',
-    properties: { feature: featureKey }
-  });
+async function removeFlag(flagKey: string) {
+  console.log(`Removing flag: ${flagKey}`);
+  
+  // 1. Search for all references
+  const references = await searchCodebase(flagKey);
+  console.log(`Found ${references.length} references`);
+  
+  // 2. Generate removal diff (manual review required)
+  for (const ref of references) {
+    console.log(`  ${ref.file}:${ref.line}`);
+  }
+  
+  // 3. After manual code removal and PR merge:
+  // await removeFromPosthog(flagKey);
+  
+  console.log(`Flag ${flagKey} removal complete`);
 }
 ```
 
 ---
 
-## Flag Cleanup Plan
+## Phase 2: GA Flag Graduation (8 flags)
 
-### Phase 1: Remove Dead Flags (11 flags)
+### Identification Criteria
 
-| Flag Key | Action | Risk |
-|----------|--------|------|
-| `team-invites` | Remove flag + code | Low - 0% rollout |
-| `meeting-actions` | Remove flag + code | Low - inactive |
-| `new-invite-flow` | Remove flag + code | Low - 0% rollout |
-| `action-items-page` | Remove flag + code | Low - inactive |
-| `workflows-v3` | Remove flag | Low - inactive, future use |
-| `be-fine-tuning-page-refresh` | Remove flag + code | Low - inactive |
-| `homepage-workflows` | Remove flag + code | Low - internal only |
-| `bot-will-not-record-notification` | Review - keep or expand | Medium |
-| `calendar-write-permission` | Remove flag | Low - 0% rollout |
-| `ai-search-filters` | Remove flag | Low - 0% rollout |
-| `bot-jit-scheduling-enabled` | Review - keep for future | Medium |
+A flag should be graduated if:
+- Rollout: 100% for >30 days
+- No variant testing (single code path)
+- Stable (no recent changes)
 
-### Phase 2: Graduate GA Flags (8 flags)
+### Graduation Procedure
 
-| Flag Key | Action | Testing Required |
-|----------|--------|------------------|
-| `calendar-widget` | Remove flag wrapper | Regression test |
-| `new-meeting-page` | Remove flag wrapper | Regression test |
-| `scorecard-component` | Remove flag wrapper | Regression test |
-| `crm-field-updates` | Remove flag wrapper | Regression test |
-| `salesforce-v2-beta` | Remove flag wrapper (rename if needed) | Regression test |
-| `hubspot-mcp` | Remove flag wrapper | Regression test |
-| `deepgram-transcription-model` | Hardcode nova-3, remove flag | Config change |
-| `deepgram-auto-detect-language` | Remove flag wrapper | Regression test |
+```typescript
+// Before (with flag)
+function MyComponent() {
+  const showNewFeature = useFeatureFlag('new-feature');
+  
+  if (showNewFeature) {
+    return <NewFeature />;
+  }
+  return <OldFeature />;
+}
 
-### Phase 3: Consolidate Beta Flags
-
-Group related flags into single toggles:
-- Google Suite: 8 flags → 1 "Google Integrations" toggle
-- Salesforce Agent: 3 flags → 1 "Salesforce Agent" toggle
-- Notion/Linear/Monday: Separate toggles or "Third-party Integrations" group
-
----
-
-## Dependencies
-
-| Dependency | Type | Required By | Notes |
-|------------|------|-------------|-------|
-| PostHog API | External | Phase 2 | Flag metadata API access |
-| User preferences table | Database | Phase 2 | May need migration |
-| Design system | Internal | Phase 3 | Badge component specs |
-| Settings page | Internal | Phase 3 | Where to mount UI |
-
----
-
-## Migration Strategy
-
-### Database Migration
-
-```sql
--- Migration: add_beta_features_preferences
--- Safe to run: adds nullable column with default
-
-ALTER TABLE user_preferences 
-ADD COLUMN IF NOT EXISTS beta_features_enabled JSONB DEFAULT '[]';
-
-ALTER TABLE workspace_settings
-ADD COLUMN IF NOT EXISTS beta_features_policy JSONB DEFAULT '{"mode": "opt-in", "enabled_features": []}';
+// After (flag removed, feature permanent)
+function MyComponent() {
+  return <NewFeature />;
+}
 ```
 
-### Flag Removal Process
+### Flags to Graduate
 
-For each flag being removed:
+#### 1. `calendar-widget`
+- **Current:** 100% GA
+- **Action:** Remove flag wrapper, feature stays
+- **Files:**
+  ```
+  web/src/components/calendar/CalendarWidget.tsx
+  web/src/hooks/useCalendarWidget.ts
+  ```
 
-1. **Audit:** Confirm flag is safe to remove (0% rollout or 100% GA)
-2. **Code:** Remove flag checks from codebase
-3. **Test:** Run regression tests
-4. **Deploy:** Deploy code changes
-5. **PostHog:** Archive/delete flag in PostHog
-6. **Document:** Update release notes
+#### 2. `new-meeting-page`
+- **Current:** 100% GA
+- **Action:** Remove flag wrapper, keep new page
+- **Files:**
+  ```
+  web/src/pages/meeting/[id].tsx
+  ```
 
-### Rollout Plan
+#### 3. `scorecard-component`
+- **Current:** 100% GA
+- **Action:** Remove flag wrapper
 
-1. **Week 1:** Dead flag cleanup (11 flags)
-2. **Week 2:** GA flag graduation (8 flags)
-3. **Week 3:** Beta toggle infrastructure (backend)
-4. **Week 4:** Beta toggle UI (frontend)
+#### 4. `crm-field-updates`
+- **Current:** 100% GA
+- **Action:** Remove flag wrapper
+
+#### 5. `salesforce-v2-beta`
+- **Current:** 100% GA (misnomer - not beta anymore)
+- **Action:** Remove flag wrapper
+- **Note:** Flag name says "beta" but it's 100% GA
+
+#### 6. `hubspot-mcp`
+- **Current:** 100% GA
+- **Action:** Remove flag wrapper
+
+#### 7. `deepgram-transcription-model`
+- **Current:** 100% on `nova-3` variant
+- **Action:** Hardcode `nova-3`, remove flag
+- **Code change:**
+  ```typescript
+  // Before
+  const model = useFeatureFlag('deepgram-transcription-model');
+  
+  // After
+  const model = 'nova-3';
+  ```
+
+#### 8. `deepgram-auto-detect-language`
+- **Current:** 100% GA
+- **Action:** Remove flag wrapper
+
+---
+
+## Phase 3: Flag Consolidation
+
+### Consolidation Groups
+
+#### Google Suite (8 → 1)
+
+**Current flags:**
+- `integration-google-calendar-mcp-enabled`
+- `integration-google-calendar-workflow-enabled`
+- `integration-google-docs-mcp-enabled`
+- `integration-google-docs-workflow-enabled`
+- `integration-google-drive-mcp-enabled`
+- `integration-google-drive-workflow-enabled`
+- `integration-google-sheets-mcp-enabled`
+- `integration-google-sheets-workflow-enabled`
+- `integration-google-tasks-mcp-enabled`
+- `integration-google-tasks-workflow-enabled`
+
+**New flag:** `google-integrations-enabled`
+
+**Migration:**
+```typescript
+// Before
+const calendarMcp = useFeatureFlag('integration-google-calendar-mcp-enabled');
+const calendarWorkflow = useFeatureFlag('integration-google-calendar-workflow-enabled');
+// ... 8 more checks
+
+// After
+const googleEnabled = useFeatureFlag('google-integrations-enabled');
+// All Google features enabled/disabled together
+```
+
+#### Salesforce Agent (3 → 1)
+
+**Current flags:**
+- `salesforce-agent-in-chat`
+- `salesforce-agent-in-workflow`
+- `salesforce-user-level-integration-connection`
+
+**New flag:** `salesforce-agent-enabled`
+
+#### Notion Integration (2 → 1)
+
+**Current flags:**
+- `integration-notion-mcp-enabled`
+- `integration-notion-workflow-enabled`
+
+**New flag:** `notion-integration-enabled`
+
+#### Linear Integration (3 → 1)
+
+**Current flags:**
+- `integration-linear-enabled`
+- `integration-linear-mcp-enabled`
+- `integration-linear-workflow-enabled`
+
+**New flag:** `linear-integration-enabled`
+
+#### Monday Integration (2 → 1)
+
+**Current flags:**
+- `integration-monday-mcp-enabled`
+- `integration-monday-workflow-enabled`
+
+**New flag:** `monday-integration-enabled`
+
+#### Confluence Integration (2 → 1)
+
+**Current flags:**
+- `integration-confluence-mcp-enabled`
+- `integration-confluence-workflow-enabled`
+
+**New flag:** `confluence-integration-enabled`
+
+### Consolidation Procedure
+
+```typescript
+// Step 1: Create new consolidated flag in PostHog
+// Set rollout to match existing flags
+
+// Step 2: Update code
+// Before
+const notionMcp = useFeatureFlag('integration-notion-mcp-enabled');
+const notionWorkflow = useFeatureFlag('integration-notion-workflow-enabled');
+const isNotionEnabled = notionMcp && notionWorkflow;
+
+// After
+const isNotionEnabled = useFeatureFlag('notion-integration-enabled');
+
+// Step 3: Deploy and verify
+
+// Step 4: Archive old flags in PostHog
+```
 
 ---
 
 ## Testing Strategy
 
 ### Unit Tests
-
-- `BetaFeatureService` toggle logic
-- `StageBadge` rendering for each stage
-- API endpoint validation
+- Verify feature still works after flag removal
+- No conditional logic breaks
 
 ### Integration Tests
+- End-to-end flows for graduated features
+- Integration tests for consolidated flags
 
-- PostHog flag sync
-- User preference persistence
-- Workspace policy inheritance
+### Regression Testing
+- Smoke test affected areas
+- Monitor error rates post-deploy
 
-### E2E Tests
-
-- Toggle flow: Settings → Enable → Feature visible
-- Badge display across app surfaces
-
-### Manual Testing
-
-- Flag removal: Verify no regression in affected features
-- Cross-browser: Badge rendering consistency
-
----
-
-## Risks & Mitigations
-
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| Flag removal breaks feature | High | Medium | Feature flag the removal; comprehensive testing |
-| PostHog API rate limits | Medium | Low | Cache flag list; batch updates |
-| User preferences lost on migration | High | Low | Default to empty array; no data loss |
-| Badge inconsistency across surfaces | Low | Medium | Centralized component; design review |
+### Rollback Plan
+```typescript
+// If issues discovered:
+// 1. Re-enable archived flag in PostHog
+// 2. Revert code if needed
+// 3. Investigate before retry
+```
 
 ---
 
-## Observability
+## Monitoring
 
-### Metrics to Track
+### Metrics to Watch Post-Cleanup
 
-- Beta feature opt-in rate (per feature)
-- Time spent in each stage
-- Flag evaluation latency (before/after cleanup)
-- API endpoint performance
+| Metric | Tool | Alert Threshold |
+|--------|------|-----------------|
+| Error rate | Sentry | >1% increase |
+| Page load time | PostHog | >100ms increase |
+| Feature usage | PostHog | >10% drop |
+| Support tickets | Intercom | Spike in "feature missing" |
 
-### Alerts
+### PostHog Dashboards
 
-- Flag stuck past TTL (weekly digest)
-- Beta toggle API errors (immediate)
-- Unusual opt-out spike (investigate)
+Create dashboard for:
+- Total flag count (target: <60)
+- Flags by age (identify stale)
+- Flag evaluation time (performance)
 
 ---
 
-## Open Technical Questions
+## Rollout Schedule
 
-1. **PostHog metadata:** Can we add custom metadata to flags, or need separate storage?
-2. **Real-time updates:** WebSocket vs. polling for flag changes?
-3. **Caching:** How long to cache beta feature list client-side?
-4. **Rollback:** How to quickly disable a beta feature for all users if issues arise?
+### Week 1-2: Dead Flag Removal
+```
+Day 1-2: team-invites, meeting-actions
+Day 3-4: new-invite-flow, action-items-page
+Day 5: free-trial
+Day 6-7: workflows-v3, be-fine-tuning-page-refresh
+Day 8-9: homepage-workflows, calendar-write-permission
+Day 10: ai-search-filters, bot-jit-scheduling-enabled
+```
+
+### Week 3: GA Flag Graduation
+```
+Day 1: calendar-widget, new-meeting-page
+Day 2: scorecard-component, crm-field-updates
+Day 3: salesforce-v2-beta, hubspot-mcp
+Day 4: deepgram-transcription-model, deepgram-auto-detect-language
+Day 5: Buffer / verification
+```
+
+### Week 4-5: Flag Consolidation
+```
+Week 4:
+  - Google Suite consolidation (8→1)
+  - Salesforce Agent consolidation (3→1)
+
+Week 5:
+  - Notion, Linear, Monday, Confluence consolidation
+```
+
+---
+
+## Definition of Done
+
+- [ ] All 11 dead flags removed from PostHog
+- [ ] All 8 GA flags graduated (wrapper removed)
+- [ ] All 6 groups consolidated
+- [ ] Total flags reduced by 50% (116→<60)
+- [ ] No regression in affected features
+- [ ] Quarterly review process documented
 
 ---
 
