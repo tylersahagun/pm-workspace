@@ -44,6 +44,8 @@ export type AIContentState =
   | 'sent'
   | 'error';
 
+export type JourneyRequirementStatus = 'on_track' | 'watch' | 'blocked' | 'unknown';
+
 // ============================================
 // JOURNEY STAGE CONFIG
 // ============================================
@@ -120,6 +122,34 @@ export interface AIEvidence {
   source: string; // e.g., "Call with Sarah (Jan 10)"
   content: string;
   timestamp?: string;
+}
+
+export interface JourneySnapshot {
+  title: string;
+  summary: string;
+  consequence: string;
+  confidence: AIConfidence;
+  evidence: AIEvidence[];
+  lastUpdated: string;
+}
+
+export interface JourneyRequirement {
+  id: string;
+  label: string;
+  status: JourneyRequirementStatus;
+  summary: string;
+  confidence: AIConfidence;
+  evidence: AIEvidence[];
+}
+
+export interface ActionPlanItem {
+  id: string;
+  title: string;
+  description: string;
+  impact: string;
+  confidence: AIConfidence;
+  dueDate?: string;
+  evidence: AIEvidence[];
 }
 
 export interface SuggestedAction {
@@ -325,8 +355,16 @@ Best,
       score: 45,
       trend: 'declining',
       factors: [
-        { label: 'No response', impact: 'negative', detail: 'No reply to last 2 emails' },
-        { label: 'Champion went quiet', impact: 'negative', detail: 'Last contact 12 days ago' },
+        {
+          label: 'Next step not confirmed',
+          impact: 'negative',
+          detail: 'No agreed reconvene date after demo; last contact 12 days ago',
+        },
+        {
+          label: 'Value impact not anchored',
+          impact: 'negative',
+          detail: 'Customer has not tied pain to measurable business impact',
+        },
         { label: 'Good demo feedback', impact: 'positive', detail: 'Team was engaged during demo' },
       ],
       lastUpdated: '2026-01-14T09:00:00Z',
@@ -349,17 +387,18 @@ Best,
       {
         id: 'action-2',
         type: 'follow_up_email',
-        title: 'Re-engage champion',
-        description: 'Mike has gone quiet after positive demo. Try a different approach.',
+        title: 'Confirm next-step timing with champion',
+        description:
+          'No reconvene date is set. Ask if silence is expected and lock a next step for the decision cycle.',
         priority: 'high',
         dueDate: '2026-01-14',
-        estimatedImpact: 'Critical - deal at risk of going cold',
+        estimatedImpact: 'Prevents silent stall in the decision cycle',
         confidence: 'medium',
         evidence: [
           {
-            type: 'pattern',
-            source: 'Activity analysis',
-            content: 'Similar deals that went 10+ days without contact had 60% lower close rate',
+            type: 'signal',
+            source: 'Follow-up activity',
+            content: 'No next-step date captured after demo; last reply was 12 days ago',
           },
         ],
         accountId: 'acc-2',
@@ -367,17 +406,18 @@ Best,
       },
       {
         id: 'action-3',
-        type: 'schedule_meeting',
-        title: 'Try multi-threading',
-        description: 'Reach out to another stakeholder who was engaged in the demo',
+        type: 'send_collateral',
+        title: 'Anchor impact before proposal',
+        description:
+          'Send a short recap that ties their pain to a business outcome and ask for confirmation.',
         priority: 'medium',
         confidence: 'low',
-        estimatedImpact: 'Could unblock if champion is stuck internally',
+        estimatedImpact: 'Builds value conviction before pricing discussions',
         evidence: [
           {
-            type: 'signal',
-            source: 'Demo attendees',
-            content: 'Lisa Park (RevOps) asked 5 questions during demo',
+            type: 'pattern',
+            source: 'Pipeline analysis',
+            content: 'Deals without impact anchors drop 40% after proposal stage',
           },
         ],
         accountId: 'acc-2',

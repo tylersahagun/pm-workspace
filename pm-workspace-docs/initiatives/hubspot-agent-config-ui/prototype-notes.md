@@ -4,7 +4,62 @@
 
 This prototype replaces the prompt-based HubSpot agent configuration with a structured property-based interface. Built in `prototypes/src/components/HubSpotConfig/`.
 
-**Status:** ✅ v1 Standalone complete | ✅ v2 Workflow-Integrated complete | ✅ v3 Jury-Driven | ⚠️ v4 Association | 🆕 v5 Human-Centric
+**Status:** ✅ v1 Standalone complete | ✅ v2 Workflow-Integrated complete | ✅ v3 Jury-Driven | ⚠️ v4 Association | ✅ v5 Human-Centric | ✅ v6 Action-First | 🆕 v7 Action + Association Clarity
+
+---
+
+## 🆕 v6: Action-First Iteration (2026-01-14)
+
+### Feedback Source
+- Ty's feedback on HubSpot agent configuration usability and association flow
+
+### What Changed
+- **Context source** selector (latest call, meeting selection, pasted transcript)
+- **Association & matching** signals and behavior when no match is found
+- **Create when missing** flow with required fields input
+- **Sync mode** set at the object level ("Just do it" vs "Review first")
+- **Execution order controls** (reorder properties to respect dependencies)
+- **Object types expanded** to include Notes, Tasks, and Custom objects
+- **Removed update timing + per-field sync toggle** (action-only configuration)
+
+### Rationale
+The feedback emphasized action-based configuration, reliable associations, and human control at the object level.
+This iteration shifts the UI from "workflow timing" to "action configuration" and makes matching behavior explicit.
+
+### Next Follow-Up
+1. Validate association signals with 3-5 HubSpot-heavy users
+2. Test whether "Review first" should be default for new users
+3. Decide scope for Notes/Tasks vs post-MVP
+
+---
+
+## 🆕 v7: Action + Association Clarity (2026-01-14)
+
+### Feedback Source
+- Ty's feedback on usability, association flow, and action-first configuration
+
+### What Changed
+- **Action type selector** (Update, Create, Update-or-create) to remove trigger/timing confusion
+- **Read before write** renamed and clarified as a dependency-aware setting
+- **Object-level human review** toggle (avoid per-field approval fatigue)
+- **Notes/Tasks add-ons** for Deal/Contact/Company objects
+- **Optional condition** kept as a lightweight gate (not a trigger)
+- **HubSpot record link preview** added to post-sync summary
+- **Match signals + no-match behavior** tightened to align with association pain
+
+### Rationale
+The feedback emphasized clear action intent (update vs create), predictable association behavior,
+and human control at the object level without excessive per-field toggles.
+
+### Trust & Control Notes
+- Low-confidence states now explicitly ask for review before writing.
+- Post-sync receipts include direct HubSpot links for verification.
+- Undo remains the default recovery path after sync.
+
+### Next Follow-Up
+1. Validate create vs update defaults with RevOps admins
+2. Test note/task add-on clarity in a no-meeting context
+3. Confirm HubSpot link reliability and fallback copy
 
 ---
 

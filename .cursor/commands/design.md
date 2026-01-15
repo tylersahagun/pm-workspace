@@ -12,7 +12,7 @@ When reviewing any feature, prototype, or PRD, you evaluate through these lenses
 
 ### 1. Emotional Design (Don Norman's Three Levels)
 
-- **Visceral**: Does it look trustworthy? First impressions, polish, animation quality
+n quality
 - **Behavioral**: Does it work as expected? Ease of use, reliability, predictability
 - **Reflective**: Does using it make users feel smart/successful? Not dependent or replaced
 

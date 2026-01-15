@@ -5,7 +5,8 @@ import {
   Trash2,
   BookOpen,
   Link2,
-  Upload,
+  ArrowUp,
+  ArrowDown,
   X,
   Hash,
   Calendar,
@@ -23,6 +24,10 @@ interface FieldConfigCardProps {
   availableProperties: HubSpotProperty[];
   isExpanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
+  order: number;
+  total: number;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
 }
 
 const WRITE_MODE_OPTIONS: { value: WriteMode; label: string; description: string }[] = [
@@ -53,6 +58,10 @@ export function FieldConfigCard({
   availableProperties,
   isExpanded: controlledExpanded,
   onExpandedChange,
+  order,
+  total,
+  onMoveUp,
+  onMoveDown,
 }: FieldConfigCardProps) {
   const [internalExpanded, setInternalExpanded] = React.useState(true);
   const isExpanded = controlledExpanded ?? internalExpanded;
@@ -100,6 +109,9 @@ export function FieldConfigCard({
           ) : (
             <ChevronRight className="size-4 text-muted-foreground" />
           )}
+          <span className="inline-flex size-6 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+            {order}
+          </span>
           {getPropertyTypeIcon(property.type)}
           <div>
             <span className="font-medium">{property.label}</span>
@@ -125,13 +137,40 @@ export function FieldConfigCard({
                   {config.dependencies.length} deps
                 </span>
               )}
-              {!config.syncToHubSpot && (
-                <span className="text-xs px-1.5 py-0.5 bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300 rounded">
-                  Local only
-                </span>
-              )}
             </div>
           )}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onMoveUp?.();
+              }}
+              disabled={order === 1}
+              className={cn(
+                'p-1.5 rounded transition-colors',
+                order === 1
+                  ? 'text-muted-foreground/40 cursor-not-allowed'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+              )}
+            >
+              <ArrowUp className="size-4" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onMoveDown?.();
+              }}
+              disabled={order === total}
+              className={cn(
+                'p-1.5 rounded transition-colors',
+                order === total
+                  ? 'text-muted-foreground/40 cursor-not-allowed'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+              )}
+            >
+              <ArrowDown className="size-4" />
+            </button>
+          </div>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -186,10 +225,10 @@ export function FieldConfigCard({
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <BookOpen className="size-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Read before write</span>
+                <span className="text-sm font-medium">Read existing value</span>
               </div>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Read the current value in HubSpot and factor it into the update
+                Read the current HubSpot value and factor it into the update
               </p>
             </div>
           </div>
@@ -249,35 +288,6 @@ export function FieldConfigCard({
                   <div className="text-xs text-muted-foreground">{option.description}</div>
                 </button>
               ))}
-            </div>
-          </div>
-
-          {/* Sync to HubSpot Toggle */}
-          <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/30">
-            <button
-              onClick={() => updateConfig({ syncToHubSpot: !config.syncToHubSpot })}
-              className={cn(
-                'mt-0.5 relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors',
-                config.syncToHubSpot ? 'bg-primary' : 'bg-input'
-              )}
-            >
-              <span
-                className={cn(
-                  'pointer-events-none block size-4 rounded-full bg-background shadow-lg ring-0 transition-transform',
-                  config.syncToHubSpot ? 'translate-x-4' : 'translate-x-0'
-                )}
-              />
-            </button>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <Upload className="size-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Sync to HubSpot</span>
-              </div>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {config.syncToHubSpot
-                  ? 'This value will be pushed to HubSpot after processing'
-                  : 'Computed locally only — use as input for other fields'}
-              </p>
             </div>
           </div>
         </div>

@@ -1,0 +1,55 @@
+---
+description: 'Run jury evaluation on an initiative or content'
+globs: ['**/*']
+alwaysApply: false
+---
+
+# Eval Command
+
+When the user says "eval", "@eval", or asks to evaluate something with the jury, run the jury evaluation.
+
+## Trigger Phrases
+
+- "eval [initiative-name]"
+- "evaluate [content]"
+- "test with jury"
+- "run jury"
+- "validate with personas"
+
+## Quick Commands
+
+### Evaluate an initiative folder:
+```bash
+python scripts/simulate_jury.py \
+  --initiative path/to/initiative \
+  --phase research \
+  --jury-size 100
+```
+
+### Evaluate inline content:
+```bash
+python scripts/simulate_jury.py \
+  --content "Your product idea or feature description" \
+  --jury-size 100
+```
+
+### Phases
+- `research` - Validate problem/pain point resonance
+- `prd` - Validate user stories and flows
+- `prototype` - Evaluate UI/UX usability
+
+## Understanding Results
+
+| Combined Pass Rate | Verdict | Action |
+|-------------------|---------|--------|
+| ≥80% | STRONG PASS | Ship with confidence |
+| ≥60% | PASS | Address concerns, proceed |
+| ≥40% | CONDITIONAL | Iterate before proceeding |
+| <40% | FAIL | Major pivot needed |
+
+## Key Metrics
+
+1. **Skeptic Pass Rate** - If <25%, fundamental issues
+2. **Archetype Variance** - High variance = segment problems
+3. **Top Friction Points** - Prioritize highest frequency
+4. **Voice Feedback** - Qualitative persona insights

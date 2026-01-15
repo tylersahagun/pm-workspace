@@ -1,6 +1,13 @@
 // HubSpot Property Types - mirrors what we'd get from the HubSpot API
 
-export type HubSpotObjectType = 'deal' | 'contact' | 'company' | 'meeting';
+export type HubSpotObjectType =
+  | 'deal'
+  | 'contact'
+  | 'company'
+  | 'meeting'
+  | 'note'
+  | 'task'
+  | 'custom';
 
 export type HubSpotPropertyType =
   | 'string'
@@ -32,6 +39,12 @@ export interface HubSpotProperty {
 
 export type WriteMode = 'overwrite' | 'append' | 'append_if_new';
 
+export type HubSpotContextSource = 'latest_call' | 'selected_meeting' | 'pasted_transcript';
+
+export type ApprovalMode = 'auto' | 'review';
+
+export type NoMatchBehavior = 'skip' | 'create';
+
 export interface PropertyConfig {
   /** The HubSpot property being configured */
   propertyName: string;
@@ -43,17 +56,29 @@ export interface PropertyConfig {
   dependencies: string[];
   /** How to handle existing values */
   writeMode: WriteMode;
-  /** Whether to sync this field to HubSpot (vs. compute locally only) */
-  syncToHubSpot: boolean;
 }
 
 export interface HubSpotAgentNodeConfig {
   /** The HubSpot object type being updated */
   objectType: HubSpotObjectType;
+  /** Label for custom object types (if objectType === 'custom') */
+  customObjectLabel?: string;
   /** Configuration for each property to update */
   properties: PropertyConfig[];
-  /** When to trigger updates */
-  updateTrigger?: 'after_call' | 'daily' | 'on_stage_change';
+  /** What data should the agent use as context */
+  contextSource: HubSpotContextSource;
+  /** Optional transcript if contextSource is pasted_transcript */
+  contextTranscript?: string;
+  /** Human-in-the-loop mode for this object */
+  approvalMode: ApprovalMode;
+  /** Optional condition before running */
+  runCondition?: string;
+  /** Which signals should be used to match existing objects */
+  matchSignals: string[];
+  /** What to do when no matching object is found */
+  noMatchBehavior: NoMatchBehavior;
+  /** Required fields when creating a new object */
+  createRequiredFields: string[];
 }
 
 // Component Props Types
@@ -154,6 +179,27 @@ export const MOCK_HUBSPOT_PROPERTIES: Record<HubSpotObjectType, HubSpotProperty[
       { label: 'Cancelled', value: 'CANCELLED' },
     ]},
   ],
+  note: [
+    { name: 'hs_note_body', label: 'Note Body', type: 'string', groupName: 'noteinfo' },
+    { name: 'hs_note_timestamp', label: 'Note Timestamp', type: 'datetime', groupName: 'noteinfo' },
+  ],
+  task: [
+    { name: 'hs_task_subject', label: 'Task Subject', type: 'string', groupName: 'taskinfo' },
+    { name: 'hs_task_due_date', label: 'Task Due Date', type: 'date', groupName: 'taskinfo' },
+    { name: 'hs_task_status', label: 'Task Status', type: 'enumeration', groupName: 'taskinfo', options: [
+      { label: 'Not Started', value: 'NOT_STARTED' },
+      { label: 'In Progress', value: 'IN_PROGRESS' },
+      { label: 'Completed', value: 'COMPLETED' },
+    ]},
+  ],
+  custom: [
+    { name: 'custom_object_name', label: 'Custom Object Name', type: 'string', groupName: 'custom' },
+    { name: 'custom_object_stage', label: 'Custom Object Stage', type: 'enumeration', groupName: 'custom', options: [
+      { label: 'Open', value: 'open' },
+      { label: 'In Review', value: 'in_review' },
+      { label: 'Closed', value: 'closed' },
+    ]},
+  ],
 };
 
 export const createDefaultPropertyConfig = (propertyName: string): PropertyConfig => ({
@@ -162,6 +208,5 @@ export const createDefaultPropertyConfig = (propertyName: string): PropertyConfi
   readBeforeWrite: false,
   dependencies: [],
   writeMode: 'overwrite',
-  syncToHubSpot: true,
 });
 

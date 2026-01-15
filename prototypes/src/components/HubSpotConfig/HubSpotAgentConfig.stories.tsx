@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { HubSpotAgentConfig } from './HubSpotAgentConfig';
 import { PropertySelector } from './PropertySelector';
 import { FieldConfigCard } from './FieldConfigCard';
-import type { HubSpotAgentNodeConfig, PropertyConfig, HubSpotProperty } from './types';
+import type { HubSpotAgentNodeConfig, PropertyConfig, HubSpotProperty, HubSpotObjectType } from './types';
 import { MOCK_HUBSPOT_PROPERTIES, createDefaultPropertyConfig } from './types';
 
 // ============================================
@@ -52,7 +52,11 @@ export const Empty: Story = {
       initialConfig={{
         objectType: 'deal',
         properties: [],
-        updateTrigger: 'after_call',
+        contextSource: 'latest_call',
+        approvalMode: 'auto',
+        matchSignals: ['company_domain', 'contact_email'],
+        noMatchBehavior: 'create',
+        createRequiredFields: ['dealname', 'pipeline'],
       }}
     />
   ),
@@ -71,7 +75,6 @@ export const WithSelectedProperties: Story = {
             readBeforeWrite: true,
             dependencies: ['sales_skill_score', 'why_will_fail', 'buyer_involvement'],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'next_step',
@@ -79,7 +82,6 @@ export const WithSelectedProperties: Story = {
             readBeforeWrite: false,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'next_step_date',
@@ -87,10 +89,40 @@ export const WithSelectedProperties: Story = {
             readBeforeWrite: false,
             dependencies: ['next_step'],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
         ],
-        updateTrigger: 'after_call',
+        contextSource: 'latest_call',
+        approvalMode: 'review',
+        matchSignals: ['company_domain', 'deal_name'],
+        noMatchBehavior: 'create',
+        createRequiredFields: ['dealname', 'amount', 'dealstage'],
+      }}
+    />
+  ),
+};
+
+export const PastedTranscriptReview: Story = {
+  render: () => (
+    <InteractiveHubSpotAgentConfig
+      initialConfig={{
+        objectType: 'deal',
+        properties: [
+          {
+            propertyName: 'dealstage',
+            instruction: 'Suggest the deal stage based on the transcript signals.',
+            readBeforeWrite: true,
+            dependencies: [],
+            writeMode: 'overwrite',
+          },
+        ],
+        contextSource: 'pasted_transcript',
+        contextTranscript:
+          'Customer mentioned budget approval is pending and wants a proposal by Friday.',
+        approvalMode: 'review',
+        matchSignals: ['deal_name', 'company_domain'],
+        noMatchBehavior: 'create',
+        createRequiredFields: ['dealname', 'amount'],
+        runCondition: "Only run if deal stage is not 'Closed Won'",
       }}
     />
   ),
@@ -109,7 +141,6 @@ export const FullDealScorecard: Story = {
             readBeforeWrite: false,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: false, // Internal scoring only
           },
           {
             propertyName: 'buyer_involvement',
@@ -118,7 +149,6 @@ export const FullDealScorecard: Story = {
             readBeforeWrite: true,
             dependencies: [],
             writeMode: 'append',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'why_will_buy',
@@ -126,7 +156,6 @@ export const FullDealScorecard: Story = {
             readBeforeWrite: true,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'why_will_fail',
@@ -135,7 +164,6 @@ export const FullDealScorecard: Story = {
             readBeforeWrite: true,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'probability_to_close',
@@ -144,7 +172,6 @@ export const FullDealScorecard: Story = {
             readBeforeWrite: true,
             dependencies: ['sales_skill_score', 'buyer_involvement', 'why_will_buy', 'why_will_fail'],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'close_date_probability_context',
@@ -153,10 +180,13 @@ export const FullDealScorecard: Story = {
             readBeforeWrite: true,
             dependencies: ['probability_to_close'],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
         ],
-        updateTrigger: 'after_call',
+        contextSource: 'selected_meeting',
+        approvalMode: 'auto',
+        matchSignals: ['company_domain', 'deal_name'],
+        noMatchBehavior: 'skip',
+        createRequiredFields: [],
       }}
     />
   ),
@@ -167,7 +197,11 @@ export const Loading: Story = {
     const [config, setConfig] = useState<HubSpotAgentNodeConfig>({
       objectType: 'deal',
       properties: [],
-      updateTrigger: 'after_call',
+      contextSource: 'latest_call',
+      approvalMode: 'auto',
+      matchSignals: ['company_domain'],
+      noMatchBehavior: 'skip',
+      createRequiredFields: [],
     });
     return (
       <HubSpotAgentConfig
@@ -192,10 +226,13 @@ export const ContactObjectType: Story = {
             readBeforeWrite: true,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
         ],
-        updateTrigger: 'after_call',
+        contextSource: 'latest_call',
+        approvalMode: 'review',
+        matchSignals: ['contact_email'],
+        noMatchBehavior: 'skip',
+        createRequiredFields: [],
       }}
     />
   ),
@@ -221,7 +258,7 @@ const propertySelectorMeta: Meta<typeof PropertySelector> = {
 export const PropertySelectorEmpty: StoryObj<typeof PropertySelector> = {
   render: () => {
     const [selected, setSelected] = useState<string[]>([]);
-    const [objectType, setObjectType] = useState<'deal' | 'contact' | 'company' | 'meeting'>('deal');
+    const [objectType, setObjectType] = useState<HubSpotObjectType>('deal');
     return (
       <PropertySelector
         availableProperties={MOCK_HUBSPOT_PROPERTIES[objectType]}
@@ -241,7 +278,7 @@ export const PropertySelectorWithSelection: StoryObj<typeof PropertySelector> = 
       'next_step',
       'next_step_date',
     ]);
-    const [objectType, setObjectType] = useState<'deal' | 'contact' | 'company' | 'meeting'>('deal');
+    const [objectType, setObjectType] = useState<HubSpotObjectType>('deal');
     return (
       <PropertySelector
         availableProperties={MOCK_HUBSPOT_PROPERTIES[objectType]}
@@ -290,6 +327,8 @@ export const FieldConfigCardDefault: StoryObj<typeof FieldConfigCard> = {
         onConfigChange={setConfig}
         onRemove={() => alert('Remove clicked')}
         availableProperties={MOCK_HUBSPOT_PROPERTIES.deal}
+        order={1}
+        total={1}
       />
     );
   },
@@ -304,7 +343,6 @@ export const FieldConfigCardConfigured: StoryObj<typeof FieldConfigCard> = {
       readBeforeWrite: true,
       dependencies: ['sales_skill_score', 'why_will_fail', 'buyer_involvement'],
       writeMode: 'overwrite',
-      syncToHubSpot: true,
     });
     return (
       <FieldConfigCard
@@ -313,6 +351,8 @@ export const FieldConfigCardConfigured: StoryObj<typeof FieldConfigCard> = {
         onConfigChange={setConfig}
         onRemove={() => alert('Remove clicked')}
         availableProperties={MOCK_HUBSPOT_PROPERTIES.deal}
+        order={2}
+        total={3}
       />
     );
   },
@@ -326,7 +366,6 @@ export const FieldConfigCardCollapsed: StoryObj<typeof FieldConfigCard> = {
       readBeforeWrite: true,
       dependencies: ['sales_skill_score', 'why_will_fail'],
       writeMode: 'overwrite',
-      syncToHubSpot: true,
     });
     const [isExpanded, setIsExpanded] = useState(false);
     return (
@@ -338,12 +377,14 @@ export const FieldConfigCardCollapsed: StoryObj<typeof FieldConfigCard> = {
         availableProperties={MOCK_HUBSPOT_PROPERTIES.deal}
         isExpanded={isExpanded}
         onExpandedChange={setIsExpanded}
+        order={1}
+        total={2}
       />
     );
   },
 };
 
-export const FieldConfigCardLocalOnly: StoryObj<typeof FieldConfigCard> = {
+export const FieldConfigCardBasic: StoryObj<typeof FieldConfigCard> = {
   render: () => {
     const [config, setConfig] = useState<PropertyConfig>({
       propertyName: 'sales_skill_score',
@@ -351,7 +392,6 @@ export const FieldConfigCardLocalOnly: StoryObj<typeof FieldConfigCard> = {
       readBeforeWrite: false,
       dependencies: [],
       writeMode: 'overwrite',
-      syncToHubSpot: false, // Local only!
     });
     return (
       <FieldConfigCard
@@ -365,6 +405,8 @@ export const FieldConfigCardLocalOnly: StoryObj<typeof FieldConfigCard> = {
         onConfigChange={setConfig}
         onRemove={() => alert('Remove clicked')}
         availableProperties={MOCK_HUBSPOT_PROPERTIES.deal}
+        order={3}
+        total={4}
       />
     );
   },

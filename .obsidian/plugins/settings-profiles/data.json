@@ -1,0 +1,19 @@
+{
+  "activeProfile": {
+    "name": "pm-workspace",
+    "modifiedAt": "2026-01-12T21:49:40.874Z"
+  },
+  "profileUpdate": true,
+  "profileUpdateDelay": 800,
+  "uiUpdate": true,
+  "uiUpdateInterval": 1000,
+  "devices": {
+    "f0cf9fa183e3ad989d1661588301bd629d876c0971b9e95c8ee0f838fb721f2f": "/Users/tylersahagun/Library/Application Support/ObsidianPlugins/Profiles"
+  },
+  "statusbarInteraction": {
+    "click": "auto",
+    "ctrl_click": "none",
+    "shift_click": "none",
+    "alt_click": "none"
+  }
+}

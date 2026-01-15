@@ -1,0 +1,85 @@
+---
+description: 'Interactive setup wizard for Condorcet Jury System'
+globs: ['**/*']
+alwaysApply: false
+---
+
+# Setup Command
+
+When the user says "setup", "@setup", or asks to configure the jury system, guide them through the interactive setup process.
+
+## Trigger Phrases
+
+- "setup"
+- "configure"
+- "initialize"
+- "get started"
+- "onboard"
+
+## What This Does
+
+The setup wizard customizes the Condorcet Jury System for the user's specific business by:
+
+1. **Technical Setup** - Installs dependencies, configures API keys
+2. **Business Context** - Captures company type, stage, industry
+3. **User Personas** - Defines 2-5 target user archetypes
+4. **Pain Points** - Documents problems being solved, objections, competitors
+5. **Tech Context** - Understands users' relationship with AI/technology
+6. **Configuration** - Generates custom archetypes and persona pools
+
+## How to Run
+
+```bash
+python scripts/setup_wizard.py
+```
+
+## After Setup
+
+The wizard generates:
+
+- `config/workspace-config.json` - Full business configuration
+- `config/generation-config.json` - Persona distribution settings  
+- `personas/archetypes-custom/` - Custom persona templates
+- `personas/generated/custom/` - Initial persona pool (100+)
+- `examples/my-first-initiative/` - Ready-to-test initiative
+
+## Quick Evaluation After Setup
+
+```bash
+python scripts/simulate_jury.py \
+  --initiative examples/my-first-initiative \
+  --jury-size 50
+```
+
+## Manual Interview Mode
+
+If the user prefers to be interviewed conversationally rather than run the script, walk them through these questions:
+
+### Business Context
+1. What's your company/product name?
+2. What type of product? (B2B SaaS, B2C, Enterprise, Dev Tools, etc.)
+3. What stage? (Pre-seed, Seed, Series A, B+, Established)
+4. What industry do you serve?
+5. In one sentence, what problem do you solve?
+6. What makes you different from alternatives?
+
+### User Personas (repeat for each)
+1. What's the job title/role?
+2. Describe a typical user in 1-2 sentences
+3. What are their 2-3 main goals?
+4. What frustrates them most? (2-3 items)
+5. What tools do they use daily?
+
+### Problems & Context
+1. Top 3+ pain points you address
+2. What "jobs" do users hire your product to do?
+3. What objections do skeptical users have?
+4. What alternatives do users compare you to?
+
+### Technology Context
+1. Does your product use AI/ML?
+2. How tech-savvy are your users?
+3. What barriers to adoption have you seen?
+4. What % of users are skeptical of new tools?
+
+After collecting this, generate the configuration files programmatically.

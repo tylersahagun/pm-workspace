@@ -17,6 +17,9 @@ const OBJECT_TYPE_OPTIONS: { value: HubSpotObjectType; label: string }[] = [
   { value: 'contact', label: 'Contact' },
   { value: 'company', label: 'Company' },
   { value: 'meeting', label: 'Meeting' },
+  { value: 'note', label: 'Note' },
+  { value: 'task', label: 'Task' },
+  { value: 'custom', label: 'Custom object' },
 ];
 
 const getPropertyTypeIcon = (type: HubSpotPropertyType) => {

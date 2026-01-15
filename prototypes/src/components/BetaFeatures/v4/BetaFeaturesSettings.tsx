@@ -121,14 +121,14 @@ function EnableDialog({ feature, onConfirm, onCancel }: EnableDialogProps) {
           )}
 
           {/* Stage warning */}
-          {feature.stage === 'experimental' && (
+          {feature.stage === 'labs' && (
             <div className="p-3 bg-purple-50 border border-purple-200 rounded-md">
               <div className="flex items-start gap-2">
                 <svg className="w-4 h-4 text-purple-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                 </svg>
                 <div className="text-xs text-purple-800">
-                  <p className="font-medium">Experimental feature</p>
+                  <p className="font-medium">Labs feature</p>
                   <p>This feature may change significantly or be removed.</p>
                 </div>
               </div>
@@ -538,14 +538,14 @@ export function BetaFeaturesSettingsV4({
   }
 
   // Count visible features
-  const experimentalCount = isManager
-    ? featuresByStage.experimental.length
-    : featuresByStage.experimental.filter((f) => f.scope === 'personal').length;
+  const labsCount = isManager
+    ? featuresByStage.labs.length
+    : featuresByStage.labs.filter((f) => f.scope === 'personal').length;
   const betaCount = isManager
     ? featuresByStage.beta.length
     : featuresByStage.beta.filter((f) => f.scope === 'personal').length;
 
-  const experimentalEnabled = featuresByStage.experimental.filter((f) => f.enabled).length;
+  const labsEnabled = featuresByStage.labs.filter((f) => f.enabled).length;
   const betaEnabled = featuresByStage.beta.filter((f) => f.enabled).length;
 
   return (
@@ -566,11 +566,11 @@ export function BetaFeaturesSettingsV4({
       {/* Tabs - NO icons */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as FeatureStage)}>
         <TabsList className="grid w-full grid-cols-2 mb-6">
-          <TabsTrigger value="experimental" className="gap-2">
-            <span>Experimental</span>
-            {experimentalEnabled > 0 && (
+          <TabsTrigger value="labs" className="gap-2">
+            <span>Labs</span>
+            {labsEnabled > 0 && (
               <span className="text-xs bg-purple-100 text-purple-700 px-1.5 rounded-full">
-                {experimentalEnabled}
+                {labsEnabled}
               </span>
             )}
           </TabsTrigger>
@@ -584,10 +584,10 @@ export function BetaFeaturesSettingsV4({
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="experimental">
+        <TabsContent value="labs">
           <StageSection
-            stage="experimental"
-            features={featuresByStage.experimental}
+            stage="labs"
+            features={featuresByStage.labs}
             onToggle={handleToggle}
             togglingKey={togglingKey}
             isManager={isManager}

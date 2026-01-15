@@ -20,10 +20,9 @@ import {
   ChevronDown,
   ChevronRight,
   Trash2,
-  Plus,
-  AlertCircle,
-  Maximize,
   Info,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { LabeledRenderer } from './LabeledRenderer';
 import { cn } from '@/lib/utils';
@@ -59,6 +58,13 @@ interface HubSpotAgentNodeConfigProps {
   isLoading?: boolean;
 }
 
+const MATCH_SIGNAL_OPTIONS = [
+  { value: 'company_domain', label: 'Company domain' },
+  { value: 'contact_email', label: 'Contact email' },
+  { value: 'deal_name', label: 'Deal name' },
+  { value: 'meeting_title', label: 'Meeting title' },
+];
+
 // Individual property configuration that matches form-renderers pattern
 interface PropertyConfigFieldProps {
   property: HubSpotProperty;
@@ -68,6 +74,10 @@ interface PropertyConfigFieldProps {
   availableProperties: HubSpotProperty[];
   isExpanded: boolean;
   onToggleExpand: () => void;
+  order: number;
+  total: number;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
 }
 
 const PropertyConfigField: React.FC<PropertyConfigFieldProps> = ({
@@ -78,17 +88,15 @@ const PropertyConfigField: React.FC<PropertyConfigFieldProps> = ({
   availableProperties,
   isExpanded,
   onToggleExpand,
+  order,
+  total,
+  onMoveUp,
+  onMoveDown,
 }) => {
   const dependencyOptions = {
     'Available Properties': availableProperties
       .filter((p) => p.name !== property.name)
       .map((p) => ({ label: p.label, value: p.name })),
-  };
-
-  const writeModeLabels: Record<WriteMode, string> = {
-    overwrite: 'Overwrite existing value',
-    append: 'Append to existing value',
-    append_if_different: 'Append only if different',
   };
 
   return (
@@ -103,6 +111,9 @@ const PropertyConfigField: React.FC<PropertyConfigFieldProps> = ({
               ) : (
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               )}
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                {order}
+              </span>
               <span className="font-medium">{property.label}</span>
               <Badge variant="outline" className="text-xs">
                 {property.type}
@@ -120,11 +131,32 @@ const PropertyConfigField: React.FC<PropertyConfigFieldProps> = ({
                   {config.dependencies.length} deps
                 </Badge>
               )}
-              {!config.syncToHubSpot && (
-                <Badge variant="outline" className="text-xs text-yellow-600">
-                  Local Only
-                </Badge>
-              )}
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  disabled={order === 1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMoveUp();
+                  }}
+                >
+                  <ArrowUp className="h-3 w-3 text-muted-foreground" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  disabled={order === total}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onMoveDown();
+                  }}
+                >
+                  <ArrowDown className="h-3 w-3 text-muted-foreground" />
+                </Button>
+              </div>
               <Button
                 variant="ghost"
                 size="icon"
@@ -174,7 +206,7 @@ const PropertyConfigField: React.FC<PropertyConfigFieldProps> = ({
 
             {/* Read Before Write Toggle - Matches BooleanToggle pattern */}
             <LabeledRenderer
-              label="Read before write"
+              label="Read existing value"
               description="Read the existing field value and factor it into the update. Enable this when updates should consider historical context."
             >
               <Switch
@@ -218,33 +250,13 @@ const PropertyConfigField: React.FC<PropertyConfigFieldProps> = ({
                 <SelectContent>
                   <SelectItem value="overwrite">Overwrite existing value</SelectItem>
                   <SelectItem value="append">Append to existing value</SelectItem>
-                  <SelectItem value="append_if_different">
+                  <SelectItem value="append_if_new">
                     Append only if different
                   </SelectItem>
                 </SelectContent>
               </Select>
             </LabeledRenderer>
 
-            {/* Sync to HubSpot Toggle */}
-            <LabeledRenderer
-              label="Sync to HubSpot"
-              description="Push this field's value to HubSpot. Disable for local-only calculations that inform other fields."
-            >
-              <div className="flex items-center gap-2">
-                <Switch
-                  checked={config.syncToHubSpot}
-                  onCheckedChange={(checked) =>
-                    onConfigChange({ ...config, syncToHubSpot: checked })
-                  }
-                />
-                {!config.syncToHubSpot && (
-                  <Badge variant="outline" className="text-yellow-600">
-                    <AlertCircle className="h-3 w-3 mr-1" />
-                    Local only
-                  </Badge>
-                )}
-              </div>
-            </LabeledRenderer>
           </div>
         </CollapsibleContent>
       </div>
@@ -264,6 +276,8 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
   );
 
   const availableProperties = propertiesByObjectType[config.objectType] || [];
+  const matchSignals = config.matchSignals ?? [];
+  const createRequiredFields = config.createRequiredFields ?? [];
 
   const allExpanded = config.properties.length > 0 && 
     config.properties.every((p) => expandedProperties.has(p.propertyName));
@@ -293,6 +307,7 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
       ...config,
       objectType,
       properties: [], // Clear properties when object type changes
+      customObjectLabel: objectType === 'custom' ? config.customObjectLabel : undefined,
     });
     setExpandedProperties(new Set());
   };
@@ -313,6 +328,14 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
         setExpandedProperties((prev) => new Set([...prev, newProp]));
       }
     }
+  };
+
+  const moveProperty = (fromIndex: number, toIndex: number) => {
+    if (toIndex < 0 || toIndex >= config.properties.length) return;
+    const newProperties = [...config.properties];
+    const [moved] = newProperties.splice(fromIndex, 1);
+    newProperties.splice(toIndex, 0, moved);
+    onConfigChange({ ...config, properties: newProperties });
   };
 
   const handlePropertyConfigChange = (updatedConfig: PropertyConfig) => {
@@ -351,6 +374,42 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
 
   return (
     <div className="space-y-1">
+      {/* Context Source */}
+      <LabeledRenderer
+        label="Context Source"
+        description="Choose which data the agent should use as context."
+      >
+        <Select
+          value={config.contextSource}
+          onValueChange={(value) =>
+            onConfigChange({ ...config, contextSource: value as HubSpotAgentNodeConfig['contextSource'] })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="latest_call">Latest call</SelectItem>
+            <SelectItem value="selected_meeting">Select a meeting</SelectItem>
+            <SelectItem value="pasted_transcript">Paste transcript</SelectItem>
+          </SelectContent>
+        </Select>
+      </LabeledRenderer>
+
+      {config.contextSource === 'pasted_transcript' && (
+        <LabeledRenderer
+          label="Transcript"
+          description="Paste a transcript to test configuration without a live meeting."
+        >
+          <Textarea
+            value={config.contextTranscript || ''}
+            onChange={(e) => onConfigChange({ ...config, contextTranscript: e.target.value })}
+            placeholder="Paste transcript here..."
+            className="min-h-[80px]"
+          />
+        </LabeledRenderer>
+      )}
+
       {/* Object Type Selector - Matches EnumSelector pattern */}
       <LabeledRenderer
         label="Object Type"
@@ -365,9 +424,26 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
             <SelectItem value="contact">Contact</SelectItem>
             <SelectItem value="company">Company</SelectItem>
             <SelectItem value="meeting">Meeting</SelectItem>
+            <SelectItem value="note">Note</SelectItem>
+            <SelectItem value="task">Task</SelectItem>
+            <SelectItem value="custom">Custom object</SelectItem>
           </SelectContent>
         </Select>
       </LabeledRenderer>
+
+      {config.objectType === 'custom' && (
+        <LabeledRenderer
+          label="Custom object name"
+          description="Name the custom object from HubSpot."
+        >
+          <input
+            value={config.customObjectLabel || ''}
+            onChange={(e) => onConfigChange({ ...config, customObjectLabel: e.target.value })}
+            placeholder="e.g., Renewal, Implementation"
+            className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          />
+        </LabeledRenderer>
+      )}
 
       {/* Property Selector - Matches CRMPropertySelect/GenericPropertySelect pattern */}
       <LabeledRenderer
@@ -404,6 +480,9 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
           </div>
           <div className="space-y-2">
             {config.properties.map((propConfig) => {
+              const index = config.properties.findIndex(
+                (item) => item.propertyName === propConfig.propertyName
+              );
               const property = availableProperties.find(
                 (p) => p.name === propConfig.propertyName
               );
@@ -418,6 +497,10 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
                   availableProperties={availableProperties}
                   isExpanded={expandedProperties.has(propConfig.propertyName)}
                   onToggleExpand={() => togglePropertyExpanded(propConfig.propertyName)}
+                  order={index + 1}
+                  total={config.properties.length}
+                  onMoveUp={() => moveProperty(index, index - 1)}
+                  onMoveDown={() => moveProperty(index, index + 1)}
                 />
               );
             })}
@@ -425,43 +508,88 @@ export const HubSpotAgentNodeConfig: React.FC<HubSpotAgentNodeConfigProps> = ({
         </div>
       )}
 
-      {/* Update Trigger */}
+      {/* Association & Matching */}
       <LabeledRenderer
-        label="Update Trigger"
-        description="When should the agent push updates to HubSpot?"
+        label="Association & Matching"
+        description="Choose which signals to use to find the right HubSpot record."
+      >
+        <div className="space-y-2">
+          <MultiSelect
+            groups={{
+              'Match Signals': MATCH_SIGNAL_OPTIONS.map((option) => ({
+                label: option.label,
+                value: option.value,
+              })),
+            }}
+            value={matchSignals}
+            onValueChange={(values) => onConfigChange({ ...config, matchSignals: values })}
+            placeholder="Select match signals..."
+            multiple={true}
+          />
+          <div className="grid gap-2 sm:grid-cols-2">
+            <Select
+              value={config.noMatchBehavior}
+              onValueChange={(value) =>
+                onConfigChange({ ...config, noMatchBehavior: value as HubSpotAgentNodeConfig['noMatchBehavior'] })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="If no match found..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="skip">Skip update</SelectItem>
+                <SelectItem value="create">Create new object</SelectItem>
+              </SelectContent>
+            </Select>
+            <input
+              value={createRequiredFields.join(', ')}
+              onChange={(e) =>
+                onConfigChange({
+                  ...config,
+                  createRequiredFields: e.target.value
+                    .split(',')
+                    .map((value) => value.trim())
+                    .filter(Boolean),
+                })
+              }
+              placeholder="Required fields for create"
+              className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            />
+          </div>
+        </div>
+      </LabeledRenderer>
+
+      {/* Sync Mode */}
+      <LabeledRenderer
+        label="Sync Mode"
+        description="Choose whether changes sync automatically or require approval."
       >
         <Select
-          value={config.updateTrigger}
+          value={config.approvalMode}
           onValueChange={(value) =>
-            onConfigChange({
-              ...config,
-              updateTrigger: value as HubSpotAgentNodeConfig['updateTrigger'],
-            })
+            onConfigChange({ ...config, approvalMode: value as HubSpotAgentNodeConfig['approvalMode'] })
           }
         >
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="after_call">After every call</SelectItem>
-            <SelectItem value="daily_batch">Daily batch update</SelectItem>
-            <SelectItem value="on_deal_stage_change">On deal stage change</SelectItem>
+            <SelectItem value="auto">Just do it (auto sync)</SelectItem>
+            <SelectItem value="review">Review first</SelectItem>
           </SelectContent>
         </Select>
       </LabeledRenderer>
 
-      {/* Conditional Trigger (optional) */}
+      {/* Run Condition (optional) */}
       <LabeledRenderer
-        label="Conditional Trigger"
+        label="Run Condition"
         labelHint="(optional)"
         description="Only run this agent when certain conditions are met."
       >
         <Textarea
-          value={config.conditionalTrigger || ''}
-          onChange={(e) =>
-            onConfigChange({ ...config, conditionalTrigger: e.target.value })
-          }
-          placeholder="e.g., Only run if 'Deal Stage' is NOT 'Closed Won'"
+          value={config.runCondition || ''}
+          onChange={(e) => onConfigChange({ ...config, runCondition: e.target.value })}
+          placeholder="e.g., Only run if Deal Stage is NOT Closed Won"
           className="min-h-[60px]"
         />
       </LabeledRenderer>

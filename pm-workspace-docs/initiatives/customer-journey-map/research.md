@@ -230,6 +230,29 @@ _Based on gaps detected:_
 
 ---
 
+## Addendum: Prototype Feedback (Option B)
+
+**Source:** Rob's feedback session + Product Channel strategy discussion
+
+### New Requirements
+1. **Narrative-first hierarchy**: Users want a short story-like summary before actions.
+2. **Journey health visibility**: Show which journey requirements are met or broken.
+3. **Context-based alerts**: Alerts must explain why they matter in this journey, not just that they occurred.
+4. **Deal workspace mode**: A dedicated, full-page view is needed for deep work with AI + artifacts.
+5. **Language shift**: Use customer-centered outcomes ("customer hasn't articulated value") vs rep blame.
+6. **Progressive disclosure**: High-level view first, then drill down for context.
+
+### Product Channel Implications
+- Teams need a **product channel definition** (pains, personas, messaging, product fit).
+- AI should draft channel content from call history, but **human review** is required for updates.
+- Channel context should inform deal guidance and meeting prep.
+
+### MVP Scope Signals
+- v1 should prioritize **rep workflow** + **deal deep work**, not manager-level analytics.
+- Success depends on **confidence + evidence** for any AI conclusion.
+
+---
+
 ## ⚠️ Recommendation: Define Scope Before Full PRD
 
 > "Before moving to full PRD, I'd recommend answering:

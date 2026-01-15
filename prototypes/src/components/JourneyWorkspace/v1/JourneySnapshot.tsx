@@ -1,0 +1,1 @@
+export { JourneySnapshotCard } from '../JourneySnapshot';

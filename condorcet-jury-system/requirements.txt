@@ -1,0 +1,14 @@
+# Condorcet Jury System - Dependencies
+
+# Core
+python-dotenv>=1.0.0
+
+# For API-based evaluation (optional)
+anthropic>=0.18.0
+
+# For persona generation with OpenAI (optional)
+openai>=1.0.0
+
+# Utilities
+tqdm>=4.65.0
+

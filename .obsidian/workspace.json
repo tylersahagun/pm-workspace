@@ -1,0 +1,272 @@
+{
+  "main": {
+    "id": "411205ea0a7ae166",
+    "type": "split",
+    "children": [
+      {
+        "id": "003b4a30259c41b8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "546918ec809a4bfb",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "pm-workspace-docs/research/feature-flag/images/Gemini_Generated_Image_99vhcd99vhcd99vh.png"
+              },
+              "icon": "lucide-image",
+              "title": "Gemini_Generated_Image_99vhcd99vhcd99vh"
+            }
+          },
+          {
+            "id": "128b14b758519205",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (1).jpeg"
+              },
+              "icon": "lucide-image",
+              "title": "_ (1)"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "15fad8848ede4a36",
+    "type": "split",
+    "children": [
+      {
+        "id": "69ef8ff80fc19ea7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e18f25b09354e480",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7d43c4d516eb68da",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "579bc1d07173e264",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 480.5
+  },
+  "right": {
+    "id": "85e1361c0257ca81",
+    "type": "split",
+    "children": [
+      {
+        "id": "0309a887a38c3d80",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4f7561711f381adc",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "f3f6515f5d83a36b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "3fab20f442adadd2",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "76131fccc8d1a79e",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "3e291c0df60fbab9",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (1).jpeg",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of _ (1)"
+            }
+          },
+          {
+            "id": "f1c4aefd507eb0e5",
+            "type": "leaf",
+            "state": {
+              "type": "footnotes",
+              "state": {
+                "file": "pm-workspace-docs/research/feature-flag/feature-flag-audit-2026-01-13.md"
+              },
+              "icon": "lucide-file-signature",
+              "title": "Footnotes"
+            }
+          },
+          {
+            "id": "e297dbd66877a96c",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
+      "omnisearch:Omnisearch": false,
+      "markdown-importer:Open format converter": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "audio-recorder:Start/stop recording": false
+    }
+  },
+  "active": "e18f25b09354e480",
+  "lastOpenFiles": [
+    "pm-workspace-docs/scripts/notion-obsidian-sync/src/index.ts",
+    "pm-workspace-docs/scripts/notion-obsidian-sync/README.md",
+    "pm-workspace-docs/scripts/notion-obsidian-sync/config.example.json",
+    "pm-workspace-docs/scripts/notion-obsidian-sync/config.json",
+    "pm-workspace-docs/scripts/notion-obsidian-sync/tsconfig.json",
+    "pm-workspace-docs/scripts/notion-obsidian-sync/package.json",
+    "pm-workspace-docs/scripts/notion-obsidian-sync/src",
+    "pm-workspace-docs/scripts/notion-obsidian-sync",
+    "pm-workspace-docs/NotionSync",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/feature-flag-categorization.md",
+    "prototypes/src/components/JourneyWorkspace/v3/index.ts",
+    "prototypes/src/components/JourneyWorkspace/v3/JourneyWorkspaceV3.stories.tsx",
+    "prototypes/src/components/JourneyWorkspace/v3/JourneyWorkspaceV3.tsx",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_.jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (1).jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (2).jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (4).jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/20 Beautiful Timeline Design For Your Inspiration.jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (5).jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Screenshot 2026-01-14 at 3.59.03 PM.png",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Screenshot 2026-01-14 at 3.59.37 PM.png",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Bauhaus.jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (3).jpeg",
+    "pm-workspace-docs/initiatives/hubspot-agent-config-ui/transcripts/Ty's Feedback.md",
+    "pm-workspace-docs/initiatives/hubspot-agent-config-ui/design-brief.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/design-brief.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/prd.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Rob's Prototype Feedback on Option B.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/gtm-brief.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Product Channel Framework Strategy with Rob and James.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/system-integration-audit.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/prototype-notes.md",
+    "elephant-ai/web/electron/AGENTS.md",
+    "elephant-ai/functions/src/contexts/call-imports/AGENTS.md",
+    "elephant-ai/functions/src/contexts/authorization/ARCHITECTURE.md",
+    "elephant-ai/docs/runbooks/dialpad-pipedream-staging.md",
+    "elephant-ai/docs/runbooks/dialpad-pipedream-local.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/Follow-Up Notes.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Redefining Customer Journey Experience.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/research.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Customer Journey with Pete & Josh.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Customer Journey Discovery with Kinard.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Customer Journey Discovery with CS.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Beta Prototype Iteration Transcript.md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/‘Customer Journey’ Product .md",
+    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Understanding Customer Journey Mapping and Enhancing Engagement.md",
+    "Untitled.canvas"
+  ]
+}

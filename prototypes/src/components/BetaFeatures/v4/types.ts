@@ -1,8 +1,8 @@
 // Types for Beta Features V4
-// Consolidated stages: Experimental and Beta only
+// Consolidated stages: Labs and Beta only
 // Added: Personal vs Workspace permission levels
 
-export type FeatureStage = 'experimental' | 'beta';
+export type FeatureStage = 'labs' | 'beta';
 export type FeatureScope = 'personal' | 'workspace';
 
 export interface BetaFeature {
@@ -39,14 +39,14 @@ export interface ScopeConfig {
   icon: 'user' | 'building';
 }
 
-// Only two stages now: Experimental and Beta
+// Only two stages now: Labs and Beta
 export const STAGE_CONFIG: Record<FeatureStage, StageConfig> = {
-  experimental: {
-    label: 'Experimental',
-    shortLabel: 'EXPERIMENTAL',
+  labs: {
+    label: 'Labs',
+    shortLabel: 'LABS',
     description: 'Early exploration. Features are rough and may change significantly or be removed.',
-    allowsAutoEnroll: false, // NO auto-enrollment for experimental
-    enrollmentNote: 'You must manually enable each experimental feature. Auto-enrollment is not available.',
+    allowsAutoEnroll: false, // NO auto-enrollment for labs
+    enrollmentNote: 'You must manually enable each Labs feature. Auto-enrollment is not available.',
     colorVariant: 'purple',
     bgColor: 'bg-purple-50',
     textColor: 'text-purple-700',
@@ -80,13 +80,13 @@ export const SCOPE_CONFIG: Record<FeatureScope, ScopeConfig> = {
 
 // Mock data with scope assignments
 export const MOCK_FEATURES: BetaFeature[] = [
-  // Experimental features
+  // Labs features
   {
     key: 'process-agent',
     name: 'Process Agent',
     description: 'AI assistant that helps automate your personal sales workflows.',
     howItWorks: 'Analyzes your calls and suggests workflow automations based on patterns it detects.',
-    stage: 'experimental',
+    stage: 'labs',
     scope: 'personal',
     enabled: false,
     category: 'automation',
@@ -97,7 +97,7 @@ export const MOCK_FEATURES: BetaFeature[] = [
     name: 'Voice Summaries',
     description: 'AI-generated audio summaries of your calls.',
     howItWorks: 'Creates a 2-3 minute audio summary after each call using text-to-speech.',
-    stage: 'experimental',
+    stage: 'labs',
     scope: 'personal',
     enabled: false,
     category: 'ai',
@@ -109,7 +109,7 @@ export const MOCK_FEATURES: BetaFeature[] = [
     name: 'Deal Predictions',
     description: 'ML-powered deal outcome predictions based on conversation patterns.',
     howItWorks: 'Analyzes call transcripts to predict deal outcomes. Runs on all your active deals.',
-    stage: 'experimental',
+    stage: 'labs',
     scope: 'personal',
     enabled: false,
     category: 'analytics',
@@ -120,7 +120,7 @@ export const MOCK_FEATURES: BetaFeature[] = [
     name: 'Privacy & Retention Agent',
     description: 'Automatically manages data retention and privacy classifications for your workspace.',
     howItWorks: 'Scans all workspace calls and applies privacy labels. Affects all users in your workspace.',
-    stage: 'experimental',
+    stage: 'labs',
     scope: 'workspace',
     enabled: false,
     category: 'privacy',
@@ -205,7 +205,7 @@ export const MOCK_FEATURES: BetaFeature[] = [
 
 export function getFeaturesByStage(features: BetaFeature[]): Record<FeatureStage, BetaFeature[]> {
   return {
-    experimental: features.filter((f) => f.stage === 'experimental'),
+    labs: features.filter((f) => f.stage === 'labs'),
     beta: features.filter((f) => f.stage === 'beta'),
   };
 }

@@ -9,6 +9,14 @@
 
 ---
 
+## Outcome Chain
+HubSpot agent configuration enables RevOps and sales leaders to define CRM updates without prompt engineering
+  → so that they can trust updates before they run
+    → so that CRM data stays accurate and useful for forecasting
+      → so that pipeline decisions improve and revenue outcomes increase
+
+---
+
 ## Problem Statement
 
 ### What problem?
@@ -81,17 +89,25 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 - As a **RevOps admin**, I want to **select HubSpot properties from a dropdown** so that I don't have to write prompts that reference internal field IDs
 - As a **RevOps admin**, I want to **define instructions per property** so that each field update has clear, isolated logic
 - As a **RevOps admin**, I want to **specify field dependencies** so that the agent reads context before writing
+- As a **RevOps admin**, I want to **choose which signals to match (domain, email, deal name)** so that the correct object is updated every time
+- As a **RevOps admin**, I want to **create a new object when none is found** so that updates never fail silently
+- As a **RevOps admin**, I want to **choose update vs create vs update-or-create** so that I can control when a record is created
+- As a **Sales leader**, I want to **configure notes or tasks as outputs** so that CRM follow-ups are consistent
 - As a **Sales leader**, I want to **set custom scoring rules** so that deal probabilities reflect my specific business logic
 
 ### Visibility
 
 - As a **RevOps admin**, I want to **see which fields will be updated before running** so that I can verify my configuration
 - As a **RevOps admin**, I want to **preview the read-before-write chain** so that I understand the data flow
+- As a **RevOps admin**, I want to **set the execution order** so that dependent fields update in the right sequence
+- As a **RevOps admin**, I want to **see a direct HubSpot record link** so that I can verify the exact object being updated
 
 ### Trust
 
 - As a **HubSpot partner**, I want to **configure in 5 minutes** so that I can evaluate AskElephant's value quickly
+- As a **RevOps admin**, I want to **review changes before syncing** so that I can prevent bad updates
 - As a **RevOps admin**, I want to **toggle append vs. overwrite per field** so that I don't lose historical data
+- As a **RevOps admin**, I want **human review at the object level** so that approvals aren't required for every single field
 
 ---
 
@@ -163,7 +179,7 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 #### Property Selector
 
 - [ ] Fetch and display all properties from connected HubSpot account
-- [ ] Filter by object type (Deal, Contact, Company, Meeting)
+- [ ] Filter by object type (Deal, Contact, Company, Meeting, Note, Task, Custom)
 - [ ] Search/filter properties by name
 - [ ] Show property type (text, number, date, dropdown, etc.)
 - [ ] Multi-select properties to update in a single agent run
@@ -171,14 +187,38 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 #### Per-Property Configuration
 
 - [ ] **Instruction text box** — Natural language prompt for what value to extract
-- [ ] **Read before write toggle** — When enabled, read existing field value before updating
+- [ ] **Read existing value toggle** — When enabled, read existing field value before updating
 - [ ] **Field dependencies selector** — Multi-select other properties to read first
 - [ ] **Write mode selector** — Overwrite | Append | Append if different
 
-#### HubSpot Sync
+#### Association & Object Handling
 
-- [ ] **Sync toggle per field** — Enable/disable pushing to HubSpot
-- [ ] **Preview mode** — Show what would be written without actually writing
+- [ ] **Match signal selection** — Domain, email, deal name, meeting title
+- [ ] **No match behavior** — Skip update or create new object
+- [ ] **Required fields for create** — minimum fields before creation
+
+#### Context Source
+
+- [ ] **Latest call** as default context
+- [ ] **Select meeting** for testing against historical calls
+- [ ] **Paste transcript** to configure outside a live conversation
+
+#### Human Review
+
+- [ ] **Sync mode** — Auto-sync or review-first
+- [ ] **Review preview** — Show proposed changes before approval
+- [ ] **Object-level approval** — One approval gate for the object, not per property
+
+#### Execution Order
+
+- [ ] **Order controls** — Set property execution order
+- [ ] **Dependency awareness** — Highlight dependency-driven order
+
+#### Action-First Configuration
+
+- [ ] **Action type selector** — Update existing | Create new | Update or create
+- [ ] **No update timing** — Configuration is action-based, not a trigger
+- [ ] **Optional condition** — Gate the action with a simple rule
 
 ### Should Have (Jury-Validated P1)
 
@@ -213,10 +253,14 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 
 ### Should Have (Original)
 
-#### Batch Timing Controls
+#### Run Conditions
 
-- [ ] **Update frequency** — After every call | Daily batch | On deal stage change
-- [ ] **Conditional triggers** — Only run if [field] equals [value]
+- [ ] **Run condition field** — Only run if [field] equals [value]
+
+#### CRM Linkouts
+
+- [ ] **HubSpot record link** — View the exact record being updated
+- [ ] **Post-sync summary** — Show the record link and fields updated
 
 #### Dependency Visualization
 
@@ -258,15 +302,16 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 
 **Steps:**
 
-1. Property selector opens showing HubSpot properties for selected object type
-2. User searches/filters and selects "Close Date Probability"
-3. Configuration panel expands below the selected property
-4. User enters instruction: "Based on the conversation, estimate probability of closing by the stated close date. Consider objections raised, buyer enthusiasm, and timeline discussed."
-5. User enables "Read before write" toggle
-6. User selects dependencies: [Sales Skill Score, Why Will This Fail, Buyer Involvement]
-7. User selects write mode: "Overwrite"
-8. User enables "Sync to HubSpot" toggle
-9. Configuration saves automatically
+1. User selects context source (latest call or select meeting)
+2. Property selector opens showing HubSpot properties for selected object type
+3. User searches/filters and selects "Close Date Probability"
+4. Configuration panel expands below the selected property
+5. User enters instruction: "Based on the conversation, estimate probability of closing by the stated close date. Consider objections raised, buyer enthusiasm, and timeline discussed."
+6. User enables "Read existing value" toggle
+7. User selects dependencies: [Sales Skill Score, Why Will This Fail, Buyer Involvement]
+8. User selects write mode: "Overwrite"
+9. User chooses sync mode: "Review first"
+10. Configuration saves automatically
 
 **Outcome:** Property is added to the agent's update list with full configuration visible
 
@@ -290,6 +335,41 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 **Outcome:** User understands data flow before execution
 
 **Success Metric:** User can identify dependency issues without running the agent
+
+---
+
+### Flow: Handle Missing Match
+
+**Trigger:** Agent cannot find a matching HubSpot object
+
+**Steps:**
+
+1. System displays "No match found" summary with signals attempted
+2. User chooses: "Skip update" or "Create new object"
+3. If "Create," user fills required fields (e.g., deal name, amount)
+4. System shows a preview of the object to be created
+5. User approves or cancels
+
+**Outcome:** User controls whether a new object is created or the update is skipped
+
+**Success Metric:** No silent failures when associations fail
+
+---
+
+### Flow: Review Before Sync
+
+**Trigger:** Sync mode set to "Review first"
+
+**Steps:**
+
+1. Agent generates proposed updates for all properties
+2. User reviews a pre-sync summary with before/after values
+3. User approves all changes or rejects specific fields
+4. Approved changes sync to HubSpot
+
+**Outcome:** User confirms changes before writing to CRM
+
+**Success Metric:** Increased trust and lower rollback rates
 
 ---
 
@@ -364,7 +444,7 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 │  │ objections raised, decision timeline, and...        │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
-│  ☑ Read before write                                        │
+│  ☑ Read existing value                                      │
 │     Read existing value and factor into update              │
 │                                                             │
 │  Dependencies (read these first):                           │
@@ -374,7 +454,7 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 │                                                             │
 │  Write Mode: (○) Overwrite  ( ) Append  ( ) Append if new   │
 │                                                             │
-│  ☑ Sync to HubSpot                                          │
+│  Sync mode: Review first                                    │
 │                                                             │
 │  [Preview Output]                                           │
 │                                                             │
@@ -471,11 +551,12 @@ Partner churn is directly tied to configuration complexity. The trust loss casca
 ## Open Questions
 
 1. **Migration:** How do we handle existing complex prompt configurations that can't be auto-converted?
-2. **Permissions:** Should field-level sync toggles be admin-only, or can any user configure?
-3. **Validation:** How do we validate instructions before execution? LLM-based check?
-4. **Audit log:** Where does configuration history live? Can users revert changes?
-5. **Scorecard:** Is the weighted scorecard builder MVP or post-MVP?
-6. **Testing:** What does "Preview Output" actually show without running against a real transcript?
+2. **Association:** What signals are reliable enough to default (domain, email, deal name)?
+3. **Action Type:** Should the default be update-only or update-or-create?
+4. **Approval:** Should "Review first" be the default for new users or only for skeptics?
+5. **Notes/Tasks:** Are these in scope for MVP or in a follow-on release?
+6. **HubSpot Links:** How do we ensure record links are accurate and consistent?
+7. **Validation:** How do we validate instructions before execution? LLM-based check?
 
 ---
 

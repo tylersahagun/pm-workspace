@@ -117,8 +117,6 @@ export function FeatureCardBalanced({
   isToggling,
   onLearnMore,
 }: FeatureCardBalancedProps) {
-  const config = STAGE_CONFIG[feature.stage];
-
   return (
     <div
       className={cn(

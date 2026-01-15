@@ -119,7 +119,11 @@ export const EmptyConfiguration: StoryObj = {
       initialConfig={{
         objectType: 'deal',
         properties: [],
-        updateTrigger: 'after_call',
+        contextSource: 'latest_call',
+        approvalMode: 'auto',
+        matchSignals: ['company_domain', 'contact_email'],
+        noMatchBehavior: 'create',
+        createRequiredFields: ['dealname', 'pipeline'],
       }}
       nodeTitle="New HubSpot Agent"
       isNew={true}
@@ -147,7 +151,6 @@ export const ConfiguredDealScorecard: StoryObj = {
             readBeforeWrite: false,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: false,
           },
           {
             propertyName: 'probability_to_close',
@@ -156,7 +159,6 @@ export const ConfiguredDealScorecard: StoryObj = {
             readBeforeWrite: true,
             dependencies: ['sales_skill_score', 'why_will_buy', 'why_will_fail'],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'next_step',
@@ -164,10 +166,13 @@ export const ConfiguredDealScorecard: StoryObj = {
             readBeforeWrite: false,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
         ],
-        updateTrigger: 'after_call',
+        contextSource: 'latest_call',
+        approvalMode: 'review',
+        matchSignals: ['company_domain', 'deal_name'],
+        noMatchBehavior: 'create',
+        createRequiredFields: ['dealname', 'amount'],
       }}
       nodeTitle="Deal Scorecard Agent"
       hasChanges={true}
@@ -195,7 +200,6 @@ export const ContactUpdater: StoryObj = {
             readBeforeWrite: true,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
           {
             propertyName: 'lifecyclestage',
@@ -203,11 +207,14 @@ export const ContactUpdater: StoryObj = {
               'Update lifecycle stage based on engagement level. If they mention evaluation, move to Opportunity. If they request pricing, move to Sales Qualified Lead.',
             readBeforeWrite: true,
             dependencies: ['jobtitle'],
-            writeMode: 'append_if_different',
-            syncToHubSpot: true,
+            writeMode: 'append_if_new',
           },
         ],
-        updateTrigger: 'after_call',
+        contextSource: 'selected_meeting',
+        approvalMode: 'auto',
+        matchSignals: ['contact_email'],
+        noMatchBehavior: 'skip',
+        createRequiredFields: [],
       }}
       nodeTitle="Contact Enrichment"
     />
@@ -233,11 +240,14 @@ export const WithConditionalTrigger: StoryObj = {
             readBeforeWrite: true,
             dependencies: [],
             writeMode: 'overwrite',
-            syncToHubSpot: true,
           },
         ],
-        updateTrigger: 'on_deal_stage_change',
-        conditionalTrigger: "Only run if 'Deal Stage' is NOT 'Closed Won' or 'Closed Lost'",
+        contextSource: 'latest_call',
+        approvalMode: 'review',
+        matchSignals: ['deal_name'],
+        noMatchBehavior: 'skip',
+        createRequiredFields: [],
+        runCondition: "Only run if 'Deal Stage' is NOT 'Closed Won' or 'Closed Lost'",
       }}
       nodeTitle="Stage Progression Agent"
     />
@@ -266,10 +276,13 @@ export const SideBySideWithCanvas: StoryObj = {
           readBeforeWrite: true,
           dependencies: ['sales_skill_score'],
           writeMode: 'overwrite',
-          syncToHubSpot: true,
         },
       ],
-      updateTrigger: 'after_call',
+      contextSource: 'latest_call',
+      approvalMode: 'auto',
+      matchSignals: ['company_domain', 'deal_name'],
+      noMatchBehavior: 'skip',
+      createRequiredFields: [],
     });
 
     const nodeData: WorkflowNodeData = {

@@ -2,74 +2,77 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { StageBadge, StageBadgeInline, StageBadgeNav } from './StageBadge';
 import { FeatureCardConfirm, FeatureCardBalanced, FeatureCardLabs } from './BetaFeatureCard';
 import { BetaFeaturesConfirm, BetaFeaturesBalanced, BetaFeaturesLabs } from './BetaFeaturesSettings';
-import { MOCK_FEATURES, BetaFeature } from './types';
+import { MOCK_FEATURES } from './types';
 
 // ============================================
-// STAGE BADGE STORIES
+// META - Single default export for this file
 // ============================================
-const badgeMeta: Meta<typeof StageBadge> = {
-  title: 'Prototypes/ReleaseLifecycle/StageBadge',
-  component: StageBadge,
+const meta: Meta = {
+  title: 'Prototypes/ReleaseLifecycle',
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component: `
-Stage badges indicate feature maturity level. Used throughout the app to set user expectations.
+# Release Lifecycle Process Prototypes
 
-**Design Rationale:**
-- Color + text ensures accessibility (not color-only)
-- Tooltip provides additional context on hover
-- Three sizes for different contexts (nav, cards, headers)
+Interactive prototypes for the Beta Features Settings UI.
+
+## Three Design Options
+
+| Option | Philosophy | Best For |
+|--------|-----------|----------|
+| **Option A: Max Control** | Confirmation required before enabling | Low-trust users, high-stakes features |
+| **Option B: Balanced** | Instant toggle with toast feedback | Most users (RECOMMENDED) |
+| **Option C: Labs Explorer** | Discovery-focused, click-to-toggle | Power users, exploration |
         `,
       },
     },
   },
-  tags: ['autodocs'],
 };
 
-export default badgeMeta;
+export default meta;
 
-type BadgeStory = StoryObj<typeof StageBadge>;
-
-export const Lab: BadgeStory = {
-  args: {
-    stage: 'lab',
-    size: 'md',
-  },
+// ============================================
+// STAGE BADGE STORIES
+// ============================================
+export const BadgeLab: StoryObj = {
+  name: 'Badge: Lab',
+  parameters: { layout: 'centered' },
+  render: () => <StageBadge stage="lab" />,
 };
 
-export const Alpha: BadgeStory = {
-  args: {
-    stage: 'alpha',
-    size: 'md',
-  },
+export const BadgeAlpha: StoryObj = {
+  name: 'Badge: Alpha',
+  parameters: { layout: 'centered' },
+  render: () => <StageBadge stage="alpha" />,
 };
 
-export const Beta: BadgeStory = {
-  args: {
-    stage: 'beta',
-    size: 'md',
-  },
+export const BadgeBeta: StoryObj = {
+  name: 'Badge: Beta',
+  parameters: { layout: 'centered' },
+  render: () => <StageBadge stage="beta" />,
 };
 
-export const AllSizes: BadgeStory = {
+export const BadgeAllSizes: StoryObj = {
+  name: 'Badge: All Sizes',
+  parameters: { layout: 'centered' },
   render: () => (
-    <div className="flex flex-col gap-4 items-start">
+    <div className="flex flex-col gap-4 items-start p-8">
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground w-12">Small:</span>
+        <span className="text-sm text-muted-foreground w-16">Small:</span>
         <StageBadge stage="lab" size="sm" />
         <StageBadge stage="alpha" size="sm" />
         <StageBadge stage="beta" size="sm" />
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground w-12">Medium:</span>
+        <span className="text-sm text-muted-foreground w-16">Medium:</span>
         <StageBadge stage="lab" size="md" />
         <StageBadge stage="alpha" size="md" />
         <StageBadge stage="beta" size="md" />
       </div>
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground w-12">Large:</span>
+        <span className="text-sm text-muted-foreground w-16">Large:</span>
         <StageBadge stage="lab" size="lg" />
         <StageBadge stage="alpha" size="lg" />
         <StageBadge stage="beta" size="lg" />
@@ -78,9 +81,11 @@ export const AllSizes: BadgeStory = {
   ),
 };
 
-export const InlineVariant: BadgeStory = {
+export const BadgeInline: StoryObj = {
+  name: 'Badge: Inline Variant',
+  parameters: { layout: 'centered' },
   render: () => (
-    <div className="space-y-2">
+    <div className="space-y-2 p-8">
       <p className="text-sm">
         Auto-Tagging <StageBadgeInline stage="beta" /> is now available
       </p>
@@ -94,15 +99,17 @@ export const InlineVariant: BadgeStory = {
   ),
 };
 
-export const NavVariant: BadgeStory = {
+export const BadgeNav: StoryObj = {
+  name: 'Badge: Navigation Variant',
+  parameters: { layout: 'centered' },
   render: () => (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2 p-2 rounded hover:bg-muted">
+    <div className="space-y-2 p-8">
+      <div className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer">
         <span>📊</span>
         <span>Dashboard</span>
         <StageBadgeNav stage="beta" />
       </div>
-      <div className="flex items-center gap-2 p-2 rounded hover:bg-muted">
+      <div className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer">
         <span>🔍</span>
         <span>Internal Search</span>
         <StageBadgeNav stage="alpha" />
@@ -114,297 +121,145 @@ export const NavVariant: BadgeStory = {
 // ============================================
 // FEATURE CARD STORIES
 // ============================================
-const cardMeta: Meta = {
-  title: 'Prototypes/ReleaseLifecycle/FeatureCard',
-  parameters: {
-    layout: 'centered',
-    docs: {
-      description: {
-        component: `
-Three design options for the beta feature toggle card:
-
-| Option | Philosophy | Best For |
-|--------|-----------|----------|
-| **Confirm** | Maximum control—confirmation required | Low-trust users, high-stakes features |
-| **Balanced** | AI suggests, easy toggle | Most users, building trust |
-| **Labs** | Discovery-focused, click-to-toggle | Power users, exploration |
-        `,
-      },
-    },
-  },
+export const CardConfirm: StoryObj = {
+  name: 'Card: Option A (Confirm)',
+  parameters: { layout: 'centered' },
+  render: () => (
+    <div className="w-[500px] p-8">
+      <p className="text-sm text-muted-foreground mb-4">
+        Click the toggle to see the confirmation dialog
+      </p>
+      <FeatureCardConfirm
+        feature={MOCK_FEATURES[1]}
+        onToggle={(key, enabled) => console.log('Toggle', key, enabled)}
+      />
+    </div>
+  ),
 };
 
-export const OptionA_ConfirmCard: StoryObj = {
-  ...cardMeta,
-  name: 'Option A: Confirmation Card',
-  render: () => {
-    const feature = MOCK_FEATURES[1]; // Internal Search (disabled)
-    return (
-      <div className="w-[500px]">
-        <FeatureCardConfirm
-          feature={feature}
-          onToggle={(key, enabled) => console.log('Toggle', key, enabled)}
-        />
-      </div>
-    );
-  },
+export const CardBalanced: StoryObj = {
+  name: 'Card: Option B (Balanced)',
+  parameters: { layout: 'centered' },
+  render: () => (
+    <div className="w-[500px] p-8">
+      <FeatureCardBalanced
+        feature={MOCK_FEATURES[0]}
+        onToggle={(key, enabled) => console.log('Toggle', key, enabled)}
+      />
+    </div>
+  ),
 };
 
-export const OptionB_BalancedCard: StoryObj = {
-  ...cardMeta,
-  name: 'Option B: Balanced Card (Recommended)',
-  render: () => {
-    const feature = MOCK_FEATURES[0]; // Auto-Tagging (enabled)
-    return (
-      <div className="w-[500px]">
-        <FeatureCardBalanced
-          feature={feature}
-          onToggle={(key, enabled) => console.log('Toggle', key, enabled)}
-        />
-      </div>
-    );
-  },
-};
-
-export const OptionC_LabsCard: StoryObj = {
-  ...cardMeta,
-  name: 'Option C: Labs Explorer Card',
-  render: () => {
-    const feature = MOCK_FEATURES[2]; // Global Chat (disabled)
-    return (
-      <div className="w-[400px]">
-        <FeatureCardLabs
-          feature={feature}
-          onToggle={(key, enabled) => console.log('Toggle', key, enabled)}
-        />
-      </div>
-    );
-  },
+export const CardLabs: StoryObj = {
+  name: 'Card: Option C (Labs)',
+  parameters: { layout: 'centered' },
+  render: () => (
+    <div className="w-[400px] p-8">
+      <p className="text-sm text-muted-foreground mb-4">
+        Click anywhere on the card to toggle
+      </p>
+      <FeatureCardLabs
+        feature={MOCK_FEATURES[2]}
+        onToggle={(key, enabled) => console.log('Toggle', key, enabled)}
+      />
+    </div>
+  ),
 };
 
 // ============================================
 // SETTINGS PANEL - OPTION A: CONFIRMATION
 // ============================================
-const settingsMetaA: Meta<typeof BetaFeaturesConfirm> = {
-  title: 'Prototypes/ReleaseLifecycle/SettingsPanel',
-  component: BetaFeaturesConfirm,
-  parameters: {
-    layout: 'fullscreen',
-    docs: {
-      description: {
-        component: `
-## Option A: Maximum Control
-
-**Philosophy:** Every beta feature requires explicit confirmation before enabling.
-
-**Best For:**
-- Users who are cautious about changes
-- High-stakes features that could affect workflows
-- Building initial trust with new users
-
-**Tradeoffs:**
-- ✅ Maximum clarity and informed consent
-- ✅ Reduces accidental enablement
-- ❌ More friction for exploration
-- ❌ May feel paternalistic to power users
-        `,
-      },
-    },
-  },
+export const OptionA_MaxControl: StoryObj = {
+  name: 'Panel: Option A - Max Control',
+  render: () => <BetaFeaturesConfirm features={MOCK_FEATURES} />,
 };
 
-export const OptionA_MaxControl: StoryObj<typeof BetaFeaturesConfirm> = {
-  ...settingsMetaA,
-  name: 'Option A: Max Control',
-  args: {
-    features: MOCK_FEATURES,
-    isLoading: false,
-  },
+export const OptionA_Loading: StoryObj = {
+  name: 'Panel: Option A - Loading',
+  render: () => <BetaFeaturesConfirm features={[]} isLoading={true} />,
 };
 
-export const OptionA_Loading: StoryObj<typeof BetaFeaturesConfirm> = {
-  ...settingsMetaA,
-  name: 'Option A: Loading State',
-  args: {
-    features: [],
-    isLoading: true,
-  },
+export const OptionA_Empty: StoryObj = {
+  name: 'Panel: Option A - Empty',
+  render: () => <BetaFeaturesConfirm features={[]} />,
 };
 
-export const OptionA_Empty: StoryObj<typeof BetaFeaturesConfirm> = {
-  ...settingsMetaA,
-  name: 'Option A: Empty State',
-  args: {
-    features: [],
-    isLoading: false,
-  },
-};
-
-export const OptionA_Error: StoryObj<typeof BetaFeaturesConfirm> = {
-  ...settingsMetaA,
-  name: 'Option A: Error State',
-  args: {
-    features: [],
-    isLoading: false,
-    error: 'Failed to load beta features. Please check your connection.',
-  },
+export const OptionA_Error: StoryObj = {
+  name: 'Panel: Option A - Error',
+  render: () => (
+    <BetaFeaturesConfirm
+      features={[]}
+      error="Failed to load beta features. Please check your connection."
+    />
+  ),
 };
 
 // ============================================
 // SETTINGS PANEL - OPTION B: BALANCED (RECOMMENDED)
 // ============================================
-const settingsMetaB: Meta<typeof BetaFeaturesBalanced> = {
-  title: 'Prototypes/ReleaseLifecycle/SettingsPanel',
-  component: BetaFeaturesBalanced,
-  parameters: {
-    layout: 'fullscreen',
-    docs: {
-      description: {
-        component: `
-## Option B: Balanced (RECOMMENDED)
-
-**Philosophy:** Simple toggle with immediate feedback via toast notification.
-
-**Best For:**
-- Most users
-- Building trust progressively
-- Balancing control with efficiency
-
-**Tradeoffs:**
-- ✅ Quick and easy to toggle
-- ✅ Clear feedback via toast
-- ✅ Shows feature location when enabled
-- ✅ Familiar toggle pattern
-- ❌ Less ceremony for high-stakes features
-        `,
-      },
-    },
-  },
+export const OptionB_Balanced: StoryObj = {
+  name: 'Panel: Option B - Balanced ⭐',
+  render: () => <BetaFeaturesBalanced features={MOCK_FEATURES} />,
 };
 
-export const OptionB_Balanced: StoryObj<typeof BetaFeaturesBalanced> = {
-  ...settingsMetaB,
-  name: 'Option B: Balanced (Recommended)',
-  args: {
-    features: MOCK_FEATURES,
-    isLoading: false,
-  },
+export const OptionB_Loading: StoryObj = {
+  name: 'Panel: Option B - Loading',
+  render: () => <BetaFeaturesBalanced features={[]} isLoading={true} />,
 };
 
-export const OptionB_Loading: StoryObj<typeof BetaFeaturesBalanced> = {
-  ...settingsMetaB,
-  name: 'Option B: Loading State',
-  args: {
-    features: [],
-    isLoading: true,
-  },
+export const OptionB_Empty: StoryObj = {
+  name: 'Panel: Option B - Empty',
+  render: () => <BetaFeaturesBalanced features={[]} />,
 };
 
-export const OptionB_Empty: StoryObj<typeof BetaFeaturesBalanced> = {
-  ...settingsMetaB,
-  name: 'Option B: Empty State',
-  args: {
-    features: [],
-    isLoading: false,
-  },
+export const OptionB_Error: StoryObj = {
+  name: 'Panel: Option B - Error',
+  render: () => (
+    <BetaFeaturesBalanced
+      features={[]}
+      error="Failed to load beta features. Please check your connection."
+    />
+  ),
 };
 
-export const OptionB_Error: StoryObj<typeof BetaFeaturesBalanced> = {
-  ...settingsMetaB,
-  name: 'Option B: Error State',
-  args: {
-    features: [],
-    isLoading: false,
-    error: 'Failed to load beta features. Please check your connection.',
-  },
-};
-
-export const OptionB_SingleFeature: StoryObj<typeof BetaFeaturesBalanced> = {
-  ...settingsMetaB,
-  name: 'Option B: Single Feature',
-  args: {
-    features: [MOCK_FEATURES[0]],
-    isLoading: false,
-  },
+export const OptionB_SingleFeature: StoryObj = {
+  name: 'Panel: Option B - Single Feature',
+  render: () => <BetaFeaturesBalanced features={[MOCK_FEATURES[0]]} />,
 };
 
 // ============================================
 // SETTINGS PANEL - OPTION C: LABS EXPLORER
 // ============================================
-const settingsMetaC: Meta<typeof BetaFeaturesLabs> = {
-  title: 'Prototypes/ReleaseLifecycle/SettingsPanel',
-  component: BetaFeaturesLabs,
-  parameters: {
-    layout: 'fullscreen',
-    docs: {
-      description: {
-        component: `
-## Option C: Labs Explorer
-
-**Philosophy:** Discovery-focused experience that makes beta testing feel special.
-
-**Best For:**
-- Power users who enjoy experimentation
-- Building excitement around new features
-- Companies with strong beta culture
-
-**Tradeoffs:**
-- ✅ Most engaging and exciting
-- ✅ Gamified progress indicator
-- ✅ Large click targets
-- ❌ Takes more screen space
-- ❌ May feel too playful for enterprise
-- ❌ Click-to-toggle less familiar than switch
-        `,
-      },
-    },
-  },
+export const OptionC_Labs: StoryObj = {
+  name: 'Panel: Option C - Labs Explorer',
+  render: () => <BetaFeaturesLabs features={MOCK_FEATURES} />,
 };
 
-export const OptionC_Labs: StoryObj<typeof BetaFeaturesLabs> = {
-  ...settingsMetaC,
-  name: 'Option C: Labs Explorer',
-  args: {
-    features: MOCK_FEATURES,
-    isLoading: false,
-  },
+export const OptionC_Loading: StoryObj = {
+  name: 'Panel: Option C - Loading',
+  render: () => <BetaFeaturesLabs features={[]} isLoading={true} />,
 };
 
-export const OptionC_Loading: StoryObj<typeof BetaFeaturesLabs> = {
-  ...settingsMetaC,
-  name: 'Option C: Loading State',
-  args: {
-    features: [],
-    isLoading: true,
-  },
+export const OptionC_Empty: StoryObj = {
+  name: 'Panel: Option C - Empty',
+  render: () => <BetaFeaturesLabs features={[]} />,
 };
 
-export const OptionC_Empty: StoryObj<typeof BetaFeaturesLabs> = {
-  ...settingsMetaC,
-  name: 'Option C: Empty State',
-  args: {
-    features: [],
-    isLoading: false,
-  },
+export const OptionC_Error: StoryObj = {
+  name: 'Panel: Option C - Error',
+  render: () => (
+    <BetaFeaturesLabs
+      features={[]}
+      error="Failed to load beta features. Please check your connection."
+    />
+  ),
 };
 
-export const OptionC_Error: StoryObj<typeof BetaFeaturesLabs> = {
-  ...settingsMetaC,
-  name: 'Option C: Error State',
-  args: {
-    features: [],
-    isLoading: false,
-    error: 'Failed to load beta features. Please check your connection.',
-  },
-};
-
-export const OptionC_AllEnabled: StoryObj<typeof BetaFeaturesLabs> = {
-  ...settingsMetaC,
-  name: 'Option C: All Enabled',
-  args: {
-    features: MOCK_FEATURES.map((f) => ({ ...f, enabled: true })),
-    isLoading: false,
-  },
+export const OptionC_AllEnabled: StoryObj = {
+  name: 'Panel: Option C - All Enabled',
+  render: () => (
+    <BetaFeaturesLabs features={MOCK_FEATURES.map((f) => ({ ...f, enabled: true }))} />
+  ),
 };
 
 // ============================================
@@ -412,29 +267,6 @@ export const OptionC_AllEnabled: StoryObj<typeof BetaFeaturesLabs> = {
 // ============================================
 export const Comparison: StoryObj = {
   name: '📊 All Options Comparison',
-  parameters: {
-    layout: 'fullscreen',
-    docs: {
-      description: {
-        story: `
-## Side-by-Side Comparison
-
-Compare all three options to make an informed design decision.
-
-| Criteria | Option A (Confirm) | Option B (Balanced) | Option C (Labs) |
-|----------|-------------------|--------------------|-----------------| 
-| Trust level required | Low | Medium | High |
-| User control | Maximum | Balanced | Click-to-toggle |
-| Efficiency | Lower | Medium | Highest |
-| Learning curve | Medium | Lowest | Medium |
-| Best for persona | Cautious users | Most users | Power users |
-| Screen space | Compact | Compact | Spacious |
-
-**Recommendation:** Option B (Balanced) for most use cases.
-        `,
-      },
-    },
-  },
   render: () => (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-8">
@@ -442,7 +274,7 @@ Compare all three options to make an informed design decision.
         <p className="text-muted-foreground mb-8">
           Compare three creative directions. Toggle features to see interactions.
         </p>
-        
+
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Option A */}
           <div className="border rounded-lg overflow-hidden">
@@ -450,7 +282,7 @@ Compare all three options to make an informed design decision.
               <h2 className="font-semibold">Option A: Maximum Control</h2>
               <p className="text-xs text-muted-foreground">Confirmation required</p>
             </div>
-            <div className="p-4 bg-card">
+            <div className="bg-card">
               <BetaFeaturesConfirm features={MOCK_FEATURES.slice(0, 3)} />
             </div>
           </div>
@@ -466,7 +298,7 @@ Compare all three options to make an informed design decision.
               </h2>
               <p className="text-xs text-muted-foreground">Instant toggle with toast</p>
             </div>
-            <div className="p-4 bg-card">
+            <div className="bg-card">
               <BetaFeaturesBalanced features={MOCK_FEATURES.slice(0, 3)} />
             </div>
           </div>
@@ -477,9 +309,66 @@ Compare all three options to make an informed design decision.
               <h2 className="font-semibold">Option C: Labs Explorer</h2>
               <p className="text-xs text-muted-foreground">Discovery-focused</p>
             </div>
-            <div className="p-4 bg-card">
+            <div className="bg-card">
               <BetaFeaturesLabs features={MOCK_FEATURES.slice(0, 3)} />
             </div>
+          </div>
+        </div>
+
+        {/* Comparison Table */}
+        <div className="mt-12 border rounded-lg overflow-hidden">
+          <div className="bg-muted px-4 py-3 border-b">
+            <h2 className="font-semibold">Decision Matrix</h2>
+          </div>
+          <div className="p-4 overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 pr-4">Criteria</th>
+                  <th className="text-left py-2 px-4">Option A (Confirm)</th>
+                  <th className="text-left py-2 px-4 bg-primary/5">Option B (Balanced) ⭐</th>
+                  <th className="text-left py-2 pl-4">Option C (Labs)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b">
+                  <td className="py-2 pr-4 font-medium">Trust required</td>
+                  <td className="py-2 px-4">Low</td>
+                  <td className="py-2 px-4 bg-primary/5">Medium</td>
+                  <td className="py-2 pl-4">High</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 pr-4 font-medium">User control</td>
+                  <td className="py-2 px-4">Maximum</td>
+                  <td className="py-2 px-4 bg-primary/5">Balanced</td>
+                  <td className="py-2 pl-4">Click-to-toggle</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 pr-4 font-medium">Efficiency</td>
+                  <td className="py-2 px-4">Lower</td>
+                  <td className="py-2 px-4 bg-primary/5">Medium</td>
+                  <td className="py-2 pl-4">Highest</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 pr-4 font-medium">Learning curve</td>
+                  <td className="py-2 px-4">Medium</td>
+                  <td className="py-2 px-4 bg-primary/5">Lowest</td>
+                  <td className="py-2 pl-4">Medium</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 pr-4 font-medium">Enterprise fit</td>
+                  <td className="py-2 px-4">High</td>
+                  <td className="py-2 px-4 bg-primary/5">High</td>
+                  <td className="py-2 pl-4">Medium</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Best for</td>
+                  <td className="py-2 px-4">Cautious users</td>
+                  <td className="py-2 px-4 bg-primary/5">Most users</td>
+                  <td className="py-2 pl-4">Power users</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

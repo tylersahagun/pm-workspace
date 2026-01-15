@@ -163,7 +163,13 @@ npm run storybook -w web    # Opens at http://localhost:6006
    - Recommended direction with justification
    - Open questions for stakeholder review
 
-2. Create comparison table for stakeholders:
+2. Publish Storybook to Chromatic (automatic on new prototypes):
+   - Ensure Chromatic is installed: `npm install --save-dev chromatic`
+   - Run from the prototype package root with the project token set as env:
+     - `CHROMATIC_PROJECT_TOKEN="chpt_46b823319a0135f" npm run chromatic`
+   - If the repo has multiple packages, run it where `storybook` is configured
+
+3. Create comparison table for stakeholders:
    | Criteria | Option A | Option B | Option C |
    |----------|----------|----------|----------|
    | Trust level required | Low | Medium | High |
@@ -171,6 +177,8 @@ npm run storybook -w web    # Opens at http://localhost:6006
    | Efficiency | Lower | Medium | Highest |
    | Learning curve | Lowest | Medium | Highest |
    | Best for persona | New users | Most users | Power users |
+
+4. Commit and push for PR preview
 
 3. Commit and push for PR preview
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Settings, Sparkles, Clock } from 'lucide-react';
+import { Settings, FileText, ShieldCheck, Link2, ClipboardList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PropertySelector } from './PropertySelector';
 import { FieldConfigCard } from './FieldConfigCard';
@@ -18,26 +18,11 @@ interface HubSpotAgentConfigProps {
   isLoading?: boolean;
 }
 
-const UPDATE_TRIGGER_OPTIONS: {
-  value: NonNullable<HubSpotAgentNodeConfig['updateTrigger']>;
-  label: string;
-  icon: React.ReactNode;
-}[] = [
-  {
-    value: 'after_call',
-    label: 'After every call',
-    icon: <Sparkles className="size-4" />,
-  },
-  {
-    value: 'daily',
-    label: 'Daily batch',
-    icon: <Clock className="size-4" />,
-  },
-  {
-    value: 'on_stage_change',
-    label: 'On deal stage change',
-    icon: <Settings className="size-4" />,
-  },
+const MATCH_SIGNAL_OPTIONS = [
+  { value: 'company_domain', label: 'Company domain' },
+  { value: 'contact_email', label: 'Contact email' },
+  { value: 'deal_name', label: 'Deal name' },
+  { value: 'meeting_title', label: 'Meeting title' },
 ];
 
 export function HubSpotAgentConfig({
@@ -57,6 +42,7 @@ export function HubSpotAgentConfig({
     updateConfig({
       objectType,
       properties: [],
+      customObjectLabel: objectType === 'custom' ? config.customObjectLabel : undefined,
     });
   };
 
@@ -88,12 +74,22 @@ export function HubSpotAgentConfig({
     updateConfig({ properties: newProperties });
   };
 
+  const moveProperty = (fromIndex: number, toIndex: number) => {
+    if (toIndex < 0 || toIndex >= config.properties.length) return;
+    const newProperties = [...config.properties];
+    const [moved] = newProperties.splice(fromIndex, 1);
+    newProperties.splice(toIndex, 0, moved);
+    updateConfig({ properties: newProperties });
+  };
+
   const handleRemoveProperty = (index: number) => {
     const newProperties = config.properties.filter((_, i) => i !== index);
     updateConfig({ properties: newProperties });
   };
 
   const selectedPropertyNames = config.properties.map((p) => p.propertyName);
+  const matchSignals = config.matchSignals ?? [];
+  const createRequiredFields = config.createRequiredFields ?? [];
 
   return (
     <div className="space-y-6">
@@ -112,10 +108,50 @@ export function HubSpotAgentConfig({
           <div>
             <h2 className="text-lg font-semibold">HubSpot Agent Configuration</h2>
             <p className="text-sm text-muted-foreground">
-              Configure which properties to update and how
+              Configure which properties to update, how to match objects, and when to review
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Context Source */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium flex items-center gap-2">
+          <FileText className="size-4 text-muted-foreground" />
+          Context Source
+        </label>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {[
+            { value: 'latest_call', label: 'Latest call' },
+            { value: 'selected_meeting', label: 'Select a meeting' },
+            { value: 'pasted_transcript', label: 'Paste transcript' },
+          ].map((option) => (
+            <button
+              key={option.value}
+              onClick={() => updateConfig({ contextSource: option.value })}
+              className={cn(
+                'px-3 py-2 text-sm rounded-md border transition-colors text-left',
+                config.contextSource === option.value
+                  ? 'bg-primary/10 border-primary text-primary'
+                  : 'bg-background border-input hover:bg-accent'
+              )}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        {config.contextSource === 'pasted_transcript' && (
+          <textarea
+            value={config.contextTranscript || ''}
+            onChange={(e) => updateConfig({ contextTranscript: e.target.value })}
+            placeholder="Paste a transcript to test configuration without a live meeting..."
+            className={cn(
+              'w-full min-h-24 px-3 py-2 text-sm rounded-md border border-input',
+              'bg-background resize-y',
+              'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+            )}
+          />
+        )}
       </div>
 
       {/* Property Selector */}
@@ -127,6 +163,150 @@ export function HubSpotAgentConfig({
         onObjectTypeChange={handleObjectTypeChange}
         isLoading={isLoading}
       />
+
+      {config.objectType === 'custom' && (
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Custom object name</label>
+          <input
+            value={config.customObjectLabel || ''}
+            onChange={(e) => updateConfig({ customObjectLabel: e.target.value })}
+            placeholder="e.g., Renewal, Implementation, Partner Deal"
+            className="w-full px-3 py-2 text-sm rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          />
+        </div>
+      )}
+
+      {/* Association & Matching */}
+      <div className="space-y-3 border rounded-lg p-4 bg-card">
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <Link2 className="size-4 text-muted-foreground" />
+          Association & Matching
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Choose how AskElephant finds the right HubSpot record before updating fields.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {MATCH_SIGNAL_OPTIONS.map((signal) => {
+            const isSelected = matchSignals.includes(signal.value);
+            return (
+              <button
+                key={signal.value}
+                onClick={() =>
+                  updateConfig({
+                    matchSignals: isSelected
+                      ? matchSignals.filter((value) => value !== signal.value)
+                      : [...matchSignals, signal.value],
+                  })
+                }
+                className={cn(
+                  'px-2.5 py-1 text-xs rounded-md border transition-colors',
+                  isSelected
+                    ? 'bg-primary/10 border-primary text-primary'
+                    : 'bg-background border-input hover:bg-accent'
+                )}
+              >
+                {signal.label}
+              </button>
+            );
+          })}
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">If no match found</label>
+            <div className="flex gap-2">
+              {[
+                { value: 'skip', label: 'Skip update' },
+                { value: 'create', label: 'Create new object' },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => updateConfig({ noMatchBehavior: option.value })}
+                  className={cn(
+                    'flex-1 px-2 py-1.5 text-xs rounded-md border transition-colors',
+                    config.noMatchBehavior === option.value
+                      ? 'bg-primary/10 border-primary text-primary'
+                      : 'bg-background border-input hover:bg-accent'
+                  )}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Required fields for create
+            </label>
+            <input
+              value={createRequiredFields.join(', ')}
+              onChange={(e) =>
+                updateConfig({
+                  createRequiredFields: e.target.value
+                    .split(',')
+                    .map((value) => value.trim())
+                    .filter(Boolean),
+                })
+              }
+              placeholder="e.g., dealname, pipeline, amount"
+              className="w-full px-2 py-1.5 text-xs rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Sync Mode */}
+      <div className="space-y-3 border rounded-lg p-4 bg-card">
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <ShieldCheck className="size-4 text-muted-foreground" />
+          Sync Mode
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {[
+            {
+              value: 'auto',
+              label: 'Just do it',
+              description: 'Sync automatically. Undo available after each update.',
+            },
+            {
+              value: 'review',
+              label: 'Review first',
+              description: 'Show proposed changes and require approval.',
+            },
+          ].map((option) => (
+            <button
+              key={option.value}
+              onClick={() => updateConfig({ approvalMode: option.value })}
+              className={cn(
+                'px-3 py-2 text-sm rounded-md border transition-colors text-left',
+                config.approvalMode === option.value
+                  ? 'bg-primary/10 border-primary text-primary'
+                  : 'bg-background border-input hover:bg-accent'
+              )}
+            >
+              <div className="font-medium">{option.label}</div>
+              <div className="text-xs text-muted-foreground">{option.description}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Run Condition */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium flex items-center gap-2">
+          <ClipboardList className="size-4 text-muted-foreground" />
+          Run condition (optional)
+        </label>
+        <textarea
+          value={config.runCondition || ''}
+          onChange={(e) => updateConfig({ runCondition: e.target.value })}
+          placeholder="e.g., Only run if Deal Stage is not Closed Won or if Amount > $1,000"
+          className={cn(
+            'w-full min-h-20 px-3 py-2 text-sm rounded-md border border-input',
+            'bg-background resize-y',
+            'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+          )}
+        />
+      </div>
 
       {/* Property Configurations */}
       {config.properties.length > 0 && (
@@ -155,36 +335,13 @@ export function HubSpotAgentConfig({
                   }
                   onRemove={() => handleRemoveProperty(index)}
                   availableProperties={availableProperties}
+                  order={index + 1}
+                  total={config.properties.length}
+                  onMoveUp={() => moveProperty(index, index - 1)}
+                  onMoveDown={() => moveProperty(index, index + 1)}
                 />
               );
             })}
-          </div>
-        </div>
-      )}
-
-      {/* Update Trigger (Should Have - included for completeness) */}
-      {config.properties.length > 0 && (
-        <div className="space-y-2 pt-4 border-t">
-          <label className="text-sm font-medium flex items-center gap-2">
-            <Clock className="size-4 text-muted-foreground" />
-            Update Timing
-          </label>
-          <div className="flex gap-2">
-            {UPDATE_TRIGGER_OPTIONS.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => updateConfig({ updateTrigger: option.value })}
-                className={cn(
-                  'flex items-center gap-2 px-3 py-2 text-sm rounded-md border transition-colors',
-                  config.updateTrigger === option.value
-                    ? 'bg-primary/10 border-primary text-primary'
-                    : 'bg-background border-input hover:bg-accent'
-                )}
-              >
-                {option.icon}
-                {option.label}
-              </button>
-            ))}
           </div>
         </div>
       )}
@@ -197,8 +354,7 @@ export function HubSpotAgentConfig({
           </div>
           <h3 className="text-sm font-medium mb-1">No properties configured</h3>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-            Select properties above to configure how the HubSpot agent should update
-            your CRM after each call.
+            Select properties above to configure how this agent updates HubSpot.
           </p>
         </div>
       )}
