@@ -180,11 +180,77 @@ Using existing shadcn/ui components from `prototypes/src/components/ui/`:
 
 ## Next Steps
 
-1. [ ] Build onboarding wizard prototype
-2. [ ] Get feedback on education step content
-3. [ ] Test preview step with real meeting data
-4. [ ] Iterate based on feedback
-5. [ ] Move to activity dashboard
+1. [x] Build onboarding wizard prototype
+2. [x] Build activity dashboard prototype
+3. [x] Build agent communication center prototype
+4. [x] Build inbox prototype
+5. [ ] Get feedback on education step content
+6. [ ] Test preview step with real meeting data
+7. [ ] Iterate based on jury feedback (Iteration 2 complete)
+
+---
+
+## Iteration 2: Addressing Jury Feedback (2026-01-16)
+
+### Jury Evaluation Results (Pre-Iteration)
+- **Pass Rate:** 54% (below 60% threshold)
+- **Skeptic Pass Rate:** 10% (critical failure)
+- **Top Friction:** Compliance/security (33), Testing (28), Understanding syncs (26)
+- **Top Suggestion:** Activity log (21), ROI metrics (18), Pause/resume (17)
+
+### Changes Made
+
+#### New Components
+1. **SecurityCompliancePanel** (`SecurityCompliancePanel.tsx`)
+   - SOC 2 Type II, GDPR certification badges
+   - Data handling policies with retention info
+   - Rollback & recovery section
+   - Full audit log with history
+   - 3 variants: full page, compact badge, banner for onboarding
+
+2. **ROIDashboard** (`ROIDashboard.tsx`)
+   - Hero value statement (time saved + cost savings)
+   - Time savings breakdown (per-meeting, by category)
+   - Errors prevented visualization
+   - Data quality scores with targets
+   - Projected annual ROI calculation
+
+#### Enhanced Components
+3. **ActivityDashboard** - Added rollback capability
+   - One-click rollback per activity log entry
+   - Confirmation dialog with field count
+   - Visual state change on rollback
+   - "Rolled Back" badge indicator
+
+4. **OnboardingWizard** - Added skeptic-focused messaging
+   - Security trust banner on Connect step (SOC 2, encryption, rollback)
+   - "Start Small, See Results Fast" banner on Scope step
+   - Added "Rollback Anytime" to security indicators
+
+### Stories Added
+- `Security & Compliance (Full)` - Full page view
+- `Security Badge (Compact)` - Embeddable badge
+- `Security Banner (For Onboarding)` - Integration with wizard
+- `ROI Dashboard` - 30 day default
+- `ROI Dashboard (7 Days)` - Short term view
+- `ROI Dashboard (90 Days)` - Long term view
+
+### Addressing Specific Jury Concerns
+
+| Jury Concern | Component/Feature | Status |
+|--------------|-------------------|--------|
+| Compliance/security (33 mentions) | SecurityCompliancePanel | ✅ Complete |
+| Testing before go-live (28) | OnboardingWizard test step | ✅ Already exists |
+| Understanding what gets synced (26) | ActivityDashboard visibility | ✅ Already exists |
+| ROI/time-savings metrics (18) | ROIDashboard | ✅ Complete |
+| Rollback mechanism | ActivityDashboard rollback | ✅ Complete |
+| Start small messaging | OnboardingWizard banners | ✅ Complete |
+
+### Expected Impact
+- **Skeptic confidence:** Security panel addresses "show me the audit trail"
+- **ROI proof:** Dashboard shows concrete value before commitment
+- **Rollback safety net:** Reduces fear of irreversible mistakes
+- **Progressive disclosure:** "Start small" messaging reduces overwhelm
 
 ---
 

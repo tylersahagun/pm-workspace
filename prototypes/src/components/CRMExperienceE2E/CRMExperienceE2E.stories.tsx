@@ -3,6 +3,8 @@ import { OnboardingWizard } from './OnboardingWizard';
 import { ActivityDashboard } from './ActivityDashboard';
 import { AgentCommunicationCenter } from './AgentCommunicationCenter';
 import { Inbox } from './Inbox';
+import { SecurityCompliancePanel } from './SecurityCompliancePanel';
+import { ROIDashboard } from './ROIDashboard';
 import {
   MOCK_ACTIVITY_LOGS,
   MOCK_DASHBOARD_STATS,
@@ -246,4 +248,85 @@ Fast approval workflow for CRM agent actions.
 export const InboxEmpty: StoryObj<typeof Inbox> = {
   render: () => <Inbox items={[]} />,
   name: 'Inbox (All Caught Up)',
+};
+
+// ============================================
+// Security & Compliance Stories (NEW - Iteration 2)
+// ============================================
+
+export const SecurityFull: StoryObj<typeof SecurityCompliancePanel> = {
+  render: () => <SecurityCompliancePanel variant="full" />,
+  name: 'Security & Compliance (Full)',
+  parameters: {
+    docs: {
+      description: {
+        story: `
+## Security & Compliance Panel
+
+**NEW in Iteration 2** - Addresses top jury friction point (33 mentions).
+
+### Key Features
+- **Compliance Badges**: SOC 2, GDPR, ISO 27001 certifications
+- **Data Handling Policies**: Clear explanation of encryption, retention
+- **Rollback & Recovery**: One-click rollback, 30-day history
+- **Audit Log**: Full transparency into all actions
+
+### Skeptic Feedback Addressed
+> "Show me the audit trail or I can't approve it."
+> "I need to see proof it works before committing."
+        `,
+      },
+    },
+  },
+};
+
+export const SecurityCompact: StoryObj<typeof SecurityCompliancePanel> = {
+  render: () => <SecurityCompliancePanel variant="compact" />,
+  name: 'Security Badge (Compact)',
+};
+
+export const SecurityBanner: StoryObj<typeof SecurityCompliancePanel> = {
+  render: () => <SecurityCompliancePanel variant="banner" />,
+  name: 'Security Banner (For Onboarding)',
+};
+
+// ============================================
+// ROI Dashboard Stories (NEW - Iteration 2)
+// ============================================
+
+export const ROIDashboardFull: StoryObj<typeof ROIDashboard> = {
+  render: () => <ROIDashboard timeRange="30d" />,
+  name: 'ROI Dashboard',
+  parameters: {
+    docs: {
+      description: {
+        story: `
+## ROI Dashboard
+
+**NEW in Iteration 2** - Addresses top jury suggestion (18 mentions).
+
+### Key Features
+- **Hero Value Statement**: Time saved + estimated cost savings
+- **Time Savings Breakdown**: Per-meeting and total metrics
+- **Errors Prevented**: Data quality issues caught
+- **Data Quality Scores**: Completion, accuracy, freshness
+- **Projected Impact**: Annual savings and deal velocity improvement
+
+### Skeptic Feedback Addressed
+> "I'm not opposed to AI, I'm opposed to hype. Show me the ROI."
+> "Show me it works, then we can talk."
+        `,
+      },
+    },
+  },
+};
+
+export const ROIDashboard7Days: StoryObj<typeof ROIDashboard> = {
+  render: () => <ROIDashboard timeRange="7d" />,
+  name: 'ROI Dashboard (7 Days)',
+};
+
+export const ROIDashboard90Days: StoryObj<typeof ROIDashboard> = {
+  render: () => <ROIDashboard timeRange="90d" />,
+  name: 'ROI Dashboard (90 Days)',
 };

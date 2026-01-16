@@ -336,6 +336,10 @@ function AnomalyAlertCard({ anomaly }: { anomaly: AnomalyAlert }) {
 }
 
 function ActivityLogCard({ activity }: { activity: ActivityLogEntry }) {
+  const [showRollbackConfirm, setShowRollbackConfirm] = React.useState(false);
+  const [isRollingBack, setIsRollingBack] = React.useState(false);
+  const [isRolledBack, setIsRolledBack] = React.useState(false);
+
   const statusConfig = {
     success: {
       icon: <CheckCircle2 className="size-4 text-emerald-500" />,
@@ -362,8 +366,22 @@ function ActivityLogCard({ activity }: { activity: ActivityLogEntry }) {
   const { icon, badge, label } = statusConfig[activity.status];
   const timeAgo = getTimeAgo(activity.timestamp);
 
+  const handleRollback = async () => {
+    setIsRollingBack(true);
+    // Simulate rollback
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setIsRollingBack(false);
+    setIsRolledBack(true);
+    setShowRollbackConfirm(false);
+  };
+
   return (
-    <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-all">
+    <div className={cn(
+      "p-4 rounded-xl border transition-all",
+      isRolledBack 
+        ? "bg-slate-800/30 border-slate-700/30 opacity-60"
+        : "bg-slate-800/50 border-slate-700/50 hover:border-slate-600"
+    )}>
       <div className="flex items-start gap-4">
         <div className="size-10 rounded-lg bg-slate-700 flex items-center justify-center flex-shrink-0">
           <Sparkles className="size-5 text-orange-500" />
@@ -372,9 +390,15 @@ function ActivityLogCard({ activity }: { activity: ActivityLogEntry }) {
           <div className="flex items-center justify-between gap-4 mb-1">
             <div className="flex items-center gap-2">
               <h3 className="font-medium text-white truncate">{activity.agentName}</h3>
-              <span className={cn('px-2 py-0.5 rounded-full text-xs font-medium', badge)}>
-                {label}
-              </span>
+              {isRolledBack ? (
+                <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400">
+                  Rolled Back
+                </span>
+              ) : (
+                <span className={cn('px-2 py-0.5 rounded-full text-xs font-medium', badge)}>
+                  {label}
+                </span>
+              )}
             </div>
             <span className="text-xs text-slate-500 flex-shrink-0">{timeAgo}</span>
           </div>
@@ -384,10 +408,10 @@ function ActivityLogCard({ activity }: { activity: ActivityLogEntry }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 text-xs text-slate-500">
               <span>{activity.userName}</span>
-              {activity.status === 'success' && (
+              {activity.status === 'success' && !isRolledBack && (
                 <span>{activity.fieldsUpdated} fields updated</span>
               )}
-              {activity.confidence > 0 && (
+              {activity.confidence > 0 && !isRolledBack && (
                 <span className={cn(
                   activity.confidence >= 0.8 ? 'text-emerald-400' :
                   activity.confidence >= 0.6 ? 'text-amber-400' : 'text-red-400'
@@ -396,14 +420,55 @@ function ActivityLogCard({ activity }: { activity: ActivityLogEntry }) {
                 </span>
               )}
             </div>
-            <button className="flex items-center gap-1 text-xs text-orange-400 hover:text-orange-300">
-              View Details
-              <ExternalLink className="size-3" />
-            </button>
+            <div className="flex items-center gap-2">
+              {activity.status === 'success' && !isRolledBack && (
+                <button 
+                  onClick={() => setShowRollbackConfirm(true)}
+                  className="flex items-center gap-1 text-xs text-slate-400 hover:text-blue-400 transition-colors"
+                >
+                  <RefreshCw className="size-3" />
+                  Rollback
+                </button>
+              )}
+              <button className="flex items-center gap-1 text-xs text-orange-400 hover:text-orange-300">
+                View Details
+                <ExternalLink className="size-3" />
+              </button>
+            </div>
           </div>
           {activity.errorMessage && (
             <div className="mt-2 p-2 rounded-lg bg-red-500/10 text-sm text-red-400">
               {activity.errorMessage}
+            </div>
+          )}
+          
+          {/* Rollback Confirmation */}
+          {showRollbackConfirm && (
+            <div className="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/30">
+              <div className="flex items-start gap-3">
+                <RefreshCw className="size-5 text-blue-400 mt-0.5" />
+                <div className="flex-1">
+                  <h4 className="text-sm font-medium text-white mb-1">Rollback this update?</h4>
+                  <p className="text-xs text-slate-400 mb-3">
+                    This will restore {activity.fieldsUpdated} fields to their previous values in HubSpot.
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleRollback}
+                      disabled={isRollingBack}
+                      className="px-3 py-1.5 rounded-md text-xs font-medium bg-blue-500 text-white hover:bg-blue-600 transition-all disabled:opacity-50"
+                    >
+                      {isRollingBack ? 'Rolling back...' : 'Yes, Rollback'}
+                    </button>
+                    <button
+                      onClick={() => setShowRollbackConfirm(false)}
+                      className="px-3 py-1.5 rounded-md text-xs font-medium bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

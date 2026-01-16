@@ -24,6 +24,7 @@ BRANCH=$(git branch --show-current)
 ```
 
 If on main, stop:
+
 ```
 ❌ You're on the main branch!
 
@@ -55,6 +56,7 @@ Auto-generate based on what changed:
 ## What's in this PR
 
 [Auto-detect and list:]
+
 - New/updated prototypes in elephant-ai/web/src/components/prototypes/
 - Documentation changes in pm-workspace-docs/
 - Command/rule updates in .cursor/
@@ -82,6 +84,7 @@ Then navigate to Prototypes/ in the sidebar.
 Use the GitHub CLI if available, otherwise provide URL:
 
 **Option A: GitHub CLI (gh)**
+
 ```bash
 if command -v gh &> /dev/null; then
     gh pr create --title "[PR Title]" --body "[Generated description]" --base main
@@ -89,6 +92,7 @@ fi
 ```
 
 **Option B: Generate URL**
+
 ```bash
 REPO="tylersahagun/pm-workspace"
 TITLE=$(echo "[PR Title]" | sed 's/ /%20/g')
@@ -123,6 +127,7 @@ echo "Open this URL to create your PR: $URL"
 ## What Reviewers Will See
 
 The PR will show:
+
 - All files you added or changed
 - Visual diffs for code changes
 - A preview link (once Chromatic is set up)
@@ -138,6 +143,7 @@ The PR will show:
 ### Making Changes After Review
 
 If reviewers request changes:
+
 1. Make the changes locally
 2. Run `/save` to commit them
 3. The PR automatically updates!
@@ -147,6 +153,7 @@ No need to create a new PR.
 ### Merging
 
 Once approved:
+
 1. Tyler or a lead will merge the PR
 2. Your changes become part of main
 3. Everyone gets them on next `/update`
@@ -156,6 +163,7 @@ Once approved:
 ### "Authentication failed"
 
 You may need to set up GitHub credentials:
+
 - Install GitHub CLI: `brew install gh`
 - Login: `gh auth login`
 
@@ -166,6 +174,7 @@ Run `/update` first to sync with main, then try `/share` again.
 ### PR Already Exists
 
 If a PR already exists for this branch:
+
 ```
 ℹ️ A PR already exists for this branch!
 

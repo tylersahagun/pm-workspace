@@ -244,6 +244,24 @@ export function OnboardingWizard({ initialState, onComplete }: OnboardingWizardP
               </button>
             </div>
 
+            {/* Security & Trust Banner for Skeptics */}
+            <div className="max-w-md mx-auto p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20">
+              <div className="flex items-start gap-3">
+                <div className="size-8 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                  <Shield className="size-4 text-emerald-400" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-medium text-white">Enterprise Security</span>
+                    <span className="px-2 py-0.5 rounded-full text-xs bg-emerald-500/20 text-emerald-300">SOC 2 Certified</span>
+                  </div>
+                  <p className="text-xs text-slate-400">
+                    Your data is encrypted, never used for training, and you can rollback any change instantly.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="flex items-center justify-center gap-8 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <Shield className="size-4" />
@@ -252,6 +270,10 @@ export function OnboardingWizard({ initialState, onComplete }: OnboardingWizardP
               <div className="flex items-center gap-2">
                 <Eye className="size-4" />
                 <span>Read & Write Access</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <RefreshCw className="size-4" />
+                <span>Rollback Anytime</span>
               </div>
             </div>
           </div>
@@ -358,6 +380,22 @@ export function OnboardingWizard({ initialState, onComplete }: OnboardingWizardP
               <p className="text-lg text-slate-400 max-w-lg mx-auto">
                 Start with one call type. You can add more later once you see it working.
               </p>
+            </div>
+            
+            {/* Start Small Banner for Skeptics */}
+            <div className="max-w-lg mx-auto p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
+              <div className="flex items-start gap-3">
+                <div className="size-8 rounded-lg bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <Zap className="size-4 text-blue-400" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-white mb-1">Start Small, See Results Fast</h4>
+                  <p className="text-xs text-slate-400">
+                    Pick your most common call type. We recommend starting with just one workflow—you can 
+                    expand once you've built confidence. Most teams see value within their first 5 calls.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
