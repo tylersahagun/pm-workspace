@@ -449,6 +449,60 @@ Comprehensive CRM agent experience from onboarding through daily use. This initi
 
 ---
 
+## James's Priority Stack (2026-01-16 Planning Session)
+
+From internal planning session with James (RevOps), Tyler (PM), Brian (Engineering), Woody (Product), and Palmer (Engineering):
+
+### Strategic Decision: Focus on Workflow Configuration, Not CRM Features
+
+> "From where you're sitting, there's a fork in the road. Try to build out a CRM experience within AskElephant app or ease of configuration for workflows."
+>
+> "I would put every penny towards experience of how someone interacts with workflows today."
+
+**Key Insight:** Users already have HubSpot/Salesforce. Don't replicate CRM features. Make automation configuration easy.
+
+### James's 4 Priority Improvements (In Order)
+
+| Priority | What | Why |
+|----------|------|-----|
+| **#1** | **Workflow Visibility** | "I would love to be able to see what deals it's run on versus hasn't run on. Wait five minutes, I don't know if it just failed or never hit triggers." |
+| **#2** | **Manual Enrollment/Test** | "To test something, I have to mark a stage as close won/lost. So I'm triggering 40 other things just to test one workflow. Makes you wanna punch a baby." |
+| **#3** | **AI Context for CRM** | "Having all context built into workflow builder so some RevOps leader just says 'I need close won analytics' and it executes the whole thing." |
+| **#4** | **Property Creation** | "Those don't exist, would you like to create them? Yes. Sign in here, whatever." Plus: "Muddying someone's CRM is the worst thing we can do." |
+
+### New Problem: Testing Causes Cascade Effects
+
+> "Part of the reason I haven't built a close won close loss workflow is because to test something, I have to mark a stage as close won or lost. So I'm triggering like 40 other things just to test one workflow in AskElephant."
+
+**Impact:** Testing contaminates production data and triggers unrelated workflows.
+
+**Desired State:**
+- Manual enrollment like HubSpot's "Enroll" button
+- Select specific record, run workflow as if it met criteria
+- Doesn't trigger other HubSpot workflows
+
+### Validation of Current Approach
+
+> "If I was to go to another company today and run RevOps and AskElephant were to never change, I would refuse to take the role if they didn't buy AskElephant because of the HubSpot agent workflow. Like, literally, it is not just good, it's great. The experience of using it is painful."
+
+**Translation:** Core capability is differentiated. Problem is 100% experience.
+
+### Data Quality as Non-Negotiable Standard
+
+> "Every piece of data we push should have the standard of quality that when we send some report that's pulling the data that we're pushing to HubSpot. That should be good enough to send to a board."
+
+> "Bad data is worse than no data because you're gonna double down on the wrong decision."
+
+### Future State vs. Now
+
+James outlined both:
+1. **Future (Year+):** Company pages in AskElephant with properties panel, HubSpot app card showing what AE changed
+2. **Now (Weeks):** Visibility, test/enroll, AI context, property creation
+
+Team decision: Focus on "Now" improvements to workflow configuration experience.
+
+---
+
 ## Sources
 
 1. **Product Insights** - Notion (2025-11-20)
@@ -457,6 +511,7 @@ Comprehensive CRM agent experience from onboarding through daily use. This initi
 4. **CRM Agent Upgrades PRD** - Notion (2025-12-05)
 5. **James Hinkson Interview** - pm-workspace-docs (2026-01-06)
 6. **Leadership Brain Dump** - Internal session (2026-01-16)
+7. **Internal CRM-EXP-ETE Planning Session** - pm-workspace signals (2026-01-16)
 
 ---
 *Last updated: 2026-01-16*

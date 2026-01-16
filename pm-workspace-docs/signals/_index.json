@@ -1,16 +1,16 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-15T20:45:24.118876",
-  "total_signals": 1,
+  "last_updated": "2026-01-16T15:30:00.000000",
+  "total_signals": 2,
   "by_source": {
-    "transcript": 1,
+    "transcript": 2,
     "ticket": 0,
     "issue": 0,
     "conversation": 0
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 0
+    "processed": 1
   },
   "signals": [
     {
@@ -33,6 +33,51 @@
       "file_path": "signals/transcripts/2026-01-15-customer-call-acme-corp-1225d797.md",
       "hypothesis_matches": [],
       "hypothesis_candidates": []
+    },
+    {
+      "id": "sig-2026-01-16-crm-exp-ete-planning",
+      "type": "transcript",
+      "source": "internal-planning-session",
+      "topic": "crm-exp-ete-experience-planning",
+      "captured_at": "2026-01-16T15:30:00.000000",
+      "status": "processed",
+      "initiative": "crm-exp-ete",
+      "problems_extracted": [
+        "Zero visibility into workflow execution",
+        "Testing workflows triggers cascading side effects",
+        "Configuration takes 80+ hours per workflow",
+        "Noxin workflow builder creates bad CRM workflows",
+        "Property creation requires manual HubSpot work",
+        "Data quality failures are catastrophic"
+      ],
+      "personas_mentioned": [
+        "revops",
+        "sales-rep",
+        "implementation-team"
+      ],
+      "severity": "critical",
+      "word_count": 5500,
+      "file_path": "signals/transcripts/2026-01-16-internal-crm-exp-ete-planning.md",
+      "hypothesis_matches": [
+        "Epic 1: Visibility Center",
+        "Epic 2: Approval Gates",
+        "Epic 3: Admin Config Simplification",
+        "Epic 10: AI Config Assistant"
+      ],
+      "hypothesis_candidates": [
+        "Bad data from automation causes churn faster than missing features"
+      ],
+      "key_quotes": [
+        "Bad data is worse than no data because you're gonna double down on the wrong decision",
+        "I have a workflow that I have eighty hours in",
+        "The experience of using it is painful"
+      ],
+      "priority_stack": [
+        "Workflow visibility",
+        "Manual enrollment/test",
+        "AI context for CRM",
+        "Property creation"
+      ]
     }
   ]
 }
