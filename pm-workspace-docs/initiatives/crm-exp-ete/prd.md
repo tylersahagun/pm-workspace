@@ -2,174 +2,235 @@
 
 ## Overview
 
-The CRM Experience End-to-End initiative defines the complete user journey for CRM integration—from initial connection through daily proactive engagement. This builds upon the existing HubSpot Agent Config UI PRD, adding onboarding confidence-building, inbox/approval workflows, notification engine integration, activity visibility, anomaly detection, and user self-service capabilities.
+The CRM Experience End-to-End initiative transforms how users configure and trust CRM automation. The core insight: **the underlying CRM workflow capability is differentiated and valuable—the problem is entirely the configuration/visibility experience.**
 
-**The core insight:** Users need **confidence** that the system works before they'll trust it with their CRM data. The experience must build that confidence through education, testing, and visibility.
+> "If I was to go to another company today and run RevOps and AskElephant were to never change, I would refuse the role if they didn't buy AskElephant because of the HubSpot agent workflow. Like, literally, it is not just good, it's great. The experience of using it is painful." — James Hinkson, Internal RevOps
+
+**Strategic Decision (2026-01-16):** Focus on workflow configuration experience, NOT building CRM features in-app. Users already have HubSpot/Salesforce—they need us to make automation configuration easy.
 
 ## Outcome Chain
 
 ```
-Admin configures CRM agent through guided, confidence-building setup
-  → so that they test and validate before going live
-    → so that agents run automatically after calls
-      → so that CRM data is updated without manual entry
-        → so that reps trust the automation (via visibility + control)
-          → so that CRM data stays accurate for forecasting
-            → so that pipeline decisions improve and revenue increases
+Admin configures CRM agent through simplified workflow builder
+  → so that they can test in isolation without contaminating data
+    → so that they build confidence before going live
+      → so that CRM data quality meets "board-ready" standards
+        → so that leaders trust automation-driven forecasts
+          → so that pipeline decisions improve and revenue increases
 ```
 
 ## Problem Statement
 
 ### What problem?
 
-Users configure CRM agents but lack visibility and confidence. There's no centralized place to see agent activity, approve changes, understand anomalies, or trust that the system is working correctly. This creates distrust and abandonment.
+CRM workflow configuration is **excellent in capability but painful in experience**. Users invest 80+ hours to configure a single workflow. Testing contaminates production data by triggering 40+ unrelated workflows. There's no visibility into what ran, what failed, or why.
+
+> "Bad data is worse than no data because you're gonna double down on the wrong decision." — James Hinkson
+
+> "I have a workflow that I have eighty hours in." — James Hinkson
+
+> "To test something, I have to mark a stage as close won or lost. So I'm triggering 40 other things just to test one workflow. Makes you wanna punch a baby." — James Hinkson
 
 ### Who has it?
 
-- **RevOps Admins/Partners** trying to manage CRM automation across the team
-- **Sales Reps** who need to see what agents did to their CRM and communicate with the agent
-- **Sales Leaders** who want confidence in automated data quality
+- **RevOps Admins/Partners** - Spend 100+ hours becoming proficient; abandon after first bad experience
+- **Sales Reps** - Can't see what the agent did or why; lose trust in automation entirely
+- **Implementation Team** - Noxin workflow builder creates broken CRM workflows by default
 
 ### Evidence
 
-> "I want to be able to actually test and see an output so that I have confidence. That's the key there is I need the confidence of, k. I just got this set up, and it is actually going to work how I want it to work."
-
-> "AskElephant is working with me and being proactive to help me understand trends, things that might not be that seem like they're anomalies."
-
-> "For both the user and an admin, I should be to see everywhere that the HubSpot agent is touching, what data it's touching, where it's running."
+| Problem | Severity | Evidence |
+|---------|----------|----------|
+| Configuration takes 80+ hours | Critical | "I'm probably like a hundred hours now of chatting with AskElephant to find out why something would or would not work" |
+| Testing causes cascade effects | Critical | "To test something, I have to trigger 40 other workflows in HubSpot" |
+| Zero visibility into execution | Critical | "I don't know if it just failed or if it never hit the triggers" |
+| Partners abandon after first use | Critical | "We've had partners who use the HubSpot agent twice. It does something. They don't know what. So they turn it off forever." |
+| Trust loss spreads to entire platform | Critical | "It's AskElephant's problem. It's 'I don't trust AskElephant with my CRM.'" |
+| Workflow builder defaults to broken tools | High | "If you don't tell it to use the HubSpot agent, it'll use the v2 tools that don't work" |
 
 ## Target Personas
 
-- [x] Sales Representative
-- [x] Sales Leader
-- [ ] CSM
-- [x] RevOps Admin/Partner
+- [x] **RevOps Admin/Partner** (Primary) - Configures and maintains CRM automation
+- [x] Sales Representative - Consumes automation output, needs trust
+- [x] Sales Leader - Relies on data quality for forecasting
+- [ ] CSM - Future consideration
 
 ## Success Metrics
 
-| Metric | Current | Target | Timeline |
+| Metric | Current | Target | Standard |
 |--------|---------|--------|----------|
-| CRM agent retention (configure → continue using) | Unknown | +30% | Q1 2026 |
-| Time to first successful agent run | Unknown | < 10 min | Q1 2026 |
-| Time to configure single property | ~10 hours | < 5 min | Q1 2026 |
-| Agent success rate (successful updates) | Unknown | > 95% | Q1 2026 |
-| Human approval turnaround time | N/A | < 4 hours | Q2 2026 |
-| Admin confidence score (post-setup survey) | N/A | > 8/10 | Q1 2026 |
+| Time to configure single workflow | ~80 hours | < 1 hour | "5 minutes per node × 10 nodes" |
+| Workflow test iterations | Contaminates prod data | Zero prod impact | Isolated test runs |
+| Data quality bar | Unknown | Board-ready | "Good enough to send to a board" |
+| Admin proficiency time | ~100 hours | < 2 hours | Guided setup with templates |
+| Workflow success rate | Inconsistent | > 99% | Links to HubSpot record + event |
+| Time from failure to root cause | Hours/days | < 5 min | Clear audit trail |
 
 ---
 
-## User Stories
+## James's Priority Stack (Q1 2026 Focus)
 
-### Epic 1: Confidence-Building Onboarding
+Based on internal planning session (2026-01-16), these four improvements—**in order**—deliver the most impact:
 
-**As a** workspace admin/partner,
-**I want to** understand how the CRM agent works through education and examples,
-**So that** I have confidence before committing to automation.
+### Priority 1: Workflow Visibility (Epic 1)
 
-#### Acceptance Criteria
-- [ ] Educational content explains how agents work
-- [ ] Specific, pre-built examples available to implement quickly
-- [ ] Can test on real data before activating
-- [ ] See actual output with confidence scores
-- [ ] Start with one or handful of things first (not overwhelming)
-- [ ] Clear transition from setup to management view
+> "I would love to be able to see what deals it's run on versus hasn't run on. Wait five minutes, I don't know if it just failed or never hit triggers."
 
-> "I'm getting educated on how it works. I have specific examples that I can put into place very quickly."
+**What:** Dashboard showing exactly what each workflow did—which records, when, successes, failures, links to both HubSpot record and AskElephant event.
+
+**Why first:** Without visibility, admins can't debug. Without debugging, they can't improve. Without improvement, they abandon.
+
+### Priority 2: Manual Enrollment/Test (Epic 2)
+
+> "Part of the reason I haven't built a close won workflow is because to test something, I have to mark a stage as close won. So I'm triggering 40 other things."
+
+**What:** Button to run a workflow on a specific record without meeting trigger criteria—like HubSpot's "Enroll" button. Doesn't trigger other HubSpot workflows.
+
+**Why second:** Combined with visibility, admins can now iterate in hours instead of weeks.
+
+### Priority 3: AI Context for CRM (Epic 3)
+
+> "Having all context built into workflow builder so some RevOps leader just says 'I need close won analytics' and it executes the whole thing."
+
+**What:** Workflow builder knows CRM-specific requirements. Uses correct tools automatically. Says "don't use this node for CRM" when appropriate. Knows which scopes/tools to use for each record type.
+
+**Why third:** Reduces the 80+ hours of prompt engineering to minutes. Noxin stops creating broken workflows.
+
+### Priority 4: Property Creation (Epic 4)
+
+> "Those don't exist, would you like to create them? Yes. Sign in here, whatever."
+
+**What:** Workflow builder reads existing HubSpot properties, suggests repurposing unused fields, only creates new when needed. Admin approves before creation.
+
+> "Muddying someone's CRM is the worst thing we can do."
+
+**Why fourth:** Completes the automated setup story. No more tab-switching to HubSpot to create fields.
 
 ---
 
-### Epic 2: CRM Onboarding Flow
+## Epics (Prioritized)
+
+### Epic 1: Workflow Execution Visibility (P0)
 
 **As a** workspace admin,
-**I want to** configure CRM agents through a guided step-by-step flow,
-**So that** I can get value quickly without complex prompt engineering.
+**I want to** see exactly what each workflow did—which records, when, successes, failures,
+**So that** I can debug issues and build confidence in the automation.
 
 #### Acceptance Criteria
-- [ ] Connect CRM with OAuth
-- [ ] Select workspace/scope
-- [ ] Choose call types to configure
-- [ ] Select from pre-built workflow templates
-- [ ] Toggle individual fields on/off
-- [ ] Test on real data with confidence scores
-- [ ] Review low-confidence items before activation
-- [ ] Submit takes to full management view
+- [ ] List of all records a workflow ran on with timestamps
+- [ ] Which records hit trigger but failed (with reason)
+- [ ] Link to AskElephant event AND HubSpot record for each
+- [ ] Filter by workflow, date range, success/failure
+- [ ] Confidence score for each update
+- [ ] Chat interface to ask "what happened?" about specific runs
+- [ ] Alerts when something is broken
+
+> "Any good workflow program on Earth has an audit history of what enrolled in the workflow. Why? What did it change?"
 
 ---
 
-### Epic 3: Admin Activity Dashboard
+### Epic 2: Isolated Testing / Manual Enrollment (P0)
 
 **As a** workspace admin,
-**I want to** see an activity dashboard of all CRM agent actions,
-**So that** I can understand what's happening, identify issues, and spot anomalies.
+**I want to** test a workflow on a specific record without triggering other HubSpot workflows,
+**So that** I can iterate quickly without contaminating production data.
 
 #### Acceptance Criteria
-- [ ] View all agent runs with timestamp
+- [ ] "Enroll" button to manually run workflow on selected record
+- [ ] Record selection from HubSpot (deals, contacts, companies)
+- [ ] Runs as if record met trigger criteria (but didn't actually)
+- [ ] Does NOT trigger other HubSpot workflows
+- [ ] Option for dry run (show what would happen without executing)
+- [ ] Results appear in visibility dashboard
+
+> "What I prefer... test and have safeguards. I also want one where I can just say, run on this thing even though it doesn't meet the enrollment criteria."
+
+---
+
+### Epic 3: Admin Config Simplification / AI Context (P0)
+
+**As a** workspace admin,
+**I want to** describe my goal in natural language and have the workflow builder create the correct configuration,
+**So that** I don't need 100 hours of prompt engineering to get it right.
+
+#### Acceptance Criteria
+- [ ] Workflow builder uses HubSpot Agent by default for CRM workflows
+- [ ] Knows which scopes/tools to use for each record type automatically
+- [ ] Warns against incompatible node combinations
+- [ ] Natural language goal → complete workflow ("I need close won analytics")
+- [ ] Identifies required fields
+- [ ] Suggests templates for common use cases
+- [ ] Clear guidance: "do not use this node" for incompatible scenarios
+
+> "Noxin Workflow Builder creates horrible CRM workflows... we should fix that quickly before we just get a pile of trash to deal with."
+
+---
+
+### Epic 4: Intelligent Property Management (P1)
+
+**As a** workspace admin,
+**I want to** create or repurpose HubSpot properties from within the workflow builder,
+**So that** I don't have to switch tabs and muddy my CRM with duplicate fields.
+
+#### Acceptance Criteria
+- [ ] Read existing HubSpot properties before suggesting creation
+- [ ] Identify unused/repurposable fields
+- [ ] Suggest: "These exist already. Want to use them?"
+- [ ] Only create new if truly needed
+- [ ] Admin approval required before property creation
+- [ ] Auto-detect field type (rich text vs. multiline vs. boolean, etc.)
+- [ ] Format outputs correctly (HTML for rich text, plain for multiline)
+
+> "I wanted to read their HubSpot first. We are looking for these four fields. I see they have these ones already. Do you wanna repurpose those?"
+
+---
+
+### Epic 5: Admin Activity Dashboard (P1)
+
+**As a** workspace admin,
+**I want to** see a dashboard of all CRM agent activity across my organization,
+**So that** I can identify issues, spot anomalies, and ensure data quality.
+
+#### Acceptance Criteria
+- [ ] All agent runs with timestamp
 - [ ] Filter by agent/workflow type
 - [ ] Filter by CRM tool (HubSpot, Salesforce)
-- [ ] See confidence scores for each update
 - [ ] Drill into specific meeting that triggered update
-- [ ] Receive alerts when something is broken
-- [ ] See proactive anomaly/trend detection from AskElephant
+- [ ] Proactive anomaly/trend detection
 - [ ] Easy troubleshooting path to resolution
-
-> "I'm able to get alerts of if something is broken. I'm able to come in manually and see just activity logs and what's going on."
+- [ ] Group related workflows together
 
 ---
 
-### Epic 4: User Agent Communication Center
+### Epic 6: User Agent Communication Center (P2)
 
 **As a** sales rep,
-**I want to** see a place where the agent communicates with me,
-**So that** I know what it did and can respond to requests.
+**I want to** see what the CRM agent did to my records,
+**So that** I trust the automation and can address issues.
 
 #### Acceptance Criteria
-- [ ] Centralized view of agent communications
-- [ ] Human-in-the-loop requests clearly surfaced
-- [ ] Reporting/status updates from agent
-- [ ] Easy opt-out path ("if you don't want that, do something else")
-- [ ] See everywhere HubSpot agent is touching my data
-- [ ] See what data is being modified
-
-> "When I log in to AskElephant, I want a place where I can see the agent communicating to me. This is what I did."
+- [ ] See all agent actions on my records
+- [ ] Human-in-the-loop requests surfaced
+- [ ] Easy opt-out path
+- [ ] Clear what data was modified
+- [ ] Link to HubSpot record
 
 ---
 
-### Epic 5: Inbox for Human-in-the-Loop
+### Epic 7: User Self-Service Automations (P2)
 
-**As a** user with pending approvals,
-**I want to** see all items requiring my review in one place,
-**So that** I can quickly approve or reject agent actions.
+**As a** sales rep,
+**I want to** build personal automations that only impact my data,
+**So that** I can customize my workflow without admin involvement.
 
 #### Acceptance Criteria
-- [ ] Centralized inbox for all HITL approvals
-- [ ] Clear before/after comparison for changes
-- [ ] One-click approve/reject
-- [ ] Batch approve capability
-- [ ] Slack notification when items need review
-- [ ] Mobile-friendly review experience
-- [ ] Users see only their own items
-- [ ] Admins see all items
+- [ ] Easy discovery of automation capabilities
+- [ ] Scoped to own data only (not team-wide)
+- [ ] Clear separation from admin-managed automations
 
 ---
 
-### Epic 6: Notification Engine Integration
-
-**As a** user,
-**I want to** receive notifications in Slack and desktop when agents complete or need input,
-**So that** I stay informed without checking the app constantly.
-
-#### Acceptance Criteria
-- [ ] Slack message after agent runs
-- [ ] Desktop notifications (optional)
-- [ ] Notification when approval needed
-- [ ] Configurable notification preferences
-- [ ] Action buttons in Slack for quick approval
-
-> "Not even logging in, just in general. I should be getting Slack notifications if I want or desktop notifications."
-
----
-
-### Epic 7: Proactive Anomaly Detection
+### Epic 8: Proactive Anomaly Detection (P2)
 
 **As a** workspace admin,
 **I want to** receive proactive alerts about trends and anomalies,
@@ -178,201 +239,71 @@ Users configure CRM agents but lack visibility and confidence. There's no centra
 #### Acceptance Criteria
 - [ ] AskElephant surfaces unusual patterns
 - [ ] Alerts for anomalies in agent behavior
-- [ ] Trend visibility over time
 - [ ] Recommendations for resolution
 
-> "AskElephant is working with me and being proactive to help me understand trends, things that might not be that seem like they're anomalies."
-
 ---
 
-### Epic 8: User Self-Service Automations
-
-**As a** sales rep,
-**I want to** build my own automations that only impact my data,
-**So that** I can customize my workflow without admin involvement.
-
-#### Acceptance Criteria
-- [ ] Easy discovery of automation capabilities
-- [ ] Build personal automations
-- [ ] Scoped to own data only (not team-wide)
-- [ ] Clear separation from admin-managed automations
-
-> "For a user, I should still be able to go easily see how to build my own automations if I want it. That would only impact my own."
-
----
-
-### Epic 9: HubSpot Query Interface
+### Epic 9: Notification Engine Integration (P2)
 
 **As a** user,
-**I want to** easily query HubSpot and get accurate data,
-**So that** I can use that data in my day-to-day work.
+**I want to** receive notifications when agents complete or need input,
+**So that** I stay informed without checking the app constantly.
 
 #### Acceptance Criteria
-- [ ] Natural language query interface
-- [ ] Accurate data retrieval
-- [ ] Integration with daily workflows
-- [ ] Results usable in context
-
-> "It should be easy for me to query HubSpot and actually get accurate data, and be able to use that HubSpot data within my day to day."
+- [ ] Slack message after agent runs
+- [ ] Notification when approval needed
+- [ ] Configurable notification preferences
+- [ ] Action buttons in Slack for quick approval
 
 ---
 
-### Epic 10: Workflow Filtering by Tool
+### Epic 10: AI Config Assistant (P3 - Future)
 
 **As a** workspace admin,
-**I want to** filter all workflows by the tools they use,
-**So that** I can see everything impacting my CRM in one view.
+**I want to** describe my business goal and have AI create the complete automation setup,
+**So that** I go from goal to working automation in minutes.
 
 #### Acceptance Criteria
-- [ ] Filter by HubSpot / Salesforce / etc.
-- [ ] Group related workflows together
-- [ ] See usage stats per workflow
-- [ ] See success/confidence metrics per workflow
+- [ ] "I need weekly close won/loss analytics sent to my board"
+- [ ] AI identifies: fields needed, workflows, report format, schedule
+- [ ] Creates everything with admin approval
+- [ ] End-to-end from business goal to working automation
 
 ---
 
-## Scope
+## Out of Scope (Not Q1)
 
-### In Scope
-- Confidence-building onboarding flow
-- CRM onboarding wizard (guided setup)
-- Admin activity dashboard with anomaly detection
-- User agent communication center
-- Inbox for human-in-the-loop approvals
-- Slack and desktop notifications
-- Proactive trend/anomaly alerts
-- User self-service automations (scoped to own data)
-- HubSpot query interface
-- Workflow filtering by tool
-- Pre-built workflow templates
+Per strategic decision (2026-01-16):
 
-### Out of Scope
-- Non-CRM agent types
-- Custom CRM development
-- Full inbox for all notification types (separate initiative)
-- Workflow builder enhancements (separate initiative)
-- Salesforce-specific features (HubSpot first)
-
-### Future Considerations
-- AI-powered workflow suggestions
-- Cross-CRM sync (HubSpot ↔ Salesforce)
-- Custom CRM object support
-- Advanced anomaly ML models
-
----
-
-## Design
-
-### User Flow: Admin Onboarding (Confidence-Building)
-
-```mermaid
-flowchart TD
-    A[Connect CRM] --> B[Education: How Agents Work]
-    B --> C[Select Workspace]
-    C --> D[Choose Call Type]
-    D --> E[Select Pre-built Workflows]
-    E --> F[Toggle Individual Fields]
-    F --> G[Test on Real Data]
-    G --> H{Results OK?}
-    H -->|High Confidence| I[Activate Agent]
-    H -->|Low Confidence| J[Review & Adjust]
-    J --> G
-    I --> K[Full Management View]
-    K --> L[Configure More Agents]
-```
-
-### User Flow: Admin Daily Operations
-
-```mermaid
-flowchart TD
-    A[Login] --> B[Activity Dashboard]
-    B --> C{Any Alerts?}
-    C -->|Yes| D[View Alert Details]
-    D --> E[Troubleshoot & Resolve]
-    C -->|No| F[Review Activity Logs]
-    F --> G{Anomalies Detected?}
-    G -->|Yes| H[Review Trend Analysis]
-    H --> I[Take Action]
-    G -->|No| J[Configure New Agents]
-```
-
-### User Flow: Rep Daily Use
-
-```mermaid
-flowchart TD
-    A[Notification: Slack/Desktop] --> B{Action Required?}
-    B -->|HITL Approval| C[Review in Inbox]
-    C --> D{Approve?}
-    D -->|Yes| E[Agent Updates CRM]
-    D -->|No| F[Reject & Provide Feedback]
-    B -->|Info Only| G[View in Agent Comm Center]
-    G --> H[See What Agent Did]
-    H --> I{Want to Change?}
-    I -->|Yes| J[Opt-Out or Modify]
-    I -->|No| K[Continue Working]
-```
-
-### User Flow: Meeting to CRM Update
-
-```mermaid
-flowchart TD
-    A[Meeting Ends] --> B[Agent Runs]
-    B --> C{HITL Required?}
-    C -->|No| D[Auto-Update CRM]
-    C -->|Yes| E[Add to Inbox]
-    D --> F[Log Activity]
-    E --> G[Slack Notification]
-    G --> H[User Reviews in Inbox]
-    H --> I{Approved?}
-    I -->|Yes| D
-    I -->|No| J[Reject & Learn]
-    F --> K[Visible in Activity Log]
-    K --> L{Anomaly?}
-    L -->|Yes| M[Alert Admin]
-    L -->|No| N[Normal Operation]
-```
-
-### Key Screens
-
-1. **Onboarding Wizard** - Step-by-step confidence-building setup
-2. **Admin Activity Dashboard** - All agent actions, alerts, anomalies
-3. **User Agent Communication Center** - Agent messages and status
-4. **Inbox** - Pending approvals centralized
-5. **Workflow Manager** - Filter and manage by tool
-6. **Notification Settings** - Configure alert preferences
-7. **Personal Automations** - User self-service builder
-8. **HubSpot Query** - Natural language data access
-
-### Prototype
-- See [hubspot-agent-config-ui](../hubspot-agent-config-ui/prd.md) for configuration UI
-- Onboarding wizard: See `prototypes/src/components/HubSpotConfig/v3/`
-- Activity dashboard: TBD
-- Agent communication center: TBD
-- Inbox prototype: TBD
-
----
+- **CRM features in AskElephant app** - Users have HubSpot/Salesforce already
+- **Company pages with property panels** - Future (year+) consideration
+- **HubSpot app card** - Requires foundation work we don't have
+- **Salesforce parity** - HubSpot first
+- **Custom CRM object support** - After standard objects work
+- **Full inbox for all notification types** - Separate initiative
 
 ## Technical Considerations
 
-- Real-time activity log updates (WebSocket or polling)
-- Slack bot integration for notifications
-- Desktop notification API integration
-- Inbox state management across devices
-- Confidence score calculation and display
-- Anomaly detection algorithm
-- CRM API rate limiting
-- User-scoped vs admin-scoped data access
-- Natural language query processing for HubSpot
+### For Visibility (Epic 1)
+- Store workflow run history with record references
+- Link to both HubSpot API IDs and AskElephant event IDs
+- Real-time updates (WebSocket or polling)
+- Search/filter across large run volumes
 
----
+### For Manual Enrollment (Epic 2)
+- Execute workflow actions without triggering HubSpot webhooks
+- Isolate test runs from production automation
+- Store test results separately for comparison
 
-## Dependencies
+### For AI Context (Epic 3)
+- Embed CRM-specific guidance in workflow builder prompts
+- Default to HubSpot Agent for CRM operations
+- Tool/scope routing based on record type
 
-- [HubSpot Agent Config UI](../hubspot-agent-config-ui/prd.md) - Configuration foundation
-- Notification Engine - Alert system
-- Admin Onboarding - Entry point
-- Slack Integration - HITL notifications
-- Desktop Notification System - Browser/Electron notifications
+### For Property Management (Epic 4)
+- HubSpot property creation scopes required
+- Read existing properties before suggesting creation
+- Property type inference and format handling
 
 ---
 
@@ -380,54 +311,63 @@ flowchart TD
 
 | Risk | Impact | Likelihood | Mitigation |
 |------|--------|------------|------------|
-| Users don't trust automation | High | High | Confidence-building onboarding, test before activate |
-| Inbox becomes overwhelming | High | Medium | Smart batching, priority sorting, auto-approve for high confidence |
-| Notification fatigue | Medium | High | Configurable preferences, digest options |
-| CRM API rate limits | High | Medium | Batching, caching, retry logic |
-| Low confidence scores create distrust | High | Medium | Clear explanations, easy adjustment path |
-| Anomaly detection false positives | Medium | Medium | Tunable thresholds, user feedback loop |
-| User automations conflict with admin | Medium | Low | Clear scoping, visibility to admins |
+| Users abandon after first bad experience | Critical | High | Visibility + isolated testing before production |
+| Trust loss spreads to entire platform | Critical | High | "Board-ready" data quality standard |
+| Testing contaminates production data | Critical | High | Manual enrollment without HubSpot triggers |
+| Workflow builder defaults to broken tools | High | High | AI context with correct defaults |
+| Property creation muddles CRM | High | Medium | Read-before-create, admin approval |
+| Visibility data overwhelms | Medium | Medium | Smart filtering, search, pagination |
 
 ---
 
 ## Timeline
 
-### Milestones
+### Q1 2026 Focus
 
 | Milestone | Date | Status |
 |-----------|------|--------|
-| PRD Complete | 2026-01-16 | ✅ |
-| Research Updated | 2026-01-16 | ✅ |
-| Design Brief Complete | TBD | ⬜ |
-| Onboarding Wizard Prototype | TBD | ⬜ |
-| Activity Dashboard Prototype | TBD | ⬜ |
-| Agent Comm Center Prototype | TBD | ⬜ |
-| Inbox Prototype | TBD | ⬜ |
+| PRD Updated with James's priorities | 2026-01-16 | ✅ |
+| Research synthesis complete | 2026-01-16 | ✅ |
+| Epic 1 (Visibility) prototype | TBD | ⬜ |
+| Epic 2 (Manual enrollment) design | TBD | ⬜ |
+| Epic 3 (AI context) implementation | TBD | ⬜ |
+| Epic 4 (Property management) design | TBD | ⬜ |
 | Slack HITL MVP | In Progress | 🔄 |
-| Full Beta | TBD | ⬜ |
-| GA | TBD | ⬜ |
+| Q1 scope complete | End Q1 | ⬜ |
+
+### Future (Post-Q1)
+
+- Epic 5-9: Activity dashboard, user comm center, self-service, anomaly detection, notifications
+- Epic 10: Full AI config assistant
+- Company pages in AskElephant
+- HubSpot app card integration
 
 ---
 
-## Open Questions
+## Open Questions (Answered)
 
-- [ ] How do we handle companies vs contacts syncing?
-- [ ] Should deals be a first-class object?
-- [ ] What's the right balance of admin control vs opinionated defaults?
-- [ ] How do we prevent inbox from becoming a bottleneck?
+| Question | Answer (2026-01-16) |
+|----------|---------------------|
+| Build CRM features in-app or focus on workflow config? | **Workflow config** - "I would put every penny towards experience of how someone interacts with workflows today" |
+| What's the data quality standard? | **Board-ready** - "Every piece of data we push should be good enough to send to a board" |
+| Why do users abandon? | **Trust loss cascades** - "It's not lost in a single workflow. It's AskElephant's problem." |
+| How do we enable testing? | **Manual enrollment** - Like HubSpot's "Enroll" button, without triggering other workflows |
+
+## Remaining Open Questions
+
 - [ ] What confidence threshold triggers HITL vs auto-approve?
 - [ ] How do we surface anomalies without creating alert fatigue?
 - [ ] What's the scope of "personal automations" for users?
-- [ ] How do we integrate HubSpot querying into daily workflows?
+- [ ] How do we handle multi-object workflows (deal + contact + company)?
 
 ---
 
 *Last updated: 2026-01-16*
-*Owner: Tyler/Bryan*
+*Owner: Tyler*
 
 ## Related Documents
+- [Research](./research.md) - Includes James's Priority Stack and synthesized feedback
 - [HubSpot Agent Config UI PRD](../hubspot-agent-config-ui/prd.md)
-- [Notification Engine](../current/notification-engine/analysis.md)
+- [Transcript: Internal Planning Session](../../signals/transcripts/2026-01-16-internal-crm-exp-ete-planning.md)
 - [Design Brief](./design-brief.md)
 - [Engineering Spec](./engineering-spec.md)
-- [GTM Brief](./gtm-brief.md)

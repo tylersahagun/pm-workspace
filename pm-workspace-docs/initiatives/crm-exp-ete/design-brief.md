@@ -401,13 +401,133 @@ My Automations View
 
 ---
 
-## Prototype Priorities
+## Prototype Priorities (Revised per James's Stack)
 
-1. **Onboarding Wizard** - Confidence-building flow (highest impact)
-2. **Activity Dashboard** - Admin visibility
-3. **Agent Communication Center** - User daily experience
-4. **Inbox** - HITL approval workflow
-5. **Anomaly Alerts** - Proactive surfacing
+Based on 2026-01-16 planning session, priorities have been reordered:
+
+### Q1 Focus (James's Priority Stack)
+
+| # | Prototype | Rationale |
+|---|-----------|-----------|
+| 1 | **Workflow Visibility Dashboard** | "I don't know if it just failed or never hit triggers" |
+| 2 | **Manual Enrollment/Test** | "To test something, I have to trigger 40 other workflows" |
+| 3 | **AI Context Indicators** | Guide users to correct nodes for CRM workflows |
+| 4 | **Property Creation Flow** | "Would you like to create them? Yes." |
+
+### Future (Post-Q1)
+
+5. **Onboarding Wizard** - Confidence-building flow
+6. **Agent Communication Center** - User daily experience
+7. **Inbox** - HITL approval workflow
+8. **Anomaly Alerts** - Proactive surfacing
+
+---
+
+## New Flow: Manual Enrollment/Test
+
+**Goal:** Let admins test workflows without contaminating production data or triggering other HubSpot workflows
+
+```
+Workflow Detail View
+├── "Test" button in header
+├── Opens: Record Selector
+│   ├── Search HubSpot records
+│   ├── Filter by: Deal, Contact, Company
+│   ├── Show recent records
+│   └── Select one record
+├── Opens: Test Preview
+│   ├── "Run as if this met trigger criteria"
+│   ├── Dry run option (show what would happen)
+│   ├── Execute option (actually run, but isolated)
+│   └── Results appear in visibility dashboard
+└── Results View
+    ├── What was updated (or would be)
+    ├── Confidence scores
+    ├── Link to HubSpot record
+    └── "Adjust workflow" CTA if issues
+```
+
+**Key Design Requirements:**
+- Clear labeling: "This is a TEST run"
+- Isolation indicator: "Other HubSpot workflows will NOT be triggered"
+- Results clearly marked as test in activity log
+- One-click to convert test → production run
+
+---
+
+## New Flow: Workflow Visibility Dashboard
+
+**Goal:** Show exactly what each workflow did—which records, when, successes, failures
+
+```
+Workflow List View
+├── List of all workflows
+├── Each shows:
+│   ├── Name
+│   ├── Status (active/paused/error)
+│   ├── Last run timestamp
+│   ├── Success rate (last 7 days)
+│   └── "View runs" CTA
+└── Quick filters: All, Active, Errors
+
+Workflow Run History (New Screen)
+├── Selected workflow name + status
+├── Stats: Total runs, Success rate, Avg confidence
+├── Run list (newest first):
+│   ├── Timestamp
+│   ├── HubSpot record (linked)
+│   ├── AskElephant event (linked)
+│   ├── Status: ✓ Success / ✗ Failed / ⏳ Pending
+│   ├── Confidence score
+│   └── Expand for details
+├── Filters:
+│   ├── Date range
+│   ├── Status (success/failed/pending)
+│   └── Confidence range
+└── "Chat with workflow" CTA (future)
+
+Run Detail View
+├── Full context:
+│   ├── Meeting that triggered
+│   ├── HubSpot record updated
+│   ├── Fields changed (before/after)
+│   ├── Confidence per field
+│   └── Any errors/warnings
+├── Links:
+│   ├── Open in HubSpot
+│   ├── View meeting in AskElephant
+│   └── Edit workflow
+└── "Rerun on this record" CTA
+```
+
+---
+
+## New Screen: Property Creation Flow
+
+**Goal:** Create/repurpose HubSpot properties from within workflow builder
+
+```
+Property Needed Dialog
+├── Triggered when workflow needs field that doesn't exist
+├── "This workflow needs: Deal Stage Reason"
+├── Options:
+│   ├── "Use existing field" (shows matches)
+│   │   ├── List of similar unused fields
+│   │   └── "These fields exist but aren't used recently"
+│   ├── "Create new field"
+│   │   ├── Name (pre-filled)
+│   │   ├── Type (auto-suggested)
+│   │   └── Description
+│   └── "Skip this field"
+├── Preview: "This will create/use field X in HubSpot"
+└── "Approve & Continue" / "Cancel"
+```
+
+**Key Design Requirements:**
+- Never create without explicit admin approval
+- Always show existing fields first
+- Explain why field is needed
+- Show impact: "This will appear in HubSpot under Deal Properties"
 
 ---
 

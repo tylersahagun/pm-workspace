@@ -522,43 +522,200 @@ Use existing patterns (likely React Query or similar) for:
 
 ---
 
-## Migration Strategy
+## Migration Strategy (Revised per James's Priority Stack)
 
-### Phase 1: Foundation
-1. Create new database tables
-2. Implement basic GraphQL schema
-3. Build agent executor service
-4. Implement activity logging
+Based on 2026-01-16 planning session, phases reordered for maximum impact:
 
-### Phase 2: Onboarding
+### Phase 1: Workflow Visibility (James Priority #1)
+
+**Goal:** "See what deals it ran on versus hasn't run on"
+
+1. Extend `activity_logs` table with HubSpot record links
+2. Add GraphQL queries for workflow-specific run history
+3. Build workflow run history UI with filtering
+4. Add links to both HubSpot record AND AskElephant event
+5. Implement confidence score display per field
+
+**New API Additions:**
+```graphql
+type Query {
+  workflowRunHistory(
+    workflowId: ID!
+    filters: RunHistoryFilters
+    pagination: PaginationInput
+  ): WorkflowRunConnection!
+}
+
+type WorkflowRun {
+  id: ID!
+  workflow: Workflow!
+  hubspotRecordId: String!
+  hubspotRecordType: String!
+  hubspotRecordUrl: String!  # Direct link to HubSpot
+  askElephantEventId: String
+  askElephantEventUrl: String  # Direct link to meeting/event
+  fieldsUpdated: [FieldUpdate!]!
+  overallConfidence: Float!
+  status: RunStatus!
+  errorMessage: String
+  triggeredAt: DateTime!
+  completedAt: DateTime
+}
+```
+
+### Phase 2: Manual Enrollment/Test (James Priority #2)
+
+**Goal:** "Run workflow on specific record without triggering 40 other HubSpot workflows"
+
+1. Add `testWorkflowRun` mutation that bypasses HubSpot triggers
+2. Implement record selector that queries HubSpot for deals/contacts/companies
+3. Add "dry run" option that shows what would happen without executing
+4. Store test runs separately (flagged in activity_logs)
+5. Ensure test does NOT trigger HubSpot webhooks/workflows
+
+**New API Additions:**
+```graphql
+type Mutation {
+  # Manual enrollment - runs workflow as if record met criteria
+  testWorkflowRun(
+    workflowId: ID!
+    hubspotRecordId: String!
+    hubspotRecordType: String!
+    dryRun: Boolean = false
+  ): TestRunResult!
+}
+
+type TestRunResult {
+  isTest: Boolean!  # Always true
+  dryRun: Boolean!
+  wouldUpdate: [FieldUpdate!]!
+  didUpdate: [FieldUpdate!]  # Only if not dry run
+  confidence: Float!
+  warnings: [String!]!
+  errors: [String!]!
+}
+
+type Query {
+  # Search HubSpot records for test enrollment
+  searchHubspotRecords(
+    workspaceId: ID!
+    recordType: HubspotRecordType!
+    query: String
+    limit: Int = 20
+  ): [HubspotRecord!]!
+}
+```
+
+**Key Technical Requirement:**
+- Execute workflow actions directly via HubSpot API
+- Do NOT use HubSpot workflow triggers that would cascade
+- Mark all test runs clearly in activity log
+
+### Phase 3: AI Context for CRM (James Priority #3)
+
+**Goal:** "Workflow builder knows CRM-specific requirements"
+
+1. Add CRM-specific context to workflow builder prompts
+2. Default to HubSpot Agent tool for CRM operations
+3. Add tool compatibility warnings ("don't use this node for CRM")
+4. Implement scope/tool routing based on record type
+
+**Changes to Workflow Builder:**
+```typescript
+interface CRMWorkflowContext {
+  // Inject into workflow builder when CRM integration detected
+  defaultTools: {
+    deals: 'hubspot_agent',
+    contacts: 'hubspot_agent',
+    companies: 'hubspot_agent',
+    tasks: 'hubspot_create_task'
+  };
+  
+  incompatibleNodes: {
+    'hubspot_v2_update': {
+      warning: 'Use HubSpot Agent instead for CRM updates',
+      alternative: 'hubspot_agent'
+    }
+  };
+  
+  requiredScopes: {
+    deals: ['crm.objects.deals.read', 'crm.objects.deals.write'],
+    contacts: ['crm.objects.contacts.read', 'crm.objects.contacts.write'],
+    companies: ['crm.objects.companies.read', 'crm.objects.companies.write']
+  };
+}
+```
+
+### Phase 4: Property Creation (James Priority #4)
+
+**Goal:** "Read existing properties, suggest repurposing, create only if needed"
+
+1. Add HubSpot property read API integration
+2. Implement unused property detection (no recent writes)
+3. Add property creation API with admin approval
+4. Build property selection/creation UI in workflow builder
+
+**New API Additions:**
+```graphql
+type Query {
+  # Get existing HubSpot properties
+  hubspotProperties(
+    workspaceId: ID!
+    objectType: HubspotObjectType!
+  ): [HubspotProperty!]!
+  
+  # Find similar/unused properties
+  suggestHubspotProperty(
+    workspaceId: ID!
+    objectType: HubspotObjectType!
+    fieldName: String!
+    fieldType: String
+  ): PropertySuggestion!
+}
+
+type PropertySuggestion {
+  exactMatch: HubspotProperty
+  similarProperties: [HubspotProperty!]!
+  unusedProperties: [HubspotProperty!]!
+  recommendCreate: Boolean!
+  suggestedName: String
+  suggestedType: String
+}
+
+type Mutation {
+  # Create new property in HubSpot (admin only)
+  createHubspotProperty(
+    workspaceId: ID!
+    objectType: HubspotObjectType!
+    name: String!
+    label: String!
+    type: HubspotPropertyType!
+    description: String
+  ): HubspotProperty!
+}
+```
+
+### Phase 5: Onboarding & Templates (Post-Q1)
+
 1. Build onboarding wizard UI
-2. Implement preview/test functionality
-3. Create template system
-4. Connect to existing HubSpot integration
+2. Create template system with pre-built workflows
+3. Connect confidence-building test flow
 
-### Phase 3: Visibility
-1. Build activity dashboard
-2. Implement real-time subscriptions
-3. Build agent communication center
-4. Add filtering and search
+### Phase 6: Activity Dashboard & Anomaly Detection (Post-Q1)
 
-### Phase 4: HITL
-1. Build inbox service
-2. Implement Slack integration
-3. Build inbox UI
-4. Add batch operations
+1. Build full activity dashboard
+2. Implement anomaly detection
+3. Add proactive alerting
 
-### Phase 5: Proactive
-1. Implement anomaly detection
-2. Build alert UI
-3. Add trend visualization
-4. Tune detection rules
+### Phase 7: HITL Inbox (Post-Q1)
 
-### Phase 6: Self-Service
-1. Build user automation service
-2. Create automation builder UI
-3. Implement scoping/permissions
-4. Add discovery features
+1. Build inbox service and UI
+2. Implement Slack integration for approvals
+
+### Phase 8: User Self-Service (Post-Q1)
+
+1. Build personal automation builder
+2. Implement scoping/permissions
 
 ---
 
@@ -613,6 +770,21 @@ Use existing patterns (likely React Query or similar) for:
 - Admin vs user permissions clearly enforced
 - Audit logging for all CRM operations
 - Rate limiting on API endpoints
+
+---
+
+## Q1 2026 Focus Summary
+
+Per James's priority stack (2026-01-16):
+
+| Phase | Epic | Key Deliverable |
+|-------|------|-----------------|
+| 1 | Workflow Visibility | Run history with HubSpot + AE links |
+| 2 | Manual Enrollment/Test | Test without triggering other workflows |
+| 3 | AI Context for CRM | Workflow builder defaults to correct tools |
+| 4 | Property Creation | Read existing → suggest → create with approval |
+
+All other phases (onboarding, anomaly detection, HITL inbox, self-service) are Post-Q1.
 
 ---
 

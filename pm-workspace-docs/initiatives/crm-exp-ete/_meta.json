@@ -1,0 +1,58 @@
+{
+  "id": "crm-exp-ete",
+  "name": "CRM Experience End-to-End",
+  "phase": "define",
+  "priority": "P0",
+  "owner": "Tyler",
+  "team": ["Tyler", "Palmer", "Bryan", "Woody"],
+  "created_at": "2026-01-16T00:00:00.000Z",
+  "updated_at": "2026-01-16T15:45:00.000Z",
+  "strategic_pillar": "Customer Trust",
+  "strategic_initiative": "CRM Agent Upgrades",
+  "personas": ["revops", "sales-rep", "sales-leader"],
+  "phase_history": [
+    {
+      "phase": "discovery",
+      "entered": "2026-01-16T00:00:00.000Z",
+      "exited": "2026-01-16T12:00:00.000Z"
+    },
+    {
+      "phase": "define",
+      "entered": "2026-01-16T15:45:00.000Z",
+      "exited": null
+    }
+  ],
+  "graduation_criteria": {
+    "discovery_to_define": {
+      "research_complete": true,
+      "problem_validated": true,
+      "personas_identified": true,
+      "outcome_chain_clear": true
+    },
+    "define_to_build": {
+      "prd_complete": true,
+      "design_brief_complete": false,
+      "engineering_spec_complete": false,
+      "prototype_exists": false,
+      "stakeholder_signoff": false
+    }
+  },
+  "key_quotes": [
+    "I would put every penny towards experience of how someone interacts with workflows today.",
+    "Bad data is worse than no data because you're gonna double down on the wrong decision.",
+    "Every piece of data we push should be good enough to send to a board."
+  ],
+  "hypothesis_links": [],
+  "related_initiatives": [
+    "hubspot-agent-config-ui"
+  ],
+  "signals": [
+    "sig-2026-01-16-crm-exp-ete-planning"
+  ],
+  "priority_stack": [
+    "Epic 1: Workflow Visibility",
+    "Epic 2: Manual Enrollment/Test",
+    "Epic 3: AI Context for CRM",
+    "Epic 4: Property Creation"
+  ]
+}
