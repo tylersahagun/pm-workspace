@@ -27,3 +27,6 @@ npm-debug.log*
 
 # Obsidian (personal workspace)
 .obsidian/
+
+# Notion sync (local only)
+pm-workspace-docs/NotionSync/
