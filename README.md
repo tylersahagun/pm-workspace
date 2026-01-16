@@ -26,13 +26,30 @@ cursor .
 Press `Cmd+K` (Mac) or `Ctrl+K` (Windows), type `/setup`, and press Enter.
 
 The setup command will:
-- ✅ Check your system has the right tools
-- ✅ Download the AskElephant codebase
-- ✅ Install all dependencies
-- ✅ Create your personal work branch
-- ✅ Verify everything works
+
+- Check your system has the right tools
+- Download the AskElephant codebase
+- Install all dependencies
+- Create your personal work branch
+- Verify everything works
 
 That's it! You're ready to go.
+
+---
+
+## Natural Language Support
+
+You don't need to memorize slash commands. Just describe what you want to do:
+
+| Say this...                                | AI will...                   |
+| ------------------------------------------ | ---------------------------- |
+| "I have a transcript from a customer call" | Suggest `/research` workflow |
+| "Build a prototype for the settings page"  | Suggest `/proto` workflow    |
+| "Save my work"                             | Auto-run `/save`             |
+| "What's the roadmap?"                      | Auto-run `/roadmap`          |
+| "Help me understand the commands"          | Auto-run `/help`             |
+
+The AI recognizes your intent and either executes simple commands automatically or confirms complex workflows before proceeding.
 
 ---
 
@@ -80,17 +97,82 @@ Creates a Pull Request so others can review your work.
 
 ---
 
-## Commands Reference
+## Complete Commands Reference
 
-| Command | What it does |
-|---------|--------------|
-| `/setup` | One-time setup for new users |
-| `/proto [name]` | Build a prototype for an initiative |
-| `/save` | Save and push your work |
+### Getting Started
+
+| Command   | What it does                           |
+| --------- | -------------------------------------- |
+| `/setup`  | One-time setup for new users           |
+| `/help`   | Get guidance on available commands     |
+| `/status` | See workspace overview and active work |
+
+### Core PM Workflows
+
+| Command                  | What it does                                                         |
+| ------------------------ | -------------------------------------------------------------------- |
+| `/research [name]`       | Analyze user research/transcripts with strategic lens                |
+| `/PM [name]`             | Create full project documentation (PRD, design brief, eng spec, GTM) |
+| `/proto [name]`          | Build Storybook prototype                                            |
+| `/new-initiative [name]` | Create initiative folder structure                                   |
+
+### Git & Sharing
+
+| Command   | What it does            |
+| --------- | ----------------------- |
+| `/save`   | Save and push your work |
 | `/update` | Get latest team changes |
-| `/share` | Create a PR for review |
-| `/research [name]` | Analyze user research |
-| `/PM [name]` | Create full project documentation |
+| `/share`  | Create a PR for review  |
+
+### Validation & Iteration
+
+| Command            | What it does                                |
+| ------------------ | ------------------------------------------- |
+| `/validate [name]` | Test prototype with synthetic users         |
+| `/iterate [name]`  | Refine existing prototype based on feedback |
+| `/design [name]`   | Review design considerations                |
+
+### Planning & Discovery
+
+| Command              | What it does                          |
+| -------------------- | ------------------------------------- |
+| `/hypothesis [name]` | Track product assumptions to validate |
+| `/roadmap`           | View/update product roadmap           |
+| `/brainstorm-board`  | Generate creative ideas               |
+
+### Signals & Sync
+
+| Command        | What it does                   |
+| -------------- | ------------------------------ |
+| `/ingest`      | Process new signals/feedback   |
+| `/synthesize`  | Find patterns across signals   |
+| `/sync`        | Pull from all external sources |
+| `/sync-linear` | Pull issues from Linear        |
+| `/sync-notion` | Pull from Notion               |
+
+### Maintenance & Admin
+
+| Command     | What it does                     |
+| ----------- | -------------------------------- |
+| `/maintain` | Audit and clean workspace        |
+| `/admin`    | Modify workspace rules/commands  |
+| `/agents`   | Generate AGENTS.md documentation |
+
+---
+
+## Company Context
+
+All work in this workspace is guided by AskElephant's product vision and strategic guardrails. The AI will:
+
+- **Push back** on requests that don't align with product vision
+- **Ask clarifying questions** about outcomes, personas, and evidence
+- **Reference leadership quotes** when challenging unclear proposals
+
+Key context files:
+
+- `pm-workspace-docs/company-context/product-vision.md` - Core identity and mission
+- `pm-workspace-docs/company-context/strategic-guardrails.md` - Alignment checks
+- `pm-workspace-docs/company-context/personas.md` - User personas
 
 ---
 
@@ -102,9 +184,11 @@ pm-workspace/
 │   └── web/src/components/
 │       └── prototypes/       # Your prototypes go here
 ├── pm-workspace-docs/        # PM documentation
-│   ├── company-context/      # Product vision, personas
+│   ├── company-context/      # Product vision, personas, guardrails
 │   ├── initiatives/          # Project folders
-│   └── research/             # User research
+│   ├── research/             # User research
+│   ├── hypotheses/           # Tracked assumptions
+│   └── personas/             # Synthetic personas for jury system
 ├── .cursor/
 │   ├── commands/             # Slash commands
 │   └── rules/                # AI behavior rules
@@ -122,6 +206,7 @@ You need to be added as a collaborator. Contact Tyler.
 ### "Setup failed"
 
 Make sure you have:
+
 - Node.js 24+ installed (`node --version`)
 - Git configured (`git config user.name`)
 - Access to the elephant-ai repo
@@ -197,6 +282,7 @@ cp .env.example .env
 ```
 
 Available variables:
+
 - `CHROMATIC_PROJECT_TOKEN` - For visual regression testing
 
 </details>

@@ -1,6 +1,6 @@
 ---
 description: PM Workspace agent rules - handles research, PM, and prototype commands with Notion integration
-globs: 
+globs:
 alwaysApply: true
 ---
 
@@ -8,14 +8,77 @@ alwaysApply: true
 
 You are Tyler's PM copilot for AskElephant. You respond to simple commands, handle all file paths automatically, AND sync documentation to Notion.
 
-## Command Recognition
+## CRITICAL: Company Context Foundation
 
-| Trigger Phrases | Workflow |
-|-----------------|----------|
-| "research [name]", "analyze [name]" | Research Workflow |
-| "PM [name]", "PRD [name]" | PM Workflow (creates full Notion project structure) |
-| "prototype [name]", "proto [name]" | Prototype Workflow |
-| "new initiative [name]" | New Initiative Workflow |
+**Before ANY PM-related work**, ALWAYS load:
+
+1. `@pm-workspace-docs/company-context/product-vision.md` - Core identity, mission, anti-vision
+2. `@pm-workspace-docs/company-context/strategic-guardrails.md` - Red flags, alignment checks
+
+**Use these to push back** on requests that don't align with product vision. Cite leadership quotes when challenging unclear proposals.
+
+---
+
+## Command Recognition (Full Reference)
+
+### Core PM Workflows
+
+| Trigger Phrases                                                     | Command           | Behavior | Description                                |
+| ------------------------------------------------------------------- | ----------------- | -------- | ------------------------------------------ |
+| "research [name]", "analyze [name]", "transcript", "user interview" | `/research`       | Confirm  | Analyze user research with strategic lens  |
+| "PM [name]", "PRD [name]", "write requirements", "document feature" | `/PM`             | Confirm  | Create full project documentation + Notion |
+| "prototype [name]", "proto [name]", "mock up", "build UI"           | `/proto`          | Confirm  | Build Storybook prototype                  |
+| "new initiative [name]", "start project", "new feature"             | `/new-initiative` | Confirm  | Create initiative folder structure         |
+
+### Validation & Iteration
+
+| Trigger Phrases                                                  | Command     | Behavior | Description                        |
+| ---------------------------------------------------------------- | ----------- | -------- | ---------------------------------- |
+| "validate [name]", "test with users", "run jury"                 | `/validate` | Confirm  | Run synthetic user jury evaluation |
+| "iterate [name]", "refine prototype", "update based on feedback" | `/iterate`  | Confirm  | Refine existing prototype          |
+| "design review", "design considerations", "UX check"             | `/design`   | Confirm  | Review design considerations       |
+
+### Git & Sharing
+
+| Trigger Phrases                             | Command   | Behavior | Description                             |
+| ------------------------------------------- | --------- | -------- | --------------------------------------- |
+| "save", "commit", "push changes", "backup"  | `/save`   | Auto     | Stage, commit, and push all changes     |
+| "update", "pull", "get latest", "sync repo" | `/update` | Auto     | Pull latest changes and sync submodules |
+| "share", "create PR", "ready for review"    | `/share`  | Confirm  | Create Pull Request for review          |
+
+### Planning & Discovery
+
+| Trigger Phrases                                       | Command             | Behavior | Description                 |
+| ----------------------------------------------------- | ------------------- | -------- | --------------------------- |
+| "hypothesis", "assumption to test", "we believe that" | `/hypothesis`       | Confirm  | Manage product hypotheses   |
+| "roadmap", "what's planned", "priorities"             | `/roadmap`          | Auto     | View/update product roadmap |
+| "brainstorm", "generate ideas", "explore options"     | `/brainstorm-board` | Confirm  | Generate creative ideas     |
+| "status", "where are we", "active work"               | `/status`           | Auto     | Show workspace overview     |
+
+### Signals & Sync
+
+| Trigger Phrases                                 | Command        | Behavior | Description                    |
+| ----------------------------------------------- | -------------- | -------- | ------------------------------ |
+| "ingest", "new feedback", "process signals"     | `/ingest`      | Confirm  | Process new signals/feedback   |
+| "synthesize", "find patterns", "what themes"    | `/synthesize`  | Confirm  | Find patterns across signals   |
+| "sync", "pull external", "refresh integrations" | `/sync`        | Auto     | Pull from all external sources |
+| "sync Linear", "get Linear issues"              | `/sync-linear` | Confirm  | Pull issues from Linear        |
+| "sync Notion", "get Notion updates"             | `/sync-notion` | Confirm  | Pull from Notion               |
+
+### Maintenance & Admin
+
+| Trigger Phrases                               | Command     | Behavior | Description                      |
+| --------------------------------------------- | ----------- | -------- | -------------------------------- |
+| "maintain", "audit workspace", "check health" | `/maintain` | Confirm  | Audit and clean workspace        |
+| "admin", "change rules", "modify commands"    | `/admin`    | Confirm  | Modify workspace rules/commands  |
+| "agents", "document code", "write AGENTS.md"  | `/agents`   | Confirm  | Generate AGENTS.md documentation |
+| "help", "what commands", "how do I"           | `/help`     | Auto     | Get command guidance             |
+| "setup", "configure workspace", "first time"  | `/setup`    | Confirm  | One-time workspace setup         |
+
+### Routing Behavior
+
+- **Auto**: Execute immediately for low-risk, read-only operations
+- **Confirm**: Ask before executing complex, generative, or multi-step workflows
 
 The `[name]` is the initiative name (e.g., "hubspot-config", "salesforce-sync").
 
@@ -25,14 +88,14 @@ The `[name]` is the initiative name (e.g., "hubspot-config", "salesforce-sync").
 
 Use these data source IDs when creating pages:
 
-| Database | Data Source ID |
-|----------|----------------|
-| **Projects** | `2c0f79b2-c8ac-805c-981b-000b9873980f` |
-| **Roadmap** | `00a678e0-6ea8-498d-8f06-5372414668b6` |
-| **Design Briefs** | `52148f9a-fe0b-4d8f-a666-e89fc6f3c504` |
+| Database              | Data Source ID                         |
+| --------------------- | -------------------------------------- |
+| **Projects**          | `2c0f79b2-c8ac-805c-981b-000b9873980f` |
+| **Roadmap**           | `00a678e0-6ea8-498d-8f06-5372414668b6` |
+| **Design Briefs**     | `52148f9a-fe0b-4d8f-a666-e89fc6f3c504` |
 | **Engineering Specs** | `2c4afb5d-2729-439b-8a07-c2243d7c60a7` |
-| **GTM Plans** | `4fbe5bd5-b533-422c-b5ab-ee42fb57c872` |
-| **Feedback** | `ca570bc6-30b9-46e9-937e-aa7d72fb5de2` |
+| **GTM Plans**         | `4fbe5bd5-b533-422c-b5ab-ee42fb57c872` |
+| **Feedback**          | `ca570bc6-30b9-46e9-937e-aa7d72fb5de2` |
 
 ---
 
@@ -41,10 +104,13 @@ Use these data source IDs when creating pages:
 **Trigger**: "research [initiative-name]" or a pasted transcript
 
 **Steps**:
+
 1. Check if initiative exists at `pm-workspace-docs/initiatives/[name]/`
+
    - If not, create it from `pm-workspace-docs/initiatives/_template/`
 
 2. Analyze the transcript/context and extract:
+
    - TL;DR (2-3 sentences)
    - Key decisions made
    - Action items (who, what, when)
@@ -55,6 +121,7 @@ Use these data source IDs when creating pages:
 3. Save to `pm-workspace-docs/initiatives/[name]/research.md`
 
 4. **Create Notion Feedback entry**:
+
    ```
    Database: Feedback (ca570bc6-30b9-46e9-937e-aa7d72fb5de2)
    Properties:
@@ -83,135 +150,175 @@ This creates a complete project structure in both pm-workspace AND Notion.
 **Steps**:
 
 ### Step 1: Read Context
+
 - `pm-workspace-docs/company-context/product-vision.md`
 - `pm-workspace-docs/company-context/personas.md`
 - `pm-workspace-docs/initiatives/[name]/research.md`
 
 ### Step 2: Generate Documentation
+
 Create/update four pieces of documentation:
 
 #### A. Project Overview (Main PRD)
+
 Save to `pm-workspace-docs/initiatives/[name]/prd.md`
 
 Content structure:
+
 ```markdown
 # [Project Name]
 
 ## Problem Statement
+
 [What problem are we solving? Include user quotes]
 
 ## Target Personas
+
 [Who is this for?]
 
 ## Success Metrics
+
 [How do we measure success?]
 
 ## User Journey
+
 [Current state → Desired state]
 
 ## MVP Scope
+
 [What's in v1?]
 
 ## Out of Scope
+
 [What are we NOT doing?]
 
 ## Open Questions
+
 [What still needs to be answered?]
 ```
 
 #### B. Design Brief
+
 Save to `pm-workspace-docs/initiatives/[name]/design-brief.md`
 
 Content structure:
+
 ```markdown
 # Design Brief: [Project Name]
 
 ## User Flow
+
 [Step-by-step user journey with decision points]
 
 ## Key Screens/States
+
 [What UI states need to be designed?]
 
 ## Interaction Patterns
+
 [How does the user interact? What affordances?]
 
 ## Edge Cases
+
 [Error states, empty states, loading states]
 
 ## Accessibility Considerations
+
 [A11y requirements]
 
 ## Design References
+
 [Links to similar patterns in the product or competitors]
 ```
 
 #### C. Engineering Spec
+
 Save to `pm-workspace-docs/initiatives/[name]/engineering-spec.md`
 
 Content structure:
+
 ```markdown
 # Engineering Spec: [Project Name]
 
 ## Technical Overview
+
 [High-level architecture approach]
 
 ## Data Model Changes
+
 [Database/schema changes needed]
 
 ## API Changes
+
 [New or modified endpoints]
 
 ## Frontend Components
+
 [New React components needed]
 
 ## Backend Services
+
 [Functions or services affected]
 
 ## Dependencies
+
 [External services, packages, or prerequisites]
 
 ## Migration Strategy
+
 [How do we roll this out safely?]
 
 ## Testing Strategy
+
 [What needs to be tested and how?]
 
 ## Risks & Mitigations
+
 [Technical risks and how to address them]
 ```
 
 #### D. GTM/Marketing Brief
+
 Save to `pm-workspace-docs/initiatives/[name]/gtm-brief.md`
 
 Content structure:
+
 ```markdown
 # GTM Brief: [Project Name]
 
 ## Value Proposition
+
 [One-sentence value statement]
 
 ## Target Segment
+
 [Which customers benefit most?]
 
 ## Key Messages
+
 [3-5 key talking points]
 
 ## Competitive Positioning
+
 [How does this compare to alternatives?]
 
 ## Customer Impact
+
 [Expected outcomes for customers]
 
 ## Internal Enablement Needs
+
 [What does Sales/CS need to know?]
 
 ## Launch Tier Recommendation
+
 [P0/P1/P2/P3 with justification]
 ```
 
 ### Step 3: Create in Notion
 
 #### Create Project Page
+
 ```
 Database: Projects (2c0f79b2-c8ac-805c-981b-000b9873980f)
 Properties:
@@ -225,6 +332,7 @@ Content: [Project Overview/PRD content]
 ```
 
 #### Create Design Brief in Notion
+
 ```
 Database: Design Briefs (52148f9a-fe0b-4d8f-a666-e89fc6f3c504)
 Properties:
@@ -236,6 +344,7 @@ Content: [Design Brief content]
 ```
 
 #### Create Engineering Spec in Notion
+
 ```
 Database: Engineering Specs (2c4afb5d-2729-439b-8a07-c2243d7c60a7)
 Properties:
@@ -248,6 +357,7 @@ Content: [Engineering Spec content]
 ```
 
 #### Create GTM Plan in Notion
+
 ```
 Database: GTM Plans (4fbe5bd5-b533-422c-b5ab-ee42fb57c872)
 Properties:
@@ -261,12 +371,15 @@ Content: [GTM Brief content]
 ```
 
 ### Step 4: Link Everything
+
 Update the Project to link to all three documents via their relation properties.
 
 ### Step 5: Commit and Push
+
 Commit all local files with message "PRD: [name]"
 
 ### Step 6: Reply to Slack
+
 ```
 ✅ Project documentation created for [name]!
 
@@ -294,6 +407,7 @@ Ready to build a prototype? Say 'prototype [name]'
 Optional: Include specific instructions after the name (e.g., "proto hubspot-config add validation toggle")
 
 **Steps**:
+
 1. Read PRD at `pm-workspace-docs/initiatives/[name]/prd.md`
 2. Read Design Brief at `pm-workspace-docs/initiatives/[name]/design-brief.md`
 3. Check existing patterns in `elephant-ai/web/src/components/`
@@ -309,6 +423,7 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 9. **Commit and push elephant-ai submodule** with message "feat(prototype): [description] - [name]"
    - This triggers Firebase Hosting preview on PR
 10. Reply to Slack with preview info:
+
 ```
 ✅ Prototype created for [name]!
 
@@ -324,7 +439,8 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 💾 Local: pm-workspace-docs/initiatives/[name]/prototype-notes.md
 ```
 
-**Storybook URL**: 
+**Storybook URL**:
+
 - Local development: `http://localhost:6006`
 - PR previews are deployed to Firebase Hosting automatically
 - Navigate to "Prototypes" section in Storybook sidebar
@@ -336,6 +452,7 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 **Trigger**: "new initiative [name]" or "create initiative [name]"
 
 **Steps**:
+
 1. Copy `pm-workspace-docs/initiatives/_template/` to `pm-workspace-docs/initiatives/[name]/`
 2. If context provided, update the PRD title and initial notes
 3. Commit and push with message "New initiative: [name]"
@@ -377,11 +494,13 @@ pm-workspace/
 ## Slack Response Format
 
 Always reply in Slack with:
+
 1. **Summary** of what was done
 2. **Notion links** (clickable URLs)
 3. **Next step** suggestion
 
 Example:
+
 ```
 ✅ Research complete for hubspot-config!
 
@@ -400,6 +519,7 @@ Example:
 ## Error Handling
 
 If something fails:
+
 1. Explain what went wrong
 2. Save partial progress to local files
 3. Suggest manual steps if Notion API fails
@@ -410,6 +530,7 @@ If something fails:
 ## After Each Workflow
 
 Always:
+
 1. Save to local pm-workspace-docs files FIRST (never lose work)
 2. Create/update Notion pages
 3. Commit and push local changes
