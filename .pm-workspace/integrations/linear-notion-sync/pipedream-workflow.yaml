@@ -1,6 +1,6 @@
 # Pipedream Workflow: Linear → Notion Sync
-# 
-# Deploy this workflow to Pipedream to automatically sync 
+#
+# Deploy this workflow to Pipedream to automatically sync
 # Linear project metrics into Notion every 15 minutes.
 #
 # Required Secrets:
@@ -12,7 +12,7 @@ description: Syncs Linear project issues count, completion %, blockers, and in-p
 
 trigger:
   type: schedule
-  cron: "*/15 * * * *"  # Every 15 minutes
+  cron: "*/15 * * * *" # Every 15 minutes
 
 steps:
   - name: fetch_notion_projects
@@ -20,10 +20,10 @@ steps:
     language: nodejs
     code: |
       import { Client } from "@notionhq/client";
-      
+
       const notion = new Client({ auth: process.env.NOTION_API_KEY });
       const DATABASE_ID = "2c0f79b2-c8ac-805c-981b-000b9873980f";
-      
+
       // Query projects with Linear links
       const response = await notion.databases.query({
         database_id: DATABASE_ID,
@@ -32,13 +32,13 @@ steps:
           url: { is_not_empty: true }
         }
       });
-      
+
       const projects = response.results.map(page => ({
         pageId: page.id,
         title: page.properties["Project name"]?.title?.[0]?.plain_text ?? "Untitled",
         linearLink: page.properties["Linear Link"]?.url ?? null
       })).filter(p => p.linearLink);
-      
+
       console.log(`Found ${projects.length} projects with Linear links`);
       return projects;
 
@@ -48,20 +48,20 @@ steps:
     code: |
       import { LinearClient } from "@linear/sdk";
       import { Client as NotionClient } from "@notionhq/client";
-      
+
       const linear = new LinearClient({ apiKey: process.env.LINEAR_API_KEY });
       const notion = new NotionClient({ auth: process.env.NOTION_API_KEY });
-      
+
       const projects = steps.fetch_notion_projects.$return_value;
-      
+
       // Extract Linear project ID from URL
       function extractProjectId(url) {
         const match = url.match(/\/project\/[\w-]+-([a-f0-9]+)$/);
         return match ? match[1] : null;
       }
-      
+
       const results = { synced: 0, failed: 0, details: [] };
-      
+
       for (const project of projects) {
         const linearId = extractProjectId(project.linearLink);
         if (!linearId) {
@@ -130,7 +130,7 @@ steps:
           results.details.push({ project: project.title, error: error.message });
         }
       }
-      
+
       console.log(`Sync complete: ${results.synced} synced, ${results.failed} failed`);
       return results;
 
@@ -143,7 +143,7 @@ steps:
       // Uncomment and configure SLACK_WEBHOOK_URL if desired
       /*
       const results = steps.sync_linear_metrics.$return_value;
-      
+
       await fetch(process.env.SLACK_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -161,7 +161,7 @@ steps:
         })
       });
       */
-      
+
       return steps.sync_linear_metrics.$return_value;
 
 packages:

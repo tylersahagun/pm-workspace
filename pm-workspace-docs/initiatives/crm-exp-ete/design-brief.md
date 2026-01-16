@@ -11,18 +11,23 @@ This design brief covers the complete CRM agent experience from initial setup th
 ## Design Principles
 
 ### 1. Confidence First
+
 Every interaction should build user confidence. Show, don't tell. Let users test before committing.
 
 ### 2. Progressive Disclosure
+
 Start simple (one or handful of things), expand as confidence grows. Don't overwhelm.
 
 ### 3. Proactive Communication
+
 The agent should communicate what it did, not wait to be asked. Surface issues before users discover them.
 
 ### 4. Clear Boundaries
+
 Users should always know what data is being touched, where the agent is running, and how to stop it.
 
 ### 5. Appropriate Control
+
 Admins get full control. Users get personal control. Both get visibility.
 
 ---
@@ -208,6 +213,7 @@ My Automations View
 **Purpose:** Build understanding before configuration
 
 **Elements:**
+
 - Hero illustration: Meeting → Agent → CRM
 - "How it works" in 3 simple steps
 - Example output card showing before/after
@@ -223,6 +229,7 @@ My Automations View
 **Purpose:** Build confidence through demonstration
 
 **Elements:**
+
 - Meeting selector (recent meetings)
 - "Run Preview" button
 - Results panel showing:
@@ -242,6 +249,7 @@ My Automations View
 **Purpose:** Full visibility into agent operations
 
 **Elements:**
+
 - Health status banner (green/yellow/red)
 - Stats cards: Runs today, Success rate, Pending approvals
 - Activity timeline (filterable)
@@ -257,6 +265,7 @@ My Automations View
 **Purpose:** Central hub for agent interactions
 
 **Elements:**
+
 - "What I Did" feed with recent actions
 - "Needs Your Input" section (prominent if items pending)
 - Notification preferences quick access
@@ -272,6 +281,7 @@ My Automations View
 **Purpose:** Fast approval workflow
 
 **Elements:**
+
 - Pending count badge
 - List of items with:
   - Meeting context
@@ -290,6 +300,7 @@ My Automations View
 **Purpose:** Proactive issue surfacing
 
 **Elements:**
+
 - Alert type icon (warning, error, info)
 - Clear headline: "Unusual pattern detected"
 - Explanation: What happened, why it matters
@@ -304,26 +315,31 @@ My Automations View
 ## Interaction Patterns
 
 ### Pattern: Confidence Score Display
+
 - High (80%+): Green checkmark, no explanation needed
 - Medium (50-79%): Yellow indicator, brief explanation
 - Low (<50%): Red warning, requires review, full explanation
 
 ### Pattern: Before/After Comparison
+
 - Side-by-side layout
 - Highlight changes (green for additions, strikethrough for removals)
 - Link to source (meeting transcript)
 
 ### Pattern: Quick Actions
+
 - Approve: Single click, immediate feedback
 - Reject: Single click, optional feedback prompt
 - Edit: Opens inline editor, then approve
 
 ### Pattern: Progressive Loading
+
 - Show skeleton states
 - Load critical info first
 - Lazy load details
 
 ### Pattern: Notification Preferences
+
 - Channel selection (Slack, Desktop, Email, In-app)
 - Frequency (Immediate, Digest, Off)
 - Type filtering (HITL only, All, Errors only)
@@ -335,30 +351,36 @@ My Automations View
 ### Empty States
 
 **No agents configured:**
+
 - Illustration + "Get started" CTA
 - Link to onboarding
 
 **No activity yet:**
+
 - "Waiting for first meeting" message
 - Explanation of what will appear
 
 **No pending approvals:**
+
 - "All caught up" celebration
 - Link to activity log
 
 ### Error States
 
 **CRM connection lost:**
+
 - Clear error message
 - Reconnect CTA
 - What data is affected
 
 **Agent failed:**
+
 - What went wrong
 - What to do
 - Retry option
 
 **Low confidence match:**
+
 - Multiple options presented
 - User selects correct one
 - Agent learns
@@ -379,11 +401,13 @@ My Automations View
 ## Design References
 
 ### Internal
+
 - HubSpot Agent Config UI v3 (`prototypes/src/components/HubSpotConfig/v3/`)
 - Notification patterns in existing app
 - Workflow builder UI patterns
 
 ### External
+
 - Linear's inbox and notification patterns
 - Notion's onboarding flow
 - Zapier's automation builder simplicity
@@ -407,12 +431,12 @@ Based on 2026-01-16 planning session, priorities have been reordered:
 
 ### Q1 Focus (James's Priority Stack)
 
-| # | Prototype | Rationale |
-|---|-----------|-----------|
-| 1 | **Workflow Visibility Dashboard** | "I don't know if it just failed or never hit triggers" |
-| 2 | **Manual Enrollment/Test** | "To test something, I have to trigger 40 other workflows" |
-| 3 | **AI Context Indicators** | Guide users to correct nodes for CRM workflows |
-| 4 | **Property Creation Flow** | "Would you like to create them? Yes." |
+| #   | Prototype                         | Rationale                                                 |
+| --- | --------------------------------- | --------------------------------------------------------- |
+| 1   | **Workflow Visibility Dashboard** | "I don't know if it just failed or never hit triggers"    |
+| 2   | **Manual Enrollment/Test**        | "To test something, I have to trigger 40 other workflows" |
+| 3   | **AI Context Indicators**         | Guide users to correct nodes for CRM workflows            |
+| 4   | **Property Creation Flow**        | "Would you like to create them? Yes."                     |
 
 ### Future (Post-Q1)
 
@@ -448,6 +472,7 @@ Workflow Detail View
 ```
 
 **Key Design Requirements:**
+
 - Clear labeling: "This is a TEST run"
 - Isolation indicator: "Other HubSpot workflows will NOT be triggered"
 - Results clearly marked as test in activity log
@@ -524,6 +549,7 @@ Property Needed Dialog
 ```
 
 **Key Design Requirements:**
+
 - Never create without explicit admin approval
 - Always show existing fields first
 - Explain why field is needed
@@ -531,5 +557,5 @@ Property Needed Dialog
 
 ---
 
-*Last updated: 2026-01-16*
-*Designer: TBD*
+_Last updated: 2026-01-16_
+_Designer: TBD_

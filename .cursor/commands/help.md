@@ -31,7 +31,9 @@ You are a helpful guide for the PM Workspace. When a user asks for help, underst
 
 | Command | What it does | When to use |
 |---------|--------------|-------------|
-| `/proto [name]` | Build a Storybook prototype | Creating new UI concepts |
+| `/proto [name]` | Build standalone prototype from PRD | Exploring the feature itself |
+| `/context-proto [name]` | Build prototype in app context | Showing where it fits in the app |
+| `/placement [name]` | Deep research on component location | Detailed analysis without building |
 | `/iterate [name]` | Refine existing prototype | After feedback on a prototype |
 | `/design [name]` | Review design considerations | Before or during prototyping |
 | `/validate [name]` | Test with synthetic users | After prototype is built |
@@ -89,7 +91,20 @@ Then open http://localhost:6006
 → Run `/update` - pulls latest and syncs the codebase
 
 ### "I finished my prototype, now what?"
-→ Run `/share` - creates a Pull Request for review
+→ Run `/context-proto [name]` - see how it fits in the app
+→ Compare standalone vs in-context versions
+→ Then `/share` - creates a Pull Request for review
+
+### "Where should this component live in the app?"
+→ Run `/context-proto [name]` - analyzes codebase AND builds integrated prototype
+→ Or `/placement [name]` - for deep research without building
+
+### "I want to see how my prototype fits with the rest of the app"
+→ Run `/context-proto [name]` - does placement analysis + builds in app context
+
+### "I want to compare standalone vs integrated approaches"
+→ Run both `/proto [name]` and `/context-proto [name]`
+→ Compare in Storybook: `Prototypes/[Name]/Standalone` vs `Prototypes/[Name]/InContext`
 
 ### "I have feedback from a user call"
 → Run `/research [initiative-name]` with the transcript
@@ -122,6 +137,18 @@ Then open http://localhost:6006
 4. /save                # Save progress
 5. /share               # When ready for feedback
 ```
+
+### Two-Prototype Comparison Workflow
+
+```
+1. /proto [name]         # Standalone: "What should this feature look like?"
+2. /context-proto [name] # In-context: "Where does it live in the app?"
+3. [compare both]        # Review standalone vs integrated approaches
+4. /validate [name]      # Test with synthetic users
+5. /share                # Submit for engineering review
+```
+
+**Note:** `/proto` and `/context-proto` can run independently or together for comparison.
 
 ### PM Workflow (New Initiative)
 

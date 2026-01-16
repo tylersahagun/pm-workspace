@@ -30,6 +30,8 @@ When users describe what they want without using slash commands, recognize inten
 | "I have a transcript/call recording" | Research analysis | `/research [name]` |
 | "Create a PRD/document this" | PM documentation | `/PM [name]` |
 | "Build a prototype/mock this up" | Prototyping | `/proto [name]` |
+| "Where should this go/placement" | Placement research | `/placement [name]` |
+| "Show in context/in-app preview" | Integration prototype | `/context-proto [name]` |
 | "Save my work/push changes" | Git workflow | `/save` |
 | "Get latest/sync" | Git workflow | `/update` |
 | "Help/what commands" | Guidance | `/help` |
@@ -80,6 +82,8 @@ When I mention initiatives, check:
 - `/research [name]` - Analyze user research with strategic lens
 - `/PM [name]` - Create full project documentation (PRD, design brief, eng spec, GTM)
 - `/proto [name]` - Build Storybook prototype
+- `/placement [name]` - Research where component belongs in production codebase
+- `/context-proto [name]` - Build prototype showing integration with app UI
 - `/new-initiative [name]` - Create initiative folder structure
 
 ### Git & Sharing

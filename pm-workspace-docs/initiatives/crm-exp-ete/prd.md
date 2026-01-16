@@ -39,14 +39,14 @@ CRM workflow configuration is **excellent in capability but painful in experienc
 
 ### Evidence
 
-| Problem | Severity | Evidence |
-|---------|----------|----------|
-| Configuration takes 80+ hours | Critical | "I'm probably like a hundred hours now of chatting with AskElephant to find out why something would or would not work" |
-| Testing causes cascade effects | Critical | "To test something, I have to trigger 40 other workflows in HubSpot" |
-| Zero visibility into execution | Critical | "I don't know if it just failed or if it never hit the triggers" |
-| Partners abandon after first use | Critical | "We've had partners who use the HubSpot agent twice. It does something. They don't know what. So they turn it off forever." |
-| Trust loss spreads to entire platform | Critical | "It's AskElephant's problem. It's 'I don't trust AskElephant with my CRM.'" |
-| Workflow builder defaults to broken tools | High | "If you don't tell it to use the HubSpot agent, it'll use the v2 tools that don't work" |
+| Problem                                   | Severity | Evidence                                                                                                                    |
+| ----------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Configuration takes 80+ hours             | Critical | "I'm probably like a hundred hours now of chatting with AskElephant to find out why something would or would not work"      |
+| Testing causes cascade effects            | Critical | "To test something, I have to trigger 40 other workflows in HubSpot"                                                        |
+| Zero visibility into execution            | Critical | "I don't know if it just failed or if it never hit the triggers"                                                            |
+| Partners abandon after first use          | Critical | "We've had partners who use the HubSpot agent twice. It does something. They don't know what. So they turn it off forever." |
+| Trust loss spreads to entire platform     | Critical | "It's AskElephant's problem. It's 'I don't trust AskElephant with my CRM.'"                                                 |
+| Workflow builder defaults to broken tools | High     | "If you don't tell it to use the HubSpot agent, it'll use the v2 tools that don't work"                                     |
 
 ## Target Personas
 
@@ -57,14 +57,14 @@ CRM workflow configuration is **excellent in capability but painful in experienc
 
 ## Success Metrics
 
-| Metric | Current | Target | Standard |
-|--------|---------|--------|----------|
-| Time to configure single workflow | ~80 hours | < 1 hour | "5 minutes per node × 10 nodes" |
-| Workflow test iterations | Contaminates prod data | Zero prod impact | Isolated test runs |
-| Data quality bar | Unknown | Board-ready | "Good enough to send to a board" |
-| Admin proficiency time | ~100 hours | < 2 hours | Guided setup with templates |
-| Workflow success rate | Inconsistent | > 99% | Links to HubSpot record + event |
-| Time from failure to root cause | Hours/days | < 5 min | Clear audit trail |
+| Metric                            | Current                | Target           | Standard                         |
+| --------------------------------- | ---------------------- | ---------------- | -------------------------------- |
+| Time to configure single workflow | ~80 hours              | < 1 hour         | "5 minutes per node × 10 nodes"  |
+| Workflow test iterations          | Contaminates prod data | Zero prod impact | Isolated test runs               |
+| Data quality bar                  | Unknown                | Board-ready      | "Good enough to send to a board" |
+| Admin proficiency time            | ~100 hours             | < 2 hours        | Guided setup with templates      |
+| Workflow success rate             | Inconsistent           | > 99%            | Links to HubSpot record + event  |
+| Time from failure to root cause   | Hours/days             | < 5 min          | Clear audit trail                |
 
 ---
 
@@ -117,6 +117,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I can debug issues and build confidence in the automation.
 
 #### Acceptance Criteria
+
 - [ ] List of all records a workflow ran on with timestamps
 - [ ] Which records hit trigger but failed (with reason)
 - [ ] Link to AskElephant event AND HubSpot record for each
@@ -136,6 +137,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I can iterate quickly without contaminating production data.
 
 #### Acceptance Criteria
+
 - [ ] "Enroll" button to manually run workflow on selected record
 - [ ] Record selection from HubSpot (deals, contacts, companies)
 - [ ] Runs as if record met trigger criteria (but didn't actually)
@@ -154,6 +156,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I don't need 100 hours of prompt engineering to get it right.
 
 #### Acceptance Criteria
+
 - [ ] Workflow builder uses HubSpot Agent by default for CRM workflows
 - [ ] Knows which scopes/tools to use for each record type automatically
 - [ ] Warns against incompatible node combinations
@@ -173,6 +176,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I don't have to switch tabs and muddy my CRM with duplicate fields.
 
 #### Acceptance Criteria
+
 - [ ] Read existing HubSpot properties before suggesting creation
 - [ ] Identify unused/repurposable fields
 - [ ] Suggest: "These exist already. Want to use them?"
@@ -192,6 +196,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I can identify issues, spot anomalies, and ensure data quality.
 
 #### Acceptance Criteria
+
 - [ ] All agent runs with timestamp
 - [ ] Filter by agent/workflow type
 - [ ] Filter by CRM tool (HubSpot, Salesforce)
@@ -209,6 +214,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I trust the automation and can address issues.
 
 #### Acceptance Criteria
+
 - [ ] See all agent actions on my records
 - [ ] Human-in-the-loop requests surfaced
 - [ ] Easy opt-out path
@@ -224,6 +230,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I can customize my workflow without admin involvement.
 
 #### Acceptance Criteria
+
 - [ ] Easy discovery of automation capabilities
 - [ ] Scoped to own data only (not team-wide)
 - [ ] Clear separation from admin-managed automations
@@ -237,6 +244,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I can address issues before they become problems.
 
 #### Acceptance Criteria
+
 - [ ] AskElephant surfaces unusual patterns
 - [ ] Alerts for anomalies in agent behavior
 - [ ] Recommendations for resolution
@@ -250,6 +258,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I stay informed without checking the app constantly.
 
 #### Acceptance Criteria
+
 - [ ] Slack message after agent runs
 - [ ] Notification when approval needed
 - [ ] Configurable notification preferences
@@ -264,6 +273,7 @@ Based on internal planning session (2026-01-16), these four improvements—**in 
 **So that** I go from goal to working automation in minutes.
 
 #### Acceptance Criteria
+
 - [ ] "I need weekly close won/loss analytics sent to my board"
 - [ ] AI identifies: fields needed, workflows, report format, schedule
 - [ ] Creates everything with admin approval
@@ -285,22 +295,26 @@ Per strategic decision (2026-01-16):
 ## Technical Considerations
 
 ### For Visibility (Epic 1)
+
 - Store workflow run history with record references
 - Link to both HubSpot API IDs and AskElephant event IDs
 - Real-time updates (WebSocket or polling)
 - Search/filter across large run volumes
 
 ### For Manual Enrollment (Epic 2)
+
 - Execute workflow actions without triggering HubSpot webhooks
 - Isolate test runs from production automation
 - Store test results separately for comparison
 
 ### For AI Context (Epic 3)
+
 - Embed CRM-specific guidance in workflow builder prompts
 - Default to HubSpot Agent for CRM operations
 - Tool/scope routing based on record type
 
 ### For Property Management (Epic 4)
+
 - HubSpot property creation scopes required
 - Read existing properties before suggesting creation
 - Property type inference and format handling
@@ -309,14 +323,14 @@ Per strategic decision (2026-01-16):
 
 ## Risks & Mitigations
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| Users abandon after first bad experience | Critical | High | Visibility + isolated testing before production |
-| Trust loss spreads to entire platform | Critical | High | "Board-ready" data quality standard |
-| Testing contaminates production data | Critical | High | Manual enrollment without HubSpot triggers |
-| Workflow builder defaults to broken tools | High | High | AI context with correct defaults |
-| Property creation muddles CRM | High | Medium | Read-before-create, admin approval |
-| Visibility data overwhelms | Medium | Medium | Smart filtering, search, pagination |
+| Risk                                      | Impact   | Likelihood | Mitigation                                      |
+| ----------------------------------------- | -------- | ---------- | ----------------------------------------------- |
+| Users abandon after first bad experience  | Critical | High       | Visibility + isolated testing before production |
+| Trust loss spreads to entire platform     | Critical | High       | "Board-ready" data quality standard             |
+| Testing contaminates production data      | Critical | High       | Manual enrollment without HubSpot triggers      |
+| Workflow builder defaults to broken tools | High     | High       | AI context with correct defaults                |
+| Property creation muddles CRM             | High     | Medium     | Read-before-create, admin approval              |
+| Visibility data overwhelms                | Medium   | Medium     | Smart filtering, search, pagination             |
 
 ---
 
@@ -324,16 +338,16 @@ Per strategic decision (2026-01-16):
 
 ### Q1 2026 Focus
 
-| Milestone | Date | Status |
-|-----------|------|--------|
-| PRD Updated with James's priorities | 2026-01-16 | ✅ |
-| Research synthesis complete | 2026-01-16 | ✅ |
-| Epic 1 (Visibility) prototype | TBD | ⬜ |
-| Epic 2 (Manual enrollment) design | TBD | ⬜ |
-| Epic 3 (AI context) implementation | TBD | ⬜ |
-| Epic 4 (Property management) design | TBD | ⬜ |
-| Slack HITL MVP | In Progress | 🔄 |
-| Q1 scope complete | End Q1 | ⬜ |
+| Milestone                           | Date        | Status |
+| ----------------------------------- | ----------- | ------ |
+| PRD Updated with James's priorities | 2026-01-16  | ✅     |
+| Research synthesis complete         | 2026-01-16  | ✅     |
+| Epic 1 (Visibility) prototype       | TBD         | ⬜     |
+| Epic 2 (Manual enrollment) design   | TBD         | ⬜     |
+| Epic 3 (AI context) implementation  | TBD         | ⬜     |
+| Epic 4 (Property management) design | TBD         | ⬜     |
+| Slack HITL MVP                      | In Progress | 🔄     |
+| Q1 scope complete                   | End Q1      | ⬜     |
 
 ### Future (Post-Q1)
 
@@ -346,12 +360,12 @@ Per strategic decision (2026-01-16):
 
 ## Open Questions (Answered)
 
-| Question | Answer (2026-01-16) |
-|----------|---------------------|
+| Question                                               | Answer (2026-01-16)                                                                                              |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
 | Build CRM features in-app or focus on workflow config? | **Workflow config** - "I would put every penny towards experience of how someone interacts with workflows today" |
-| What's the data quality standard? | **Board-ready** - "Every piece of data we push should be good enough to send to a board" |
-| Why do users abandon? | **Trust loss cascades** - "It's not lost in a single workflow. It's AskElephant's problem." |
-| How do we enable testing? | **Manual enrollment** - Like HubSpot's "Enroll" button, without triggering other workflows |
+| What's the data quality standard?                      | **Board-ready** - "Every piece of data we push should be good enough to send to a board"                         |
+| Why do users abandon?                                  | **Trust loss cascades** - "It's not lost in a single workflow. It's AskElephant's problem."                      |
+| How do we enable testing?                              | **Manual enrollment** - Like HubSpot's "Enroll" button, without triggering other workflows                       |
 
 ## Remaining Open Questions
 
@@ -362,10 +376,11 @@ Per strategic decision (2026-01-16):
 
 ---
 
-*Last updated: 2026-01-16*
-*Owner: Tyler*
+_Last updated: 2026-01-16_
+_Owner: Tyler_
 
 ## Related Documents
+
 - [Research](./research.md) - Includes James's Priority Stack and synthesized feedback
 - [HubSpot Agent Config UI PRD](../hubspot-agent-config-ui/prd.md)
 - [Transcript: Internal Planning Session](../../signals/transcripts/2026-01-16-internal-crm-exp-ete-planning.md)

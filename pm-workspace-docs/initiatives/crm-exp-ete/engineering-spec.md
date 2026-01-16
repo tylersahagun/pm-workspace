@@ -57,6 +57,7 @@ This spec covers the technical implementation of the complete CRM agent experien
 ### New Tables
 
 #### `agent_configs`
+
 ```sql
 CREATE TABLE agent_configs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -74,6 +75,7 @@ CREATE TABLE agent_configs (
 ```
 
 #### `activity_logs`
+
 ```sql
 CREATE TABLE activity_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -96,6 +98,7 @@ CREATE INDEX idx_activity_logs_user ON activity_logs(user_id, created_at DESC);
 ```
 
 #### `inbox_items`
+
 ```sql
 CREATE TABLE inbox_items (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -117,6 +120,7 @@ CREATE INDEX idx_inbox_items_user_pending ON inbox_items(user_id, status) WHERE 
 ```
 
 #### `anomalies`
+
 ```sql
 CREATE TABLE anomalies (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -133,6 +137,7 @@ CREATE TABLE anomalies (
 ```
 
 #### `user_automations`
+
 ```sql
 CREATE TABLE user_automations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -150,6 +155,7 @@ CREATE TABLE user_automations (
 ```
 
 #### `notification_preferences`
+
 ```sql
 CREATE TABLE notification_preferences (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -175,14 +181,14 @@ type Query {
   agentConfigs(workspaceId: ID!): [AgentConfig!]!
   agentConfig(id: ID!): AgentConfig
   agentTemplates(callType: String): [AgentConfig!]!
-  
+
   # Activity
   activityLogs(
     workspaceId: ID!
     filters: ActivityLogFilters
     pagination: PaginationInput
   ): ActivityLogConnection!
-  
+
   # Inbox
   inboxItems(
     userId: ID!
@@ -190,13 +196,13 @@ type Query {
     pagination: PaginationInput
   ): InboxItemConnection!
   inboxCount(userId: ID!): Int!
-  
+
   # Anomalies
   anomalies(workspaceId: ID!, status: AnomalyStatus): [Anomaly!]!
-  
+
   # User automations
   userAutomations(userId: ID!): [UserAutomation!]!
-  
+
   # Notification preferences
   notificationPreferences(userId: ID!): [NotificationPreference!]!
 }
@@ -208,26 +214,31 @@ type Mutation {
   updateAgentConfig(id: ID!, input: UpdateAgentConfigInput!): AgentConfig!
   activateAgent(id: ID!): AgentConfig!
   pauseAgent(id: ID!): AgentConfig!
-  
+
   # Preview/test
   previewAgentRun(agentConfigId: ID!, meetingId: ID!): AgentPreviewResult!
-  
+
   # Inbox
   approveInboxItem(id: ID!): InboxItem!
   rejectInboxItem(id: ID!, reason: String): InboxItem!
   batchApproveInboxItems(ids: [ID!]!): [InboxItem!]!
-  
+
   # Anomalies
   acknowledgeAnomaly(id: ID!): Anomaly!
   resolveAnomaly(id: ID!): Anomaly!
-  
+
   # User automations
   createUserAutomation(input: CreateUserAutomationInput!): UserAutomation!
-  updateUserAutomation(id: ID!, input: UpdateUserAutomationInput!): UserAutomation!
+  updateUserAutomation(
+    id: ID!
+    input: UpdateUserAutomationInput!
+  ): UserAutomation!
   deleteUserAutomation(id: ID!): Boolean!
-  
+
   # Notification preferences
-  updateNotificationPreference(input: UpdateNotificationPreferenceInput!): NotificationPreference!
+  updateNotificationPreference(
+    input: UpdateNotificationPreferenceInput!
+  ): NotificationPreference!
 }
 
 # Subscriptions
@@ -249,7 +260,7 @@ type AgentConfig {
   createdBy: User!
   createdAt: DateTime!
   updatedAt: DateTime!
-  
+
   # Computed
   recentActivity: [ActivityLog!]!
   successRate: Float
@@ -313,14 +324,48 @@ type FieldUpdate {
 }
 
 # Enums
-enum CRMType { HUBSPOT, SALESFORCE }
-enum AgentStatus { DRAFT, ACTIVE, PAUSED, ERROR }
-enum ActivityStatus { PENDING, SUCCESS, FAILED, REJECTED }
-enum InboxItemType { APPROVAL, QUESTION, ALERT }
-enum InboxStatus { PENDING, APPROVED, REJECTED, EXPIRED }
-enum AnomalySeverity { INFO, WARNING, ERROR }
-enum AnomalyStatus { ACTIVE, ACKNOWLEDGED, RESOLVED }
-enum ActionType { CREATE, UPDATE, SKIP }
+enum CRMType {
+  HUBSPOT
+  SALESFORCE
+}
+enum AgentStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ERROR
+}
+enum ActivityStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REJECTED
+}
+enum InboxItemType {
+  APPROVAL
+  QUESTION
+  ALERT
+}
+enum InboxStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+enum AnomalySeverity {
+  INFO
+  WARNING
+  ERROR
+}
+enum AnomalyStatus {
+  ACTIVE
+  ACKNOWLEDGED
+  RESOLVED
+}
+enum ActionType {
+  CREATE
+  UPDATE
+  SKIP
+}
 ```
 
 ---
@@ -330,6 +375,7 @@ enum ActionType { CREATE, UPDATE, SKIP }
 ### Agent Executor Service
 
 **Responsibilities:**
+
 - Execute agent configurations after meetings
 - Calculate confidence scores
 - Route to HITL or auto-approve based on confidence
@@ -337,17 +383,25 @@ enum ActionType { CREATE, UPDATE, SKIP }
 - Log all activity
 
 **Key Functions:**
+
 ```typescript
 interface AgentExecutorService {
   // Execute agent for a meeting
   executeAgent(agentConfigId: string, meetingId: string): Promise<ActivityLog>;
-  
+
   // Preview without executing
-  previewAgentRun(agentConfigId: string, meetingId: string): Promise<AgentPreviewResult>;
-  
+  previewAgentRun(
+    agentConfigId: string,
+    meetingId: string
+  ): Promise<AgentPreviewResult>;
+
   // Calculate confidence for a field update
-  calculateConfidence(field: string, value: any, context: MeetingContext): number;
-  
+  calculateConfidence(
+    field: string,
+    value: any,
+    context: MeetingContext
+  ): number;
+
   // Determine if HITL is required
   requiresHumanApproval(confidence: number, config: AgentConfig): boolean;
 }
@@ -356,6 +410,7 @@ interface AgentExecutorService {
 ### Activity Logger Service
 
 **Responsibilities:**
+
 - Log all agent activity
 - Provide real-time updates via subscriptions
 - Support filtering and pagination
@@ -364,6 +419,7 @@ interface AgentExecutorService {
 ### Inbox Service
 
 **Responsibilities:**
+
 - Create inbox items for HITL
 - Handle approvals/rejections
 - Batch operations
@@ -373,32 +429,34 @@ interface AgentExecutorService {
 ### Anomaly Detector Service
 
 **Responsibilities:**
+
 - Monitor activity patterns
 - Detect unusual behavior
 - Generate alerts
 - Track trends over time
 
 **Detection Rules:**
+
 ```typescript
 interface AnomalyRule {
   type: string;
   condition: (data: ActivityData[]) => boolean;
-  severity: 'info' | 'warning' | 'error';
+  severity: "info" | "warning" | "error";
   message: (data: ActivityData[]) => string;
 }
 
 const anomalyRules: AnomalyRule[] = [
   {
-    type: 'high_failure_rate',
-    condition: (data) => calculateFailureRate(data, '1h') > 0.2,
-    severity: 'error',
-    message: () => 'Agent failure rate exceeded 20% in the last hour'
+    type: "high_failure_rate",
+    condition: (data) => calculateFailureRate(data, "1h") > 0.2,
+    severity: "error",
+    message: () => "Agent failure rate exceeded 20% in the last hour",
   },
   {
-    type: 'low_confidence_trend',
-    condition: (data) => calculateAvgConfidence(data, '24h') < 0.6,
-    severity: 'warning',
-    message: () => 'Average confidence has dropped below 60%'
+    type: "low_confidence_trend",
+    condition: (data) => calculateAvgConfidence(data, "24h") < 0.6,
+    severity: "warning",
+    message: () => "Average confidence has dropped below 60%",
   },
   // ... more rules
 ];
@@ -407,48 +465,50 @@ const anomalyRules: AnomalyRule[] = [
 ### Notification Engine Integration
 
 **Responsibilities:**
+
 - Send Slack notifications
 - Send desktop push notifications
 - Respect user preferences
 - Support action buttons in Slack
 
 **Slack Message Format:**
+
 ```typescript
 interface SlackHITLMessage {
   blocks: [
     {
-      type: 'section',
+      type: "section";
       text: {
-        type: 'mrkdwn',
-        text: '*CRM Update Needs Approval*\n\nMeeting: Discovery Call with Acme Corp\nDeal: Acme Expansion\nConfidence: 72%'
-      }
+        type: "mrkdwn";
+        text: "*CRM Update Needs Approval*\n\nMeeting: Discovery Call with Acme Corp\nDeal: Acme Expansion\nConfidence: 72%";
+      };
     },
     {
-      type: 'actions',
+      type: "actions";
       elements: [
         {
-          type: 'button',
-          text: { type: 'plain_text', text: 'Approve' },
-          style: 'primary',
-          action_id: 'approve_hitl',
-          value: inboxItemId
+          type: "button";
+          text: { type: "plain_text"; text: "Approve" };
+          style: "primary";
+          action_id: "approve_hitl";
+          value: inboxItemId;
         },
         {
-          type: 'button',
-          text: { type: 'plain_text', text: 'Reject' },
-          style: 'danger',
-          action_id: 'reject_hitl',
-          value: inboxItemId
+          type: "button";
+          text: { type: "plain_text"; text: "Reject" };
+          style: "danger";
+          action_id: "reject_hitl";
+          value: inboxItemId;
         },
         {
-          type: 'button',
-          text: { type: 'plain_text', text: 'View Details' },
-          action_id: 'view_hitl',
-          url: detailsUrl
+          type: "button";
+          text: { type: "plain_text"; text: "View Details" };
+          action_id: "view_hitl";
+          url: detailsUrl;
         }
-      ]
+      ];
     }
-  ]
+  ];
 }
 ```
 
@@ -500,6 +560,7 @@ src/components/
 ### State Management
 
 Use existing patterns (likely React Query or similar) for:
+
 - Agent configurations
 - Activity logs (with real-time updates)
 - Inbox items (with optimistic updates)
@@ -510,11 +571,13 @@ Use existing patterns (likely React Query or similar) for:
 ## Dependencies
 
 ### External Services
+
 - **HubSpot API** - CRM operations, OAuth
 - **Slack API** - Notifications, interactive messages
 - **Web Push API** - Desktop notifications
 
 ### Internal Dependencies
+
 - Meeting service (for meeting context)
 - User service (for permissions)
 - Workspace service (for scoping)
@@ -537,6 +600,7 @@ Based on 2026-01-16 planning session, phases reordered for maximum impact:
 5. Implement confidence score display per field
 
 **New API Additions:**
+
 ```graphql
 type Query {
   workflowRunHistory(
@@ -551,9 +615,9 @@ type WorkflowRun {
   workflow: Workflow!
   hubspotRecordId: String!
   hubspotRecordType: String!
-  hubspotRecordUrl: String!  # Direct link to HubSpot
+  hubspotRecordUrl: String! # Direct link to HubSpot
   askElephantEventId: String
-  askElephantEventUrl: String  # Direct link to meeting/event
+  askElephantEventUrl: String # Direct link to meeting/event
   fieldsUpdated: [FieldUpdate!]!
   overallConfidence: Float!
   status: RunStatus!
@@ -574,6 +638,7 @@ type WorkflowRun {
 5. Ensure test does NOT trigger HubSpot webhooks/workflows
 
 **New API Additions:**
+
 ```graphql
 type Mutation {
   # Manual enrollment - runs workflow as if record met criteria
@@ -586,10 +651,10 @@ type Mutation {
 }
 
 type TestRunResult {
-  isTest: Boolean!  # Always true
+  isTest: Boolean! # Always true
   dryRun: Boolean!
   wouldUpdate: [FieldUpdate!]!
-  didUpdate: [FieldUpdate!]  # Only if not dry run
+  didUpdate: [FieldUpdate!] # Only if not dry run
   confidence: Float!
   warnings: [String!]!
   errors: [String!]!
@@ -607,6 +672,7 @@ type Query {
 ```
 
 **Key Technical Requirement:**
+
 - Execute workflow actions directly via HubSpot API
 - Do NOT use HubSpot workflow triggers that would cascade
 - Mark all test runs clearly in activity log
@@ -621,27 +687,28 @@ type Query {
 4. Implement scope/tool routing based on record type
 
 **Changes to Workflow Builder:**
+
 ```typescript
 interface CRMWorkflowContext {
   // Inject into workflow builder when CRM integration detected
   defaultTools: {
-    deals: 'hubspot_agent',
-    contacts: 'hubspot_agent',
-    companies: 'hubspot_agent',
-    tasks: 'hubspot_create_task'
+    deals: "hubspot_agent";
+    contacts: "hubspot_agent";
+    companies: "hubspot_agent";
+    tasks: "hubspot_create_task";
   };
-  
+
   incompatibleNodes: {
-    'hubspot_v2_update': {
-      warning: 'Use HubSpot Agent instead for CRM updates',
-      alternative: 'hubspot_agent'
-    }
+    hubspot_v2_update: {
+      warning: "Use HubSpot Agent instead for CRM updates";
+      alternative: "hubspot_agent";
+    };
   };
-  
+
   requiredScopes: {
-    deals: ['crm.objects.deals.read', 'crm.objects.deals.write'],
-    contacts: ['crm.objects.contacts.read', 'crm.objects.contacts.write'],
-    companies: ['crm.objects.companies.read', 'crm.objects.companies.write']
+    deals: ["crm.objects.deals.read", "crm.objects.deals.write"];
+    contacts: ["crm.objects.contacts.read", "crm.objects.contacts.write"];
+    companies: ["crm.objects.companies.read", "crm.objects.companies.write"];
   };
 }
 ```
@@ -656,6 +723,7 @@ interface CRMWorkflowContext {
 4. Build property selection/creation UI in workflow builder
 
 **New API Additions:**
+
 ```graphql
 type Query {
   # Get existing HubSpot properties
@@ -663,7 +731,7 @@ type Query {
     workspaceId: ID!
     objectType: HubspotObjectType!
   ): [HubspotProperty!]!
-  
+
   # Find similar/unused properties
   suggestHubspotProperty(
     workspaceId: ID!
@@ -722,18 +790,21 @@ type Mutation {
 ## Testing Strategy
 
 ### Unit Tests
+
 - Agent executor logic
 - Confidence calculation
 - Anomaly detection rules
 - Permission scoping
 
 ### Integration Tests
+
 - HubSpot API interactions
 - Slack message delivery
 - Real-time subscriptions
 - Database operations
 
 ### E2E Tests
+
 - Full onboarding flow
 - HITL approval flow
 - Anomaly detection and alerting
@@ -743,13 +814,13 @@ type Mutation {
 
 ## Risks & Mitigations
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| HubSpot API rate limits | High | Implement batching, caching, exponential backoff |
-| Real-time performance at scale | Medium | Use efficient subscriptions, pagination, lazy loading |
-| Anomaly false positives | Medium | Tunable thresholds, user feedback loop, gradual rollout |
-| Slack API changes | Low | Abstract Slack integration, monitor deprecations |
-| Complex permission scoping | Medium | Clear data model, thorough testing, audit logging |
+| Risk                           | Impact | Mitigation                                              |
+| ------------------------------ | ------ | ------------------------------------------------------- |
+| HubSpot API rate limits        | High   | Implement batching, caching, exponential backoff        |
+| Real-time performance at scale | Medium | Use efficient subscriptions, pagination, lazy loading   |
+| Anomaly false positives        | Medium | Tunable thresholds, user feedback loop, gradual rollout |
+| Slack API changes              | Low    | Abstract Slack integration, monitor deprecations        |
+| Complex permission scoping     | Medium | Clear data model, thorough testing, audit logging       |
 
 ---
 
@@ -777,16 +848,16 @@ type Mutation {
 
 Per James's priority stack (2026-01-16):
 
-| Phase | Epic | Key Deliverable |
-|-------|------|-----------------|
-| 1 | Workflow Visibility | Run history with HubSpot + AE links |
-| 2 | Manual Enrollment/Test | Test without triggering other workflows |
-| 3 | AI Context for CRM | Workflow builder defaults to correct tools |
-| 4 | Property Creation | Read existing → suggest → create with approval |
+| Phase | Epic                   | Key Deliverable                                |
+| ----- | ---------------------- | ---------------------------------------------- |
+| 1     | Workflow Visibility    | Run history with HubSpot + AE links            |
+| 2     | Manual Enrollment/Test | Test without triggering other workflows        |
+| 3     | AI Context for CRM     | Workflow builder defaults to correct tools     |
+| 4     | Property Creation      | Read existing → suggest → create with approval |
 
 All other phases (onboarding, anomaly detection, HITL inbox, self-service) are Post-Q1.
 
 ---
 
-*Last updated: 2026-01-16*
-*Engineer: TBD*
+_Last updated: 2026-01-16_
+_Engineer: TBD_

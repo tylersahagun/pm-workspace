@@ -1,12 +1,12 @@
 {
   "id": "crm-exp-ete",
   "name": "CRM Experience End-to-End",
-  "phase": "define",
+  "phase": "build",
   "priority": "P0",
   "owner": "Tyler",
   "team": ["Tyler", "Palmer", "Bryan", "Woody"],
   "created_at": "2026-01-16T00:00:00.000Z",
-  "updated_at": "2026-01-16T15:45:00.000Z",
+  "updated_at": "2026-01-16T17:00:00.000Z",
   "strategic_pillar": "Customer Trust",
   "strategic_initiative": "CRM Agent Upgrades",
   "personas": ["revops", "sales-rep", "sales-leader"],
@@ -18,7 +18,12 @@
     },
     {
       "phase": "define",
-      "entered": "2026-01-16T15:45:00.000Z",
+      "entered": "2026-01-16T12:00:00.000Z",
+      "exited": "2026-01-16T16:00:00.000Z"
+    },
+    {
+      "phase": "build",
+      "entered": "2026-01-16T16:00:00.000Z",
       "exited": null
     }
   ],
@@ -31,9 +36,9 @@
     },
     "define_to_build": {
       "prd_complete": true,
-      "design_brief_complete": false,
+      "design_brief_complete": true,
       "engineering_spec_complete": false,
-      "prototype_exists": false,
+      "prototype_exists": true,
       "stakeholder_signoff": false
     }
   },
@@ -54,5 +59,25 @@
     "Epic 2: Manual Enrollment/Test",
     "Epic 3: AI Context for CRM",
     "Epic 4: Property Creation"
+  ],
+  "prototype_type": "both",
+  "prototype_location": "elephant-ai/web/src/components/prototypes/CRMExperience/",
+  "metrics": {
+    "total_iterations": 2,
+    "jury_evaluations": 3,
+    "last_jury_pass_rate": 50
+  },
+  "iteration_history": [
+    {
+      "version": "v1",
+      "date": "2026-01-16T15:45:00.000Z",
+      "focus": "Core visibility and testing features"
+    },
+    {
+      "version": "v2",
+      "date": "2026-01-16T17:00:00.000Z",
+      "focus": "Skeptic-focused features (ROI, Rollback, Pilot Mode)",
+      "feedback_source": "Jury evaluation (25% skeptic pass rate)"
+    }
   ]
 }

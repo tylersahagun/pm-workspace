@@ -1,9 +1,9 @@
 /**
  * Linear → Notion Sync Script
- * 
+ *
  * This script syncs Linear project metrics into Notion.
  * Deploy via Pipedream, Vercel Cron, or run manually.
- * 
+ *
  * Environment Variables Required:
  * - LINEAR_API_KEY: Linear personal API key
  * - NOTION_API_KEY: Notion internal integration token
@@ -121,11 +121,16 @@ async function getLinearProjectMetrics(
       if (state.type === "started") {
         const assignee = await issue.assignee;
         const assigneeName = assignee?.name ?? "Unassigned";
-        inProgress.push(`${issue.identifier}: ${issue.title} (@${assigneeName})`);
+        inProgress.push(
+          `${issue.identifier}: ${issue.title} (@${assigneeName})`
+        );
       }
 
       // Track blocked issues (priority 0 = urgent, or has "blocked" label)
-      if (issue.priority === 0 || state.name.toLowerCase().includes("blocked")) {
+      if (
+        issue.priority === 0 ||
+        state.name.toLowerCase().includes("blocked")
+      ) {
         blockers.push(`${issue.identifier}: ${issue.title}`);
       }
     }
@@ -206,7 +211,9 @@ export async function syncLinearToNotion(): Promise<{
 
   // Get all Notion projects with Linear links
   const notionProjects = await getNotionProjectsWithLinearLinks(notion);
-  console.log(`📋 Found ${notionProjects.length} Notion projects with Linear links`);
+  console.log(
+    `📋 Found ${notionProjects.length} Notion projects with Linear links`
+  );
 
   let synced = 0;
   let failed = 0;
@@ -217,7 +224,9 @@ export async function syncLinearToNotion(): Promise<{
 
     const linearProjectId = extractLinearProjectId(project.linearLink);
     if (!linearProjectId) {
-      console.warn(`⚠️ Could not extract Linear ID from: ${project.linearLink}`);
+      console.warn(
+        `⚠️ Could not extract Linear ID from: ${project.linearLink}`
+      );
       failed++;
       continue;
     }

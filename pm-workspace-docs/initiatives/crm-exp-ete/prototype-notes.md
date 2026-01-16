@@ -1,257 +1,264 @@
 # Prototype Notes: CRM Experience End-to-End
 
-## Current State
+## Overview
 
-### Existing Prototypes
-- **HubSpot Agent Config v3** (`prototypes/src/components/HubSpotConfig/v3/`) - Configuration UI for agent setup
-- **HubSpot Agent Workflow** (`prototypes/src/components/HubSpotConfig/v2-workflow/`) - Workflow node configuration
+Context prototype showing how CRM workflow visibility and testing integrates with the AskElephant app UI.
 
-### What's Missing
-Based on the user story brain dump (2026-01-16), we need prototypes for:
-1. **Confidence-building onboarding wizard** - Education + test before activate
-2. **Admin activity dashboard** - Visibility into all agent operations
-3. **User agent communication center** - Where users see agent messages
-4. **Inbox for HITL approvals** - Centralized approval workflow
-5. **Anomaly alerts** - Proactive issue surfacing
+**Prototype Type:** Context prototype (shows integration, not just feature)  
+**Created:** 2026-01-16  
+**PRD:** [prd.md](./prd.md)  
+**Placement Research:** [placement-research.md](./placement-research.md)
 
 ---
 
-## Prototype Goals
+## Components Created
 
-### Primary Goal
-Build confidence through visibility. Users need to see and understand what the agent is doing before they trust it.
+### Main Components (V1)
 
-### Key Validation Questions
-1. Does the onboarding flow build sufficient confidence?
-2. Is the activity dashboard information dense enough without being overwhelming?
-3. Do users understand the agent communication center?
-4. Is the inbox workflow fast enough for daily use?
-5. Are anomaly alerts helpful or alarming?
+| Component               | Purpose                                 | Location                    |
+| ----------------------- | --------------------------------------- | --------------------------- |
+| `CRMActivityDashboard`  | Cross-workflow visibility (Priority #1) | `prototypes/CRMExperience/` |
+| `CRMActivityTable`      | Activity log with CRM record links      | `prototypes/CRMExperience/` |
+| `CRMActivityFilters`    | Filter by status, workflow, record type | `prototypes/CRMExperience/` |
+| `CRMActivityRunDetail`  | Side panel for run details              | `prototypes/CRMExperience/` |
+| `ManualEnrollmentPanel` | Test workflow on record (Priority #2)   | `prototypes/CRMExperience/` |
 
----
+### Skeptic-Focused Components (V2)
 
-## Iterations
+| Component              | Purpose                          | Location                    |
+| ---------------------- | -------------------------------- | --------------------------- |
+| `ROIMetrics`           | Show time saved, efficiency gain | `prototypes/CRMExperience/` |
+| `RollbackPreview`      | Preview rollback before execute  | `prototypes/CRMExperience/` |
+| `RollbackSafetyBanner` | "Changes are reversible" message | `prototypes/CRMExperience/` |
+| `PilotModeControls`    | Gradual rollout configuration    | `prototypes/CRMExperience/` |
+| `PilotModeBadge`       | Visual indicator in lists        | `prototypes/CRMExperience/` |
 
-### Iteration 1: Onboarding Wizard
-**Date:** 2026-01-16
-**Status:** Planned
+### Context Wrappers
 
-**Goals:**
-- Validate confidence-building flow
-- Test "education first" approach
-- Validate "test on real data" step
-
-**Key Screens:**
-1. Education step - "How agents work"
-2. Template selection - Pre-built workflows
-3. Test preview - Show what would happen
-4. Activation - Success celebration
-
-**Components to Build:**
-- `CRMOnboardingWizard.tsx`
-- `EducationStep.tsx`
-- `TemplateSelector.tsx`
-- `TestPreview.tsx`
-- `ActivationSuccess.tsx`
+| Component                   | Purpose                  | Shows                         |
+| --------------------------- | ------------------------ | ----------------------------- |
+| `ActivityInAutomationsPage` | Activity tab integration | Dashboard in Automations page |
+| `TestPanelInWorkflowDetail` | Test button integration  | Panel in workflow detail      |
+| `MockSidebar`               | Navigation context       | Sidebar structure             |
 
 ---
 
-### Iteration 2: Activity Dashboard
-**Date:** TBD
-**Status:** Planned
+## Integration Views
 
-**Goals:**
-- Validate admin visibility needs
-- Test filtering and drill-down
-- Validate anomaly surfacing
+### 1. Activity Tab in Automations Page
 
-**Key Screens:**
-1. Dashboard overview - Health status, stats, timeline
-2. Activity detail - Drill into specific runs
-3. Anomaly alert - Proactive issue surfacing
+**Story:** `Prototypes/CRMExperience/InContext/ActivityTabInAutomations`
 
-**Components to Build:**
-- `ActivityDashboard.tsx`
-- `ActivityTimeline.tsx`
-- `ActivityDetail.tsx`
-- `AnomalyAlert.tsx`
-- `HealthStatusBanner.tsx`
+Shows the Activity Dashboard as a new tab in the existing Automations page.
 
----
+**Key Decisions:**
 
-### Iteration 3: Agent Communication Center
-**Date:** TBD
-**Status:** Planned
+- New "Activity" tab alongside Workflows, Prompts, Signals, Tags
+- Badge on tab shows pending approval count
+- Stats cards at top for quick health overview
+- Filterable activity timeline below
 
-**Goals:**
-- Validate user-facing agent communication
-- Test "what I did" vs "needs your input" separation
-- Validate opt-out flows
+**Why this placement:**
 
-**Key Screens:**
-1. Communication feed - Agent messages
-2. Action required - HITL requests
-3. Data visibility - What agent is touching
+- Users already go to Automations for workflow management
+- Cross-workflow visibility needs its own view (not per-workflow)
+- Tab pattern matches existing UI conventions
 
-**Components to Build:**
-- `AgentCommunicationCenter.tsx`
-- `AgentMessageFeed.tsx`
-- `AgentMessageCard.tsx`
-- `DataVisibilityPanel.tsx`
+### 2. Test Panel in Workflow Detail
+
+**Story:** `Prototypes/CRMExperience/InContext/TestPanelOpen`
+
+Shows the Manual Enrollment Panel as a side sheet from workflow detail.
+
+**Key Decisions:**
+
+- New "Test" button in workflow header (lab beaker icon)
+- Panel slides in from right (Sheet component)
+- Workflow canvas stays visible for iteration
+- Two modes: Dry Run (preview) and Execute (actual)
+
+**Why this placement:**
+
+- Testing is contextual to specific workflow
+- Follows existing run steps drawer pattern
+- Supports test → adjust → test workflow
 
 ---
 
-### Iteration 4: Inbox
-**Date:** TBD
-**Status:** Planned
+## Storybook Navigation
 
-**Goals:**
-- Validate fast approval workflow
-- Test batch operations
-- Validate before/after comparison
+### Standalone Stories (Feature Focus)
 
-**Key Screens:**
-1. Inbox list - Pending items
-2. Approval detail - Full context
-3. Batch approve - Multi-select
+```
+Prototypes/CRMExperience/
+├── ActivityDashboard
+│   ├── Default
+│   ├── AllHealthy
+│   ├── CriticalErrors
+│   ├── EmptyState
+│   └── ManyPendingApprovals
+└── ManualEnrollmentPanel
+    ├── SelectRecord
+    ├── CloseWonWorkflow
+    └── ContactEnrichment
+```
 
-**Components to Build:**
-- `Inbox.tsx`
-- `InboxList.tsx`
-- `InboxItem.tsx`
-- `ApprovalDetail.tsx`
-- `BeforeAfterComparison.tsx`
+### Context Stories (Integration Focus)
+
+```
+Prototypes/CRMExperience/InContext/
+├── ActivityTabInAutomations
+├── WorkflowsTabForComparison
+├── TestButtonInWorkflowDetail
+├── TestPanelOpen
+└── TestPanelContactEnrichment
+```
 
 ---
 
-## Design Decisions
+## Mock Dependencies
 
-### Decision: Start with onboarding wizard
-**Rationale:** Confidence is the core insight from the user story. If we nail the onboarding experience, users will trust the rest of the system.
+These parts are mocked for the prototype:
 
-### Decision: Separate admin vs user views
-**Rationale:** Admin needs full visibility across team. Users need personal view scoped to their data. Different information architecture.
+| Mock                  | Real Implementation                  |
+| --------------------- | ------------------------------------ |
+| `MockSidebar`         | `@/components/navigation/AppSidebar` |
+| `mockWorkflowRuns`    | GraphQL query for workflow runs      |
+| `mockRecords`         | HubSpot API for records              |
+| `mockDashboardHealth` | Computed from real run data          |
+| `mockROIMetrics`      | Computed from workflow run history   |
+| `mockPilotModeConfig` | Stored in workflow settings          |
+| `mockPilotModeStats`  | Computed from pilot segment runs     |
 
-### Decision: Agent communication as separate concept
-**Rationale:** The user story explicitly calls out "a place where I can see the agent communicating to me" - this is distinct from inbox (approvals) and dashboard (admin visibility).
+---
+
+## Ready for Production
+
+Before promoting from `prototypes/`:
+
+- [ ] Replace `MockSidebar` with real navigation
+- [ ] Connect to GraphQL queries for workflow runs
+- [ ] Implement HubSpot record search API
+- [ ] Add real-time updates (WebSocket/polling)
+- [ ] Add feature flag: `crm-activity-dashboard`
+- [ ] Add feature flag: `workflow-manual-test`
+- [ ] Update routes in `router.tsx`
+- [ ] Add tab to existing Automations page component
 
 ---
 
 ## Technical Notes
 
-### Component Library
-Using existing shadcn/ui components from `prototypes/src/components/ui/`:
-- Button, Badge, Input, Label
-- Select, Switch, Tabs
-- Tooltip, Separator
+### Component Patterns Used
+
+- **Page layout:** Uses `Page`, `PageHeader`, `PageContent` pattern
+- **Side panel:** Uses `Sheet` from shadcn/ui
+- **Tables:** Custom card-based layout (not AG Grid)
+- **Filters:** Dropdown menus with controlled state
+- **Stats:** Card grid with responsive layout
+
+### Data Types
+
+```typescript
+// Key types defined in types.ts
+WorkflowRun; // Individual run with CRM record + field updates
+WorkflowSummary; // Workflow stats for filtering
+DashboardHealth; // Overall health status
+FieldUpdate; // Before/after with confidence
+```
 
 ### Styling
-- Tailwind CSS
-- Follow existing patterns from HubSpot Config v3
-- Dark mode support
 
-### State Management
-- Local state for prototype
-- Mock data for demonstrations
-- Storybook controls for state variations
+- Tailwind CSS utility classes
+- shadcn/ui components (`Badge`, `Button`, `Card`, `Sheet`, etc.)
+- Color variants for confidence levels (green/yellow/red)
+- Status indicators with icons
 
 ---
 
-## Feedback Log
+## Validation Status
 
-### Feedback from User Story (2026-01-16)
-
-**On Confidence:**
-> "I want to be able to actually test and see an output so that I have confidence. That's the key there is I need the confidence."
-
-**Implication:** Test preview step is critical. Must show real output, not just configuration.
-
-**On Proactive AI:**
-> "AskElephant is working with me and being proactive to help me understand trends, things that might not be that seem like they're anomalies."
-
-**Implication:** Anomaly detection should feel helpful, not alarming. Position as "working with you."
-
-**On Agent Communication:**
-> "I want a place where I can see the agent communicating to me. This is what I did."
-
-**Implication:** Agent should have a "voice" - messages should feel like communication, not just logs.
+- [x] Run `/validate crm-exp-ete` with synthetic users (2026-01-16)
+  - Combined pass rate: 50% (below 60% threshold)
+  - Power users: 80% pass ✅
+  - Skeptics: 25% pass ❌
+  - See `jury-evaluations/validation-report-20260116.md`
+- [x] Address skeptic concerns (V2 iteration - 2026-01-16)
+- [ ] Re-run validation after V2 iteration
+- [ ] Compare standalone vs context approaches
+- [ ] Review with RevOps stakeholder (James)
+- [ ] Engineering feasibility review
 
 ---
 
-## Next Steps
+## Iteration History
 
-1. [x] Build onboarding wizard prototype
-2. [x] Build activity dashboard prototype
-3. [x] Build agent communication center prototype
-4. [x] Build inbox prototype
-5. [ ] Get feedback on education step content
-6. [ ] Test preview step with real meeting data
-7. [ ] Iterate based on jury feedback (Iteration 2 complete)
+### V2: Skeptic-Focused Features (2026-01-16)
 
----
+**Feedback Source:** Jury evaluation showed 25% skeptic pass rate (target: 60%)
 
-## Iteration 2: Addressing Jury Feedback (2026-01-16)
+**Gap Analysis from Jury:**
 
-### Jury Evaluation Results (Pre-Iteration)
-- **Pass Rate:** 54% (below 60% threshold)
-- **Skeptic Pass Rate:** 10% (critical failure)
-- **Top Friction:** Compliance/security (33), Testing (28), Understanding syncs (26)
-- **Top Suggestion:** Activity log (21), ROI metrics (18), Pause/resume (17)
+1. "Show me the ROI, show me it works" → No proof of value
+2. "What happens when it goes wrong?" → No rollback mechanism
+3. "Too much automation too fast" → No gradual rollout option
 
-### Changes Made
+**Components Added:**
 
-#### New Components
-1. **SecurityCompliancePanel** (`SecurityCompliancePanel.tsx`)
-   - SOC 2 Type II, GDPR certification badges
-   - Data handling policies with retention info
-   - Rollback & recovery section
-   - Full audit log with history
-   - 3 variants: full page, compact badge, banner for onboarding
+| Component              | Purpose                                      | Addresses                          |
+| ---------------------- | -------------------------------------------- | ---------------------------------- |
+| `ROIMetrics`           | Shows hours saved, efficiency gains          | "Show me the ROI"                  |
+| `RollbackPreview`      | Preview what rollback would look like        | "What happens when it goes wrong?" |
+| `RollbackSafetyBanner` | Prominent "changes are reversible" messaging | Skeptic trust                      |
+| `PilotModeControls`    | Start with 5-25% of records                  | "Too much automation"              |
+| `PilotModeBadge`       | Visual indicator in workflow list            | Gradual rollout visibility         |
 
-2. **ROIDashboard** (`ROIDashboard.tsx`)
-   - Hero value statement (time saved + cost savings)
-   - Time savings breakdown (per-meeting, by category)
-   - Errors prevented visualization
-   - Data quality scores with targets
-   - Projected annual ROI calculation
+**Dashboard Integration:**
 
-#### Enhanced Components
-3. **ActivityDashboard** - Added rollback capability
-   - One-click rollback per activity log entry
-   - Confirmation dialog with field count
-   - Visual state change on rollback
-   - "Rolled Back" badge indicator
+- Added safety banner at top (changes are reversible)
+- Added pilot mode banner when active
+- Added ROI metrics card in stats grid (compact view)
+- Grid expanded from 4 to 5 columns
 
-4. **OnboardingWizard** - Added skeptic-focused messaging
-   - Security trust banner on Connect step (SOC 2, encryption, rollback)
-   - "Start Small, See Results Fast" banner on Scope step
-   - Added "Rollback Anytime" to security indicators
+**New Storybook Stories:**
 
-### Stories Added
-- `Security & Compliance (Full)` - Full page view
-- `Security Badge (Compact)` - Embeddable badge
-- `Security Banner (For Onboarding)` - Integration with wizard
-- `ROI Dashboard` - 30 day default
-- `ROI Dashboard (7 Days)` - Short term view
-- `ROI Dashboard (90 Days)` - Long term view
+```
+Prototypes/CRMExperience/V2-SkepticFeatures/
+├── ROIMetrics
+│   ├── FullView
+│   ├── CompactView
+│   └── HighSavings
+├── RollbackPreview
+│   ├── RollbackButton
+│   └── SafetyBanner
+└── PilotMode
+    ├── FullControls
+    ├── BannerVariant
+    ├── ReadyToExpand
+    └── BuildingConfidence
+```
 
-### Addressing Specific Jury Concerns
+**Expected Impact:**
 
-| Jury Concern | Component/Feature | Status |
-|--------------|-------------------|--------|
-| Compliance/security (33 mentions) | SecurityCompliancePanel | ✅ Complete |
-| Testing before go-live (28) | OnboardingWizard test step | ✅ Already exists |
-| Understanding what gets synced (26) | ActivityDashboard visibility | ✅ Already exists |
-| ROI/time-savings metrics (18) | ROIDashboard | ✅ Complete |
-| Rollback mechanism | ActivityDashboard rollback | ✅ Complete |
-| Start small messaging | OnboardingWizard banners | ✅ Complete |
+- Skeptic pass rate: 25% → 45%+ (target: 60%)
+- Key messaging: "Safe to try, easy to undo"
 
-### Expected Impact
-- **Skeptic confidence:** Security panel addresses "show me the audit trail"
-- **ROI proof:** Dashboard shows concrete value before commitment
-- **Rollback safety net:** Reduces fear of irreversible mistakes
-- **Progressive disclosure:** "Start small" messaging reduces overwhelm
+**Next Steps:**
+
+1. Re-run `/validate crm-exp-ete` to measure improvement
+2. If pass rate improves, schedule James review
+3. If still below threshold, consider onboarding flow iteration
 
 ---
 
-*Last updated: 2026-01-16*
+## Related Documents
+
+- [PRD](./prd.md) - Full requirements
+- [Design Brief](./design-brief.md) - Design specifications
+- [Research](./research.md) - User feedback including James's Priority Stack
+- [Placement Research](./placement-research.md) - Integration decision analysis
+
+---
+
+_Last updated: 2026-01-16_
+_Created by: AI PM Copilot_

@@ -178,11 +178,17 @@ npm run storybook -w web    # Opens at http://localhost:6006
    {
      "phase": "build",  // if advancing from define
      "updated_at": "[current timestamp]",
+     "prototype_type": "standalone",  // Track prototype type for /iterate
      "metrics": {
        "total_iterations": 1  // or increment
      }
    }
    ```
+   
+   **Prototype Type Values:**
+   - `"standalone"` - Created with `/proto` (isolated, PRD-driven)
+   - `"context"` - Created with `/context-proto` (integrated with app UI)
+   - `"both"` - Both types exist (compare standalone vs integrated)
 
 3. **Update graduation criteria**:
    - Mark "prototype exists" as met

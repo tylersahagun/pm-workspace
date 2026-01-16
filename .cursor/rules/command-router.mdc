@@ -41,6 +41,8 @@ Use these to:
 | "analyze transcript", "user interview", "call recording", "research this" | `/research [name]` | Analyze user research with strategic lens |
 | "create PRD", "write requirements", "document feature", "PM this" | `/PM [name]` | Create full project documentation |
 | "build prototype", "mock up", "create UI", "design this component" | `/proto [name]` | Build Storybook prototype |
+| "where should this go", "component location", "where does this fit", "placement" | `/placement [name]` | Research where component belongs in codebase |
+| "show in context", "in-app preview", "how it fits", "context prototype" | `/context-proto [name]` | Build prototype showing integration context |
 | "new project", "start initiative", "new feature" | `/new-initiative [name]` | Create initiative folder structure |
 | "share for review", "create PR", "get feedback", "ready for review" | `/share` | Create Pull Request |
 | "test with users", "validate design", "run jury", "user feedback" | `/validate [name]` | Run synthetic user jury evaluation |
@@ -135,6 +137,18 @@ This helps ensure we're building the right thing.
 - Action: Suggest `/proto [initiative-name]`
 - Requires: Initiative name, ideally has PRD already
 
+### Placement Intent
+- Contains: "where should this go", "where does it fit", "component location", "placement research", "analyze location"
+- Action: Suggest `/placement [initiative-name]`
+- Requires: Initiative name with PRD
+- Note: For deep research only; `/context-proto` does placement inline
+
+### Context Prototype Intent
+- Contains: "in context", "in-app", "show how it fits", "integration preview", "context proto", "where it lives"
+- Action: Suggest `/context-proto [initiative-name]`
+- Requires: Initiative name with PRD
+- Note: Does placement analysis + builds prototype in one step
+
 ### Git/Workflow Intent
 - Contains: "save", "commit", "push", "pull", "update", "share", "PR"
 - Action: Execute appropriate git workflow command
@@ -154,6 +168,8 @@ This helps ensure we're building the right thing.
 | Research | product-vision.md, strategic-guardrails.md, personas.md |
 | PM/PRD | product-vision.md, strategic-guardrails.md, existing research.md |
 | Prototype | product-vision.md, PRD, design-brief.md |
+| Placement | PRD, design-brief.md, elephant-ai/web/src/components/ structure |
+| Context-Proto | PRD, design-brief.md, elephant-ai/web/src/ structure, component-patterns.mdc |
 | Validate | All initiative docs, jury-system.mdc |
 | Status/Help | Current workspace state |
 | Git workflows | None (procedural) |
