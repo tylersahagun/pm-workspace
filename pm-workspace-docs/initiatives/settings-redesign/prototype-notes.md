@@ -78,7 +78,72 @@ elephant-ai/web/src/components/prototypes/SettingsRedesign/
 - Tab badge: Workspace tab shows "(Manager & Owner)"
 
 **Feedback:** 
-- [Pending stakeholder review]
+- Jury evaluation: 52% combined pass (below 60% threshold)
+- Applicable concerns: onboarding guidance, visibility into AI behavior, navigation
+
+### Iteration 2 (2026-01-16)
+**Date:** 2026-01-16
+**Trigger:** Jury evaluation feedback
+
+**Jury Feedback Addressed:**
+
+| Feedback | Solution |
+|----------|----------|
+| Need clearer onboarding guidance (18 mentions) | Enhanced tooltips with step-by-step explanations |
+| Need better visibility into what it's doing (14 mentions) | PrivacyAgentPreview component showing exactly what agent will do |
+| Navigation confusion | SettingsNavigationLink component for cross-navigation |
+| Compliance/security concerns (30 mentions) | Trust messaging throughout UI |
+| Edge case concerns | EdgeCaseExplanation tooltip for manager+user meetings |
+
+**New Components Added:**
+
+```
+elephant-ai/web/src/components/prototypes/SettingsRedesign/v2/
+├── index.ts                           # V2 exports
+├── PrivacySettingsV2.tsx              # Enhanced privacy components
+│   ├── ScopeIndicatorV2               # Badge with detailed tooltip
+│   ├── WhatsNewBanner                 # For existing users
+│   ├── PrivacyAgentPreview            # Shows what agent will do
+│   ├── SettingsNavigationLink         # Cross-navigation links
+│   ├── EdgeCaseExplanation            # Mixed meeting tooltip
+│   ├── WorkspacePrivacySettingsV2     # Enhanced workspace settings
+│   └── PersonalPrivacySettingsV2      # Enhanced personal settings
+├── SettingsPageV2.tsx                 # Full page context
+└── SettingsRedesignV2.stories.tsx     # V2 Storybook stories
+```
+
+**New Stories:**
+
+| Story | Shows |
+|-------|-------|
+| `V2_WhatsNewBanner` | Banner for existing users |
+| `V2_PrivacyAgentPreview` | Preview of agent behavior |
+| `V2_NavigationLinks` | Cross-setting navigation |
+| `V2_ScopeIndicators` | Enhanced scope badges |
+| `V2_EdgeCaseExplanation` | Mixed meeting tooltip |
+| `V2_WorkspacePrivacy` | Full workspace section |
+| `V2_PersonalPrivacy_Manager` | Personal for managers |
+| `V2_PersonalPrivacy_User` | Personal for regular users |
+| `V2_InContext_WorkspaceTab` | Full page workspace |
+| `V2_InContext_PersonalTab` | Full page personal |
+| `V2_InContext_ReturningUser` | Page without What's New |
+| `V2_InContext_NonOwner` | Non-owner view |
+| `V2_Comparison` | Side-by-side comparison |
+
+**Key Enhancements:**
+
+1. **What's New Banner** - Explains changes to existing users, dismissible
+2. **Enhanced Tooltips** - Step-by-step explanation of how Privacy Agent works
+3. **Privacy Agent Preview** - Shows exactly what active rules will do
+4. **Cross-Navigation** - Easy links between workspace/personal settings
+5. **Edge Case Tooltip** - Explains manager+user meeting handling
+6. **Trust Messaging** - Security/compliance assurance throughout
+7. **Help Links** - Links to documentation for deeper learning
+
+**Open Questions:**
+- Should What's New banner persist across sessions or be dismissible once?
+- How long should banner be shown to existing users?
+- Should Privacy Agent Preview update in real-time as rules are toggled?
 
 ## Production Checklist
 
@@ -106,5 +171,15 @@ Before promoting to production:
 
 ---
 
+## Iteration History
+
+| Version | Date | Changes | Trigger |
+|---------|------|---------|---------|
+| V1 | 2026-01-16 | Initial context prototype | `/context-proto` |
+| V2 | 2026-01-16 | Enhanced onboarding, visibility, navigation | Jury feedback |
+
+---
+
 *Last updated: 2026-01-16*
+*Total iterations: 2*
 *Owner: Skylar/Tyler*
