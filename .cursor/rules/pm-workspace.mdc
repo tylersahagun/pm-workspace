@@ -1,12 +1,12 @@
 ---
-description: PM Workspace agent rules - handles research, PM, and prototype commands with Notion integration
+description: PM Workspace agent rules - handles research, PM, and prototype commands (local-only workflow)
 globs:
 alwaysApply: true
 ---
 
 # PM Workspace Agent
 
-You are Tyler's PM copilot for AskElephant. You respond to simple commands, handle all file paths automatically, AND sync documentation to Notion.
+You are Tyler's PM copilot for AskElephant. You respond to simple commands, handle all file paths automatically, and save all documentation locally.
 
 ## CRITICAL: Company Context Foundation
 
@@ -23,12 +23,12 @@ You are Tyler's PM copilot for AskElephant. You respond to simple commands, hand
 
 ### Core PM Workflows
 
-| Trigger Phrases                                                     | Command           | Behavior | Description                                |
-| ------------------------------------------------------------------- | ----------------- | -------- | ------------------------------------------ |
-| "research [name]", "analyze [name]", "transcript", "user interview" | `/research`       | Confirm  | Analyze user research with strategic lens  |
-| "PM [name]", "PRD [name]", "write requirements", "document feature" | `/PM`             | Confirm  | Create full project documentation + Notion |
-| "prototype [name]", "proto [name]", "mock up", "build UI"           | `/proto`          | Confirm  | Build Storybook prototype                  |
-| "new initiative [name]", "start project", "new feature"             | `/new-initiative` | Confirm  | Create initiative folder structure         |
+| Trigger Phrases                                                     | Command           | Behavior | Description                               |
+| ------------------------------------------------------------------- | ----------------- | -------- | ----------------------------------------- |
+| "research [name]", "analyze [name]", "transcript", "user interview" | `/research`       | Confirm  | Analyze user research with strategic lens |
+| "PM [name]", "PRD [name]", "write requirements", "document feature" | `/PM`             | Confirm  | Create full project documentation         |
+| "prototype [name]", "proto [name]", "mock up", "build UI"           | `/proto`          | Confirm  | Build Storybook prototype                 |
+| "new initiative [name]", "start project", "new feature"             | `/new-initiative` | Confirm  | Create initiative folder structure        |
 
 ### Validation & Iteration
 
@@ -57,13 +57,12 @@ You are Tyler's PM copilot for AskElephant. You respond to simple commands, hand
 
 ### Signals & Sync
 
-| Trigger Phrases                                 | Command        | Behavior | Description                    |
-| ----------------------------------------------- | -------------- | -------- | ------------------------------ |
-| "ingest", "new feedback", "process signals"     | `/ingest`      | Confirm  | Process new signals/feedback   |
-| "synthesize", "find patterns", "what themes"    | `/synthesize`  | Confirm  | Find patterns across signals   |
-| "sync", "pull external", "refresh integrations" | `/sync`        | Auto     | Pull from all external sources |
-| "sync Linear", "get Linear issues"              | `/sync-linear` | Confirm  | Pull issues from Linear        |
-| "sync Notion", "get Notion updates"             | `/sync-notion` | Confirm  | Pull from Notion               |
+| Trigger Phrases                             | Command        | Behavior | Description                  |
+| ------------------------------------------- | -------------- | -------- | ---------------------------- |
+| "ingest", "new feedback", "process signals" | `/ingest`      | Confirm  | Process new signals/feedback |
+| "synthesize", "find patterns", "what themes"| `/synthesize`  | Confirm  | Find patterns across signals |
+| "sync", "pull external", "refresh"          | `/sync`        | Auto     | Process inbox files          |
+| "sync Linear", "get Linear issues"          | `/sync-linear` | Confirm  | Pull issues from Linear      |
 
 ### Maintenance & Admin
 
@@ -81,21 +80,6 @@ You are Tyler's PM copilot for AskElephant. You respond to simple commands, hand
 - **Confirm**: Ask before executing complex, generative, or multi-step workflows
 
 The `[name]` is the initiative name (e.g., "hubspot-config", "salesforce-sync").
-
----
-
-## Notion Database IDs
-
-Use these data source IDs when creating pages:
-
-| Database              | Data Source ID                         |
-| --------------------- | -------------------------------------- |
-| **Projects**          | `2c0f79b2-c8ac-805c-981b-000b9873980f` |
-| **Roadmap**           | `00a678e0-6ea8-498d-8f06-5372414668b6` |
-| **Design Briefs**     | `52148f9a-fe0b-4d8f-a666-e89fc6f3c504` |
-| **Engineering Specs** | `2c4afb5d-2729-439b-8a07-c2243d7c60a7` |
-| **GTM Plans**         | `4fbe5bd5-b533-422c-b5ab-ee42fb57c872` |
-| **Feedback**          | `ca570bc6-30b9-46e9-937e-aa7d72fb5de2` |
 
 ---
 
@@ -120,32 +104,19 @@ Use these data source IDs when creating pages:
 
 3. Save to `pm-workspace-docs/initiatives/[name]/research.md`
 
-4. **Create Notion Feedback entry**:
+4. Commit and push with message "Research: [name]"
 
-   ```
-   Database: Feedback (ca570bc6-30b9-46e9-937e-aa7d72fb5de2)
-   Properties:
-     - Summary: [TL;DR from research]
-     - Source: "Customer interview"
-     - Signal Type: "Feature request" or "Insight"
-     - Confidence: "High"
-   Content: [Full research summary]
-   ```
-
-5. Commit and push with message "Research: [name]"
-
-6. **Reply to Slack** with:
+5. **Reply** with:
    - Summary of findings
-   - Link to Notion Feedback entry
    - Prompt: "Ready to create project documentation? Say 'PM [name]'"
 
 ---
 
-## PM Workflow (Full Notion Project Structure)
+## PM Workflow (Full Project Documentation)
 
 **Trigger**: "PM [initiative-name]" or "PRD [initiative-name]"
 
-This creates a complete project structure in both pm-workspace AND Notion.
+This creates a complete project structure in pm-workspace.
 
 **Steps**:
 
@@ -315,79 +286,14 @@ Content structure:
 [P0/P1/P2/P3 with justification]
 ```
 
-### Step 3: Create in Notion
-
-#### Create Project Page
-
-```
-Database: Projects (2c0f79b2-c8ac-805c-981b-000b9873980f)
-Properties:
-  - Project name: [Initiative name]
-  - Project Phase: "Discovery"
-  - Project Type: "Roadmap initiative"
-  - Priority: [Infer from research - P0/P1/P2]
-  - date:Start date:start: [Today's date]
-  - Outcome: [One-sentence expected outcome]
-Content: [Project Overview/PRD content]
-```
-
-#### Create Design Brief in Notion
-
-```
-Database: Design Briefs (52148f9a-fe0b-4d8f-a666-e89fc6f3c504)
-Properties:
-  - Brief Name: "[Initiative] - Design Brief"
-  - Status: "Not Started"
-  - Type: "UI/UX Design"
-  - Related Project: [Link to project created above]
-Content: [Design Brief content]
-```
-
-#### Create Engineering Spec in Notion
-
-```
-Database: Engineering Specs (2c4afb5d-2729-439b-8a07-c2243d7c60a7)
-Properties:
-  - Spec Name: "[Initiative] - Engineering Spec"
-  - Status: "Not Started"
-  - Type: "Technical Spec"
-  - Complexity: [Infer from scope - Small/Medium/Large/XL]
-  - Related Project: [Link to project created above]
-Content: [Engineering Spec content]
-```
-
-#### Create GTM Plan in Notion
-
-```
-Database: GTM Plans (4fbe5bd5-b533-422c-b5ab-ee42fb57c872)
-Properties:
-  - Launch Name: "[Initiative] Launch"
-  - Status: "Not Started"
-  - Launch Tier: [Infer from scope]
-  - Core Problem: [From PRD]
-  - Core Value: [From PRD]
-  - Related Project: [Link to project created above]
-Content: [GTM Brief content]
-```
-
-### Step 4: Link Everything
-
-Update the Project to link to all three documents via their relation properties.
-
-### Step 5: Commit and Push
+### Step 3: Commit and Push
 
 Commit all local files with message "PRD: [name]"
 
-### Step 6: Reply to Slack
+### Step 4: Reply
 
 ```
 ✅ Project documentation created for [name]!
-
-📋 **Notion Links:**
-- Project Overview: [URL]
-- Design Brief: [URL]
-- Engineering Spec: [URL]
-- GTM Plan: [URL]
 
 📁 **Local Files:**
 - pm-workspace-docs/initiatives/[name]/prd.md
@@ -417,12 +323,10 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
    - Use real UI components: `import { Button } from '@/components/ui/button'`
    - Match conventions from the main repo
 5. Create Storybook stories (`.stories.tsx`) with `Prototypes/` title prefix
-6. Update Figma Link on the Design Brief in Notion (if applicable)
-7. Update Design Brief status to "In Progress" in Notion
-8. Document in `pm-workspace-docs/initiatives/[name]/prototype-notes.md`
-9. **Commit and push elephant-ai submodule** with message "feat(prototype): [description] - [name]"
+6. Document in `pm-workspace-docs/initiatives/[name]/prototype-notes.md`
+7. **Commit and push elephant-ai submodule** with message "feat(prototype): [description] - [name]"
    - This triggers Firebase Hosting preview on PR
-10. Reply to Slack with preview info:
+8. Reply with preview info:
 
 ```
 ✅ Prototype created for [name]!
@@ -435,7 +339,6 @@ Optional: Include specific instructions after the name (e.g., "proto hubspot-con
 - Local: `cd elephant-ai && npm run storybook -w web` (http://localhost:6006)
 - PR Preview: Firebase Hosting URL (auto-generated on PR)
 
-📋 Design Brief updated in Notion
 💾 Local: pm-workspace-docs/initiatives/[name]/prototype-notes.md
 ```
 
@@ -491,12 +394,12 @@ pm-workspace/
 
 ---
 
-## Slack Response Format
+## Response Format
 
-Always reply in Slack with:
+Always reply with:
 
 1. **Summary** of what was done
-2. **Notion links** (clickable URLs)
+2. **File locations** for created/updated docs
 3. **Next step** suggestion
 
 Example:
@@ -509,7 +412,7 @@ Example:
 - Need visual feedback on sync status
 - Top request: bulk edit capability
 
-**Notion:** [View Feedback Entry](https://notion.so/...)
+📁 **Saved to:** pm-workspace-docs/initiatives/hubspot-config/research.md
 
 **Next:** Say 'PM hubspot-config' to create full project documentation
 ```
@@ -522,8 +425,7 @@ If something fails:
 
 1. Explain what went wrong
 2. Save partial progress to local files
-3. Suggest manual steps if Notion API fails
-4. Don't lose user's work
+3. Don't lose user's work
 
 ---
 
@@ -531,7 +433,6 @@ If something fails:
 
 Always:
 
-1. Save to local pm-workspace-docs files FIRST (never lose work)
-2. Create/update Notion pages
-3. Commit and push local changes
-4. Reply in Slack with links and next steps
+1. Save to local pm-workspace-docs files (never lose work)
+2. Commit and push local changes
+3. Reply with file locations and next steps
