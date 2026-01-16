@@ -233,4 +233,230 @@ Comprehensive CRM agent experience from onboarding through daily use. This initi
 - Notification Engine (current/notification-engine)
 
 ---
+
+## Synthesized Feedback from Multiple Sources
+
+*Analysis conducted: 2026-01-16*
+*Sources: Notion, User Interviews, Internal Research*
+
+---
+
+### Theme 1: Zero Visibility Into Agent Behavior (Critical)
+
+**Frequency:** Every user | **Impact:** Trust erosion, feature abandonment
+
+**Problem Signals:**
+- Users turn off agents entirely when something unexpected happens because they can't debug it
+- No audit trail of what enrolled in a workflow, why, or what changed
+- "Black box" behavior makes RevOps governance impossible
+
+**Verbatim Quotes:**
+> "There is zero confidence that an admin or rep can find out why things were updated the way they were in the CRM and cannot therefore fix anything that's broken nor can they identify very quickly when and where things happen inside of AskElephant." — James Hinkson
+
+> "Not seeing what happened is one of the bigger pains today." — James Hinkson
+
+> "Any good workflow program on Earth has an audit history of what enrolled in the workflow. Why? What did it change?" — James Hinkson
+
+**Mapped to Epic:** Epic 4 (Admin Dashboard) & Epic 5 (User Agent Hub)
+
+---
+
+### Theme 2: Testing Is Impossible (Critical)
+
+**Frequency:** Every configuration | **Impact:** Late-night testing, CRM hygiene issues
+
+**Problem Signals:**
+- Only way to test is against production data
+- Users resort to testing between 10PM-3AM when no one else is online
+- No safe way to validate before deploying
+
+**Verbatim Quotes:**
+> "If I do get something built, testing is a nightmare. So I have to build it, and then I either have to go and trigger stuff en masse, which isn't great for my CRM hygiene, frankly, or I have to then just wait a bit." — James Hinkson
+
+> "The only way they'll be able to do [testing] without this is what I did where it's between 10PM and 3AM when no one else is online, you're testing workflows, looking at the record in HubSpot, and going back and making changes one at a time." — James Hinkson
+
+**Mapped to Epic:** Epic 2 (Confidence-Building) & Epic 3 (Initial Configuration)
+
+---
+
+### Theme 3: Configuration Takes Forever (Critical)
+
+**Frequency:** Every setup | **Impact:** 100+ hours vs desired 50 minutes
+
+**Problem Signals:**
+- Complex prompt engineering required across multiple workflow nodes
+- Users need ~100 hours to become proficient
+- Partners abandon after first use due to complexity
+
+**Verbatim Quotes:**
+> "I'm probably like a hundred hours now of chatting with AskElephant to find out why something would or would not work every single time." — James Hinkson
+
+> "It's this nightmare of a prompt that I spent forever putting together and lives in three or four different nodes in a single workflow." — James Hinkson
+
+> "My goal is that this should take five minutes per node." — James Hinkson
+
+**Desired State:** 5 minutes per node × 10 nodes = ~50 minutes total
+
+**Mapped to Epic:** Epic 3 (Initial Configuration), Epic 7 (User Self-Service)
+
+---
+
+### Theme 4: Partners/Users Abandon After First Experience (Critical)
+
+**Frequency:** Common | **Impact:** Trust in AskElephant as a whole is lost
+
+**Problem Signals:**
+- Users try agent twice, don't understand what it does, turn it off forever
+- Trust loss spreads from specific feature to entire platform
+- No recovery path once trust is broken
+
+**Verbatim Quotes:**
+> "We've had a lot of partners and clients who use the HubSpot agent, like, twice. It does something. They don't know what it does. So they turn it off and they'll never use it again." — James Hinkson
+
+> "The trust isn't lost in a single workflow. It's not lost in the HubSpot agent. It's AskElephant's problem. Like, it's 'I don't trust AskElephant with my information or to manage my CRM.'" — James Hinkson
+
+**Mapped to Epic:** Epic 1 (Onboarding), Epic 2 (Confidence-Building)
+
+---
+
+### Theme 5: CRM Workflow Accuracy Issues (Critical)
+
+**Frequency:** Common | **Impact:** Core value prop fails when needed most
+
+**Problem Signals:**
+- Workflow builder defaults to legacy v2 HubSpot tools instead of modern agent
+- CRM automation is biggest value prop but fails most often
+- Inconsistent agent execution (runs only 1/5 of the time sometimes)
+
+**Verbatim Quotes:**
+> "If you don't tell it to use the HubSpot agent, it'll use the individual v2 HubSpot tools that don't actually work. You have to explicitly tell it, 'use the HubSpot agent.'" — Product Team
+
+> "If we're like, 'you can build anything you want except what you most want,' that's gonna be a problem." — Product Team
+
+> "This field right here, marketing attribution agent is part of the same workflow as all these, but it runs only a fifth of the time. And I don't know why." — James Hinkson
+
+**Mapped to Epic:** Epic 3 (Initial Configuration), Epic 4 (Admin Dashboard)
+
+---
+
+### Theme 6: Complex Multi-Field Dependencies (High)
+
+**Frequency:** Every advanced use | **Impact:** Forces workarounds
+
+**Problem Signals:**
+- Read-before-write logic requires prompt gymnastics
+- Field dependencies spread across 3-4 workflow nodes
+- Even engineering didn't know some workarounds were possible
+
+**Verbatim Quotes:**
+> "This thing, the closed date probability context—before this writes, it reads this, and then it also reads all of these, and then also reads all of these assessments before it updates this. And then once it does this, then it updates this." — James Hinkson
+
+> "Digest the content already in the field in HubSpot. Or are there other fields that should be read before this gets updated?" — James Hinkson
+
+**Mapped to Epic:** Epic 3 (Initial Configuration), Epic 7 (User Self-Service)
+
+---
+
+### Theme 7: Privacy & Security Vulnerabilities (Critical)
+
+**Frequency:** Architectural risk | **Impact:** Potential customer trust erosion
+
+**Problem Signals:**
+- Easy to create surveillance-style workflows
+- Users not notified when workflows process their data
+- External notifications can expose private meeting content
+
+**Verbatim Quotes:**
+> "A workflow that listens to specific users' private calls and sends Slack DMs about them — without those users being notified." — Drew (demo video)
+
+> "It's not necessarily the workflow builder that's a concern. It's the ease of access to a flawed system that we already have." — Product Team
+
+**Mapped to Epic:** Epic 4 (Admin Dashboard), Epic 10 (CRM Querying)
+
+---
+
+### Theme 8: Cost & Token Exposure (Critical)
+
+**Frequency:** Ongoing risk | **Impact:** Uncontrolled costs, resource drain
+
+**Problem Signals:**
+- No per-workspace or per-workflow token limits
+- Users can create unlimited workflows with no cleanup incentive
+- No alerts when workflows exceed cost thresholds
+
+**Verbatim Quotes:**
+> "Anybody can do that. I mean, they could just create piles of garbage workflows, and then they have no incentive to clean up after themselves because there's no limit on the workflows they can build." — Engineering
+
+**Mapped to Epic:** Epic 4 (Admin Dashboard)
+
+---
+
+### Theme 9: Missing Post-Implementation Diagnostics (High)
+
+**Frequency:** Every use | **Impact:** CSM dependency, incomplete adoption
+
+**Problem Signals:**
+- Users get 50-60% of the way with builder, then hit a wall
+- Need CSM/support intervention to complete remaining work
+- No workflow health monitoring or error diagnostics
+
+**Verbatim Quotes:**
+> "What I would really want is now the testing and actually getting it implemented. There's this tail-end process... That's still a very manual process." — Design Team
+
+**Competitive Gap:**
+- HubSpot provides reports showing which workflows have issues
+- Zapier offers workflow health monitoring and error diagnostics
+- AskElephant has no equivalent visibility
+
+**Mapped to Epic:** Epic 4 (Admin Dashboard), Epic 8 (Proactive Anomaly Detection)
+
+---
+
+## Feature Requests Consolidated
+
+### Data Fidelity (from Product Insights)
+
+| Request | Source | Priority |
+|---------|--------|----------|
+| Custom object sync & workflow updates (HubSpot) | Customer feedback | High |
+| Lead object access, stage progression | Customer feedback | High |
+| Automated meeting disposition based on attendance | Customer feedback | Medium |
+| Record deep-link from item UI | Customer feedback | Medium |
+| Markdown-to-HubSpot HTML conversion | Customer feedback | Medium |
+| Retry policies & error routing for API failures | Customer feedback | High |
+
+### Configuration UI (from James Hinkson)
+
+| Request | Current State | Desired State |
+|---------|---------------|---------------|
+| Select fields | Write in prompt | Dropdown from HubSpot |
+| Set instructions | Embedded in massive prompt | Text box per property |
+| Read before write | Prompt engineering | Checkbox toggle |
+| Field dependencies | Prompt gymnastics | Visual selector |
+| Order of operations | Multiple nodes | Single node with sequence |
+
+---
+
+## Risk Assessment
+
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| Users abandon after first bad experience | High | Critical | Epic 2 (Confidence-building with test-before-commit) |
+| Trust loss spreads to entire platform | High | Critical | Epic 4 (Full audit trail and transparency) |
+| CRM workflow fails at scale | Medium | High | Fix default tool selection in builder |
+| Privacy incident | Medium | Critical | Epic 4 (Visibility controls), Notification engine |
+| Cost overrun from token usage | Medium | High | Add guardrails and monitoring |
+
+---
+
+## Sources
+
+1. **Product Insights** - Notion (2025-11-20)
+2. **Workflow Builder Eng & Design Concerns** - Notion (2025-12-04)
+3. **Customer Feedback Prompts** - Notion (2025-12-06)
+4. **CRM Agent Upgrades PRD** - Notion (2025-12-05)
+5. **James Hinkson Interview** - pm-workspace-docs (2026-01-06)
+6. **Leadership Brain Dump** - Internal session (2026-01-16)
+
+---
 *Last updated: 2026-01-16*
