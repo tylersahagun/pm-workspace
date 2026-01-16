@@ -23,12 +23,14 @@
             "id": "128b14b758519205",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (1).jpeg"
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-image",
-              "title": "_ (1)"
+              "icon": "lucide-file",
+              "title": "Untitled"
             }
           }
         ],
@@ -165,13 +167,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (1).jpeg",
+                "file": "Untitled.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of _ (1)"
+              "title": "Outline of Untitled"
             }
           },
           {
@@ -219,54 +221,53 @@
       "audio-recorder:Start/stop recording": false
     }
   },
-  "active": "e18f25b09354e480",
+  "active": "128b14b758519205",
   "lastOpenFiles": [
-    "pm-workspace-docs/scripts/notion-obsidian-sync/src/index.ts",
-    "pm-workspace-docs/scripts/notion-obsidian-sync/README.md",
-    "pm-workspace-docs/scripts/notion-obsidian-sync/config.example.json",
-    "pm-workspace-docs/scripts/notion-obsidian-sync/config.json",
-    "pm-workspace-docs/scripts/notion-obsidian-sync/tsconfig.json",
-    "pm-workspace-docs/scripts/notion-obsidian-sync/package.json",
-    "pm-workspace-docs/scripts/notion-obsidian-sync/src",
-    "pm-workspace-docs/scripts/notion-obsidian-sync",
-    "pm-workspace-docs/NotionSync",
+    "Untitled.canvas",
+    "pm-workspace-docs/README.md",
+    "pm-workspace-docs/research/pm-workspace-system-audit-2026-01-15.md",
+    "pm-workspace-docs/company-context/strategic-guardrails.md",
+    "pm-workspace-docs/research/feature-flag/feature-parity-communication-plan.md",
+    "pm-workspace-docs/research/feature-flag/images/Gemini_Generated_Image_99vhcd99vhcd99vh.png",
+    "pm-workspace-docs/research/feature-flag/feature-flag-audit-2026-01-13.md",
+    "pm-workspace-docs/initiatives/feature-availability-audit/design-brief.md",
+    "pm-workspace-docs/initiatives/feature-availability-audit/Feature Flag Audit.md",
+    "pm-workspace-docs/initiatives/feature-availability-audit/engineering-spec.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/system-integration-audit.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/research.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/prototype-notes.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/prd.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/gtm-brief.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/Follow-Up Notes.md",
     "pm-workspace-docs/initiatives/release-lifecycle-process/feature-flag-categorization.md",
-    "prototypes/src/components/JourneyWorkspace/v3/index.ts",
-    "prototypes/src/components/JourneyWorkspace/v3/JourneyWorkspaceV3.stories.tsx",
-    "prototypes/src/components/JourneyWorkspace/v3/JourneyWorkspaceV3.tsx",
-    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_.jpeg",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/engineering-spec.md",
+    "pm-workspace-docs/initiatives/release-lifecycle-process/design-brief.md",
+    "pm-workspace-docs/initiatives/feature-availability-audit/gtm-brief.md",
+    "pm-workspace-docs/NotionSync/Projects/CRM-Push-from-Rep-Stats-4eafb653.md",
+    "pm-workspace-docs/initiatives/current/release-lifecycle-process/analysis.md",
+    "pm-workspace-docs/initiatives/current/release-lifecycle-process",
+    "pm-workspace-docs/initiatives/current/nerdy-tables/analysis.md",
+    "pm-workspace-docs/initiatives/current/nerdy-tables",
+    "pm-workspace-docs/initiatives/current/fga-engine/analysis.md",
+    "pm-workspace-docs/initiatives/current/fga-engine",
+    "pm-workspace-docs/initiatives/current/crm-agent-upgrades/analysis.md",
+    "pm-workspace-docs/initiatives/current/crm-agent-upgrades",
+    "pm-workspace-docs/initiatives/current/global-chat/analysis.md",
+    "pm-workspace-docs/initiatives/current/global-chat",
+    "pm-workspace-docs/initiatives/current/privacy-determination-agent-v2/analysis.md",
+    "pm-workspace-docs/initiatives/current/privacy-determination-agent-v2",
+    "pm-workspace-docs/initiatives/current/customer-journey-product",
+    "pm-workspace-docs/initiatives/current/notification-engine",
+    "pm-workspace-docs/initiatives/current/capture-visibility",
+    "pm-workspace-docs/initiatives/current/observability-monitoring",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (1).jpeg",
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_.jpeg",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (2).jpeg",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (4).jpeg",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/20 Beautiful Timeline Design For Your Inspiration.jpeg",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (5).jpeg",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Screenshot 2026-01-14 at 3.59.03 PM.png",
     "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Screenshot 2026-01-14 at 3.59.37 PM.png",
-    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Bauhaus.jpeg",
-    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/_ (3).jpeg",
-    "pm-workspace-docs/initiatives/hubspot-agent-config-ui/transcripts/Ty's Feedback.md",
-    "pm-workspace-docs/initiatives/hubspot-agent-config-ui/design-brief.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/design-brief.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/prd.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Rob's Prototype Feedback on Option B.md",
-    "pm-workspace-docs/initiatives/release-lifecycle-process/gtm-brief.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Product Channel Framework Strategy with Rob and James.md",
-    "pm-workspace-docs/initiatives/release-lifecycle-process/system-integration-audit.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/prototype-notes.md",
-    "elephant-ai/web/electron/AGENTS.md",
-    "elephant-ai/functions/src/contexts/call-imports/AGENTS.md",
-    "elephant-ai/functions/src/contexts/authorization/ARCHITECTURE.md",
-    "elephant-ai/docs/runbooks/dialpad-pipedream-staging.md",
-    "elephant-ai/docs/runbooks/dialpad-pipedream-local.md",
-    "pm-workspace-docs/initiatives/release-lifecycle-process/Follow-Up Notes.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Redefining Customer Journey Experience.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/research.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Customer Journey with Pete & Josh.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Customer Journey Discovery with Kinard.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Customer Journey Discovery with CS.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Beta Prototype Iteration Transcript.md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/‘Customer Journey’ Product .md",
-    "pm-workspace-docs/initiatives/customer-journey-map/Transcripts/Understanding Customer Journey Mapping and Enhancing Engagement.md",
-    "Untitled.canvas"
+    "pm-workspace-docs/initiatives/customer-journey-map/Timeline Inspiration/Bauhaus.jpeg"
   ]
 }

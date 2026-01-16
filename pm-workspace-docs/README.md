@@ -59,13 +59,13 @@ The `/company-context/` folder contains the strategic foundation that guides all
 
 ### Commands (use with `/`)
 
-| Command | Purpose |
-|---------|---------|
-| `/pm` | Strategic PM partner—asks clarifying questions, flags misalignment |
-| `/research` | Analyze transcripts with strategic lens, flag red flags |
-| `/proto` | Build prototypes in Storybook |
-| `/new-initiative` | Create initiative folder structure |
-| `/agents` | Generate AGENTS.md documentation |
+| Command           | Purpose                                                            |
+| ----------------- | ------------------------------------------------------------------ |
+| `/pm`             | Strategic PM partner—asks clarifying questions, flags misalignment |
+| `/research`       | Analyze transcripts with strategic lens, flag red flags            |
+| `/proto`          | Build prototypes in Storybook                                      |
+| `/new-initiative` | Create initiative folder structure                                 |
+| `/agents`         | Generate AGENTS.md documentation                                   |
 
 ### Rules (auto-activate on file patterns)
 
