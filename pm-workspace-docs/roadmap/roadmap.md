@@ -1,7 +1,7 @@
 # Product Roadmap
 
-**Generated:** 2026-01-16 09:00
-**Total Initiatives:** 9
+**Generated:** 2026-01-20 00:00
+**Total Initiatives:** 11
 
 ---
 
@@ -11,7 +11,7 @@
 |-------|-------|
 | Discovery | 1 |
 | Define | 4 |
-| Build | 3 |
+| Build | 5 |
 | Validate | 1 |
 | Launch | 0 |
 | Measure | 0 |
@@ -23,10 +23,11 @@
 
 | Status | Count |
 |--------|-------|
-| ✅ On Track | 9 |
+| ✅ On Track | 10 |
 | ⚠️ At Risk | 0 |
 | 🚫 Blocked | 0 |
 | 💤 Stale | 0 |
+|  In-Progress | 1 |
 
 ---
 
@@ -36,30 +37,32 @@
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury Eval | tyler | P2 | 0 | ✅ |
+| Condorcet Jury Eval | tyler | P2 | 4 | ✅ |
 
 ### Define
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury System | tyler | P0 | 7 | ✅ |
-| Feature Availability Audit | tyler | P0 | 2 | ✅ |
-| Automated Metrics Observability | tyler | P2 | 7 | ✅ |
-| Call Import Engine | tyler | P2 | 2 | ✅ |
+| Condorcet Jury System | tyler | P0 | 10 | ✅ |
+| Feature Availability Audit | tyler | P0 | 6 | ✅ |
+| Automated Metrics Observability | tyler | P2 | 11 | ✅ |
+| Call Import Engine | tyler | P2 | 6 | ✅ |
 
 ### Build
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Universal Signal Tables | tyler | P0 | 1 | ✅ |
-| Customer Journey Map | tyler | P0 | 1 | ✅ |
-| Release Lifecycle Process | tyler | P0 | 1 | ✅ |
+| Crm Exp Ete | Tyler | P0 | 3 | ✅ |
+| Universal Signal Tables | tyler | P0 | 5 | ✅ |
+| Customer Journey Map | tyler | P0 | 5 | ✅ |
+| Release Lifecycle Process | tyler | P0 | 5 | ✅ |
+| Rep Workspace | Skylar/Tyler | high | 3 |  |
 
 ### Validate
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Hubspot Agent Config Ui | tyler | P0 | 1 | ✅ |
+| Hubspot Agent Config Ui | tyler | P0 | 5 | ✅ |
 
 ### Launch
 
@@ -103,7 +106,9 @@ _No initiatives._
 
 ### Unassigned
 
+- **Crm Exp Ete** (build) - P0
 - **Condorcet Jury Eval** (discovery) - P2
+- **Rep Workspace** (build) - high
 
 ---
 
@@ -113,6 +118,7 @@ _No initiatives._
 
 - **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
+- **Crm Exp Ete** (build) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
@@ -123,6 +129,7 @@ _No initiatives._
 
 - **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
+- **Crm Exp Ete** (build) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
@@ -142,6 +149,7 @@ _No initiatives._
 
 - **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
+- **Crm Exp Ete** (build) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0

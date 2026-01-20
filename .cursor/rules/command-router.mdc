@@ -57,6 +57,7 @@ Use these to:
 | "audit workspace", "check health", "maintenance" | `/maintain` | Audit and clean workspace |
 | "change rules", "modify commands", "workspace settings" | `/admin` | Modify workspace rules/commands |
 | "document code", "write AGENTS.md", "AI documentation" | `/agents` | Generate AGENTS.md documentation |
+| "sync figma", "figma to storybook", "figma spec", "design sync", "extract from figma" | `/figma-sync [name] [url]` | Sync Figma design to Storybook stories + code scaffolds |
 
 ---
 
@@ -159,6 +160,12 @@ This helps ensure we're building the right thing.
 - Action: Execute appropriate info command
 - Low-risk: Can auto-execute
 
+### Figma Sync Intent
+- Contains: "figma", "sync design", "figma to code", "design spec", "extract variants", "figma storybook"
+- Action: Suggest `/figma-sync [initiative-name] [figma-url]`
+- Requires: Initiative name and Figma URL with node-id
+- Note: Extracts variants/props from Figma, generates stories + code scaffolds
+
 ---
 
 ## Context Loading by Command Type
@@ -171,6 +178,7 @@ This helps ensure we're building the right thing.
 | Placement | PRD, design-brief.md, elephant-ai/web/src/components/ structure |
 | Context-Proto | PRD, design-brief.md, elephant-ai/web/src/ structure, component-patterns.mdc |
 | Validate | All initiative docs, jury-system.mdc |
+| Figma-Sync | Figma URL, existing prototype (if any), component-patterns.mdc |
 | Status/Help | Current workspace state |
 | Git workflows | None (procedural) |
 

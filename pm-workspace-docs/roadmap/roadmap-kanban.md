@@ -1,15 +1,16 @@
 # Roadmap Kanban View
 
-**Generated:** 2026-01-16 09:00
+**Generated:** 2026-01-20 00:00
 
 ## Visual Board
 
 | Discovery | Define | Build | Validate | Launch |
 |-----------|--------|-------|----------|--------|
-| ✅ Condorcet Jury Eval | ✅ Condorcet Jury Syste | ✅ Universal Signal Tab | ✅ Hubspot Agent Config |  |
-|  | ✅ Feature Availability | ✅ Customer Journey Map |  |  |
-|  | ✅ Automated Metrics Ob | ✅ Release Lifecycle Pr |  |  |
-|  | ✅ Call Import Engine |  |  |  |
+| ✅ Condorcet Jury Eval | ✅ Condorcet Jury Syste | ✅ Crm Exp Ete | ✅ Hubspot Agent Config |  |
+|  | ✅ Feature Availability | ✅ Universal Signal Tab |  |  |
+|  | ✅ Automated Metrics Ob | ✅ Customer Journey Map |  |  |
+|  | ✅ Call Import Engine | ✅ Release Lifecycle Pr |  |  |
+|  |  |  Rep Workspace |  |  |
 
 ---
 
@@ -20,7 +21,7 @@
 **Condorcet Jury Eval** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 0
+- Days in phase: 4
 - Next: Review discovery phase status
 
 ### Define (4)
@@ -28,53 +29,63 @@
 **Condorcet Jury System** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 7
+- Days in phase: 10
 - Next: Review define phase status
 
 **Feature Availability Audit** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 2
+- Days in phase: 6
 - Next: Review define phase status
 
 **Automated Metrics Observability** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 7
+- Days in phase: 11
 - Next: Review define phase status
 
 **Call Import Engine** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 2
+- Days in phase: 6
 - Next: Review define phase status
 
-### Build (3)
+### Build (5)
+
+**Crm Exp Ete** ✅
+- Priority: P0
+- Owner: Tyler
+- Days in phase: 3
 
 **Universal Signal Tables** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 1
+- Days in phase: 5
 - Next: Review build phase status
 
 **Customer Journey Map** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 1
+- Days in phase: 5
 - Next: Review build phase status
 
 **Release Lifecycle Process** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 1
+- Days in phase: 5
 - Next: Review build phase status
+
+**Rep Workspace** 
+- Priority: high
+- Owner: Skylar/Tyler
+- Days in phase: 3
 
 ### Validate (1)
 
 **Hubspot Agent Config Ui** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 1
+- Days in phase: 5
 - Next: Review validate phase status
 
 ---
