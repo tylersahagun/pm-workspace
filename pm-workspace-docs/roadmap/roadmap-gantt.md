@@ -1,6 +1,6 @@
 # Roadmap Timeline (Gantt)
 
-**Generated:** 2026-01-20 00:00
+**Generated:** 2026-01-21 09:01
 
 ```mermaid
 gantt
@@ -18,9 +18,9 @@ gantt
     Feature Availability Audit :active, feature_availability_audit, 2026-01-13, 7d
     Automated Metrics Observability :active, automated_metrics_observability, 2026-01-08, 7d
     section Other
-    Crm Exp Ete :active, crm_exp_ete, 2026-01-20, 21d
+    Crm Exp Ete :active, crm_exp_ete, 2026-01-21, 21d
     Condorcet Jury Eval :active, condorcet_jury_eval, 2026-01-15, 14d
-    Rep Workspace :rep_workspace, 2026-01-20, 21d
+    Rep Workspace :rep_workspace, 2026-01-21, 21d
 ```
 
 ---

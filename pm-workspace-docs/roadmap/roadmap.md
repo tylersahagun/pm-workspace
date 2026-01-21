@@ -1,6 +1,6 @@
 # Product Roadmap
 
-**Generated:** 2026-01-20 00:00
+**Generated:** 2026-01-21 09:01
 **Total Initiatives:** 11
 
 ---
@@ -37,32 +37,32 @@
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury Eval | tyler | P2 | 4 | ✅ |
+| Condorcet Jury Eval | tyler | P2 | 5 | ✅ |
 
 ### Define
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury System | tyler | P0 | 10 | ✅ |
-| Feature Availability Audit | tyler | P0 | 6 | ✅ |
-| Automated Metrics Observability | tyler | P2 | 11 | ✅ |
-| Call Import Engine | tyler | P2 | 6 | ✅ |
+| Condorcet Jury System | tyler | P0 | 12 | ✅ |
+| Feature Availability Audit | tyler | P0 | 7 | ✅ |
+| Automated Metrics Observability | tyler | P2 | 12 | ✅ |
+| Call Import Engine | tyler | P2 | 7 | ✅ |
 
 ### Build
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Crm Exp Ete | Tyler | P0 | 3 | ✅ |
-| Universal Signal Tables | tyler | P0 | 5 | ✅ |
-| Customer Journey Map | tyler | P0 | 5 | ✅ |
-| Release Lifecycle Process | tyler | P0 | 5 | ✅ |
-| Rep Workspace | Skylar/Tyler | high | 3 |  |
+| Crm Exp Ete | Tyler | P0 | 4 | ✅ |
+| Universal Signal Tables | tyler | P0 | 6 | ✅ |
+| Customer Journey Map | tyler | P0 | 6 | ✅ |
+| Release Lifecycle Process | tyler | P0 | 6 | ✅ |
+| Rep Workspace | Skylar/Tyler | high | 4 |  |
 
 ### Validate
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Hubspot Agent Config Ui | tyler | P0 | 5 | ✅ |
+| Hubspot Agent Config Ui | tyler | P0 | 6 | ✅ |
 
 ### Launch
 

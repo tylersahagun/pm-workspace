@@ -235,14 +235,97 @@ prototypes/src/components/BetaFeatures/
 
 ---
 
-## Next Steps
+## PostHog Integration
 
-1. **Stakeholder review** of three options
-2. **Choose direction** (recommend Option B)
-3. **Refine chosen option** based on feedback
-4. **Design system integration** - Add to component library
-5. **Engineering handoff** - Finalize specs
+The prototype is now wired up to PostHog's Early Access Feature Management system.
+
+### Production Component Location
+
+```
+elephant-ai/web/src/components/beta-features/
+├── BetaFeaturesSettings.tsx    # Main settings UI
+├── StageBadge.tsx              # Badge components
+├── types.ts                    # Type definitions
+└── index.ts                    # Exports
+```
+
+**Branch:** `feat/beta-features-ui`
+
+### How It Works
+
+1. **Fetch features:** `posthog.getEarlyAccessFeatures()` retrieves available beta features
+2. **Toggle enrollment:** `posthog.updateEarlyAccessFeatureEnrollment(key, boolean)` opts users in/out
+3. **Check status:** `posthog.isFeatureEnabled(key)` checks current state
+
+### Creating Early Access Features in PostHog
+
+**Option 1: Migration Script (Recommended for bulk)**
+
+```bash
+cd pm-workspace-docs/scripts
+# Configure environment
+export POSTHOG_API_KEY="phx_your_key"
+export POSTHOG_PROJECT_ID="12345"
+
+# Run migration
+npx ts-node migrate-flags-to-early-access.ts
+```
+
+See `pm-workspace-docs/scripts/MIGRATION-README.md` for full documentation.
+
+**Option 2: Manual via PostHog UI**
+
+1. Go to PostHog → Feature Flags → Early Access Management
+2. Click "Create early access feature"
+3. Fill in name, description, stage, and link to feature flag
+4. **Release** the feature (required for users to see it)
+
+### PostHog API Endpoints
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/projects/:id/early_access_feature/` | GET | List all EA features |
+| `/api/projects/:id/early_access_feature/` | POST | Create EA feature |
+| `/api/projects/:id/early_access_feature/:id/` | PATCH | Update EA feature |
+
+### Stage Mapping
+
+| PostHog Stage | UI Tab | Description |
+|---------------|--------|-------------|
+| `concept` | Coming Soon | Users register interest |
+| `alpha` | Labs | Experimental, may change |
+| `beta` | Beta | Stable, pre-GA |
+
+### Testing Locally
+
+```bash
+# Start dev server
+cd elephant-ai && npm run dev -w web
+
+# Navigate to Settings → Beta Features
+# Or view in Storybook
+npm run storybook -w web
+```
+
+### Important Notes
+
+1. **Features must be released** in PostHog before `getEarlyAccessFeatures()` returns them
+2. **Opt-in overrides flag conditions** - User opt-in/out takes precedence over release conditions
+3. **Scope support** - Add `{ scope: "workspace" }` to flag properties for workspace-level features
 
 ---
 
-*Last Updated: January 13, 2026*
+## Next Steps
+
+1. ✅ **Prototype built** - Components in `feat/beta-features-ui` branch
+2. ✅ **PostHog integration** - Using Early Access Feature Management API
+3. ✅ **Migration script** - Bulk migrate flags to EA features
+4. ⬜ **Create EA features** - Run migration script for target flags
+5. ⬜ **Release features** - Mark as released in PostHog UI
+6. ⬜ **QA testing** - Verify toggle behavior end-to-end
+7. ⬜ **Stakeholder review** - Demo to product/leadership
+8. ⬜ **Merge to main** - Ship to production
+
+---
+
+*Last Updated: January 20, 2026*

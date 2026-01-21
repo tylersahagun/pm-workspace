@@ -1,6 +1,6 @@
 # Roadmap Kanban View
 
-**Generated:** 2026-01-20 00:00
+**Generated:** 2026-01-21 09:01
 
 ## Visual Board
 
@@ -21,7 +21,7 @@
 **Condorcet Jury Eval** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 4
+- Days in phase: 5
 - Next: Review discovery phase status
 
 ### Define (4)
@@ -29,25 +29,25 @@
 **Condorcet Jury System** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 10
+- Days in phase: 12
 - Next: Review define phase status
 
 **Feature Availability Audit** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 6
+- Days in phase: 7
 - Next: Review define phase status
 
 **Automated Metrics Observability** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 11
+- Days in phase: 12
 - Next: Review define phase status
 
 **Call Import Engine** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 6
+- Days in phase: 7
 - Next: Review define phase status
 
 ### Build (5)
@@ -55,37 +55,37 @@
 **Crm Exp Ete** ✅
 - Priority: P0
 - Owner: Tyler
-- Days in phase: 3
+- Days in phase: 4
 
 **Universal Signal Tables** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 5
+- Days in phase: 6
 - Next: Review build phase status
 
 **Customer Journey Map** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 5
+- Days in phase: 6
 - Next: Review build phase status
 
 **Release Lifecycle Process** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 5
+- Days in phase: 6
 - Next: Review build phase status
 
 **Rep Workspace** 
 - Priority: high
 - Owner: Skylar/Tyler
-- Days in phase: 3
+- Days in phase: 4
 
 ### Validate (1)
 
 **Hubspot Agent Config Ui** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 5
+- Days in phase: 6
 - Next: Review validate phase status
 
 ---

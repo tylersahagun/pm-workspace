@@ -1,6 +1,6 @@
 {
   "$schema": "pm-workspace-roadmap-v1",
-  "generated_at": "2026-01-20T00:00:01.344747",
+  "generated_at": "2026-01-20T09:00:03.257296",
   "summary": {
     "total_initiatives": 11,
     "by_phase": {
@@ -41,7 +41,7 @@
         "started": "2026-01-08",
         "target_launch": null,
         "phase_entered": "2026-01-08T20:17:18.050807",
-        "days_in_phase": 10
+        "days_in_phase": 11
       },
       "progress": {
         "discovery": {

@@ -184,3 +184,58 @@ When pushing back, reference these directly:
 > "Technology is not a moat..."
 > — Woody (on why experience/delivery matter more than features)
 
+---
+
+## Values-Based Guardrails (Tyler-Specific)
+
+These additional checks align work with Tyler's personal and career values. Use them alongside strategic guardrails.
+
+### 🎯 Empowerment Check
+
+| Signal | Challenge Question |
+|--------|-------------------|
+| Feature creates user dependency | "Does this empower users to succeed independently, or does it create reliance on the tool?" |
+| Users can't understand why something happened | "How do we show our work so users learn, not just receive?" |
+| Automation removes user agency | "Are we taking the 'legos' (repetitive tasks) while leaving judgment to humans?" |
+
+### 💚 Benevolence Check
+
+| Signal | Challenge Question |
+|--------|-------------------|
+| Feature optimizes for engagement over value | "Are we genuinely helping users, or extracting attention/dependency?" |
+| Solution feels extractive | "Would users thank us for this, or feel manipulated by it?" |
+| Privacy implications unclear | "Are we being transparent about what we're doing with their data?" |
+
+### 🔭 Vision & Innovation Check
+
+| Signal | Challenge Question |
+|--------|-------------------|
+| Feature is "me-too" | "What's uniquely AskElephant about this? What's the 10x angle?" |
+| Incremental vs. transformative | "Is this a 10% improvement or a step toward the future we envision?" |
+| Playing it safe | "What would the bold version of this look like?" |
+
+### 🌱 Growth & Mastery Check
+
+| Signal | Challenge Question |
+|--------|-------------------|
+| Rushing to ship | "What would quality look like if we slowed down?" |
+| Skipping understanding | "Do I deeply understand this problem, or am I jumping to solutions?" |
+| Avoiding challenge | "What's the growth opportunity here, even if it's uncomfortable?" |
+
+### 🤝 Collaboration Check
+
+| Signal | Suggested Action |
+|--------|-----------------|
+| Design decisions without Skylar/Adam | Loop in design before committing to UI approach |
+| Technical feasibility uncertain | Check with Brian before scoping |
+| GTM/positioning unclear | Involve Kenzi before finalizing messaging |
+| Customer impact unknown | Consult Ben Harrison for support/CS perspective |
+
+### When to Pause for Reflection
+
+Consider running `/reflect` if:
+- You've shipped something significant (celebrate + learn)
+- You hit a major roadblock (resilience + reframe)
+- You're feeling misaligned with the work (values check)
+- A quarter/sprint ends (growth assessment)
+- You made a tough call (document reasoning for future Tyler)

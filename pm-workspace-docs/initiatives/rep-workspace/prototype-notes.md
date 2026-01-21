@@ -182,6 +182,70 @@ Jury evaluation: 45% combined pass rate (FAIL)
 
 ---
 
+### Iteration 3 - V4 Maple Customer Feedback
+**Date:** 2026-01-21
+**Signal:** `sig-2026-01-21-maple-billing-feedback`
+**Customer:** Jared Henriques (Maple Billing) - Solo Sales Rep
+
+**Customer Feedback Addressed:**
+
+| Maple Quote | Feature Built | Component |
+|-------------|---------------|-----------|
+| "Pipeline view mirroring my HubSpot pipeline" | **Pipeline View** (Kanban) | `PipelineView.tsx` |
+| "Talk with the deal property... on a per deal basis" | **Deal Workspace Panel** | `DealWorkspacePanel.tsx` |
+| "Self coaching rather than monitoring" | **Self-Coaching Widget** | `SelfCoachingWidget.tsx` |
+| "Pull out common questions asked across transcripts" | Question pattern analysis | `SelfCoachingWidget.tsx` |
+
+**New Components Created:**
+
+| Component | Purpose | Location |
+|-----------|---------|----------|
+| `RepWorkspaceDashboardV4` | Main dashboard with view toggle | `RepWorkspaceV4/` |
+| `PipelineView` | Kanban board by deal stage | `RepWorkspaceV4/PipelineView.tsx` |
+| `DealWorkspacePanel` | Per-deal AI chat with context | `RepWorkspaceV4/DealWorkspacePanel.tsx` |
+| `SelfCoachingWidget` | Solo rep self-improvement | `RepWorkspaceV4/SelfCoachingWidget.tsx` |
+
+**New Storybook Stories:**
+
+| Story | What It Shows |
+|-------|---------------|
+| `Default` | List view with all widgets |
+| `PipelineViewStory` | Kanban view mirroring HubSpot |
+| `SoloRepFocused` | Self-coaching emphasis |
+| `DealWorkspaceDemo` | Per-deal chat panel |
+| `SelfCoachingCompact` | Compact coaching widget |
+| `SelfCoachingExpanded` | Full coaching dashboard |
+| `V3VsV4Comparison` | Feature comparison |
+| `MapleQuotes` | Customer voice documentation |
+
+**Key Design Decisions:**
+
+1. **View toggle** - Switch between List and Pipeline views
+2. **Pipeline as Kanban** - Mirrors HubSpot mental model with deal stages as columns
+3. **Deal Workspace slide-out** - Click any account to open per-deal chat panel
+4. **Deal context sidebar** - Shows contacts, next step, recent meetings, open actions
+5. **AI chat with sources** - Responses cite specific meetings/transcripts
+6. **Self-coaching focus** - Top questions, performance trends, improvement suggestions
+7. **Solo rep persona** - Emphasis on self-reflection vs team monitoring
+
+**New Hypothesis Created:**
+
+Created `hyp-solo-rep-self-coaching` based on Jared's feedback:
+> "I am a sales team of one... I'm actually way more interested in coaching from the aspect of, like, cool. Pull out some common questions that have been asked across all my transcripts."
+
+**Backlog Items (Not Yet Addressed):**
+
+- [ ] Company context in chat list view ("can we add the context of either company or something")
+- [ ] Activity/email sync to local storage
+- [ ] Drag-and-drop in pipeline view
+
+**Ready for Customer Validation:**
+- [ ] Share prototype with Jared (Maple) for direct feedback
+- [ ] Run `/validate rep-workspace` with updated V4
+- [ ] Test pipeline view with HubSpot users
+
+---
+
 ## Design Brief
 
 Full design specification created at `design-brief.md` including:
@@ -198,4 +262,4 @@ Full design specification created at `design-brief.md` including:
 
 ---
 
-*Last updated: 2026-01-16 (Iteration 2)*
+*Last updated: 2026-01-21 (Iteration 3 - V4 Maple Feedback)*
