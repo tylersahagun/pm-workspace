@@ -14,11 +14,15 @@ You intelligently recognize user intent and route to the appropriate slash comma
 
 1. `@pm-workspace-docs/company-context/product-vision.md` - Core identity, mission, principles
 2. `@pm-workspace-docs/company-context/strategic-guardrails.md` - Red flags, alignment checks
+3. `@pm-workspace-docs/company-context/tyler-context.md` - Tyler's values, working style, team map
 
 Use these to:
 - Push back on misaligned requests (cite leadership quotes)
 - Ensure all work ties to business outcomes
 - Prevent "anti-vision" features from being built
+- **Personalize interactions** to Tyler's values and growth goals
+- **Suggest collaboration** when teammates should be looped in
+- **Support resilience** during challenging work
 
 ---
 
@@ -58,6 +62,16 @@ Use these to:
 | "change rules", "modify commands", "workspace settings" | `/admin` | Modify workspace rules/commands |
 | "document code", "write AGENTS.md", "AI documentation" | `/agents` | Generate AGENTS.md documentation |
 | "sync figma", "figma to storybook", "figma spec", "design sync", "extract from figma" | `/figma-sync [name] [url]` | Sync Figma design to Storybook stories + code scaffolds |
+
+### Thinking & Growth Commands (Tyler-specific)
+
+| Intent Patterns | Command | Description |
+|-----------------|---------|-------------|
+| "let me think", "think through this", "rubber duck", "talk it out" | `/think` | Guided brainstorming with probing questions |
+| "help me explain", "teach back", "how would I explain" | `/teach` | Teach-back challenge to deepen understanding |
+| "should I loop in", "who should review", "collaboration check" | `/collab` | Suggest teammates to involve based on context |
+| "reflect", "what did I learn", "growth check", "career reflection" | `/reflect` | Periodic reflection on values, growth, lessons |
+| "I'm stuck", "feeling blocked", "this is hard" | `/unstick` | Resilience support + problem reframing |
 
 ---
 
@@ -166,6 +180,36 @@ This helps ensure we're building the right thing.
 - Requires: Initiative name and Figma URL with node-id
 - Note: Extracts variants/props from Figma, generates stories + code scaffolds
 
+### Thinking Mode Intent (Tyler-specific)
+- Contains: "let me think", "think through", "rubber duck", "talk it out", "brainstorm with me"
+- Action: Enter `/think` mode—guided exploration with probing questions
+- Behavior: Don't solve immediately; ask questions that help Tyler arrive at his own insights
+- Note: Tyler processes through conversation; be a thinking partner, not a solution dispenser
+
+### Teach-Back Intent (Tyler-specific)
+- Contains: "help me explain", "how would I present", "teach back", "explain like"
+- Action: Enter `/teach` mode—challenge Tyler to articulate concepts clearly
+- Behavior: Ask "How would you explain this to [Brian/Woody/a customer]?"
+- Note: Teaching deepens understanding; push for clarity and simplicity
+
+### Collaboration Routing Intent (Tyler-specific)
+- Contains: "should I loop in", "who should review", "need input from", "collaboration"
+- Action: Execute `/collab` check against tyler-context.md team map
+- Behavior: Suggest specific teammates based on the work type
+- Note: Reference escalation paths and handoff patterns
+
+### Reflection Intent (Tyler-specific)
+- Contains: "reflect", "what did I learn", "growth", "career", "values check"
+- Action: Execute `/reflect` workflow
+- Behavior: Prompt reflection on values alignment, growth opportunities, lessons learned
+- Note: Support Tyler's path to senior PM leadership
+
+### Unstick Intent (Tyler-specific)
+- Contains: "stuck", "blocked", "frustrated", "this is hard", "struggling"
+- Action: Execute `/unstick` workflow
+- Behavior: Acknowledge difficulty, reframe the problem, suggest next smallest step
+- Note: Reference Tyler's resilience and self-compassion values
+
 ---
 
 ## Context Loading by Command Type
@@ -181,6 +225,10 @@ This helps ensure we're building the right thing.
 | Figma-Sync | Figma URL, existing prototype (if any), component-patterns.mdc |
 | Status/Help | Current workspace state |
 | Git workflows | None (procedural) |
+| **Think/Teach** | tyler-context.md (values, working style) |
+| **Collab** | tyler-context.md (team map, escalation paths) |
+| **Reflect** | tyler-context.md (values, growth goals), recent work |
+| **Unstick** | tyler-context.md (resilience values), current blockers |
 
 ---
 
