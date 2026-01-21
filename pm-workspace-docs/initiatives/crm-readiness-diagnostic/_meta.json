@@ -1,0 +1,33 @@
+{
+  "initiative_id": "crm-readiness-diagnostic",
+  "hypothesis_id": "hyp-crm-readiness-diagnostic",
+  "name": "CRM Readiness Diagnostic",
+  "phase": "discovery",
+  "status": "on_track",
+  "created_at": "2026-01-21T17:30:00.000000",
+  "owner": null,
+  "personas": [
+    "revops",
+    "sales-leader",
+    "implementation-partner"
+  ],
+  "pillar": "trust",
+  "strategic_alignment": {
+    "outcome_chain": "CRM Readiness Diagnostic surfaces HubSpot configuration gaps → so that customers understand what's blocking success → so that they fix issues or engage partners → so that implementations succeed → so that retention improves",
+    "principles_aligned": [
+      "trust_is_foundational",
+      "standardization_beats_intuition"
+    ]
+  },
+  "evidence_sources": [
+    "sig-2026-01-21-crispy-product-feedback",
+    "sig-2026-01-21-zipcio-ai-service-methodology"
+  ],
+  "tags": [
+    "hubspot",
+    "onboarding",
+    "retention",
+    "partner-enablement",
+    "crm-quality"
+  ]
+}
