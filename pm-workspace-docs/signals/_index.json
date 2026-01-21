@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-21T14:30:00.000000",
-  "total_signals": 4,
+  "last_updated": "2026-01-21T16:30:00.000000",
+  "total_signals": 5,
   "by_source": {
-    "transcript": 3,
+    "transcript": 4,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
@@ -11,7 +11,7 @@
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 3
+    "processed": 4
   },
   "signals": [
     {
@@ -202,6 +202,62 @@
         "implementation-partner",
         "revops",
         "sales-leader"
+      ]
+    },
+    {
+      "id": "sig-2026-01-21-maple-billing-feedback",
+      "type": "transcript",
+      "source": "customer-feedback-call",
+      "topic": "maple-billing-deal-workspace-feedback",
+      "captured_at": "2026-01-21T16:00:00.000000",
+      "status": "processed",
+      "problems_extracted": [
+        "Chat history lacks company/account context for navigation",
+        "No deal-centric workspace - must leave HubSpot to find context",
+        "HubSpot activities not stored locally - must fetch on demand",
+        "HubSpot agent behavior inconsistent",
+        "Workflow sidebar organization confusing"
+      ],
+      "personas_mentioned": [
+        "sales-rep",
+        "solo-rep"
+      ],
+      "severity": "high",
+      "word_count": 2500,
+      "file_path": "signals/transcripts/2026-01-21-maple-billing-feedback.md",
+      "related_initiatives": [
+        "rep-workspace",
+        "customer-journey-map"
+      ],
+      "hypothesis_matches": [
+        "rep-workspace",
+        "hyp-customer-journey-map",
+        "hyp-hubspot-agent-config-ui"
+      ],
+      "hypothesis_candidates": [
+        "Solo rep persona needs self-coaching, not team monitoring"
+      ],
+      "key_quotes": [
+        "A pipeline view of mirroring my HubSpot pipeline into AskElephant for me to very quickly start to say, hey. Let me hop in on a per account basis or a per deal basis",
+        "I'm actually way more interested in coaching from the aspect of, like, cool. Pull out some the common questions that have been asked across all my transcripts",
+        "Can we add the context of either company or something to that just so that I have a bit of ability to delineate between them"
+      ],
+      "feature_requests": [
+        "Pipeline/deal workspace mirroring HubSpot",
+        "Company context in chat list",
+        "Proactive CRM field suggestions",
+        "Deal creation prompts"
+      ],
+      "participants": [
+        "Jared Henriques (Maple)",
+        "Madelaine Gibson (Maple)",
+        "Tyler Sahagun",
+        "Skylar Sanford"
+      ],
+      "action_items": [
+        "Send structured outputs video to Jared - Tyler",
+        "Check Maple HubSpot agent setup with improvements - Skylar",
+        "Add company/account context to chat list - Product backlog"
       ]
     }
   ]
