@@ -1,16 +1,16 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-16T15:30:00.000000",
-  "total_signals": 2,
+  "last_updated": "2026-01-21T14:00:00.000000",
+  "total_signals": 3,
   "by_source": {
-    "transcript": 2,
+    "transcript": 3,
     "ticket": 0,
     "issue": 0,
     "conversation": 0
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 1
+    "processed": 2
   },
   "signals": [
     {
@@ -77,6 +77,71 @@
         "Manual enrollment/test",
         "AI context for CRM",
         "Property creation"
+      ]
+    },
+    {
+      "id": "sig-2026-01-21-crispy-product-feedback",
+      "type": "transcript",
+      "source": "partner-feedback-session",
+      "topic": "crispy-hubspot-partner-product-feedback",
+      "captured_at": "2026-01-21T14:00:00.000000",
+      "status": "processed",
+      "problems_extracted": [
+        "AskElephant success depends on HubSpot configuration quality",
+        "Sales reps won't leave HubSpot to use AskElephant",
+        "Global Chat should be embedded in HubSpot as sidebar",
+        "Workflow builder has too many confusing legacy nodes",
+        "No visibility into what workflows are actually doing",
+        "Meeting prep takes too long - reps don't do it",
+        "CRM reporting doesn't answer 'so what?'"
+      ],
+      "personas_mentioned": [
+        "sales-rep",
+        "sales-leader",
+        "revops",
+        "implementation-partner",
+        "hubspot-admin"
+      ],
+      "severity": "high",
+      "word_count": 14000,
+      "file_path": "signals/transcripts/2026-01-21-crispy-product-feedback-session.md",
+      "hypothesis_matches": [
+        "hyp-hubspot-agent-config-ui",
+        "hyp-customer-journey-map",
+        "hyp-universal-signal-tables"
+      ],
+      "hypothesis_candidates": [
+        "HubSpot sidebar integration for Global Chat",
+        "CRM readiness diagnostic tool",
+        "Proactive deal intelligence / AI sales manager",
+        "Hidden auto-fill fields strategy"
+      ],
+      "key_quotes": [
+        "I would love a global chat to be a card or a on the record sidebar in HubSpot directly. I would use the fuck out of that.",
+        "Sales reps just wanna do whatever they're rogue cowboys want to do... Make money.",
+        "AskElephant is really only successful if you have the right bill or, like, data, right chart",
+        "I am convinced that [hidden auto-fill fields] is the best practice of the future"
+      ],
+      "feature_requests": [
+        "HubSpot sidebar integration",
+        "Workflow folders/organization",
+        "Auto-generated workflow summaries",
+        "Hidden auto-fill fields",
+        "Property creation from AskElephant",
+        "Best practice workflow recommendations"
+      ],
+      "competitive_intel": {
+        "fathom": "Product sucks, no real CRM integration",
+        "hubspot_breeze": "Reference model for sidebar integration",
+        "ebsta": "Failed forecasting tool - bad data problem"
+      },
+      "participants": [
+        "Woody",
+        "Brian",
+        "Palmer",
+        "Tyler",
+        "Sam Ho",
+        "Crispy"
       ]
     }
   ]
