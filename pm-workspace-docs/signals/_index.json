@@ -1,16 +1,17 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-21T14:00:00.000000",
-  "total_signals": 3,
+  "last_updated": "2026-01-21T14:30:00.000000",
+  "total_signals": 4,
   "by_source": {
     "transcript": 3,
     "ticket": 0,
     "issue": 0,
-    "conversation": 0
+    "conversation": 0,
+    "document": 1
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 2
+    "processed": 3
   },
   "signals": [
     {
@@ -105,6 +106,7 @@
       "severity": "high",
       "word_count": 14000,
       "file_path": "signals/transcripts/2026-01-21-crispy-product-feedback-session.md",
+      "related_signals": ["sig-2026-01-21-zipcio-ai-service-methodology"],
       "hypothesis_matches": [
         "hyp-hubspot-agent-config-ui",
         "hyp-customer-journey-map",
@@ -142,6 +144,64 @@
         "Tyler",
         "Sam Ho",
         "Crispy"
+      ]
+    },
+    {
+      "id": "sig-2026-01-21-zipcio-ai-service-methodology",
+      "type": "document",
+      "source": "partner-shared-document",
+      "topic": "zipcio-ai-as-a-service-methodology",
+      "captured_at": "2026-01-21T14:30:00.000000",
+      "status": "processed",
+      "file_path": "signals/documents/Zipcio_ AI as a Service.md",
+      "related_signals": ["sig-2026-01-21-crispy-product-feedback"],
+      "summary": "Zipcio's 3-phase service methodology showing AskElephant positioned as Phase 3 (Revenue Intelligence) - introduced ONLY after HubSpot is properly configured in Phases 1-2",
+      "key_insights": [
+        "AskElephant is Phase 3 of 3 - last step after CRM is clean",
+        "24+ hours of prerequisite work before AskElephant implementation",
+        "Pricing: $5,000 for Phase 3 AskElephant setup",
+        "Success metrics: 80% calls scoring 7+, <10 violations per rep/week",
+        "Systems stack: HubSpot + AskElephant + Supered"
+      ],
+      "deliverables_mentioned": [
+        "AI Enriched Scoring Rubric",
+        "Supered Process Board with Rules",
+        "The Zipcio Sales Agent (AskElephant agent)",
+        "Custom HubSpot properties for quali tracking"
+      ],
+      "phase_breakdown": {
+        "phase_1": {
+          "name": "Definition and Acquisition",
+          "focus": "ICP definition, Clay tables, lead enrichment",
+          "asks_elephant_used": false,
+          "hours": 26,
+          "price": "$4,500 per persona"
+        },
+        "phase_2": {
+          "name": "Conversion",
+          "focus": "Sales sequences, messaging, nurture flows",
+          "asks_elephant_used": false,
+          "hours": 27,
+          "price": "$5,000 + $1,000/sequence"
+        },
+        "phase_3": {
+          "name": "Revenue Intelligence",
+          "focus": "AI Sales Manager, scoring rubrics, process rules",
+          "asks_elephant_used": true,
+          "hours": 24,
+          "price": "$5,000"
+        }
+      },
+      "strategic_implications": [
+        "Partners need 50+ hours of CRM work before AskElephant is viable",
+        "AskElephant is positioned as 'capstone' not 'foundation'",
+        "Clear success metrics partners track (call scores, violations)",
+        "Supered is complementary tool in partner stack"
+      ],
+      "personas_mentioned": [
+        "implementation-partner",
+        "revops",
+        "sales-leader"
       ]
     }
   ]

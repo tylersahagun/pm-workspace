@@ -278,6 +278,43 @@ Based on this transcript, consider these hypotheses:
 
 ---
 
+---
+
+## Related Documents
+
+### [Zipcio: AI as a Service Methodology](../documents/Zipcio_%20AI%20as%20a%20Service.md)
+
+Crispy's company (Zipcio) shared their service structure, which **validates key insights from this call**:
+
+| Phase | Focus | AskElephant Role |
+|-------|-------|------------------|
+| **Phase 1** | ICP Definition + Clay tables | Not used |
+| **Phase 2** | Conversion sequences + messaging | Not used |
+| **Phase 3** | Revenue Intelligence | **AskElephant introduced here** |
+
+**Key Validation Points:**
+
+1. **AskElephant is Phase 3 (last)** - confirms Crispy's statement that they only introduce AskElephant at end of engagement when CRM is clean
+2. **Prerequisite work:** 26+ hours of CRM dev before AskElephant can be successful
+3. **Pricing:** $5,000 for AskElephant agent setup + scoring rubrics
+4. **Success metrics:** 80% of calls scoring 7+, <10 process violations per rep/week
+5. **Systems stack:** HubSpot + AskElephant + Supered (process rules)
+
+**Deliverables they create with AskElephant:**
+- AI Enriched Scoring Rubric (call scoring → HubSpot)
+- Supered Process Board with Rules (violation tracking)
+- "The Zipcio Sales Agent" - AskElephant agent for MOFU/BOFU
+
+**Hourly allocation for Phase 3:**
+- Strategy: 6 hours
+- Scoring Rubric: 6 hours  
+- Supered Process Board: 4 hours
+- Optimization: 3 hours
+- CRM Dev: 5 hours
+- **Total: 24 hours** (before AskElephant touches anything)
+
+---
+
 ## Tags
 
-`#hubspot-integration` `#workflow-builder` `#sales-rep-persona` `#partner-feedback` `#crm-agent` `#global-chat`
+`#hubspot-integration` `#workflow-builder` `#sales-rep-persona` `#partner-feedback` `#crm-agent` `#global-chat` `#partner-methodology`
