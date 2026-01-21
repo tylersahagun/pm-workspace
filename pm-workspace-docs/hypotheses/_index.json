@@ -1,14 +1,33 @@
 {
   "$schema": "pm-workspace-hypotheses-index-v1",
-  "last_updated": "2026-01-15T18:38:06.757178",
-  "total": 9,
+  "last_updated": "2026-01-21T15:00:00.000000",
+  "total": 10,
   "by_status": {
-    "active": 0,
+    "active": 1,
     "validated": 0,
     "committed": 9,
     "retired": 0
   },
   "hypotheses": [
+    {
+      "id": "hyp-crm-readiness-diagnostic",
+      "name": "CRM Readiness Diagnostic",
+      "status": "active",
+      "problem_statement": "AskElephant implementations fail or underperform because the customer's CRM (HubSpot) isn't properly configured with clean data, correct object usage, and appropriate properties. Partners report 90%+ of customers have this issue, requiring 53+ hours of prerequisite work before AskElephant can succeed.",
+      "personas": [
+        "revops",
+        "sales-leader",
+        "implementation-partner"
+      ],
+      "evidence_count": 4,
+      "severity": "high",
+      "frequency": "common",
+      "created_at": "2026-01-21T15:00:00.000000",
+      "evidence_sources": [
+        "sig-2026-01-21-crispy-product-feedback",
+        "sig-2026-01-21-zipcio-ai-service-methodology"
+      ]
+    },
     {
       "id": "hyp-automated-metrics-observability",
       "name": "Automated Metrics Observability",
@@ -30,7 +49,7 @@
       "name": "Call Import Engine",
       "status": "committed",
       "initiative_id": "call-import-engine",
-      "problem_statement": "\nWhen customers switch from Gong, Grain, or other call recording platforms to AskElephant, they face a frustrating experience:\n\n> \"When I was onboarding, it was really hard to show someone the platform... The conversation was literally like, 'When is your next call?' Looks like you have a call tomorrow at twelve. So over twenty-four hours passed...\" \u2014 Tyler\n",
+      "problem_statement": "\nWhen customers switch from Gong, Grain, or other call recording platforms to AskElephant, they face a frustrating experience:\n\n> \"When I was onboarding, it was really hard to show someone the platform... The conversation was literally like, 'When is your next call?' Looks like you have a call tomorrow at twelve. So over twenty-four hours passed...\" — Tyler\n",
       "personas": [
         "sales-rep",
         "sales-leader",
@@ -63,7 +82,7 @@
       "name": "Condorcet Jury System",
       "status": "committed",
       "initiative_id": "condorcet-jury-system",
-      "problem_statement": "\n### Current State\n\nThe existing PM workflow (`research \u2192 PM \u2192 proto`) operates without systematic user validation:\n",
+      "problem_statement": "\n### Current State\n\nThe existing PM workflow (`research → PM → proto`) operates without systematic user validation:\n",
       "personas": [
         "sales-rep",
         "sales-leader",
@@ -81,7 +100,7 @@
       "name": "Customer Journey Map",
       "status": "committed",
       "initiative_id": "customer-journey-map",
-      "problem_statement": "Reps and leaders are overwhelmed by noisy alerts that lack context, making it hard to know what to do next in a deal. They need a story-like summary of where a customer is in their journey, why it matters, and what actions move the deal forward. The current view feels like pipeline status, not a guided path tailored to the customer\u2019s journey, and it does not reflect the product channel context that changes how the journey should be interpreted.\n\n### Evidence\n- \"I want a hierarchy of information ",
+      "problem_statement": "Reps and leaders are overwhelmed by noisy alerts that lack context, making it hard to know what to do next in a deal. They need a story-like summary of where a customer is in their journey, why it matters, and what actions move the deal forward. The current view feels like pipeline status, not a guided path tailored to the customer's journey, and it does not reflect the product channel context that changes how the journey should be interpreted.\n\n### Evidence\n- \"I want a hierarchy of information ",
       "personas": [
         "sales-rep",
         "sales-leader",
