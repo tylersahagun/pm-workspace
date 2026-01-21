@@ -1,8 +1,8 @@
 # Prototype Notes: CRM Readiness Diagnostic
 
-> **Version:** v2
+> **Version:** v3 (Partner Variant)
 > **Date:** 2026-01-21
-> **Status:** Ready for re-validation
+> **Status:** Ready for stakeholder review
 > **Initiative:** `crm-readiness-diagnostic`
 
 ---
@@ -11,7 +11,68 @@
 
 The CRM Readiness Diagnostic helps users understand if their HubSpot CRM is properly configured for AskElephant. It surfaces issues proactively—before workflows fail—so customers can either self-remediate or get partner help.
 
-**v2 implements all P0 and P1 improvements from jury validation.**
+**v3 adds a partner-only variant** based on feedback that the customer-facing tool could threaten partner relationships.
+
+---
+
+## Version History
+
+| Version | Focus | Status |
+|---------|-------|--------|
+| **v1** | Initial prototype | Jury validated (74%) |
+| **v2** | Customer-facing with jury fixes | Ready for re-validation |
+| **v3** | Partner-only variant | 🆕 Ready for stakeholder review |
+
+---
+
+## v3: Partner Variant (NEW)
+
+### Why Partner-Only?
+
+Internal feedback revealed a critical positioning risk:
+
+> "If we make it super easy for us to simulate the fix and fix and go do that, then it comes up with a question of, like, why is Crispy even needed?"
+
+Partners like Crispy make their money doing CRM audits and remediation. A customer-facing tool could:
+- Threaten partner business model
+- Damage partner relationships
+- Reduce partner referrals
+
+### Partner Variant Features
+
+| Feature | Description |
+|---------|-------------|
+| **Billable Hours** | Each issue shows estimated billable hours for partner |
+| **Engagement Value** | Total $ opportunity based on partner's hourly rate |
+| **Detailed Playbooks** | Step-by-step remediation with tool tags (HubSpot, Clay, etc.) |
+| **Client Deliverables** | What partner delivers to client for each fix |
+| **Multi-Client Support** | Client selector for managing multiple accounts |
+| **Export Proposal** | Generate client-facing proposal document |
+| **Private Dashboard** | Results visible only to partner, not customer |
+
+### Partner Components
+
+```
+elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/
+├── partner-types.ts           # 🆕 Partner-specific types, mock data
+├── PartnerPlaybookCard.tsx    # 🆕 Issue card with billable hours, playbook
+├── PartnerDiagnosticPanel.tsx # 🆕 Full partner dashboard
+└── CrmReadiness.stories.tsx   # 🆕 Partner stories added
+```
+
+### Partner vs Customer Comparison
+
+| Feature | Customer (v2) | Partner (v3) |
+|---------|---------------|--------------|
+| Readiness Score | ✓ | ✓ |
+| Issue List | ✓ | ✓ |
+| How to Fix | Basic | Detailed playbook |
+| **Billable Hours** | — | ✓ ($$$) |
+| **Engagement Value** | — | ✓ |
+| **Step-by-Step Playbook** | — | ✓ |
+| **Client Deliverables** | — | ✓ |
+| **Multi-Client Support** | — | ✓ |
+| **Export Proposal** | — | ✓ |
 
 ---
 
@@ -36,7 +97,7 @@ The CRM Readiness Diagnostic helps users understand if their HubSpot CRM is prop
 
 ---
 
-## Components (v2)
+## Components (All Versions)
 
 ### Location
 
@@ -46,21 +107,35 @@ elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/
 ├── CrmReadinessScore.tsx       # v2: Softer messaging, purple for RED
 ├── CrmIssueCard.tsx            # v2: Time, features, who can fix, dismiss, video
 ├── CrmReadinessPanel.tsx       # v2: Elevated partner CTA, dismiss state
-├── CrmReadiness.stories.tsx    # v2: Feature showcase, all variants
+├── partner-types.ts            # v3: Partner-specific types, billable hours
+├── PartnerPlaybookCard.tsx     # v3: Issue card with playbook steps
+├── PartnerDiagnosticPanel.tsx  # v3: Full partner dashboard
+├── CrmReadiness.stories.tsx    # All stories (v2 + v3)
 └── index.ts                    # Barrel exports
 ```
 
-### Key Design Decisions (v2)
+### Key Design Decisions
 
+**v2 (Customer):**
 1. **Purple instead of Red** - Less alarming, still attention-getting
 2. **Sparkles icon instead of X/Alert** - Opportunity framing, not failure
 3. **"Who can fix" prominent** - Sales reps need to know this isn't their job
 4. **Video tutorials primary CTA** - For issues with video, it's the main action
 5. **Normalization messaging** - "90% of HubSpots have gaps" reduces blame
 
+**v3 (Partner):**
+1. **Dark header with lock icon** - Signals "partner-only" exclusivity
+2. **Billable hours prominent** - Key partner metric, shows engagement value
+3. **Engagement value in $** - Based on partner's hourly rate ($175 default)
+4. **Playbook steps with tool tags** - HubSpot, Clay, AskElephant, Other
+5. **Client deliverables** - What partner delivers for each fix
+6. **Copy playbook button** - Easy export for proposals
+
 ---
 
 ## Storybook Stories
+
+### Customer Stories (v2)
 
 | Story | Purpose |
 |-------|---------|
@@ -72,6 +147,16 @@ elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/
 | `v2 Feature Showcase` | Full comparison of v1 → v2 changes |
 | `In Settings Page Context` | Integration placement demo |
 | `Interactive Demo (v2)` | State transitions with fixes |
+
+### Partner Stories (v3) 🆕
+
+| Story | Purpose |
+|-------|---------|
+| `🔒 Partner: Playbook Card` | Single issue with billable hours |
+| `🔒 Partner: Playbook Cards (All Severities)` | Blocker, Important, Nice to have |
+| `🔒 Partner: Dashboard (Full)` | Complete partner experience |
+| `🔒 Partner: Dashboard (No Client Selected)` | Empty state |
+| `🆚 Partner vs Customer Comparison` | Side-by-side comparison |
 
 ---
 
@@ -85,24 +170,31 @@ npm run storybook -w web
 
 ---
 
-## Jury Validation Targets (v2)
+## Strategic Decision Required
 
-| Segment | v1 Approval | v2 Target | Key Change |
-|---------|-------------|-----------|------------|
-| Overall | 74% | 85%+ | All P0/P1 fixes |
-| **Skeptics** | 54% | 65%+ | Softer messaging |
-| **Sales Reps** | 65% | 75%+ | Who can fix, video tutorials |
-| Operations | 82% | 85%+ | Minor improvements |
-| Partners | 93% | 90%+ | Maintain |
+**Before v4 or production:** Need to resolve positioning:
+
+| Option | Description | Pros | Cons |
+|--------|-------------|------|------|
+| **Customer-Only** | v2 for all users | Helps self-serve | Threatens partners |
+| **Partner-Only** | v3 for partners only | Strengthens channel | Self-serve blocked |
+| **Hybrid** ✨ | Basic for customers, advanced for partners | Best of both | More complex |
+
+**Stakeholders needed:**
+- [ ] James (internal perspective)
+- [ ] Crispy (partner perspective)
+- [ ] Tyler (product decision)
 
 ---
 
 ## Next Steps
 
-1. [ ] **Re-run jury validation** on v2 prototype
-2. [ ] **Schedule real user validation** with 3-5 RevOps users
-3. [ ] Create engineering spec for API/backend requirements
-4. [ ] Review with design team for polish pass
+1. [ ] **Show v3 to James** for internal input
+2. [ ] **Show v3 to Crispy** directly—gauge reaction
+3. [ ] **Resolve positioning decision** (Customer vs Partner vs Hybrid)
+4. [ ] Re-run jury validation on v2 customer variant
+5. [ ] Schedule real user validation with 3-5 RevOps users
+6. [ ] Create engineering spec for API/backend requirements
 
 ---
 
@@ -111,10 +203,17 @@ npm run storybook -w web
 ### Future Hook API (Not Implemented)
 
 ```typescript
-// When building real implementation:
+// Customer variant:
 const { data, isLoading, error, refetch } = useCrmReadiness({
   workspaceId,
   integrationId,
+});
+
+// Partner variant:
+const { data, isLoading, error, refetch } = usePartnerDiagnostic({
+  partnerId,
+  clientId,
+  config: { hourlyRate: 175 },
 });
 ```
 
@@ -131,5 +230,7 @@ const { data, isLoading, error, refetch } = useCrmReadiness({
 
 - **Components:** `elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/`
 - **PRD:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/prd.md`
+- **Research:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/research.md`
+- **Decisions:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/decisions.md`
 - **Jury Report:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/jury-evaluations/jury-report.md`
 - **Placement Research:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/placement-research.md`
