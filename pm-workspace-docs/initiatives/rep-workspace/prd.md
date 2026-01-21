@@ -24,11 +24,42 @@ Sales reps don't have a dedicated experience in AskElephant. They must navigate 
 ### Who has it?
 
 - **Sales Representatives** - Primary users who need quick access to insights
+- **Solo Sales Reps** - Need self-coaching, not team monitoring (validated by Maple)
 - **Sales Leaders** - Secondary users who want to see rep activity
 
 ### Why now?
 
 With global chat launching and CRM agents becoming more capable, reps need a central place to interact with AskElephant's AI capabilities and see the value being delivered.
+
+---
+
+## Customer Validation
+
+### Maple Billing (2026-01-21) - STRONG VALIDATION
+
+Jared Henriques (solo sales rep at Maple) provided **unprompted validation** of the Rep Workspace concept. His requests match the PRD almost exactly.
+
+#### Key Quote - Deal Workspace
+> "One of the things that I'd be really keen on is one, just like a pipeline view of mirroring my HubSpot pipeline into, you know, AskElephant for me to very quickly start to say, hey. Cool. Let me hop in on, like, a per account basis or a per deal basis, and then start to see my transcription and actually talk with the the deal property in and of itself."
+
+#### Key Quote - Self-Coaching
+> "I am a sales team of one... I'm actually way more interested in coaching from the aspect of, like, cool. Pull out some the common questions that have been asked across all my transcripts."
+
+#### Feature Request Validation
+
+| PRD Feature | Customer Request | Match |
+|-------------|-----------------|-------|
+| My Accounts section | "Pipeline view mirroring HubSpot" | ✅ Exact |
+| Global Chat integration | "Talk with the deal property" | ✅ Exact |
+| Agent Activity visibility | "What agents have done on my behalf" | ✅ Exact |
+| Customer Journey View | "See my transcription... per account" | ✅ Exact |
+
+#### New Insight: Solo Rep Self-Coaching
+Jared's feedback reveals an underserved persona: **solo sales reps** who need self-reflection tools rather than manager oversight. Consider adding self-coaching features to the Coaching Insights future consideration.
+
+**Signal:** `sig-2026-01-21-maple-billing-feedback`
+
+---
 
 ## Target Personas
 
@@ -114,8 +145,12 @@ With global chat launching and CRM agents becoming more capable, reps need a cen
 
 ### Future Considerations
 - Coaching insights for reps
+  - **[NEW]** Solo rep self-coaching (see `hyp-solo-rep-self-coaching`)
+  - Cross-call pattern analysis
+  - Personal performance trends
 - Deal health indicators
 - Competitive intelligence integration
+- Company/account context in chat list (Maple request)
 
 ## Design
 
@@ -216,12 +251,14 @@ flowchart TD
 
 ## Open Questions
 
-- [ ] What information do reps need most prominently?
+- [x] What information do reps need most prominently? → **Validated:** Pipeline/deal view with transcripts (Maple)
 - [ ] How does global chat integrate with the workspace?
-- [ ] What's the relationship to customer journey mapping?
+- [x] What's the relationship to customer journey mapping? → **Validated:** Central to value prop (Maple)
 - [ ] Should reps see team activity or only their own?
 - [ ] What actions should be possible directly from the workspace?
+- [ ] **[NEW]** How do we support solo rep self-coaching vs team coaching?
+- [ ] **[NEW]** Should we add company/account context to chat list view? (Maple request)
 
 ---
-*Last updated: 2026-01-16*
+*Last updated: 2026-01-21*
 *Owner: Skylar/Tyler*
