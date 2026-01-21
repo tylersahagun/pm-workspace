@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-hypotheses-index-v1",
-  "last_updated": "2026-01-21T15:00:00.000000",
-  "total": 10,
+  "last_updated": "2026-01-21T17:00:00.000000",
+  "total": 11,
   "by_status": {
-    "active": 1,
+    "active": 2,
     "validated": 0,
     "committed": 9,
     "retired": 0
@@ -26,6 +26,29 @@
       "evidence_sources": [
         "sig-2026-01-21-crispy-product-feedback",
         "sig-2026-01-21-zipcio-ai-service-methodology"
+      ]
+    },
+    {
+      "id": "hyp-solo-rep-self-coaching",
+      "name": "Solo Rep Self-Coaching",
+      "status": "active",
+      "problem_statement": "Solo sales reps (sales team of one) lack self-coaching tools because existing coaching features assume a manager/team structure. They want to identify patterns across their own calls, find improvement opportunities, and develop skills without manager oversight.",
+      "personas": [
+        "solo-sales-rep",
+        "sales-rep"
+      ],
+      "evidence_count": 1,
+      "severity": "medium",
+      "frequency": "occasional",
+      "created_at": "2026-01-21T17:00:00.000000",
+      "evidence_sources": [
+        "sig-2026-01-21-maple-billing-feedback"
+      ],
+      "related_initiatives": [
+        "rep-workspace"
+      ],
+      "key_quotes": [
+        "I am a sales team of one... I'm actually way more interested in coaching from the aspect of, like, cool. Pull out some the common questions that have been asked across all my transcripts."
       ]
     },
     {
