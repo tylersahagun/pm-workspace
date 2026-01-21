@@ -1,151 +1,135 @@
 # Prototype Notes: CRM Readiness Diagnostic
 
-> **Created:** 2026-01-21
-> **Location:** `elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/`
-> **Storybook Path:** `Prototypes/CrmReadinessDiagnostic`
+> **Version:** v2
+> **Date:** 2026-01-21
+> **Status:** Ready for re-validation
+> **Initiative:** `crm-readiness-diagnostic`
 
 ---
 
-## Components Created
+## Summary
 
-| Component | File | Purpose |
-|-----------|------|---------|
-| `CrmReadinessScore` | `CrmReadinessScore.tsx` | Traffic light score display with circular progress |
-| `CrmIssueCard` | `CrmIssueCard.tsx` | Expandable card for individual configuration issues |
-| `CrmReadinessPanel` | `CrmReadinessPanel.tsx` | Full panel combining score + issues list |
-| `types.ts` | `types.ts` | TypeScript interfaces and mock data |
+The CRM Readiness Diagnostic helps users understand if their HubSpot CRM is properly configured for AskElephant. It surfaces issues proactively—before workflows fail—so customers can either self-remediate or get partner help.
+
+**v2 implements all P0 and P1 improvements from jury validation.**
 
 ---
 
-## Design Decisions
+## v1 → v2 Changes (Jury Feedback)
 
-### Traffic Light System
+### ✅ P0 Implemented
 
-| Status | Score Range | Message | Color |
-|--------|-------------|---------|-------|
-| GREEN | 85-100 | "Ready to go" | Emerald |
-| YELLOW | 50-84 | "Needs attention" | Amber |
-| RED | 0-49 | "Action required" | Red |
+| Issue | Before | After |
+|-------|--------|-------|
+| **Accusatory messaging** (31% felt blamed) | "Action required", red colors | "Let's get you expert help", purple colors |
+| **Vague remediation** (42% said too generic) | "Fix associations in HubSpot" | Video tutorials, step-by-step guides |
+| **No ownership clarity** | Users didn't know who should fix | "Who can fix" badges (self/admin/partner) |
 
-### Issue Severity Levels
+### ✅ P1 Implemented
 
-| Severity | UI Treatment | Visibility |
-|----------|--------------|------------|
-| CRITICAL | Red border, auto-expanded | Always visible first |
-| WARNING | Amber border, collapsed | Always visible |
-| INFO | Slate border, hidden | Collapsible section |
+| Issue | Implementation |
+|-------|----------------|
+| **Time estimates** (28% requested) | `~15 min` badge on each issue |
+| **Affected features** (24% requested) | Chips showing "Deal insights", "Pipeline forecasting", etc. |
+| **Dismiss functionality** (21% requested) | X button to dismiss intentional CRM choices |
+| **Elevated partner CTA** (18% said buried) | Prominent purple CTA card for RED status |
 
-### Messaging Approach
+---
 
-✅ **Non-accusatory language used:**
-- "Optimization opportunities" not "Problems"
-- "Needs attention" not "Misconfigured"
-- "Ways to unlock full potential" not "Errors"
+## Components (v2)
+
+### Location
+
+```
+elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/
+├── types.ts                    # v2: Added WhoCanFix, estimatedTime, affectedFeatures
+├── CrmReadinessScore.tsx       # v2: Softer messaging, purple for RED
+├── CrmIssueCard.tsx            # v2: Time, features, who can fix, dismiss, video
+├── CrmReadinessPanel.tsx       # v2: Elevated partner CTA, dismiss state
+├── CrmReadiness.stories.tsx    # v2: Feature showcase, all variants
+└── index.ts                    # Barrel exports
+```
+
+### Key Design Decisions (v2)
+
+1. **Purple instead of Red** - Less alarming, still attention-getting
+2. **Sparkles icon instead of X/Alert** - Opportunity framing, not failure
+3. **"Who can fix" prominent** - Sales reps need to know this isn't their job
+4. **Video tutorials primary CTA** - For issues with video, it's the main action
+5. **Normalization messaging** - "90% of HubSpots have gaps" reduces blame
 
 ---
 
 ## Storybook Stories
 
-| Story | Description |
-|-------|-------------|
-| `Score: Green (Ready)` | Perfect CRM health |
-| `Score: Yellow (Needs Work)` | Some improvements needed |
-| `Score: Red (Action Required)` | Critical issues blocking success |
-| `Score: All Variants` | Side-by-side comparison |
-| `Issue Card: Critical/Warning/Info` | Individual issue card variants |
-| `Panel: Ready/NeedsWork/NeedsHelp` | Full panel states |
-| `Panel: Loading/Error/Empty` | Edge case states |
-| `In Settings Page Context` | Integration preview |
-| `Interactive Demo` | Stateful demo with controls |
+| Story | Purpose |
+|-------|---------|
+| `Score: All Variants` | Compare v2 messaging for GREEN/YELLOW/RED |
+| `Issue Card: All v2 Features` | Shows time, features, who can fix |
+| `Issue Card: Who Can Fix Variants` | Self vs Admin vs Partner |
+| `Issue Card: Dismiss Functionality` | Interactive dismiss demo |
+| `Panel: Expert Help (Red)` | Elevated partner CTA |
+| `v2 Feature Showcase` | Full comparison of v1 → v2 changes |
+| `In Settings Page Context` | Integration placement demo |
+| `Interactive Demo (v2)` | State transitions with fixes |
 
 ---
 
-## Integration Points
+## Preview
 
-Based on [placement-research.md](./placement-research.md):
-
-### Primary Location
-```
-Settings > Integrations > [after HubSpot connection card]
-```
-
-### Embedding Example
-```tsx
-// In routes/workspaces/$workspaceId/settings/integrations.tsx
-{isHubspot && connected && (
-  <CrmReadinessPanel workspaceId={workspaceId} />
-)}
+```bash
+# From elephant-ai directory
+npm run storybook -w web
+# Navigate to: Prototypes/CrmReadinessDiagnostic
 ```
 
 ---
 
-## Data Dependencies (For Engineering)
+## Jury Validation Targets (v2)
 
-### Required Hook
-```ts
-// hooks/useCrmReadiness.ts
-const { data, loading, error, refetch } = useCrmReadiness(workspaceId);
-```
-
-### GraphQL Query Needed
-```graphql
-query CrmReadiness($workspaceId: ID!) {
-  crmReadiness(workspaceId: $workspaceId) {
-    score
-    status
-    issues {
-      id
-      severity
-      title
-      description
-      howToFix
-      hubspotLink
-      affectedObjects
-    }
-    lastChecked
-  }
-}
-```
-
----
-
-## Mock Data
-
-The prototype includes comprehensive mock data in `types.ts`:
-
-- `MOCK_READY_DATA` - Green state, no issues
-- `MOCK_NEEDS_WORK_DATA` - Yellow state, warnings only
-- `MOCK_NEEDS_HELP_DATA` - Red state, critical + warnings
-- `MOCK_ISSUES` - 5 representative issue types
+| Segment | v1 Approval | v2 Target | Key Change |
+|---------|-------------|-----------|------------|
+| Overall | 74% | 85%+ | All P0/P1 fixes |
+| **Skeptics** | 54% | 65%+ | Softer messaging |
+| **Sales Reps** | 65% | 75%+ | Who can fix, video tutorials |
+| Operations | 82% | 85%+ | Minor improvements |
+| Partners | 93% | 90%+ | Maintain |
 
 ---
 
 ## Next Steps
 
-1. [ ] **Validate with stakeholders** - Review in Storybook with design/eng
-2. [ ] **Backend API design** - Define GraphQL schema with engineering
-3. [ ] **HubSpot API research** - What data can we actually query?
-4. [ ] **Integration** - Wire up to real data in `integrations.tsx`
-5. [ ] **Onboarding flow** - Add to post-OAuth experience
-6. [ ] **User testing** - Validate messaging with customers
+1. [ ] **Re-run jury validation** on v2 prototype
+2. [ ] **Schedule real user validation** with 3-5 RevOps users
+3. [ ] Create engineering spec for API/backend requirements
+4. [ ] Review with design team for polish pass
+
+---
+
+## Technical Notes
+
+### Future Hook API (Not Implemented)
+
+```typescript
+// When building real implementation:
+const { data, isLoading, error, refetch } = useCrmReadiness({
+  workspaceId,
+  integrationId,
+});
+```
+
+### Required HubSpot API Scopes (TBD)
+
+- `crm.objects.deals.read`
+- `crm.objects.contacts.read`
+- `crm.objects.companies.read`
+- `crm.schemas.read` (for property definitions)
 
 ---
 
 ## Files
 
-```
-elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/
-├── CrmReadinessScore.tsx      # Score component
-├── CrmIssueCard.tsx           # Issue card component
-├── CrmReadinessPanel.tsx      # Full panel component
-├── CrmReadiness.stories.tsx   # Storybook stories
-├── types.ts                   # TypeScript + mock data
-└── index.ts                   # Barrel exports
-```
-
----
-
-## Preview Links
-
-- **Local Storybook:** `cd elephant-ai && npm run storybook -w web` → http://localhost:6006
-- **Path in Storybook:** Prototypes → CrmReadinessDiagnostic
+- **Components:** `elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/`
+- **PRD:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/prd.md`
+- **Jury Report:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/jury-evaluations/jury-report.md`
+- **Placement Research:** `pm-workspace-docs/initiatives/crm-readiness-diagnostic/placement-research.md`
