@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-21T16:30:00.000000",
-  "total_signals": 5,
+  "last_updated": "2026-01-21T19:30:00.000000",
+  "total_signals": 6,
   "by_source": {
-    "transcript": 4,
+    "transcript": 5,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
@@ -11,7 +11,7 @@
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 4
+    "processed": 5
   },
   "signals": [
     {
@@ -258,6 +258,64 @@
         "Send structured outputs video to Jared - Tyler",
         "Check Maple HubSpot agent setup with improvements - Skylar",
         "Add company/account context to chat list - Product backlog"
+      ]
+    },
+    {
+      "id": "sig-2026-01-21-crm-diagnostic-prototype-feedback",
+      "type": "transcript",
+      "source": "internal-prototype-review",
+      "topic": "crm-readiness-diagnostic-positioning-feedback",
+      "captured_at": "2026-01-21T19:00:00.000000",
+      "status": "processed",
+      "initiative": "crm-readiness-diagnostic",
+      "problems_extracted": [
+        "Customer-facing diagnostic may threaten HubSpot partner business model",
+        "Auto-fix functionality crosses partner territory",
+        "Current positioning could damage partner relationships"
+      ],
+      "personas_mentioned": [
+        "implementation-partner",
+        "hubspot-partner"
+      ],
+      "severity": "high",
+      "frequency": "critical-strategic-decision",
+      "word_count": 1500,
+      "file_path": "signals/transcripts/2026-01-21-crispy-feedback.md",
+      "related_signals": [
+        "sig-2026-01-21-crispy-product-feedback",
+        "sig-2026-01-21-zipcio-ai-service-methodology"
+      ],
+      "key_quotes": [
+        "If we make it super easy for us to simulate the fix and fix and go do that, then it comes up with a question of why is Crispy even needed?",
+        "I wanna make sure that we're not only stepping on toes, but crushing toes. That could burn potential partnerships in the future.",
+        "So what if instead, this is not check your HubSpot health. This is a tool only for partners, and it's part of our partner program.",
+        "We wanna give you more billable hours. We want to actually increase your top line.",
+        "They would want essentially that to be almost private. Creating that moat around their money making tool."
+      ],
+      "strategic_implications": [
+        "Partner-first positioning may be optimal path",
+        "Diagnostic should enable partners, not replace them",
+        "Premium pricing opportunity (~$500/month for partners)",
+        "Auto-fix feature is high-risk for partner relationships"
+      ],
+      "action_items": [
+        "Show prototype to James for additional input",
+        "Show prototype to Crispy directly - gauge reaction",
+        "Design partner-only variant of diagnostic"
+      ],
+      "decision_required": {
+        "question": "Should CRM Readiness Diagnostic be customer-facing, partner-only, or hybrid?",
+        "options": [
+          "Customer-facing (current v2)",
+          "Partner-only (premium tool)",
+          "Hybrid (basic for customers, advanced for partners)"
+        ],
+        "stakeholders": ["Tyler", "James", "Crispy"],
+        "deadline": "Before v3 prototype"
+      },
+      "participants": [
+        "Tyler",
+        "Matt"
       ]
     }
   ]

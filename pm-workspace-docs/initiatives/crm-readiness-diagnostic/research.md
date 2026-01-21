@@ -21,6 +21,7 @@ AskElephant implementations fail or underperform when customers have poorly conf
 |------|-------------|------|--------------|
 | 2026-01-21 | Crispy | HubSpot Partner / Implementation Lead | 90%+ of customers have CRM config issues; can only introduce AE at END of engagements; needs 53+ hours of prep work |
 | 2026-01-21 | Zipcio Methodology | Partner Documentation | Phase 3 (AskElephant) comes AFTER 26+ hours of CRM dev; $5,000 AE setup; clear exit criteria for CRM readiness |
+| 2026-01-21 | Internal (Tyler/Matt) | Prototype Review Session | **NEW** - Positioning concerns for partner channel; pivot toward partner-enablement tool |
 
 ---
 
@@ -86,6 +87,86 @@ AskElephant implementations fail or underperform when customers have poorly conf
 
 ---
 
+### Finding 5: 🆕 Partner Channel Risk (Prototype Feedback)
+
+**Evidence:**
+> "If we make it super easy for us to, like, simulate the fix and fix and go do that, then it, like, comes up with a question of, like, why is Crispy even needed?"
+> — Internal feedback on prototype
+
+> "I wanna make sure that, like, we're not only stepping on toes, but, like, crushing, you know, toes. Yeah. Right? Because that could, like, even burn potential partnerships in the future."
+> — Internal feedback
+
+> "He is the HubSpot partner to them where he's gonna come in and he's gonna fix it. He's gonna be the professional that walks them through."
+> — Internal feedback
+
+**Implications:**
+- **Critical Risk**: Current prototype positions diagnostic + auto-fix for end customers
+- This directly threatens HubSpot partners' core business model (they bill for this work)
+- Could damage partner relationships and referral pipeline
+- Partners are our primary distribution channel in HubSpot ecosystem
+
+---
+
+### Finding 6: 🆕 Partner-First Positioning (Prototype Feedback)
+
+**Evidence:**
+> "So what if instead, this is not check your HubSpot health. This is a tool only for partners, and it's part of our partner program. It's like, hey. You spend so much time auditing HubSpot. We wanna give you more billable hours. We want to actually increase your top line."
+> — Tyler (prototype discussion)
+
+> "This is a tool to a specific type of partner. Maybe we even upcharge for this specific type of tool... That's not gonna just be AskElephant premium. That's gonna be AskElephant, like, whatever, right, additional."
+> — Internal feedback
+
+> "They would want essentially that to be almost, like, private. Creating that moat around their money making tool."
+> — Internal feedback
+
+**Implications:**
+- **Strategic pivot opportunity**: Partner-enablement tool vs. customer self-serve tool
+- Partners would pay premium for a diagnostic that speeds up their work
+- Estimated partner value: $500/month mentioned as potential price point
+- Partner sees results ONLY (not customer) → protects partner's advisory role
+- Configurable to match partner's methodology
+
+---
+
+### Finding 7: 🆕 Auto-Fix Feature is High-Risk (Prototype Feedback)
+
+**Evidence:**
+> "Deals missing contact associations. 847 associated. One button here could be, like, create association... do you wanna update those 847 deals to find the contacts?"
+> — Tyler (demonstrating prototype)
+
+> "This is really, like, really cool about it. I love it. Like, everything you're saying up until this point... But the [auto-fix] definitely scares you."
+> — Internal feedback
+
+**Implications:**
+- Auto-remediation is technically impressive but strategically risky
+- Partners see this as their billable work being automated away
+- Even if partners like the diagnostic, the "fix it" button crosses a line
+- **Possible middle ground**: Diagnostic + playbook (tells partner what to fix, doesn't fix itself)
+
+---
+
+## Prototype Feedback: v2 Positioning Analysis
+
+### Current Design (Customer-Facing)
+- Customer runs diagnostic
+- Customer sees issues
+- Customer clicks "fix" or "get partner help"
+- **Risk:** Threatens partners; may not drive partner referrals
+
+### Alternative Design (Partner-Enablement)
+- Partner has exclusive access to diagnostic tool
+- Partner runs diagnostic on client's HubSpot
+- Partner sees issues with recommended playbook
+- Partner bills client for remediation work
+- **Benefit:** Accelerates partner work; strengthens partner relationship; premium revenue
+
+### Hybrid Design (Both)
+- **Self-serve customers**: Basic diagnostic with "Connect to Partner" CTA
+- **Partner customers**: Advanced diagnostic with playbooks + methodology config
+- **Key distinction**: Partners see MORE detail; customers see enough to understand + engage help
+
+---
+
 ## User Problems Identified
 
 | Problem | Severity | Frequency | Evidence |
@@ -95,6 +176,7 @@ AskElephant implementations fail or underperform when customers have poorly conf
 | AskElephant failures appear as product bugs, not CRM config | High | Common | Support burden increases |
 | Partners need 53+ hours to get customer CRM ready | Medium | Common | Zipcio methodology shows prerequisite work |
 | No way to assess "readiness" before implementation | High | Universal | No diagnostic exists today |
+| 🆕 **Partner business model threatened by self-serve diagnostic** | High | — | Internal feedback: "Why is Crispy even needed?" |
 
 ---
 
@@ -109,56 +191,45 @@ AskElephant implementations fail or underperform when customers have poorly conf
 
 ---
 
-## Solution Hypotheses to Explore
+## Solution Hypotheses (Updated)
 
-### H1: Automated CRM Diagnostic
-
-**Hypothesis:** If we automatically audit HubSpot during onboarding and surface configuration gaps, customers will understand what's blocking success and either fix issues or engage help.
-
-**Test approach:**
-- Build HubSpot diagnostic that checks: object associations, property usage, data freshness, required fields
-- Show "readiness score" during onboarding
-- A/B test: diagnostic vs. no diagnostic → measure activation rate
-
-**Prior art:** Tyler demonstrated a chat-based HubSpot audit during the Crispy call. Crispy found it "very promising."
+### H1: Automated CRM Diagnostic (Customer-Facing)
+- ✅ Validated as useful
+- ⚠️ Risk: Partner channel conflict
+- **Recommendation:** Proceed with softer positioning; primary CTA = "Get Partner Help"
 
 ### H2: Readiness Scorecard
-
-**Hypothesis:** If we give customers a simple "your HubSpot is X% ready for AskElephant" score with red/yellow/green indicators, they'll take action to improve before blaming AskElephant.
-
-**Test approach:**
-- Traffic light system: Green (ready), Yellow (fixable), Red (needs help)
-- Red customers get connected to partner network
-- Track: Do Yellow customers self-remediate? Does NPS improve?
+- ✅ Validated: Traffic light system resonates (74% jury approval)
+- **Recommendation:** Keep in v2; focus on guidance not auto-fix
 
 ### H3: Guided Remediation (AI Assist)
+- ⚠️ High-risk per partner feedback
+- **Recommendation:** Deprioritize or make partner-only
 
-**Hypothesis:** If AskElephant can detect issues AND offer to fix them ("I notice deals don't have contacts. Want me to create a workflow to enforce this?"), we compress the 53-hour partner engagement.
-
-**Test approach:**
-- Pick 3 most common issues (missing associations, empty required fields, stale data)
-- Build AI-assisted remediation for each
-- Measure: Time to activation, customer satisfaction
-
-### H4: Partner Enablement Tools
-
-**Hypothesis:** If we give partners like Crispy better diagnostic tools, they can compress their 53 hours to 20 hours, making their business model more scalable and our partner channel stronger.
-
-**Test approach:**
-- Build "partner diagnostic dashboard" with all checks pre-run
-- Provide templated remediation playbooks
-- Track: Partner satisfaction, customer activation rate through partners
+### H4: Partner Enablement Tools 🆕 ELEVATED
+- **Hypothesis:** If we give partners a premium diagnostic tool that accelerates their work and protects their advisory role, we strengthen the partner channel and create premium revenue.
+- **Test approach:**
+  - Partner-only diagnostic dashboard
+  - Configurable to partner's methodology
+  - Playbook output (not auto-fix)
+  - Pricing: ~$500/month
+- **Next step:** Validate with Crispy directly; get James's input
 
 ---
 
-## Open Questions
+## Open Questions (Updated)
 
-1. **What's the minimum CRM configuration that makes AskElephant successful?** Need to define a "readiness checklist" with Crispy's input.
-2. **Can we detect CRM issues through HubSpot API alone?** What data access do we need?
-3. **What's the conversion rate of "diagnosed" customers?** Do they actually fix issues?
-4. **Should we gate features behind CRM health?** E.g., "This workflow requires associated contacts."
-5. **Is there a self-serve path, or do all Red customers need partners?** What's the cost/ROI of guided remediation?
-6. **How do we message this without blaming the customer?** "Your HubSpot isn't ready" sounds accusatory.
+| # | Question | Status | Notes |
+|---|----------|--------|-------|
+| 1 | What's the minimum CRM configuration that makes AskElephant successful? | 🔄 | Need readiness checklist with Crispy |
+| 2 | Can we detect CRM issues through HubSpot API alone? | ⬜ | Technical feasibility TBD |
+| 3 | What's the conversion rate of "diagnosed" customers? | ⬜ | Do they fix issues? |
+| 4 | Should we gate features behind CRM health? | ⬜ | E.g., "This workflow requires associated contacts" |
+| 5 | Is there a self-serve path, or do all Red customers need partners? | ⬜ | Cost/ROI of guided remediation |
+| 6 | How do we message this without blaming the customer? | ✅ | Solved in v2 prototype |
+| 7 | 🆕 **Should this be partner-only vs. customer-facing?** | 🔄 | Critical decision—need Crispy + James input |
+| 8 | 🆕 **What would partners pay for this tool?** | ⬜ | ~$500/month hypothesized |
+| 9 | 🆕 **Does Crispy feel threatened or enabled by prototype?** | ⬜ | Need to show him directly |
 
 ---
 
@@ -166,18 +237,22 @@ AskElephant implementations fail or underperform when customers have poorly conf
 
 - [Crispy Product Feedback Session](../../signals/transcripts/2026-01-21-crispy-product-feedback-session.md) - Primary source transcript
 - [Zipcio AI as a Service Methodology](../../signals/documents/Zipcio_%20AI%20as%20a%20Service.md) - Partner service structure
-- [hyp-hubspot-agent-config-ui](../../hypotheses/committed/hubspot-agent-config-ui.md) - Related hypothesis on workflow config (different problem)
-- [crm-exp-ete initiative](../crm-exp-ete/) - End-to-end CRM experience work (overlapping concerns)
+- [Prototype Feedback Session](../../signals/transcripts/2026-01-21-crispy-feedback.md) - 🆕 Internal positioning discussion
+- [hyp-hubspot-agent-config-ui](../../hypotheses/committed/hubspot-agent-config-ui.md) - Related hypothesis on workflow config
+- [crm-exp-ete initiative](../crm-exp-ete/) - End-to-end CRM experience work
 
 ---
 
-## Next Steps
+## Next Steps (Updated)
 
-1. **Define Readiness Criteria:** Work with Crispy to define the minimum viable CRM configuration checklist
-2. **Technical Feasibility:** Assess what we can detect via HubSpot API during onboarding
-3. **Prototype Diagnostic:** Build simple MVP that shows readiness score
-4. **Customer Interviews:** Talk to 2-3 customers who churned or failed to activate—validate CRM was the issue
-5. **Prioritize Solution Path:** Diagnostic only vs. diagnostic + remediation vs. partner enablement
+| Priority | Action | Owner | Status |
+|----------|--------|-------|--------|
+| **1** | 🆕 Show prototype to James for input | Tyler | ⬜ Pending |
+| **2** | 🆕 Show prototype to Crispy directly—gauge reaction | Tyler | ⬜ Pending |
+| **3** | 🆕 Design partner-only variant of diagnostic | Tyler | ⬜ Pending |
+| 4 | Define Readiness Criteria with partner input | Tyler | 🔄 In progress |
+| 5 | Technical Feasibility: HubSpot API assessment | Eng | ⬜ Pending |
+| 6 | Customer Interviews: Churned customers | Tyler | ⬜ Pending |
 
 ---
 
@@ -189,13 +264,14 @@ AskElephant implementations fail or underperform when customers have poorly conf
 | **Outcome Orientation** | ⭐⭐⭐⭐ | Clear chain: diagnostic → remediation → activation → retention |
 | **Human Empowerment** | ⭐⭐⭐⭐ | Helps customers understand and fix their own CRM |
 | **Data Capture** | ⭐⭐⭐ | Indirectly improves data quality by ensuring CRM is clean |
-| **Differentiation** | ⭐⭐⭐⭐ | Competitors don't address this; it's a unique onboarding investment |
+| **Differentiation** | ⭐⭐⭐⭐ | Competitors don't address this; unique onboarding investment |
 | **Expansion Driver** | ⭐⭐⭐⭐ | Solves churn/activation; enables partner scale |
+| 🆕 **Partner Channel** | ⭐⭐⭐⭐⭐ | Partner-first positioning strengthens distribution |
 
-**Total: 24/30** — Strong strategic fit. Needs refinement on solution scope.
+**Total: 28/35** — Strong strategic fit. Partner-first variant may be optimal path.
 
 ---
 
 ## Tags
 
-`#crm-readiness` `#hubspot` `#onboarding` `#retention` `#partner-feedback` `#trust-foundation`
+`#crm-readiness` `#hubspot` `#onboarding` `#retention` `#partner-feedback` `#trust-foundation` `#partner-enablement`
