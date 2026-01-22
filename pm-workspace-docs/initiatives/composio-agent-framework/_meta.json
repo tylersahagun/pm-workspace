@@ -2,8 +2,8 @@
   "$schema": "pm-workspace-meta-v1",
   "initiative": "composio-agent-framework",
   "hypothesis_id": null,
-  "phase": "discovery",
-  "sub_phase": "research",
+  "phase": "define",
+  "sub_phase": "prd-complete",
   "status": "on_track",
   "priority": "P1",
   "owner": "tyler",
@@ -24,7 +24,7 @@
     }
   ],
   "blockers": [],
-  "next_action": "Create PRD with short-term and long-term roadmap",
+  "next_action": "Build prototype for Universal Agent Node (Phase 1) or Agent Configurator UX exploration",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
