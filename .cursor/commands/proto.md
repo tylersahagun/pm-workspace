@@ -175,23 +175,75 @@ cd elephant-ai
 npm run storybook -w web    # Opens at http://localhost:6006
 ```
 
-## After Building
+## After Building (REQUIRED STEPS)
+
+### Step 1: Build Storybook (Catch Errors First)
+
+**MANDATORY**: Always build Storybook before pushing to ensure no TypeScript/import errors:
+
+```bash
+cd elephant-ai
+npm run build-storybook -w web
+```
+
+**If build fails:**
+1. Read the error output carefully
+2. Fix TypeScript errors, missing imports, or type issues
+3. Re-run build until it succeeds
+4. Do NOT proceed to Chromatic until build passes
+
+### Step 2: Deploy to Chromatic
+
+**MANDATORY**: After successful build, deploy to Chromatic to get the shareable URL:
+
+```bash
+cd elephant-ai
+npm run chromatic
+```
+
+This uses the project token from `package.json` (`chpt_b6891b00696fe57`).
+
+**Chromatic outputs:**
+- `storybookUrl` - The preview URL (e.g., `https://<hash>--<appId>.chromatic.com`)
+- `buildUrl` - The Chromatic build page for visual review
+
+**Capture these URLs** for the response.
+
+#### Known Issue: React Error #299
+
+If Chromatic fails with "React error #299" (createRoot conflict), this is a known Storybook 9 + Chromatic compatibility issue.
+
+**Workaround options:**
+
+1. **Use the published Storybook URL directly** - Chromatic still uploads the Storybook even if story extraction fails. The `storybookUrl` in the output is still accessible.
+
+2. **Use GitHub PR workflow** - Push changes to a PR branch; the `.github/workflows/chromatic.yml` workflow runs automatically and posts the Chromatic link as a PR comment.
+
+3. **Use the standalone prototypes folder** - For isolated prototypes, use `prototypes/` which has a separate Chromatic project:
+   ```bash
+   cd prototypes
+   CHROMATIC_PROJECT_TOKEN="chpt_46b823319a0135f" npm run chromatic
+   ```
+
+### Step 3: Document the Prototype
 
 1. Document in `pm-workspace-docs/initiatives/[project]/prototype-notes.md`:
    - Which options were created
    - Design rationale for each
    - Recommended direction with justification
    - Open questions for stakeholder review
+   - **Chromatic URL for sharing**
 
 2. **Update `_meta.json`**:
    ```json
    {
-     "phase": "build",  // if advancing from define
+     "phase": "build",
      "updated_at": "[current timestamp]",
-     "prototype_type": "standalone",  // Track prototype type for /iterate
-     "current_version": "v1",  // Track current version
+     "prototype_type": "standalone",
+     "current_version": "v1",
+     "chromatic_url": "[captured from chromatic output]",
      "metrics": {
-       "total_iterations": 1  // or increment
+       "total_iterations": 1
      }
    }
    ```
@@ -209,13 +261,7 @@ npm run storybook -w web    # Opens at http://localhost:6006
    - Mark "prototype exists" as met
    - Mark "all states implemented" if complete
 
-4. Publish Storybook to Chromatic (automatic on new prototypes):
-   - Ensure Chromatic is installed: `npm install --save-dev chromatic`
-   - Run from the prototype package root with the project token set as env:
-     - `CHROMATIC_PROJECT_TOKEN="chpt_46b823319a0135f" npm run chromatic`
-   - If the repo has multiple packages, run it where `storybook` is configured
-
-5. Create comparison table for stakeholders:
+4. Create comparison table for stakeholders:
    | Criteria | Option A | Option B | Option C |
    |----------|----------|----------|----------|
    | Trust level required | Low | Medium | High |
@@ -231,32 +277,42 @@ npm run storybook -w web    # Opens at http://localhost:6006
    - "Run `/validate [name]` to run jury evaluation"
    - "Run `/iterate [name]` when feedback arrives"
 
-## Slack Response Template
+## Response Template
 
 ```
 ✅ Prototype exploration complete for [initiative]!
+
+🔗 **Chromatic Preview (shareable):**
+https://[branch]--[appId].chromatic.com/?path=/story/prototypes-[initiative]-v1
+
+📱 **Build Status:**
+- Storybook build: ✅ Passed
+- Chromatic deploy: ✅ Published
+- Build URL: https://www.chromatic.com/build?appId=...&number=XX
+
+---
 
 🎨 **Creative Options (v1):**
 
 **Option A: Maximum Control**
 - User confirms every AI action
 - Best for: Low-trust scenarios, new users
-- Story: `OptionA_MaxControl`
+- [View in Chromatic](chromatic-url?path=/story/prototypes-[initiative]-v1-optiona-maxcontrol)
 
 **Option B: Balanced (Recommended)**
 - AI suggests, easy override
 - Best for: Most users, trust-building
-- Story: `OptionB_Balanced`
+- [View in Chromatic](chromatic-url?path=/story/prototypes-[initiative]-v1-optionb-balanced)
 
 **Option C: Maximum Efficiency**
 - AI acts, user reviews
 - Best for: Power users, routine tasks
-- Story: `OptionC_Efficient`
+- [View in Chromatic](chromatic-url?path=/story/prototypes-[initiative]-v1-optionc-efficient)
 
-📱 **Preview:**
-- Local: `cd elephant-ai && npm run storybook -w web`
-- Navigate to: Prototypes → [Initiative] → v1
-- All states included: Loading, Success, Error, LowConfidence, Empty
+📦 **All States Included:**
+Loading, LoadingLong, Success, Error, LowConfidence, Empty
+
+---
 
 📋 **Files:**
 - Components: `elephant-ai/web/src/components/prototypes/[Initiative]/v1/`

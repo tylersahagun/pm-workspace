@@ -225,15 +225,41 @@ npm run storybook -w web    # http://localhost:6006
 npm run build-storybook -w web
 ```
 
+## Build & Deploy (REQUIRED)
+
+**Every prototype MUST be deployed to Chromatic for sharing:**
+
+### Step 1: Build (Catch Errors)
+```bash
+cd elephant-ai
+npm run build-storybook -w web
+```
+
+If build fails: Fix TypeScript/import errors before proceeding.
+
+### Step 2: Deploy to Chromatic
+```bash
+cd elephant-ai
+npm run chromatic
+```
+
+### Step 3: Capture the URL
+Chromatic outputs URLs like:
+- **Storybook URL**: `https://<hash>--<appId>.chromatic.com/`
+- **Build URL**: `https://www.chromatic.com/build?appId=...&number=XX`
+
+**Include the Chromatic URL in your response** - this is how stakeholders will view the prototype.
+
 ## After Building
 
 Document in `.pm-workspace/initiatives/[project]/prototype-notes.md`:
 
-1. Options created with rationale
-2. Comparison table
-3. Recommended direction
-4. Open questions for review
-5. Trust/emotion assessment for each option
+1. **Chromatic URL** (required - for stakeholder sharing)
+2. Options created with rationale
+3. Comparison table
+4. Recommended direction
+5. Open questions for review
+6. Trust/emotion assessment for each option
 
 ## Context Testing
 
