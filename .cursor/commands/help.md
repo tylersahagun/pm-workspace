@@ -27,7 +27,7 @@ You are a helpful guide for the PM Workspace. When a user asks for help, underst
 | `/share` | Create a PR for review | When work is ready for feedback |
 | `/status` | See workspace overview | Check what's active and pending |
 
-### Prototyping (Designers)
+### Prototyping (Designers & PMs)
 
 | Command | What it does | When to use |
 |---------|--------------|-------------|
@@ -37,6 +37,8 @@ You are a helpful guide for the PM Workspace. When a user asks for help, underst
 | `/iterate [name]` | Auto-pull signals + refine prototype | After adding feedback signals |
 | `/design [name]` | Review design considerations | Before or during prototyping |
 | `/validate [name]` | Test with synthetic users | After prototype is built |
+| `/design-handoff [name]` | Manage PM→Designer handoff | When prototype needs designer polish |
+| `/figma-sync [name] [url]` | Pull Figma design into Storybook | When designer has Figma ready |
 
 ### PM Workflows
 
@@ -124,6 +126,21 @@ Then open http://localhost:6006
 ### "I want to test my design with users"
 → Run `/validate [name]` - runs synthetic user jury evaluation
 
+### "My prototype is ready for a designer to polish"
+→ Run `/design-handoff [name]` - choose handoff workflow:
+  - **Workflow A (Figma Refinement)**: Designer creates polished Figma version
+  - **Workflow B (Code-First)**: Designer gives feedback, dev iterates in code
+  - **Workflow C (Hybrid)**: Designer polishes in Figma, then `/figma-sync` back
+
+### "How does designer get my Storybook prototype into Figma?"
+→ **There's no direct import.** Options:
+  1. Designer views via Storybook Connect Figma plugin, recreates manually
+  2. Keep prototype in code, designer gives feedback only
+  3. Run `/design-handoff [name]` to choose the right workflow
+
+### "Designer finished the Figma, how do I get it back into code?"
+→ Run `/figma-sync [name] [figma-url]` - extracts variants, generates stories + code
+
 ---
 
 ## Workflow Guides
@@ -169,6 +186,29 @@ Then open http://localhost:6006
 4. [receive feedback]   # Wait for comments
 5. /iterate [name]      # Make changes
 6. /save                # Push updates (PR auto-updates)
+```
+
+### PM→Designer Handoff (Workflow A: Figma Refinement)
+
+```
+1. /proto [name]           # PM builds functional prototype
+2. /save                   # Deploy to Chromatic
+3. /design-handoff [name]  # Generate designer brief
+4. [Designer reviews via Storybook Connect]
+5. [Designer creates polished Figma]
+6. /figma-sync [name] [url] # Pull specs back to code
+7. [Dev implements final version]
+```
+
+### PM→Designer Handoff (Workflow B: Code-First)
+
+```
+1. /proto [name]           # PM builds functional prototype
+2. /save                   # Deploy to Chromatic
+3. /design-handoff [name]  # Share Chromatic URL with designer
+4. [Designer reviews, gives feedback via comments/Loom]
+5. /iterate [name]         # Dev iterates based on feedback
+6. /validate [name]        # Test final version
 ```
 
 ---

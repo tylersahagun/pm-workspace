@@ -15,7 +15,7 @@
   ],
   "pillar": "data-knowledge",
   "created_at": "2026-01-22T00:00:00.000000",
-  "updated_at": "2026-01-22T22:00:00.000000",
+  "updated_at": "2026-01-22T23:30:00.000000",
   "phase_history": [
     {
       "phase": "discovery",
@@ -99,7 +99,7 @@
   },
   "metrics": {
     "days_in_phase": 0,
-    "total_iterations": 3
+    "total_iterations": 6
   },
   "dependencies": [
     "composio-integration"
@@ -109,7 +109,7 @@
   ],
   "prototype_type": "both",
   "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
-  "current_version": "v4",
+  "current_version": "v6",
   "last_signals_processed": "2026-01-22T14:30:00.000000",
   "signals_consumed": [
     "sig-2026-01-22-adam-composio-agent-feedback",
@@ -167,6 +167,40 @@
         "Added ConflictWarning component - Show conflict outcomes in activity log",
         "Resolution strategies: Priority (overwrite), Merge (append), Skip (defer)",
         "Created V4Iteration.stories.tsx with complete conflict flow demos"
+      ]
+    },
+    {
+      "version": "v5",
+      "date": "2026-01-22T22:30:00.000000",
+      "prototype_type": "both",
+      "focus": "Skills Layer (Phase 3) - Reduce config friction with domain expertise",
+      "feedback_source": "agent-skills-reduce-config hypothesis + adam-feedback",
+      "signals_consumed": [
+        "sig-2026-01-22-internal-composio-agent-architecture"
+      ],
+      "changes": [
+        "Added SkillsSelector component - Select domain expertise skills",
+        "Built-in skills: RevOps Expert, Follow-up Best Practices, Deal Intelligence",
+        "Auto-discovery based on agent instructions",
+        "Added AgentFrameworkDashboard component (initial version)"
+      ]
+    },
+    {
+      "version": "v6",
+      "date": "2026-01-22T23:30:00.000000",
+      "prototype_type": "both",
+      "focus": "Unified Framework - Full interactive experience with all v1-v5 features",
+      "feedback_source": "Integration of all previous iterations",
+      "signals_consumed": [],
+      "changes": [
+        "Created AgentSkillsFramework - unified full-page dashboard",
+        "Dashboard view with metrics, quick actions, recent agents, activity feed",
+        "Agents view with search, filter, CRUD operations",
+        "Skills view with built-in and workspace skills",
+        "Activity view with complete audit trail",
+        "Create Wizard: Conversational Setup → Skills → Auth → Test → Review",
+        "Integrated all v2-v5 components into cohesive experience",
+        "Created comprehensive Storybook stories with all creative options"
       ]
     }
   ]

@@ -63,6 +63,7 @@ Use these to:
 | "document code", "write AGENTS.md", "AI documentation" | `/agents` | Generate AGENTS.md documentation |
 | "sync figma", "figma to storybook", "figma spec", "design sync", "extract from figma" | `/figma-sync [name] [url]` | Sync Figma design to Storybook stories + code scaffolds |
 | "design system", "spacing grid", "design tokens", "visual consistency" | `/design-system` | View/update interface design system |
+| "handoff to design", "give to designer", "designer review", "ready for design polish", "storybook to figma" | `/design-handoff [name]` | Manage PM→Designer handoff workflow |
 
 ### Thinking & Growth Commands (Tyler-specific)
 
@@ -187,6 +188,13 @@ This helps ensure we're building the right thing.
 - Behavior: Auto-load `.interface-design/system.md`, show summary
 - Note: Integrates with prototype-builder to ensure consistent visual craft
 
+### Design Handoff Intent
+- Contains: "handoff to design", "give to designer", "designer review", "ready for design polish", "storybook to figma", "designer needs to edit"
+- Action: Suggest `/design-handoff [initiative-name]`
+- Requires: Initiative name with existing prototype
+- Behavior: Choose workflow (Figma Refinement, Code-First, or Hybrid), generate designer brief
+- Note: There's NO direct Storybook→Figma import; this command helps manage the workflow
+
 ### Thinking Mode Intent (Tyler-specific)
 - Contains: "let me think", "think through", "rubber duck", "talk it out", "brainstorm with me"
 - Action: Enter `/think` mode—guided exploration with probing questions
@@ -231,6 +239,7 @@ This helps ensure we're building the right thing.
 | Context-Proto | PRD, design-brief.md, elephant-ai/web/src/ structure, component-patterns.mdc |
 | Validate | All initiative docs, jury-system.mdc |
 | Figma-Sync | Figma URL, existing prototype (if any), component-patterns.mdc |
+| Design-Handoff | PRD, prototype-notes.md, Chromatic URL, _meta.json |
 | Status/Help | Current workspace state |
 | Git workflows | None (procedural) |
 | **Think/Teach** | tyler-context.md (values, working style) |

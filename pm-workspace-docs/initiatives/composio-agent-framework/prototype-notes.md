@@ -485,9 +485,144 @@ elephant-ai/web/src/components/prototypes/ComposioAgentFramework/v4/
 
 ---
 
+## v5 Iteration (2026-01-22) — Skills Layer
+
+### Problem Addressed
+
+**Skills Layer (Phase 3)** — Reduce agent configuration friction with domain expertise.
+
+> "People see a blank text field and they have no clue what to do." — Adam
+
+### What Was Built
+
+#### 1. SkillsSelector Component
+
+**Purpose:** Select domain expertise skills that make agents smarter.
+
+**Features:**
+- Built-in skills (RevOps Expert, Follow-up Best Practices, Deal Intelligence)
+- Workspace custom skills created by team
+- Auto-discovery based on agent instructions
+- Search and filter by category
+- Skill details dialog with usage stats
+- Toggle skills on/off
+
+**Location:** `v5/components/SkillsSelector.tsx`
+
+### Files Created (v5)
+
+```
+elephant-ai/web/src/components/prototypes/ComposioAgentFramework/v5/
+├── index.ts
+├── v5.stories.tsx
+└── components/
+    ├── index.ts
+    ├── SkillsSelector.tsx
+    └── AgentFrameworkDashboard.tsx
+```
+
+---
+
+## v6 Iteration (2026-01-22) — Unified Framework
+
+### Problem Addressed
+
+**Unified Experience** — Bring together ALL features from v1-v5 into a cohesive, production-ready experience.
+
+### What Was Built
+
+#### AgentSkillsFramework Component
+
+**Purpose:** Full-page dashboard unifying all agent framework features.
+
+**Features:**
+- **Dashboard View**: Metrics, quick actions, recent agents, activity feed
+- **Agents View**: Full agent list with search, filter, CRUD operations
+- **Skills View**: Browse and toggle built-in and workspace skills
+- **Activity View**: Complete audit trail with ActivityLog component
+- **Create Wizard**: Multi-step wizard with:
+  - Conversational Setup (Option D)
+  - Skills Selection with auto-discovery
+  - Auth Scope Configuration
+  - Test Preview before activation
+  - Review & Activate
+
+**Location:** `v6/AgentSkillsFramework.tsx`
+
+### Key Integration Points
+
+| Feature | Source | Integration |
+|---------|--------|-------------|
+| Activity Log | v2 | Embedded in Activity view + Dashboard sidebar |
+| Test Preview | v2 | Step 4 of Create Wizard |
+| Conversational Setup | v3 | Step 1 of Create Wizard |
+| Auth Scope Selector | v3 | Step 3 of Create Wizard |
+| Rollback Panel | v3 | Available from agent actions |
+| Conflict Detector | v4 | Step 3 of Create Wizard (with Auth) |
+| Skills Selector | v5 | Step 2 of Create Wizard + Skills View |
+
+### Storybook Stories (v6)
+
+Navigate to `Prototypes/ComposioAgentFramework/v6-SkillsIntegration/`:
+
+| Story | Description |
+|-------|-------------|
+| `Dashboard` | Default view with metrics and quick actions |
+| `AgentsList` | Full agent management view |
+| `SkillsLibrary` | Browse and toggle skills |
+| `ActivityView` | Complete audit trail |
+| `CreateAgentFlow` | Interactive wizard demo |
+| `QuickActionDemo` | Quick create from template |
+| `SearchDemo` | Search functionality |
+| `OptionA_MaximumControl` | Reference to v1 wizard approach |
+| `OptionB_Balanced` | Reference to v1 single-page approach |
+| `OptionC_MaximumEfficiency` | Quick create templates |
+| `OptionD_Conversational` | Chat-based setup (primary) |
+| `SkillsAutoDiscovery` | Auto-suggest skills demo |
+| `TrustCalibration` | Activity log trust patterns |
+| `MobileView` | Responsive mobile layout |
+| `TabletView` | Responsive tablet layout |
+
+### Files Created (v6)
+
+```
+elephant-ai/web/src/components/prototypes/ComposioAgentFramework/v6/
+├── index.ts
+├── AgentSkillsFramework.tsx
+└── AgentSkillsFramework.stories.tsx
+```
+
+---
+
+## Design Options Summary (Updated)
+
+| Option | Philosophy | Best For | Status |
+|--------|-----------|----------|--------|
+| **A: Maximum Control** | Step-by-step wizard | New users, high-stakes | v1 ✅ |
+| **B: Balanced** | AI suggests, user overrides | Most users | v1 ✅ |
+| **C: Maximum Efficiency** | AI generates, user reviews | Power users | v1 + v2 ✅ |
+| **D: Conversational** ⭐ | Chat-based progressive | Everyone | v3 + v6 ✅ **Recommended** |
+
+---
+
+## All Jury Concerns Status (Final)
+
+| Concern | Version | Component | Status |
+|---------|---------|-----------|--------|
+| Audit trail / visibility | v2 | `ActivityLog` | ✅ Resolved |
+| Error handling / recovery | v2 | `TestPreview` | ✅ Resolved |
+| Rollback / undo | v3 | `RollbackPanel` | ✅ Resolved |
+| Agent conflict resolution | v4 | `ConflictDetector` + `ConflictWarning` | ✅ Resolved |
+| Configuration friction | v5 | `SkillsSelector` | ✅ Resolved |
+| Template versioning | — | Policy doc | 📋 Not prototype |
+| Team adoption reporting | — | Analytics feature | 📊 Phase 2 |
+
+---
+
 ## Next Steps
 
-1. **Schedule Woody design review** — Get sign-off on Option D + conflict resolution
-2. **Show to Caden** — Engineering feasibility for conflict detection API
+1. **Schedule Woody design review** — Get sign-off on v6 unified experience
+2. **Show to Caden** — Engineering feasibility for conflict detection + skills APIs
 3. **Draft template versioning policy** — Document in PRD, not prototype
 4. **Consider phase 2 analytics** — Team adoption dashboards
+5. **User testing** — Validate v6 with real users before launch

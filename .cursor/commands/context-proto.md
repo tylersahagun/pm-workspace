@@ -242,6 +242,104 @@ export const WithAdjacentFeatures: Story = {
     </AdjacentFeaturesLayout>
   ),
 };
+
+// ============================================================================
+// REQUIRED: Interactive User Journeys
+// ============================================================================
+
+/**
+ * Complete user journey showing how users discover, use, and complete
+ * their task with this feature.
+ */
+export const Flow_HappyPath: Story = {
+  render: () => <ComponentNameContextJourney scenario="happy" />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Complete User Journey: Happy Path**
+
+1. User navigates to [location] in app
+2. User discovers the feature via [trigger]
+3. User configures/interacts with component
+4. System processes (loading)
+5. Success → User sees outcome
+6. User continues to next task
+
+Click through to experience the full in-context flow.
+        `,
+      },
+    },
+  },
+};
+
+/**
+ * Journey showing how users handle errors in context.
+ */
+export const Flow_ErrorRecovery: Story = {
+  render: () => <ComponentNameContextJourney scenario="error" />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Error Recovery Journey (In Context)**
+
+1. User is on [parent page]
+2. User triggers action
+3. Error occurs → error state shown in context
+4. User clicks recovery option
+5. Success on retry
+
+Shows how errors feel within the real app UI.
+        `,
+      },
+    },
+  },
+};
+```
+
+### Context Journey Component
+
+Create a journey wrapper that shows flows in full app context:
+
+```typescript
+// contexts/[ComponentName]ContextJourney.tsx
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { SidebarLayout } from '@/components/navigation/SidebarLayout';
+import { ComponentName } from '../ComponentName';
+
+type Step = 'browse' | 'discover' | 'interact' | 'loading' | 'success' | 'error';
+
+export function ComponentNameContextJourney({ scenario }: { scenario: 'happy' | 'error' }) {
+  const steps = scenario === 'happy' 
+    ? ['browse', 'discover', 'interact', 'loading', 'success'] 
+    : ['browse', 'discover', 'interact', 'loading', 'error', 'loading', 'success'];
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentStep = steps[currentIndex] as Step;
+
+  return (
+    <SidebarLayout activeItem="[nav-item]">
+      {/* Journey Progress */}
+      <div className="fixed top-4 right-4 z-50 bg-background border rounded-lg p-4 shadow-lg">
+        <div className="text-sm font-medium mb-2">
+          Step {currentIndex + 1} of {steps.length}: {currentStep}
+        </div>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}>←</Button>
+          <Button size="sm" onClick={() => setCurrentIndex(Math.min(steps.length - 1, currentIndex + 1))}>→</Button>
+          <Button size="sm" variant="ghost" onClick={() => setCurrentIndex(0)}>Reset</Button>
+        </div>
+      </div>
+
+      {/* Full Page Context */}
+      <main className="flex-1 p-6">
+        <ComponentName state={mapStepToState(currentStep)} />
+      </main>
+    </SidebarLayout>
+  );
+}
 ```
 
 ### Step 5: Document Integration Details
@@ -317,6 +415,13 @@ Before promoting from prototypes/:
 | [Primary] | `InContext_[Type]` | Main integration |
 | Navigation | `InContext_Navigation` | Discovery path |
 | Adjacent | `InContext_WithRelated` | Nearby features |
+
+🚶 **Interactive Journeys (click through!):**
+
+| Journey | What It Shows |
+|---------|---------------|
+| `Flow_HappyPath` | Complete in-context success journey |
+| `Flow_ErrorRecovery` | Error handling in real app UI |
 
 📁 **Files Created:**
 - `elephant-ai/web/src/components/prototypes/[Initiative]/v1/`

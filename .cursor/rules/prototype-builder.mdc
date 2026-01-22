@@ -89,6 +89,168 @@ export const Empty: Story = { ... };
 | Low Confidence | Muted, dotted | "I think..." | None |
 | Empty | Illustration | Encouraging | Fade in |
 
+---
+
+## REQUIRED: Interactive User Journey (Flow Stories)
+
+> ⚠️ **Every prototype MUST include at least one flow story** that walks through the complete user journey.
+> Individual states are NOT enough - designers need to see how the experience unfolds over time.
+
+### Why Flows Are Required
+
+| What States Show | What Flows Show |
+|------------------|-----------------|
+| Isolated snapshots | Connected experience |
+| "Here's the error state" | "User sees error, clicks retry, sees loading, then success" |
+| Component in one moment | Component through time |
+| **Necessary but not sufficient** | **The full picture** |
+
+### Flow Story Requirements
+
+Every prototype needs a `Flow_[JourneyName]` story that:
+
+1. **Shows the complete user journey** from trigger to outcome
+2. **Is interactive** - user can click through steps
+3. **Includes transitions** between states
+4. **Covers happy path AND at least one unhappy path**
+
+### Flow Story Pattern
+
+```typescript
+// Required: At least one flow story per prototype
+export const Flow_HappyPath: Story = {
+  render: () => <InteractiveJourney scenario="happy" />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**User Journey: Happy Path**
+
+1. User arrives → sees initial state
+2. User takes action → loading appears
+3. Processing completes → success state
+4. User continues → next step available
+
+Click through to experience the full flow.
+        `,
+      },
+    },
+  },
+};
+
+export const Flow_ErrorRecovery: Story = {
+  render: () => <InteractiveJourney scenario="error-recovery" />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**User Journey: Error Recovery**
+
+1. User arrives → sees initial state
+2. User takes action → loading appears  
+3. Error occurs → error state with recovery option
+4. User retries → loading appears
+5. Success → happy outcome
+
+Click through to experience error handling.
+        `,
+      },
+    },
+  },
+};
+```
+
+### Interactive Journey Component Pattern
+
+Create an `InteractiveJourney` wrapper for flow stories:
+
+```typescript
+// [ComponentName]Journey.tsx
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { ComponentName } from './ComponentName';
+
+type JourneyStep = 'initial' | 'action' | 'loading' | 'success' | 'error';
+
+interface InteractiveJourneyProps {
+  scenario: 'happy' | 'error-recovery' | 'empty-to-populated';
+}
+
+export function InteractiveJourney({ scenario }: InteractiveJourneyProps) {
+  const [step, setStep] = useState<JourneyStep>('initial');
+  
+  const journeySteps = getJourneySteps(scenario);
+  const currentStepIndex = journeySteps.indexOf(step);
+  
+  return (
+    <div className="space-y-4">
+      {/* Journey Progress */}
+      <div className="flex items-center gap-2 p-4 bg-muted rounded-lg">
+        <span className="text-sm font-medium">Journey:</span>
+        {journeySteps.map((s, i) => (
+          <span 
+            key={s}
+            className={cn(
+              "px-2 py-1 rounded text-xs",
+              i === currentStepIndex ? "bg-primary text-primary-foreground" : "bg-background"
+            )}
+          >
+            {i + 1}. {s}
+          </span>
+        ))}
+      </div>
+      
+      {/* The Actual Component */}
+      <ComponentName state={step} />
+      
+      {/* Journey Controls */}
+      <div className="flex gap-2 p-4 border-t">
+        <Button 
+          variant="outline" 
+          onClick={() => setStep(journeySteps[Math.max(0, currentStepIndex - 1)])}
+          disabled={currentStepIndex === 0}
+        >
+          ← Previous
+        </Button>
+        <Button 
+          onClick={() => setStep(journeySteps[Math.min(journeySteps.length - 1, currentStepIndex + 1)])}
+          disabled={currentStepIndex === journeySteps.length - 1}
+        >
+          Next →
+        </Button>
+        <Button variant="ghost" onClick={() => setStep('initial')}>
+          Reset
+        </Button>
+      </div>
+      
+      {/* Step Explanation */}
+      <div className="p-4 bg-muted/50 rounded-lg text-sm">
+        <strong>Current Step:</strong> {getStepExplanation(step, scenario)}
+      </div>
+    </div>
+  );
+}
+```
+
+### Minimum Flow Coverage
+
+| Prototype Type | Required Flows |
+|----------------|----------------|
+| Simple feature | 1 flow (happy path) |
+| AI feature | 2 flows (happy + error recovery) |
+| Complex workflow | 3+ flows (happy + error + edge cases) |
+
+### Flow Story Checklist
+
+Before design handoff, verify:
+
+- [ ] At least one `Flow_*` story exists
+- [ ] Happy path flow is complete (start → success)
+- [ ] Error recovery flow exists (for AI features)
+- [ ] Steps can be clicked through (interactive)
+- [ ] Transitions are visible (not just jump cuts)
+- [ ] Step explanations describe what user sees/does
+
 ## Component Structure (Versioned)
 
 **ALWAYS** create prototypes in versioned subfolders, starting with `v1/`:

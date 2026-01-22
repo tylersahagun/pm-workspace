@@ -95,6 +95,160 @@ export const LowConfidence: Story = { args: { state: 'low-confidence', confidenc
 export const Empty: Story = { args: { state: 'empty' } };
 ```
 
+## REQUIRED: Interactive User Journey Stories
+
+> ⚠️ **Every prototype MUST include flow stories** that show the complete user journey.
+> Isolated states are NOT enough - stakeholders and designers need to see how the experience unfolds.
+
+### Why Flows Are Required
+
+Designers often see isolated components but don't understand:
+- How does the user GET here?
+- What happens when they click?
+- How does the experience transition between states?
+- What's the complete journey from problem to solution?
+
+### Create Flow Stories
+
+```typescript
+// At least one interactive journey per prototype
+export const Flow_HappyPath: Story = {
+  render: () => <ComponentNameJourney scenario="happy" />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Happy Path Journey**
+1. User opens feature
+2. User configures settings
+3. System processes (loading)
+4. Success confirmation
+5. User sees result
+
+Click through each step to experience the full flow.
+        `,
+      },
+    },
+  },
+};
+
+export const Flow_ErrorRecovery: Story = {
+  render: () => <ComponentNameJourney scenario="error" />,
+  parameters: {
+    docs: {
+      description: {
+        story: `
+**Error Recovery Journey**
+1. User submits action
+2. Loading state
+3. Error occurs
+4. User clicks "Retry"
+5. Success on retry
+
+Shows how users recover from failures.
+        `,
+      },
+    },
+  },
+};
+```
+
+### Flow Component Template
+
+Create `[ComponentName]Journey.tsx` alongside your main component:
+
+```typescript
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { ComponentName } from './ComponentName';
+
+type Step = 'initial' | 'configuring' | 'loading' | 'success' | 'error';
+
+const HAPPY_PATH: Step[] = ['initial', 'configuring', 'loading', 'success'];
+const ERROR_PATH: Step[] = ['initial', 'configuring', 'loading', 'error', 'loading', 'success'];
+
+interface JourneyProps {
+  scenario: 'happy' | 'error';
+}
+
+export function ComponentNameJourney({ scenario }: JourneyProps) {
+  const steps = scenario === 'happy' ? HAPPY_PATH : ERROR_PATH;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentStep = steps[currentIndex];
+
+  const stepDescriptions: Record<Step, string> = {
+    initial: 'User arrives at the feature for the first time',
+    configuring: 'User fills in their preferences',
+    loading: 'System is processing the request',
+    success: 'Action completed successfully!',
+    error: 'Something went wrong - recovery options shown',
+  };
+
+  return (
+    <div className="w-full max-w-4xl mx-auto space-y-6">
+      {/* Journey Progress Bar */}
+      <div className="p-4 bg-muted rounded-lg">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-sm font-medium">Step {currentIndex + 1} of {steps.length}</span>
+        </div>
+        <div className="flex gap-1">
+          {steps.map((_, i) => (
+            <div
+              key={i}
+              className={cn(
+                "h-2 flex-1 rounded",
+                i <= currentIndex ? "bg-primary" : "bg-muted-foreground/20"
+              )}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Current Step Label */}
+      <div className="text-center">
+        <span className="text-xs uppercase tracking-wide text-muted-foreground">Current State</span>
+        <h3 className="text-lg font-semibold capitalize">{currentStep.replace('-', ' ')}</h3>
+        <p className="text-sm text-muted-foreground">{stepDescriptions[currentStep]}</p>
+      </div>
+
+      {/* The Actual Component */}
+      <div className="border rounded-lg p-6">
+        <ComponentName state={currentStep} />
+      </div>
+
+      {/* Journey Controls */}
+      <div className="flex justify-center gap-4">
+        <Button
+          variant="outline"
+          onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
+          disabled={currentIndex === 0}
+        >
+          ← Back
+        </Button>
+        <Button
+          onClick={() => setCurrentIndex(Math.min(steps.length - 1, currentIndex + 1))}
+          disabled={currentIndex === steps.length - 1}
+        >
+          Next Step →
+        </Button>
+        <Button variant="ghost" onClick={() => setCurrentIndex(0)}>
+          Restart
+        </Button>
+      </div>
+    </div>
+  );
+}
+```
+
+### Minimum Flow Requirements
+
+| Prototype Type | Required Flows |
+|----------------|----------------|
+| Simple feature | 1 (happy path) |
+| AI/async feature | 2 (happy + error) |
+| Multi-step workflow | 3+ (happy + error + edge cases) |
+
 ## Trust & Emotion Checkpoints
 
 Before finalizing any option, verify:
@@ -300,6 +454,10 @@ https://[branch]--[appId].chromatic.com/?path=/story/prototypes-[initiative]-v1
 
 📦 **All States Included:**
 Loading, LoadingLong, Success, Error, LowConfidence, Empty
+
+🚶 **Interactive Journeys:**
+- `Flow_HappyPath` - Complete success journey (click through)
+- `Flow_ErrorRecovery` - Error handling journey (click through)
 
 ---
 
