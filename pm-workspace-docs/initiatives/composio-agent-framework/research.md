@@ -209,6 +209,47 @@ This conversation outlines the evolution of AskElephant's integration strategy f
 
 ---
 
+## Design Feedback Sessions
+
+### Adam: Design Walkthrough (2026-01-22)
+
+**Signal:** `sig-2026-01-22-adam-composio-agent-feedback`  
+**Full transcript:** `signals/transcripts/2026-01-22-adam-composio-agent-feedback.md`
+
+**Key Findings:**
+
+1. **Option B > Option A** — Cleaner layout preferred
+2. **Conversational setup strongly preferred** — Users shouldn't face blank prompt fields
+3. **Workspace vs User auth is critical problem** — Needs per-integration auth scope controls
+4. **Test before activate** — Show hypothetical output before enabling agent
+
+**New Problems Identified:**
+- Non-deterministic output: Customers want consistent formatting (temperature issue)
+- Option C missing visibility settings (draft/shared/recommended)
+
+**Feature Ideas from Session:**
+- Conversational agent setup (chat-based configuration)
+- Smart suggestions based on user context/call history  
+- Automatic agent detection in chat (no @-mention needed)
+
+**Action Items:**
+- [ ] Adam to send conversational agent prototype to Tyler
+- [ ] Tyler to show prototypes to Caden
+- [ ] Create v2 of Figma Make prototype incorporating feedback
+
+### Figma Make Prototype Spec (2026-01-22)
+
+**Signal:** `sig-2026-01-22-composio-figma-make-chat-interface`  
+**Full spec:** `signals/documents/2026-01-22-composio-figma-make-chat-interface-spec.md`
+
+Design patterns from Adam's Figma Make exploration (Options A, B, C):
+- Sequential message reveal with typewriter effect
+- Artifact chains that fade in after text completes
+- Sticky footer input with auto-expanding textarea
+- `onAnimationEnd` callbacks for reliable timing
+
+---
+
 ## Related Research
 
 - HubSpot Agent Config UI — Similar integration configuration UX patterns

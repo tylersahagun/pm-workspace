@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-22T10:00:00.000000",
-  "total_signals": 7,
+  "last_updated": "2026-01-22T10:30:00.000000",
+  "total_signals": 8,
   "by_source": {
-    "transcript": 5,
+    "transcript": 6,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
@@ -11,7 +11,7 @@
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 6
+    "processed": 7
   },
   "signals": [
     {
@@ -353,6 +353,54 @@
       "creator": "Adam",
       "tool": "Figma Make",
       "variants": ["Option A", "Option B", "Option C"]
+    },
+    {
+      "id": "sig-2026-01-22-adam-composio-agent-feedback",
+      "type": "transcript",
+      "source": "internal-design-review",
+      "topic": "composio-agent-framework-design-walkthrough",
+      "captured_at": "2026-01-22T10:30:00.000000",
+      "status": "processed",
+      "initiative": "composio-agent-framework",
+      "file_path": "signals/transcripts/2026-01-22-adam-composio-agent-feedback.md",
+      "related_signals": ["sig-2026-01-22-composio-figma-make-chat-interface"],
+      "summary": "Adam + Tyler walkthrough of Figma Make Options A/B/C. Key finding: conversational agent setup preferred over form fields. Critical problem identified: workspace vs user-level authentication for shared agents.",
+      "problems_extracted": [
+        "Workspace vs user-level authentication conflict when agents are shared",
+        "Blank prompt fields intimidate users - no guidance",
+        "Non-deterministic output - customers want consistent formatting",
+        "Option C missing visibility settings (draft/shared/recommended)"
+      ],
+      "feature_requests": [
+        "Conversational agent setup (chat-based configuration)",
+        "Test agent before activating (hypothetical output preview)",
+        "Smart suggestions based on user context/call history",
+        "Automatic agent detection in chat (no explicit invocation)",
+        "Per-integration workspace/user auth controls"
+      ],
+      "design_decisions": [
+        "Option B preferred over Option A (cleaner layout)",
+        "Option C best for conversational setup but needs visibility settings",
+        "Agents should auto-detect in chat, no @-mention needed"
+      ],
+      "key_quotes": [
+        "The agent is supposed to replace workflows... it's actually supposed to automate things in the background",
+        "People see this blank text field and they have no clue what to do",
+        "If we're combining the integration experience with the workflow experience into one experience, then we're presented with this really big problem",
+        "Unlike Pipedream where you have to toggle on your agents, you can actually just say [in chat]... and it should know which ones to use",
+        "You set up your agent in chat. It's like a conversation"
+      ],
+      "action_items": [
+        { "who": "Adam", "what": "Send conversational agent prototype to Tyler", "status": "pending" },
+        { "who": "Tyler", "what": "Show prototype to Caden", "status": "pending" },
+        { "who": "Tyler", "what": "Create v2 of Figma Make prototype", "status": "pending" }
+      ],
+      "participants": [
+        "Adam",
+        "Tyler"
+      ],
+      "severity": "high",
+      "word_count": 2800
     }
   ]
 }
