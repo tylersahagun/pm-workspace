@@ -3,7 +3,7 @@
   "initiative": "composio-agent-framework",
   "hypothesis_id": null,
   "phase": "validate",
-  "sub_phase": "jury-complete",
+  "sub_phase": "design-handoff",
   "status": "on_track",
   "priority": "P1",
   "owner": "tyler",
@@ -15,7 +15,7 @@
   ],
   "pillar": "data-knowledge",
   "created_at": "2026-01-22T00:00:00.000000",
-  "updated_at": "2026-01-22T23:30:00.000000",
+  "updated_at": "2026-01-22T23:45:00.000000",
   "phase_history": [
     {
       "phase": "discovery",
@@ -39,7 +39,7 @@
     }
   ],
   "blockers": [],
-  "next_action": "Schedule Woody design review for stakeholder approval, then advance to launch",
+  "next_action": "Woody reviews design handoff brief and provides feedback or starts Figma refinement",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
@@ -92,6 +92,15 @@
       "Rollback / undo - RESOLVED (v3 RollbackPanel)",
       "Agent conflict resolution - RESOLVED (v4 ConflictDetector + ConflictWarning)"
     ]
+  },
+  "handoff": {
+    "workflow": "A",
+    "status": "awaiting_design",
+    "prototype_url": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
+    "figma_url": null,
+    "designer": "woody",
+    "handoff_date": "2026-01-22",
+    "notes": "v6 Unified Framework ready for visual polish. Conversational setup (Option D) is primary flow. Key areas: dashboard layout, motion timing, micro-copy, empty/error states."
   },
   "timeline": {
     "started": "2026-01-22",
