@@ -260,7 +260,7 @@ Before responding, verify:
 
 ## After Building
 
-Document in `.pm-workspace/initiatives/[project]/prototype-notes.md`:
+Document in `pm-workspace-docs/initiatives/[project]/prototype-notes.md`:
 
 1. **Chromatic URL** (required - for stakeholder sharing)
 2. Options created with rationale

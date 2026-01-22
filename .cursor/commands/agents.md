@@ -15,7 +15,7 @@ Create documentation that gives AI agents:
 
 1. Analyze the target directory in @web/src/ or @functions/src/
 2. Cross-reference @notion for user context and feedback
-3. Check @.pm-workspace/company-context/personas.md
+3. Check @pm-workspace-docs/company-context/personas.md
 4. Generate with product focus first, technical context second
 
 ## Template Structure
@@ -32,7 +32,7 @@ Key sections:
 
 ## Save Location
 
-Mirror the src structure: `.pm-workspace/agents-docs/[path]/AGENTS.md`
+Mirror the src structure: `pm-workspace-docs/agents-docs/[path]/AGENTS.md`
 
-Example: For `web/src/components/integrations/hubspot/`, save to `.pm-workspace/agents-docs/web/components/integrations/hubspot/AGENTS.md`
+Example: For `web/src/components/integrations/hubspot/`, save to `pm-workspace-docs/agents-docs/web/components/integrations/hubspot/AGENTS.md`
 

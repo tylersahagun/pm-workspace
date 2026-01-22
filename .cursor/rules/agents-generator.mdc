@@ -1,6 +1,6 @@
 ---
 description: 'Generate product-focused AGENTS.md documentation'
-globs: ['.pm-workspace/agents-docs/**/*']
+globs: ['pm-workspace-docs/agents-docs/**/*']
 alwaysApply: false
 ---
 
@@ -68,4 +68,4 @@ Create AGENTS.md that gives AI agents PRODUCT context, not just technical docs.
 
 ## Save Location
 
-Mirror src structure: `.pm-workspace/agents-docs/[path]/AGENTS.md`
+Mirror src structure: `pm-workspace-docs/agents-docs/[path]/AGENTS.md`
