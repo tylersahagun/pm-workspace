@@ -2,8 +2,8 @@
   "$schema": "pm-workspace-meta-v1",
   "initiative": "composio-agent-framework",
   "hypothesis_id": null,
-  "phase": "define",
-  "sub_phase": "prd-complete",
+  "phase": "build",
+  "sub_phase": "prototype-complete",
   "status": "on_track",
   "priority": "P1",
   "owner": "tyler",
@@ -20,17 +20,37 @@
     {
       "phase": "discovery",
       "entered": "2026-01-22T00:00:00.000000",
+      "exited": "2026-01-22T00:00:00.000000"
+    },
+    {
+      "phase": "define",
+      "entered": "2026-01-22T00:00:00.000000",
+      "exited": "2026-01-22T00:00:00.000000"
+    },
+    {
+      "phase": "build",
+      "entered": "2026-01-22T00:00:00.000000",
       "exited": null
     }
   ],
   "blockers": [],
-  "next_action": "Build prototype for Universal Agent Node (Phase 1) or Agent Configurator UX exploration",
+  "next_action": "Run /validate for synthetic user testing, then iterate based on feedback",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
-      "outcome_chain_clear": false,
+      "outcome_chain_clear": true,
       "personas_identified": true,
       "strategic_alignment_checked": true
+    },
+    "define_to_build": {
+      "prd_complete": true,
+      "design_brief_complete": true,
+      "engineering_spec_complete": true,
+      "placement_research_complete": true
+    },
+    "build_to_validate": {
+      "prototype_complete": true,
+      "jury_validation_complete": false
     }
   },
   "timeline": {
@@ -46,5 +66,7 @@
   ],
   "related_initiatives": [
     "hubspot-agent-config-ui"
-  ]
+  ],
+  "prototype_type": "both",
+  "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/"
 }
