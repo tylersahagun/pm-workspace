@@ -261,16 +261,130 @@ elephant-ai/web/src/components/prototypes/ComposioAgentFramework/
 - **PRD:** Added auth scope problem, jury results, activity log requirement
 - **Design Brief:** Added conversational setup flow, error handling UX, test-before-activate
 
-### Open Items for v3
+### Open Items for v3 — ✅ ADDRESSED
 
-1. **Conversational Setup (Option D)** — Adam's preference for chat-based configuration
-2. **Workspace vs. User Auth Controls** — Per-integration visibility when shared
-3. **Rollback / Undo** — Jury concern #3 (14 mentions) - deferred to Phase 2
+All three items have been implemented in v3:
+
+1. ✅ **Conversational Setup (Option D)** — Implemented as `ConversationalSetup.tsx`
+2. ✅ **Workspace vs. User Auth Controls** — Implemented as `AuthScopeSelector.tsx`
+3. ✅ **Rollback / Undo** — Implemented as `RollbackPanel.tsx`
+
+---
+
+## v3 Iteration (2026-01-22)
+
+### What Was Built
+
+#### 1. ConversationalSetup Component (Option D - Adam's Preference)
+
+**Problem addressed:** "People see a blank text field and they have no clue what to do."
+
+**Features:**
+- Chat-based agent configuration instead of forms
+- AI asks clarifying questions progressively
+- Shows 3 output format previews, user picks preferred
+- Auth scope selection built into conversation
+- Test before activate flow integrated
+- Typewriter effect for AI messages with artifact reveals
+- Quick-select buttons for common intents
+
+**Location:** `v3/components/ConversationalSetup.tsx`
+
+**Key UX Pattern:**
+```
+User: "I want to update HubSpot after meetings"
+AI: "That's a little vague. Tell me more about what you want updated."
+User: "Summarize meeting and add next steps to the deal"
+AI: [Shows 3 format options] "Which style do you prefer?"
+User: [Clicks Option 2]
+AI: "Great! How should I authenticate?"
+...
+AI: "Here's your agent. Ready to activate?"
+```
+
+#### 2. AuthScopeSelector Component
+
+**Problem addressed:** Workspace vs. user-level authentication for shared agents.
+
+**Features:**
+- Global scope selector (Workspace recommended vs. Personal)
+- Per-integration override with collapsible advanced settings
+- **Shared agent warning** — Alerts when personal auth used in shared agents
+- Connection status per integration
+- "Requires personal" indicator for email drafts etc.
+- Clear visual distinction (Building icon vs. User icon)
+
+**Location:** `v3/components/AuthScopeSelector.tsx`
+
+**Key UX Pattern:**
+- Default to workspace for safety
+- Warn when shared agent has personal integrations
+- Let users override per-integration in advanced mode
+
+#### 3. RollbackPanel Component
+
+**Problem addressed:** "What if the agent does something wrong?" (Jury concern #3 - 14 mentions)
+
+**Features:**
+- Scrollable action history with timeline grouping
+- Checkbox selection for batch rollback
+- Status badges: Completed, Reverted, Failed, Pending
+- Before/after diff preview for CRM updates
+- Confirmation dialog with action summary
+- "Cannot revert" indicators for permanent actions (sent emails)
+- Success message after rollback
+
+**Location:** `v3/components/RollbackPanel.tsx`
+
+**Key UX Pattern:**
+- Select 1+ actions → "Rollback (N)" button → Confirmation dialog → Execute
+
+---
+
+## Storybook Stories (v3)
+
+Navigate to `Prototypes/ComposioAgentFramework/V3Iteration/`:
+
+| Story | Description |
+|-------|-------------|
+| `Option D: Conversational Setup` | Full chat-based agent creation flow |
+| `Auth Scope: Workspace Selected` | Default workspace auth selection |
+| `Auth Scope: Shared Agent Warning` | Warning when personal auth + shared |
+| `Rollback / Undo Panel` | Action history with rollback capability |
+| `V3 Complete Dashboard` | Tabbed view of all v3 components |
+| `Options A-D Comparison` | Side-by-side all four options |
+
+---
+
+## Files Created (v3)
+
+```
+elephant-ai/web/src/components/prototypes/ComposioAgentFramework/v3/
+├── index.ts
+├── V3Iteration.stories.tsx
+└── components/
+    ├── index.ts
+    ├── ConversationalSetup.tsx
+    ├── AuthScopeSelector.tsx
+    └── RollbackPanel.tsx
+```
+
+---
+
+## Design Options Summary
+
+| Option | Philosophy | Best For | Status |
+|--------|-----------|----------|--------|
+| **A: Maximum Control** | Step-by-step wizard | New users, high-stakes | v1 ✅ |
+| **B: Balanced** ⭐ | AI suggests, user overrides | Most users | v1 ✅ Recommended |
+| **C: Maximum Efficiency** | AI generates, user reviews | Power users | v1 + v2 ✅ |
+| **D: Conversational** | Chat-based progressive | Everyone (Adam's pref) | v3 ✅ **NEW** |
 
 ---
 
 ## Next Steps
 
-1. **Schedule Woody design review** — Phase 2 UX direction
-2. **Run `/validate composio-agent-framework`** for v2 jury
-3. **Show to Caden** — Engineering feasibility check
+1. **Run `/validate composio-agent-framework`** for v3 jury — Test new components
+2. **Schedule Woody design review** — Get sign-off on Option D direction
+3. **Show to Caden** — Engineering feasibility for rollback API
+4. **Consider merging B + D** — Option B form with conversational onboarding

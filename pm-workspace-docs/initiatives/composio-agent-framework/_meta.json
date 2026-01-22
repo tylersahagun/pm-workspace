@@ -15,7 +15,7 @@
   ],
   "pillar": "data-knowledge",
   "created_at": "2026-01-22T00:00:00.000000",
-  "updated_at": "2026-01-22T18:00:00.000000",
+  "updated_at": "2026-01-22T20:00:00.000000",
   "phase_history": [
     {
       "phase": "discovery",
@@ -39,7 +39,7 @@
     }
   ],
   "blockers": [],
-  "next_action": "Schedule Woody design review, then run /validate for v2 jury",
+  "next_action": "Run /validate for v3 jury, then schedule Woody design review",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
@@ -91,7 +91,7 @@
   },
   "metrics": {
     "days_in_phase": 0,
-    "total_iterations": 1
+    "total_iterations": 2
   },
   "dependencies": [
     "composio-integration"
@@ -101,8 +101,8 @@
   ],
   "prototype_type": "both",
   "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
-  "current_version": "v2",
-  "last_signals_processed": "2026-01-22T18:00:00.000000",
+  "current_version": "v3",
+  "last_signals_processed": "2026-01-22T20:00:00.000000",
   "signals_consumed": [
     "sig-2026-01-22-adam-composio-agent-feedback",
     "sig-2026-01-22-composio-figma-make-chat-interface"
@@ -124,6 +124,21 @@
         "Updated PRD with auth scope problem and jury results",
         "Updated Design Brief with error handling UX and conversational flow",
         "Updated prototype-notes.md with v2 iteration details"
+      ]
+    },
+    {
+      "version": "v3",
+      "date": "2026-01-22T20:00:00.000000",
+      "prototype_type": "both",
+      "focus": "Conversational setup (Option D), Auth scope controls, Rollback/undo capability",
+      "feedback_source": "v2 open items: adam-preference + jury-concern-3",
+      "signals_consumed": [],
+      "changes": [
+        "Added ConversationalSetup component - Option D chat-based configuration",
+        "Added AuthScopeSelector component - Workspace vs personal auth with warnings",
+        "Added RollbackPanel component - Action history with undo capability",
+        "Created V3Iteration.stories.tsx with all new component demos",
+        "Updated index.ts to export v3 components"
       ]
     }
   ]
