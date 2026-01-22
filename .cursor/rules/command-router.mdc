@@ -62,6 +62,7 @@ Use these to:
 | "change rules", "modify commands", "workspace settings" | `/admin` | Modify workspace rules/commands |
 | "document code", "write AGENTS.md", "AI documentation" | `/agents` | Generate AGENTS.md documentation |
 | "sync figma", "figma to storybook", "figma spec", "design sync", "extract from figma" | `/figma-sync [name] [url]` | Sync Figma design to Storybook stories + code scaffolds |
+| "design system", "spacing grid", "design tokens", "visual consistency" | `/design-system` | View/update interface design system |
 
 ### Thinking & Growth Commands (Tyler-specific)
 
@@ -180,6 +181,12 @@ This helps ensure we're building the right thing.
 - Requires: Initiative name and Figma URL with node-id
 - Note: Extracts variants/props from Figma, generates stories + code scaffolds
 
+### Design System Intent
+- Contains: "design system", "spacing", "design tokens", "visual consistency", "depth strategy", "surfaces"
+- Action: Execute `/design-system` to view current system
+- Behavior: Auto-load `.interface-design/system.md`, show summary
+- Note: Integrates with prototype-builder to ensure consistent visual craft
+
 ### Thinking Mode Intent (Tyler-specific)
 - Contains: "let me think", "think through", "rubber duck", "talk it out", "brainstorm with me"
 - Action: Enter `/think` mode—guided exploration with probing questions
@@ -218,7 +225,8 @@ This helps ensure we're building the right thing.
 |--------------|-----------------|
 | Research | product-vision.md, strategic-guardrails.md, personas.md |
 | PM/PRD | product-vision.md, strategic-guardrails.md, existing research.md |
-| Prototype | product-vision.md, PRD, design-brief.md |
+| Prototype | product-vision.md, PRD, design-brief.md, **.interface-design/system.md** |
+| Design-System | .interface-design/system.md |
 | Placement | PRD, design-brief.md, elephant-ai/web/src/components/ structure |
 | Context-Proto | PRD, design-brief.md, elephant-ai/web/src/ structure, component-patterns.mdc |
 | Validate | All initiative docs, jury-system.mdc |

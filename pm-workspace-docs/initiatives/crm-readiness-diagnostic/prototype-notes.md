@@ -1,9 +1,10 @@
 # Prototype Notes: CRM Readiness Diagnostic
 
-> **Version:** v3 (Partner Variant)
+> **Version:** v4.1 (Mission Control + Design System)
 > **Date:** 2026-01-21
-> **Status:** Ready for stakeholder review
+> **Status:** ✅ Design system compliant
 > **Initiative:** `crm-readiness-diagnostic`
+> **Design System:** `.interface-design/system.md` (AskElephant)
 
 ---
 
@@ -11,7 +12,7 @@
 
 The CRM Readiness Diagnostic helps users understand if their HubSpot CRM is properly configured for AskElephant. It surfaces issues proactively—before workflows fail—so customers can either self-remediate or get partner help.
 
-**v3 adds a partner-only variant** based on feedback that the customer-facing tool could threaten partner relationships.
+**v4 introduces a "Mission Control" design direction** based on the Interface Design skill methodology, replacing generic dashboard patterns with a distinctive pre-flight checklist aesthetic.
 
 ---
 
@@ -21,11 +22,131 @@ The CRM Readiness Diagnostic helps users understand if their HubSpot CRM is prop
 |---------|-------|--------|
 | **v1** | Initial prototype | Jury validated (74%) |
 | **v2** | Customer-facing with jury fixes | Ready for re-validation |
-| **v3** | Partner-only variant | 🆕 Ready for stakeholder review |
+| **v3** | Partner-only variant | Ready for stakeholder review |
+| **v4** | Mission Control design refresh | Design review complete |
+| **v4.1** | Design system compliance | ✅ Current |
 
 ---
 
-## v3: Partner Variant (NEW)
+## v4.1: Design System Compliance (NEW)
+
+### Changes Made
+
+Updated v4 components to comply with `.interface-design/system.md`:
+
+| Area | Before | After |
+|------|--------|-------|
+| **Component imports** | Manual divs | `Card`, `Skeleton` from `@/components/ui/` |
+| **Layout** | Manual flex classes | `row-container`, `col-container` utilities |
+| **Colors** | Hardcoded `slate-*` | Semantic `bg-muted`, `text-muted-foreground` |
+| **Depth** | Mixed approach | Consistent borders-only via Card |
+| **Partner CTA button** | `bg-purple-600` inline | `variant="primary-blue"` |
+| **Loading state** | Custom skeleton | `Skeleton` component |
+
+### Design System Checklist
+
+| Check | Status |
+|-------|--------|
+| Uses `cn()` from `@/lib/utils` | ✅ |
+| Imports from `@/components/ui/` | ✅ |
+| Uses layout utilities | ✅ |
+| Uses semantic color variables | ✅ |
+| Borders-only depth | ✅ |
+| Matches AskElephant patterns | ✅ |
+
+### Files Updated
+
+```
+elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/v4/
+├── DiagnosticPanel.tsx   ✅ Updated
+├── LaunchStatus.tsx      ✅ Updated  
+├── ChecklistItem.tsx     ✅ Updated
+├── types.ts              (no changes needed)
+└── v4.stories.tsx        (no changes needed)
+```
+
+---
+
+## v4: Mission Control (NEW)
+
+### Design Intent (Interface Design Methodology)
+
+**Who is this human?**
+RevOps person checking if their CRM is ready for launch. They're hopeful but nervous—they've been burned by tools that didn't work because of data issues.
+
+**What must they accomplish?**
+Understand blockers, know what's holding them back, decide whether to self-fix or get help.
+
+**What should this feel like?**
+Like a pilot running pre-flight checks — systematic, confidence-building, not punitive.
+
+### Design Direction
+
+| Aspect | v3 (Previous) | v4 (New) |
+|--------|---------------|----------|
+| **Metaphor** | Traffic light health check | Pre-flight checklist |
+| **Score Display** | Circle with percentage | "Launch confidence" meter |
+| **Issue Cards** | Card with left border accent | Checklist item with status light |
+| **Vocabulary** | "Optimization opportunities" | "Pre-flight checklist" |
+| **Severity Colors** | Purple/Amber/Gray | Go (emerald) / Review (amber) / Hold (rose) |
+| **Depth Strategy** | Mixed (borders + shadows) | Borders-only (clean, technical) |
+| **Data Display** | Standard text | Monospace for precision |
+
+### Signature Elements
+
+1. **Status "lights"** — Small colored dots that indicate go/no-go status
+2. **Launch confidence** — Numeric score with mission control aesthetic
+3. **Monospace typography** — For data elements, signals precision
+4. **Systematic grouping** — Blocking → Review → Passing (not by severity)
+
+### v4 Components
+
+```
+elephant-ai/web/src/components/prototypes/CrmReadinessDiagnostic/v4/
+├── types.ts              # Mission control types + mock data
+├── LaunchStatus.tsx      # Confidence meter with status light
+├── ChecklistItem.tsx     # Pre-flight check item
+├── DiagnosticPanel.tsx   # Full mission control panel
+├── v4.stories.tsx        # Storybook stories
+└── index.ts              # Barrel export
+```
+
+### Design Tokens (system.md format)
+
+```markdown
+## Direction
+Personality: Mission Control / Pre-Flight
+Foundation: Cool slate
+Depth: Borders-only
+
+## Tokens
+### Spacing
+Base: 8px
+Scale: 8, 16, 24, 32, 48
+
+### Colors
+--status-go: emerald-500
+--status-review: amber-500
+--status-hold: rose-500
+
+### Typography
+--font-data: font-mono
+--confidence: text-3xl font-bold tracking-tight
+--label: text-[10px] uppercase tracking-wider
+```
+
+### Self-Check Results (Interface Design Skill)
+
+| Check | Result |
+|-------|--------|
+| **Swap test** | ✓ Typeface and layout are distinctive |
+| **Squint test** | ✓ Hierarchy visible, nothing jarring |
+| **Signature test** | ✓ Status lights appear throughout |
+| **Token test** | ✓ `--status-go`, `--status-hold` evoke domain |
+
+---
+
+## v3: Partner Variant
 
 ### Why Partner-Only?
 

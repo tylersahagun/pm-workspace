@@ -8,6 +8,34 @@ alwaysApply: false
 
 Build prototypes that explore multiple creative directions, meet human-centric AI design standards, and enable informed design decisions.
 
+## CRITICAL: Load Design System First
+
+**Before building ANY component:**
+
+1. Read `.interface-design/system.md` (visual craft system)
+2. State design choices explicitly before coding
+3. Apply established patterns consistently
+4. Offer to save new patterns after building
+
+```markdown
+**Design checkpoint:**
+✓ Loaded: .interface-design/system.md
+✓ Direction: Sophistication & Trust
+✓ Spacing: 4px grid
+✓ Depth: borders-only
+✓ Component patterns: loaded
+
+**Building: [ComponentName]**
+├── Spacing: p-4 (16px), gap-2 (8px)
+├── Depth: border border-border rounded-lg
+├── Surface: bg-card
+└── Interactive: hover:bg-muted/50
+```
+
+See `interface-design.mdc` for full visual craft system.
+
+---
+
 ## Design Principles (Always Apply)
 
 ### Trust Before Automation
