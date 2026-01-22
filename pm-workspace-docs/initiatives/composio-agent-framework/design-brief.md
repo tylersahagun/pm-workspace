@@ -262,9 +262,38 @@ Workflow Builder
 
 ---
 
+## Design Explorations
+
+### Chat Interface Prototype (Adam, 2026-01-22)
+
+**Signal:** `sig-2026-01-22-composio-figma-make-chat-interface`  
+**Source:** Figma Make prototype (Options A, B, C)  
+**Full Spec:** `signals/documents/2026-01-22-composio-figma-make-chat-interface-spec.md`
+
+Key patterns explored:
+- **Typewriter effect** — Character-by-character text reveal simulates AI thinking
+- **Artifact chains** — UI cards/lists fade in only AFTER text completes
+- **Sticky input** — Floating input card at viewport bottom with auto-expanding textarea
+- **Animation timing** — Uses `onAnimationEnd` callbacks (not timeouts) for reliability
+
+**Applicability to Composio:**
+| Design Brief Section | Potential Application |
+|----------------------|-----------------------|
+| Natural Language Instructions | Large textarea pattern, comfortable input |
+| Agent Opt-in UX | Sequential reveal builds trust |
+| Activity Log | Streaming responses for real-time feel |
+
+**Open Questions:**
+1. Does this pattern extend to the Universal Agent Node, or only standalone chat?
+2. Should "Suggested Workflows" artifacts map to actual Composio integrations?
+3. Consider `prefers-reduced-motion` for accessibility
+
+---
+
 ## Next Steps
 
 1. **Woody to explore Phase 2 UX** — Agent configurator vision
 2. **Design Phase 1 node UX** — Integration picker + tool selector
 3. **Prototype key flows** — Run by RevOps persona for feedback
 4. **Define component library needs** — New components vs. existing
+5. **Review chat interface spec** — Determine if Adam's patterns apply to agent config

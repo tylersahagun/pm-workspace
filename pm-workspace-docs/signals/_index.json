@@ -1,17 +1,17 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-21T19:30:00.000000",
-  "total_signals": 6,
+  "last_updated": "2026-01-22T10:00:00.000000",
+  "total_signals": 7,
   "by_source": {
     "transcript": 5,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
-    "document": 1
+    "document": 2
   },
   "by_status": {
     "unprocessed": 1,
-    "processed": 5
+    "processed": 6
   },
   "signals": [
     {
@@ -317,6 +317,42 @@
         "Tyler",
         "Matt"
       ]
+    },
+    {
+      "id": "sig-2026-01-22-composio-figma-make-chat-interface",
+      "type": "document",
+      "source": "figma-make-design-artifact",
+      "topic": "composio-agent-chat-interface-options-abc",
+      "captured_at": "2026-01-22T10:00:00.000000",
+      "status": "processed",
+      "initiative": "composio-agent-framework",
+      "file_path": "signals/documents/2026-01-22-composio-figma-make-chat-interface-spec.md",
+      "summary": "Figma Make prototype spec from Adam exploring chat interface patterns for agent interaction. Includes typewriter effects, sequential artifact reveal, and sticky input patterns.",
+      "design_patterns": [
+        "Sequential message reveal with typewriter effect",
+        "Artifact chains that fade in after text completes",
+        "Sticky footer input card with auto-expanding textarea",
+        "onAnimationEnd callbacks for timing (not timeouts)",
+        "FadeInWrapper component pattern"
+      ],
+      "ux_implications": [
+        "Simulated AI thinking state builds trust",
+        "Character-by-character streaming shows responsiveness",
+        "Secure connection indicator addresses trust concerns"
+      ],
+      "applies_to": [
+        "Phase 2: Agent Configurator UX",
+        "Natural Language Instructions",
+        "Agent Activity/Response Display"
+      ],
+      "open_questions": [
+        "Does pattern apply to workflow builder node or standalone chat only?",
+        "Should Suggested Workflows map to Composio integrations?",
+        "How does Secure connection relate to OAuth flows?"
+      ],
+      "creator": "Adam",
+      "tool": "Figma Make",
+      "variants": ["Option A", "Option B", "Option C"]
     }
   ]
 }

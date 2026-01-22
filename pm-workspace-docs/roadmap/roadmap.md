@@ -1,7 +1,7 @@
 # Product Roadmap
 
-**Generated:** 2026-01-21 09:01
-**Total Initiatives:** 11
+**Generated:** 2026-01-22 09:00
+**Total Initiatives:** 12
 
 ---
 
@@ -9,7 +9,7 @@
 
 | Phase | Count |
 |-------|-------|
-| Discovery | 1 |
+| Discovery | 2 |
 | Define | 4 |
 | Build | 5 |
 | Validate | 1 |
@@ -23,7 +23,7 @@
 
 | Status | Count |
 |--------|-------|
-| ✅ On Track | 10 |
+| ✅ On Track | 11 |
 | ⚠️ At Risk | 0 |
 | 🚫 Blocked | 0 |
 | 💤 Stale | 0 |
@@ -37,32 +37,33 @@
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury Eval | tyler | P2 | 5 | ✅ |
+| Crm Readiness Diagnostic | - | P2 | 0 | ✅ |
+| Condorcet Jury Eval | tyler | P2 | 6 | ✅ |
 
 ### Define
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury System | tyler | P0 | 12 | ✅ |
-| Feature Availability Audit | tyler | P0 | 7 | ✅ |
-| Automated Metrics Observability | tyler | P2 | 12 | ✅ |
-| Call Import Engine | tyler | P2 | 7 | ✅ |
+| Condorcet Jury System | tyler | P0 | 13 | ✅ |
+| Feature Availability Audit | tyler | P0 | 8 | ✅ |
+| Automated Metrics Observability | tyler | P2 | 13 | ✅ |
+| Call Import Engine | tyler | P2 | 8 | ✅ |
 
 ### Build
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Crm Exp Ete | Tyler | P0 | 4 | ✅ |
-| Universal Signal Tables | tyler | P0 | 6 | ✅ |
-| Customer Journey Map | tyler | P0 | 6 | ✅ |
-| Release Lifecycle Process | tyler | P0 | 6 | ✅ |
-| Rep Workspace | Skylar/Tyler | high | 4 |  |
+| Crm Exp Ete | Tyler | P0 | 5 | ✅ |
+| Universal Signal Tables | tyler | P0 | 7 | ✅ |
+| Customer Journey Map | tyler | P0 | 7 | ✅ |
+| Release Lifecycle Process | tyler | P0 | 7 | ✅ |
+| Rep Workspace | Skylar/Tyler | high | 5 |  |
 
 ### Validate
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Hubspot Agent Config Ui | tyler | P0 | 6 | ✅ |
+| Hubspot Agent Config Ui | tyler | P0 | 7 | ✅ |
 
 ### Launch
 
@@ -134,6 +135,7 @@ _No initiatives._
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
+- **Crm Readiness Diagnostic** (discovery) - P2
 - **Automated Metrics Observability** (define) - P2
 - **Call Import Engine** (define) - P2
 
@@ -154,6 +156,7 @@ _No initiatives._
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
+- **Crm Readiness Diagnostic** (discovery) - P2
 - **Automated Metrics Observability** (define) - P2
 - **Call Import Engine** (define) - P2
 
