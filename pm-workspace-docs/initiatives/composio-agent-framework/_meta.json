@@ -2,8 +2,8 @@
   "$schema": "pm-workspace-meta-v1",
   "initiative": "composio-agent-framework",
   "hypothesis_id": null,
-  "phase": "build",
-  "sub_phase": "prototype-complete",
+  "phase": "validate",
+  "sub_phase": "jury-complete",
   "status": "on_track",
   "priority": "P1",
   "owner": "tyler",
@@ -30,11 +30,16 @@
     {
       "phase": "build",
       "entered": "2026-01-22T00:00:00.000000",
+      "exited": "2026-01-22T00:00:00.000000"
+    },
+    {
+      "phase": "validate",
+      "entered": "2026-01-22T00:00:00.000000",
       "exited": null
     }
   ],
   "blockers": [],
-  "next_action": "Run /validate for synthetic user testing, then iterate based on feedback",
+  "next_action": "Address top concerns (activity log, error handling) via /iterate, then schedule Woody design review",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
@@ -50,8 +55,35 @@
     },
     "build_to_validate": {
       "prototype_complete": true,
-      "jury_validation_complete": false
+      "jury_validation_complete": true
+    },
+    "validate_to_launch": {
+      "jury_pass_rate": 0.87,
+      "jury_approval_rate": 0.68,
+      "stakeholder_approval": false,
+      "no_p0_blockers": true,
+      "gtm_brief_complete": true
     }
+  },
+  "jury_results": {
+    "date": "2026-01-22",
+    "jury_size": 100,
+    "approval_rate": 0.68,
+    "conditional_rate": 0.19,
+    "rejection_rate": 0.13,
+    "combined_pass_rate": 0.87,
+    "by_persona": {
+      "operations": { "pass_rate": 0.88, "approval_rate": 0.72 },
+      "sales_rep": { "pass_rate": 0.84, "approval_rate": 0.60 },
+      "sales_leader": { "pass_rate": 0.92, "approval_rate": 0.76 },
+      "csm": { "pass_rate": 0.84, "approval_rate": 0.64 }
+    },
+    "recommended_option": "B",
+    "top_concerns": [
+      "Audit trail / visibility into what agent did",
+      "Error handling / recovery UX",
+      "Rollback / undo capability"
+    ]
   },
   "timeline": {
     "started": "2026-01-22",
