@@ -54,17 +54,13 @@ For each major component, create distinct approaches:
 
 ```typescript
 const meta = {
-  title: 'Prototypes/[ProjectName]/[ComponentName]',
+  title: 'Prototypes/[Initiative]/v1/[ComponentName]',  // Include version in path!
   component: ComponentName,
 };
 
-// v1: Maximum Control
+// Creative Options (within v1)
 export const OptionA_MaxControl: Story = { ... };
-
-// v2: Balanced Suggestion
 export const OptionB_Balanced: Story = { ... };
-
-// v3: Maximum Efficiency  
 export const OptionC_Efficient: Story = { ... };
 ```
 
@@ -124,32 +120,46 @@ Before finalizing any option, verify:
 - [ ] Reading level ≤ 8th grade for important info
 - [ ] Animation respects `prefers-reduced-motion`
 
-## Component Structure
+## Component Structure (Versioned from Start)
+
+**ALWAYS** create prototypes in versioned subfolders, starting with `v1/`:
 
 ```
-elephant-ai/web/src/components/prototypes/[ProjectName]/
-├── [ComponentName].tsx           # Main component
-├── [ComponentName].stories.tsx   # All options + all states
-├── [ComponentName].docs.mdx      # Design rationale
-├── types.ts
-└── index.ts
+elephant-ai/web/src/components/prototypes/[Initiative]/
+├── index.ts                      # Re-exports latest version
+├── v1/
+│   ├── [ComponentName].tsx           # Main component
+│   ├── [ComponentName].stories.tsx   # All options + all states
+│   ├── [ComponentName].docs.mdx      # Design rationale
+│   ├── types.ts
+│   └── index.ts                      # Version-specific exports
+├── v2/                               # After iteration
+│   └── ...
+└── v3/                               # After user testing
+    └── ...
 ```
 
-## Versioning Pattern
-
-When iterating, preserve previous versions:
-
-```
-v1/ - Initial exploration (3 options)
-v2/ - After stakeholder feedback (refined)
-v3/ - After user testing (final candidate)
-```
-
-Or use story naming:
+**Root index.ts pattern:**
 ```typescript
-export const V1_OptionA: Story = { ... };
-export const V2_OptionA_Refined: Story = { ... };
+// elephant-ai/web/src/components/prototypes/[Initiative]/index.ts
+// Re-export the latest stable version
+export * from './v1';
+// Or after iterations: export * from './v2';
 ```
+
+**Storybook title pattern:**
+```typescript
+const meta = {
+  title: 'Prototypes/[Initiative]/v1/[ComponentName]',  // Include version in title
+  component: ComponentName,
+};
+```
+
+**Why versioned from start?**
+- Easy to navigate in Storybook sidebar
+- Preserves full history for comparison
+- `/iterate` creates v2, v3, etc. naturally
+- Stakeholders can compare versions side-by-side
 
 ## Tech Stack
 
@@ -179,6 +189,7 @@ npm run storybook -w web    # Opens at http://localhost:6006
      "phase": "build",  // if advancing from define
      "updated_at": "[current timestamp]",
      "prototype_type": "standalone",  // Track prototype type for /iterate
+     "current_version": "v1",  // Track current version
      "metrics": {
        "total_iterations": 1  // or increment
      }
@@ -189,6 +200,10 @@ npm run storybook -w web    # Opens at http://localhost:6006
    - `"standalone"` - Created with `/proto` (isolated, PRD-driven)
    - `"context"` - Created with `/context-proto` (integrated with app UI)
    - `"both"` - Both types exist (compare standalone vs integrated)
+   
+   **Version Tracking:**
+   - `current_version` tracks which version folder is latest
+   - `/iterate` increments this to `"v2"`, `"v3"`, etc.
 
 3. **Update graduation criteria**:
    - Mark "prototype exists" as met
@@ -219,9 +234,9 @@ npm run storybook -w web    # Opens at http://localhost:6006
 ## Slack Response Template
 
 ```
-✅ Prototype exploration complete for [project]!
+✅ Prototype exploration complete for [initiative]!
 
-🎨 **Creative Options:**
+🎨 **Creative Options (v1):**
 
 **Option A: Maximum Control**
 - User confirms every AI action
@@ -240,13 +255,16 @@ npm run storybook -w web    # Opens at http://localhost:6006
 
 📱 **Preview:**
 - Local: `cd elephant-ai && npm run storybook -w web`
+- Navigate to: Prototypes → [Initiative] → v1
 - All states included: Loading, Success, Error, LowConfidence, Empty
 
 📋 **Files:**
-- Components: `elephant-ai/web/src/components/prototypes/[ProjectName]/`
-- Rationale: `pm-workspace-docs/initiatives/[project]/prototype-notes.md`
+- Components: `elephant-ai/web/src/components/prototypes/[Initiative]/v1/`
+- Rationale: `pm-workspace-docs/initiatives/[initiative]/prototype-notes.md`
 
-🎯 **Recommendation:** Option B balances trust-building with efficiency. Review all three and let me know which direction to refine.
+🎯 **Recommendation:** Option B balances trust-building with efficiency.
+
+**Next:** Run `/iterate [initiative]` when feedback arrives (creates v2 folder)
 ```
 
 ## Anti-Patterns to Avoid

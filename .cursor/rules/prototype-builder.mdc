@@ -89,22 +89,36 @@ export const Empty: Story = { ... };
 | Low Confidence | Muted, dotted | "I think..." | None |
 | Empty | Illustration | Encouraging | Fade in |
 
-## Component Structure
+## Component Structure (Versioned)
+
+**ALWAYS** create prototypes in versioned subfolders, starting with `v1/`:
 
 ```
-elephant-ai/web/src/components/prototypes/[ProjectName]/
-├── [ComponentName].tsx
-├── [ComponentName].stories.tsx   # All options + all states
-├── [ComponentName].docs.mdx      # Design rationale
-├── types.ts
-└── index.ts
+elephant-ai/web/src/components/prototypes/[Initiative]/
+├── index.ts                          # Re-exports latest version
+├── v1/
+│   ├── [ComponentName].tsx
+│   ├── [ComponentName].stories.tsx   # All options + all states
+│   ├── [ComponentName].docs.mdx      # Design rationale
+│   ├── types.ts
+│   └── index.ts                      # Version-specific exports
+├── v2/                               # After first iteration
+│   └── ...
+└── v3/                               # After user testing
+    └── ...
+```
+
+**Root index.ts pattern:**
+```typescript
+// Re-export the latest stable version
+export * from './v1';  // or './v2', './v3' after iterations
 ```
 
 ## Story Organization
 
 ```typescript
 const meta = {
-  title: 'Prototypes/[ProjectName]/[ComponentName]',
+  title: 'Prototypes/[Initiative]/v1/[ComponentName]',  // Include version!
   component: ComponentName,
 };
 
@@ -120,6 +134,23 @@ export const Success: Story = { ... };
 export const Error: Story = { ... };
 export const LowConfidence: Story = { ... };
 export const Empty: Story = { ... };
+```
+
+**Storybook sidebar structure:**
+```
+Prototypes/
+├── HubSpotConfig/
+│   ├── v1/
+│   │   └── FieldMapper
+│   ├── v2/
+│   │   └── FieldMapper
+│   └── v3/
+│       └── FieldMapper
+└── SettingsRedesign/
+    ├── v1/
+    │   └── PrivacyPanel
+    └── v2/
+        └── PrivacyPanel
 ```
 
 ## Design Checklists
@@ -146,16 +177,28 @@ export const Empty: Story = { ... };
 
 ## Versioning
 
-Preserve iterations for comparison:
+**Use folder-based versioning** (required, not optional):
 
-```typescript
-// Version in story name
-export const V1_OptionA: Story = { ... };
-export const V2_OptionA_Refined: Story = { ... };
-
-// Or use folders
-// v1/, v2/, v3/
 ```
+[Initiative]/
+├── v1/    ← Initial exploration (created by /proto)
+├── v2/    ← After stakeholder feedback (created by /iterate)
+├── v3/    ← After user testing (created by /iterate)
+└── ...
+```
+
+**Story titles include version:**
+```typescript
+const meta = {
+  title: 'Prototypes/[Initiative]/v1/[ComponentName]',
+  component: ComponentName,
+};
+```
+
+This enables:
+- Side-by-side comparison in Storybook
+- Full history preservation
+- Easy navigation in sidebar
 
 ## Anti-Patterns
 

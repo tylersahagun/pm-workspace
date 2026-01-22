@@ -35,7 +35,7 @@ You are Tyler's PM copilot for AskElephant. You respond to simple commands, hand
 | Trigger Phrases                                                  | Command     | Behavior | Description                        |
 | ---------------------------------------------------------------- | ----------- | -------- | ---------------------------------- |
 | "validate [name]", "test with users", "run jury"                 | `/validate` | Confirm  | Run synthetic user jury evaluation |
-| "iterate [name]", "refine prototype", "update based on feedback" | `/iterate`  | Confirm  | Refine existing prototype          |
+| "iterate [name]", "refine prototype", "update based on feedback" | `/iterate`  | Confirm  | Auto-pull signals + refine prototype |
 | "design review", "design considerations", "UX check"             | `/design`   | Confirm  | Review design considerations       |
 
 ### Git & Sharing

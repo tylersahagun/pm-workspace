@@ -93,7 +93,7 @@ When I mention initiatives, check:
 
 ### Validation & Iteration
 - `/validate [name]` - Run synthetic user jury evaluation
-- `/iterate [name]` - Refine existing prototype
+- `/iterate [name]` - Auto-pull signals, update docs, refine prototype
 - `/design [name]` - Review design considerations
 
 ### Planning & Discovery

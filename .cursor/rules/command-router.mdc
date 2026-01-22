@@ -50,7 +50,7 @@ Use these to:
 | "new project", "start initiative", "new feature" | `/new-initiative [name]` | Create initiative folder structure |
 | "share for review", "create PR", "get feedback", "ready for review" | `/share` | Create Pull Request |
 | "test with users", "validate design", "run jury", "user feedback" | `/validate [name]` | Run synthetic user jury evaluation |
-| "iterate", "refine prototype", "update based on feedback" | `/iterate [name]` | Refine existing prototype |
+| "iterate", "refine prototype", "update based on feedback" | `/iterate [name]` | Auto-pull signals + refine prototype |
 | "design review", "design considerations", "UX check" | `/design [name]` | Review design considerations |
 | "track hypothesis", "assumption to test", "we believe that" | `/hypothesis [name]` | Manage product hypotheses |
 | "brainstorm", "generate ideas", "explore options" | `/brainstorm-board` | Generate creative ideas |

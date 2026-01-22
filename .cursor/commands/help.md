@@ -34,7 +34,7 @@ You are a helpful guide for the PM Workspace. When a user asks for help, underst
 | `/proto [name]` | Build standalone prototype from PRD | Exploring the feature itself |
 | `/context-proto [name]` | Build prototype in app context | Showing where it fits in the app |
 | `/placement [name]` | Deep research on component location | Detailed analysis without building |
-| `/iterate [name]` | Refine existing prototype | After feedback on a prototype |
+| `/iterate [name]` | Auto-pull signals + refine prototype | After adding feedback signals |
 | `/design [name]` | Review design considerations | Before or during prototyping |
 | `/validate [name]` | Test with synthetic users | After prototype is built |
 
@@ -157,7 +157,7 @@ Then open http://localhost:6006
 2. /PM [name]           # Create documentation
 3. /proto [name]        # Build initial prototype
 4. /validate [name]     # Test with synthetic users
-5. /iterate [name]      # Refine based on feedback
+5. /iterate [name]      # Auto-pulls signals, updates docs, rebuilds prototype
 ```
 
 ### Quick Feedback Loop

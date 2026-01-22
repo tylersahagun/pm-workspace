@@ -69,17 +69,33 @@ Save analysis to `pm-workspace-docs/initiatives/[name]/placement-research.md`
 
 ### Step 2: Create Context Shell
 
-Build a realistic page/panel wrapper that mimics the production environment:
+Build a realistic page/panel wrapper that mimics the production environment.
+
+**Always use versioned folders:**
 
 ```
-elephant-ai/web/src/components/prototypes/[ProjectName]/
-├── [ComponentName].tsx                  # Isolated component (from /proto)
-├── [ComponentName].stories.tsx          # Isolated stories (from /proto)
-├── contexts/                            # NEW: Context prototypes
-│   ├── [ComponentName]InPage.tsx        # Component in page context
-│   ├── [ComponentName]InPanel.tsx       # Component in panel context
-│   ├── [ComponentName]Navigation.tsx    # Navigation integration mock
-│   └── [ComponentName].context.stories.tsx  # Context stories
+elephant-ai/web/src/components/prototypes/[Initiative]/
+├── index.ts                             # Re-exports latest version
+├── v1/
+│   ├── [ComponentName].tsx              # Isolated component
+│   ├── [ComponentName].stories.tsx      # Isolated stories
+│   ├── types.ts
+│   ├── index.ts
+│   └── contexts/                        # Context prototypes
+│       ├── [ComponentName]InPage.tsx
+│       ├── [ComponentName]InPanel.tsx
+│       ├── [ComponentName]Navigation.tsx
+│       └── [ComponentName].context.stories.tsx
+├── v2/                                  # After iteration
+│   └── ...
+└── v3/                                  # After user testing
+    └── ...
+```
+
+**Root index.ts pattern:**
+```typescript
+// Re-export the latest stable version
+export * from './v1';  // or './v2', './v3' after iterations
 ```
 
 ### Step 3: Build Context Components
@@ -156,9 +172,9 @@ export function ComponentNameNavigation({ highlighted }: { highlighted: boolean 
 ### Step 4: Create Context Stories
 
 ```typescript
-// contexts/[ComponentName].context.stories.tsx
+// v1/contexts/[ComponentName].context.stories.tsx
 const meta = {
-  title: 'Prototypes/[ProjectName]/InContext',
+  title: 'Prototypes/[Initiative]/v1/InContext',  // Include version!
   parameters: {
     layout: 'fullscreen',  // Important for context views
   },
@@ -235,6 +251,7 @@ export const WithAdjacentFeatures: Story = {
 {
   "updated_at": "[current timestamp]",
   "prototype_type": "context",  // or "both" if standalone also exists
+  "current_version": "v1",  // Track current version
   "metrics": {
     "total_iterations": 1  // or increment
   }
@@ -245,6 +262,10 @@ export const WithAdjacentFeatures: Story = {
 - `"standalone"` - Created with `/proto` (isolated, PRD-driven)
 - `"context"` - Created with `/context-proto` (integrated with app UI)
 - `"both"` - Both types exist (compare standalone vs integrated)
+
+**Version Tracking:**
+- `current_version` tracks which version folder is latest
+- `/iterate` increments this to `"v2"`, `"v3"`, etc.
 
 Update `pm-workspace-docs/initiatives/[name]/prototype-notes.md`:
 
@@ -281,7 +302,7 @@ Before promoting from prototypes/:
 ## Response Template
 
 ```
-✅ Context prototype created for [name]!
+✅ Context prototype created for [initiative] (v1)!
 
 📍 **Placement Decision:**
 - **Type:** [New Page | Side Panel | Modal | Embedded]
@@ -289,7 +310,7 @@ Before promoting from prototypes/:
 - **Navigation:** [Where users find it]
 - **Rationale:** [1-2 sentence explanation]
 
-🏠 **Integration Views:**
+🏠 **Integration Views (v1):**
 
 | View | Story | Shows |
 |------|-------|-------|
@@ -298,22 +319,23 @@ Before promoting from prototypes/:
 | Adjacent | `InContext_WithRelated` | Nearby features |
 
 📁 **Files Created:**
-- `elephant-ai/web/src/components/prototypes/[ProjectName]/`
+- `elephant-ai/web/src/components/prototypes/[Initiative]/v1/`
   - `[ComponentName].tsx` - The component
-  - `[ComponentName].context.stories.tsx` - Context stories
-- `pm-workspace-docs/initiatives/[name]/placement-research.md`
+  - `contexts/[ComponentName].context.stories.tsx` - Context stories
+- `pm-workspace-docs/initiatives/[initiative]/placement-research.md`
 
 📱 **Preview:**
 - Local: `cd elephant-ai && npm run storybook -w web`
-- Navigate to: `Prototypes/[ProjectName]`
+- Navigate to: `Prototypes → [Initiative] → v1`
 
 **Compare with standalone:** If `/proto` was also run, compare:
-- `Prototypes/[ProjectName]/Standalone` - Feature in isolation
-- `Prototypes/[ProjectName]/InContext` - Feature integrated
+- `Prototypes/[Initiative]/v1/Standalone` - Feature in isolation
+- `Prototypes/[Initiative]/v1/InContext` - Feature integrated
 
 **Next Steps:**
 - Compare standalone vs context approaches
-- Run `/validate [name]` for jury evaluation
+- Run `/validate [initiative]` for jury evaluation
+- Run `/iterate [initiative]` when feedback arrives (creates v2 folder)
 - When approved, promote to `components/[domain]/[name]/`
 ```
 
