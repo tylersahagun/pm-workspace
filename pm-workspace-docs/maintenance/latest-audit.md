@@ -1,34 +1,18 @@
 # Workspace Maintenance Audit
 
-**Generated:** 2026-01-22 12:45
-**Last Fix Run:** 2026-01-22 12:50
-**Status:** ✅ Auto-fixes applied (11 issues resolved, 4 remaining)
-
----
-
-## Fixes Applied (2026-01-22 12:50)
-
-| Fix | Status | Details |
-|-----|--------|---------|
-| Generate `_meta.json` for 6 initiatives | ✅ Done | admin-onboarding, product-usability, settings-redesign, speaker-id-voiceprint, user-onboarding, internal-search |
-| Add missing signal to index | ✅ Done | Added `sig-2026-01-21-crispy-product-chat-raw` |
-| Update hypothesis index | ✅ Done | `crm-readiness-diagnostic` status → `validated` |
-| Add to roadmap | ✅ Done | `composio-agent-framework` added (P1, validate phase) |
-
-**Skipped:**
-- `current/` folder - Requires human decision (unclear purpose)
-- `_template/` - Expected to not have `_meta.json`
+**Generated:** 2026-01-22 20:15
+**Status:** ⚠️ 8 issues found (4 warnings, 4 info)
 
 ---
 
 ## Summary
 
-| Category | Before Fix | After Fix |
-|----------|------------|-----------|
-| Structure Integrity | ⚠️ 8 issues | ⚠️ 2 remaining |
-| Data Consistency | ⚠️ 4 issues | ✅ 0 remaining |
-| Health Checks | ✅ 0 | ✅ 0 |
-| Prototype Versioning | ⚠️ 3 issues | ⚠️ 3 remaining (manual) |
+| Category | Status | Issues |
+|----------|--------|--------|
+| Structure Integrity | ⚠️ | 3 |
+| Data Consistency | ⚠️ | 1 |
+| Health Checks | ✅ | 0 |
+| Cleanup Candidates | ℹ️ | 4 |
 
 ---
 
@@ -40,70 +24,96 @@
 
 ### Warning (should fix)
 
-#### Structure: Missing `_meta.json` (8 initiatives)
+#### 1. Structure: Missing `research.md` (2 initiatives)
 
 | Initiative | Status | Recommendation |
 |------------|--------|----------------|
-| `admin-onboarding/` | Missing | Generate from existing files |
-| `current/` | Missing | Appears to be misc folder - consider archiving |
-| `internal-search/` | Missing | Generate from existing files |
-| `product-usability/` | Missing | Generate from existing files |
-| `settings-redesign/` | Missing | Generate from existing files |
-| `speaker-id-voiceprint/` | Missing | Generate from existing files |
-| `user-onboarding/` | Missing | Generate from existing files |
-| `_template/` | Expected | Template folder - no action needed |
+| `condorcet-jury-eval/` | Has `_meta.json` only | Create research.md or archive if redundant |
+| `internal-search/` | Has `_meta.json` only | Create research.md with problem statement |
 
-#### Structure: Missing `research.md` (2 initiatives)
+**Required action:** Per schema, every initiative requires `research.md` documenting the user problem.
 
-| Initiative | Status |
-|------------|--------|
-| `condorcet-jury-eval/` | Missing - has only `_meta.json` |
-| `internal-search/` | Missing |
+#### 2. Structure: Inconsistent `_meta.json` Schema (1 initiative)
 
-#### Data Consistency: Prototype Versioning Non-Compliance (3 prototypes)
+| Initiative | Issue |
+|------------|-------|
+| `crm-readiness-diagnostic/` | Uses `initiative_id` instead of `initiative`, missing `$schema` and `updated_at` fields |
 
-Per the updated prototype rules, all prototypes should use versioned subfolders (`v1/`, `v2/`, etc.) from the start.
+**Current fields:**
+```json
+{
+  "initiative_id": "crm-readiness-diagnostic",  // Should be "initiative"
+  // Missing: "$schema", "updated_at", "phase_history"
+}
+```
 
-| Prototype | Current Structure | Issue |
-|-----------|-------------------|-------|
-| `ComposioAgentFramework/` | Flat (no version folder) | Components at root, not in `v1/` |
-| `UniversalSignalTables/` | Flat (no version folder) | Components at root, not in `v1/` |
-| `SettingsRedesign/` | Mixed (`v2/` exists, root has files) | Root files should be in `v1/` |
+#### 3. Structure: Orphaned `current/` Folder
 
-**Compliant prototypes:**
-- ✅ `BetaFeatures/` - Uses `v4/` subfolder
-- ✅ `CrmReadinessDiagnostic/` - Uses `v4/` subfolder
+The `current/` folder contains 10 subdirectories with only `analysis.md` files:
 
-#### Data Consistency: Roadmap Missing Initiative (1)
+| Subfolder | Files | Status |
+|-----------|-------|--------|
+| capture-visibility | analysis.md only | No `_meta.json` |
+| crm-agent-upgrades | analysis.md only | No `_meta.json` |
+| customer-journey-product | analysis.md only | No `_meta.json` |
+| fga-engine | analysis.md only | No `_meta.json` |
+| global-chat | analysis.md only | No `_meta.json` |
+| nerdy-tables | analysis.md only | No `_meta.json` |
+| notification-engine | analysis.md only | No `_meta.json` |
+| observability-monitoring | analysis.md only | No `_meta.json` |
+| privacy-determination-agent-v2 | analysis.md only | No `_meta.json` |
+| release-lifecycle-process | analysis.md only | Duplicate name - conflicts with main initiative |
 
-| Initiative | In Roadmap | Has `_meta.json` |
-|------------|------------|------------------|
-| `composio-agent-framework` | ❌ No | ✅ Yes |
+**Recommendation:** Review and either:
+- Archive to `archived/` folder
+- Promote to proper initiatives with `_meta.json` + `research.md`
+- Delete if content is stale
 
-The `composio-agent-framework` initiative has a `_meta.json` (phase: validate) but is not in `roadmap.json`.
+#### 4. Data Consistency: Prototype Versioning Non-Compliance
 
-#### Data Consistency: Signal Index vs Files
+Per workspace standards, prototypes should use versioned subfolders from the start.
 
-| Check | Status |
-|-------|--------|
-| Index count | 8 signals |
-| Actual transcript files | 7 files |
-| Actual document files | 2 files |
-| **Mismatch** | ⚠️ Index claims 8, files show 9 |
+| Prototype | Structure | Issue | Recommendation |
+|-----------|-----------|-------|----------------|
+| `ComposioAgentFramework/` | Mixed (root + v2, v3, v4) | Root files not in `v1/` | Move root to `v1/` |
+| `CrmReadinessDiagnostic/` | Mixed (root + v4) | Root files not versioned | Move root to `v1/` or `v3/` |
+| `SettingsRedesign/` | Mixed (root + v2) | Root files not in `v1/` | Move root to `v1/` |
+| `UniversalSignalTables/` | Flat (no versions) | No version folders | Move all to `v1/` |
 
-**Note:** `2026-01-21-crispy-product-chat.md` exists in transcripts but is not in `_index.json`.
+**Compliant:**
+- ✅ `BetaFeatures/` - Properly uses `v4/` only (clean structure)
 
-#### Data Consistency: Hypothesis Index Accuracy
+---
 
-| Check | Status |
-|-------|--------|
-| Index total | 11 hypotheses |
-| Active folder | 1 file (solo-rep-self-coaching.md) |
-| Committed folder | 9 files |
-| Validated folder | 1 file (crm-readiness-diagnostic.md) |
-| **Total files** | 11 ✅ Match |
+### Info (optional cleanup)
 
-**Issue:** `crm-readiness-diagnostic` is in `validated/` folder but index shows status `"active"`.
+#### 1. Empty Folders
+
+| Folder | Status |
+|--------|--------|
+| `signals/conversations/` | Empty |
+| `signals/issues/` | Empty |
+| `signals/tickets/` | Empty |
+| `maintenance/audit-history/` | Empty |
+| `hypotheses/retired/` | Empty |
+
+**Recommendation:** Add `.gitkeep` files to preserve structure, or remove if not needed.
+
+#### 2. Duplicate Initiative Name
+
+`current/release-lifecycle-process/` has same name as main initiative `release-lifecycle-process/`. The `current/` version only has an `analysis.md` file.
+
+#### 3. Redundant Initiative
+
+`condorcet-jury-eval` and `condorcet-jury-system` appear to be related/duplicates:
+- `condorcet-jury-system` - Has full docs (prd.md, research.md)
+- `condorcet-jury-eval` - Has only `_meta.json`
+
+Consider merging or archiving one.
+
+#### 4. Snapshots Count
+
+`roadmap/snapshots/` has 5 snapshots (all within last 7 days). Within limits.
 
 ---
 
@@ -111,10 +121,56 @@ The `composio-agent-framework` initiative has a `_meta.json` (phase: validate) b
 
 | Check | Status | Details |
 |-------|--------|---------|
-| Stale initiatives (>14 days) | ✅ | None found |
-| Stale hypotheses (>30 days) | ✅ | None found |
-| P0/P1 without owners | ✅ | All have owners |
-| Blockers without descriptions | ✅ | None found |
+| Stale initiatives (>14 days in phase) | ✅ Pass | Oldest: `condorcet-jury-system` (13 days in define) |
+| Stale hypotheses (>30 days active) | ✅ Pass | None found |
+| P0/P1 initiatives without owners | ✅ Pass | All P0/P1 have owners |
+| Blockers without descriptions | ✅ Pass | No blockers found |
+| Unlinked committed hypotheses | ✅ Pass | All linked to initiatives |
+
+### Initiative Staleness Check
+
+| Initiative | Phase | Days in Phase | Status |
+|------------|-------|---------------|--------|
+| automated-metrics-observability | define | 13 | ⚠️ Approaching stale |
+| condorcet-jury-system | define | 13 | ⚠️ Approaching stale |
+| call-import-engine | define | 8 | ✅ OK |
+| feature-availability-audit | define | 8 | ✅ OK |
+| universal-signal-tables | build | 7 | ✅ OK |
+| customer-journey-map | build | 7 | ✅ OK |
+| release-lifecycle-process | build | 7 | ✅ OK |
+
+---
+
+## Index File Integrity
+
+### Signals Index (`_index.json`)
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| Index total | 9 signals | ✅ |
+| Transcript files | 7 files | ✅ |
+| Document files | 2 files | ✅ |
+| All signals have file_path | Yes | ✅ |
+
+### Hypotheses Index (`_index.json`)
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| Index total | 11 hypotheses | ✅ |
+| Active folder | 1 file | ✅ |
+| Committed folder | 9 files | ✅ |
+| Validated folder | 1 file | ✅ |
+| Retired folder | 0 files | ✅ |
+| Status matches folder | Yes | ✅ |
+
+### Roadmap (`roadmap.json`)
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| Total initiatives | 13 | ✅ |
+| By phase | discovery:2, define:4, build:5, validate:2 | ✅ |
+| All have valid phases | Yes | ✅ |
+| All have valid statuses | Yes | ✅ |
 
 ---
 
@@ -122,74 +178,52 @@ The `composio-agent-framework` initiative has a `_meta.json` (phase: validate) b
 
 These can be fixed with `maintain fix`:
 
-- [ ] Generate `_meta.json` for 7 initiatives (excluding `_template/`)
-- [ ] Add `composio-agent-framework` to roadmap.json
-- [ ] Add missing signal `2026-01-21-crispy-product-chat.md` to index
-- [ ] Update hypothesis index: `crm-readiness-diagnostic` status → `"validated"`
+- [ ] Normalize `crm-readiness-diagnostic/_meta.json` schema
+- [ ] Create placeholder `research.md` for `condorcet-jury-eval`
+- [ ] Create placeholder `research.md` for `internal-search`
+- [ ] Add `.gitkeep` to empty folders
 
 ---
 
 ## Requires Human Decision
 
-These need manual review:
-
-| Issue | Why Manual |
-|-------|------------|
-| `current/` folder | Unclear purpose - archive or keep? |
-| Prototype restructuring | Moving files to `v1/` may break imports |
-| `SettingsRedesign/` root files | Decide if they belong in `v1/` or are intentionally at root |
+| Issue | Why Manual | Recommended Action |
+|-------|------------|-------------------|
+| `current/` folder (10 items) | Unclear purpose | Archive or promote to initiatives |
+| Prototype restructuring (4) | May break imports | Migrate during next `/iterate` |
+| `condorcet-jury-eval` redundancy | May be duplicate | Merge into `condorcet-jury-system` |
 
 ---
 
-## Prototype Versioning Compliance
+## Statistics
 
-### New Standard (per recent `/admin` update)
+### Workspace Totals
 
-All prototypes should follow this structure:
+| Category | Count |
+|----------|-------|
+| Initiatives (proper) | 19 |
+| Hypotheses | 11 |
+| Signals | 9 |
+| Prototypes | 5 |
+
+### Initiative Phase Distribution
 
 ```
-[Initiative]/
-├── index.ts          # Re-exports latest version
-├── v1/               # Initial prototype
-│   ├── Component.tsx
-│   ├── Component.stories.tsx
-│   └── index.ts
-├── v2/               # After iteration
-└── v3/               # After user testing
+Discovery  ████░░░░░░░░░░░░░░░░ 2 (15%)
+Define     ████████░░░░░░░░░░░░ 4 (31%)
+Build      ██████████░░░░░░░░░░ 5 (38%)
+Validate   ████░░░░░░░░░░░░░░░░ 2 (15%)
+Launch     ░░░░░░░░░░░░░░░░░░░░ 0 (0%)
 ```
 
-### Current Compliance
+### Priority Distribution
 
-| Prototype | Compliant | Notes |
-|-----------|-----------|-------|
-| BetaFeatures | ✅ | Has `v4/` |
-| CrmReadinessDiagnostic | ✅ | Has `v4/` |
-| ComposioAgentFramework | ❌ | Flat structure |
-| UniversalSignalTables | ❌ | Flat structure |
-| SettingsRedesign | ⚠️ | Mixed - has `v2/` but root files exist |
-
-### Migration Recommendation
-
-For non-compliant prototypes, consider:
-
-1. **ComposioAgentFramework**: Move all files to `v1/` subfolder
-2. **UniversalSignalTables**: Move all files to `v1/` subfolder  
-3. **SettingsRedesign**: Move root files to `v1/`, keep `v2/` as-is
-
-**Caution:** Check for import dependencies before restructuring.
-
----
-
-## Historical Comparison
-
-| Metric | This Audit |
-|--------|------------|
-| Total Issues | 15 |
-| Initiatives with `_meta.json` | 13/21 (62%) |
-| Initiatives in Roadmap | 12 |
-| Prototype Versioning Compliance | 2/5 (40%) |
-| Signal Index Accuracy | 8/9 (89%) |
-| Hypothesis Index Accuracy | 10/11 (91%) |
+| Priority | Count | Initiatives |
+|----------|-------|-------------|
+| P0 | 7 | condorcet-jury-system, feature-availability-audit, crm-exp-ete, universal-signal-tables, customer-journey-map, release-lifecycle-process, hubspot-agent-config-ui |
+| P1 | 1 | composio-agent-framework |
+| P2 | 4 | crm-readiness-diagnostic, condorcet-jury-eval, automated-metrics-observability, call-import-engine |
+| P3 | 1 | internal-search |
 
 ---
 
@@ -197,21 +231,19 @@ For non-compliant prototypes, consider:
 
 ### Immediate (run `maintain fix`)
 
-1. Generate missing `_meta.json` files
-2. Sync signal index with actual files
-3. Update hypothesis index status
+1. Normalize `crm-readiness-diagnostic/_meta.json` to standard schema
+2. Create placeholder `research.md` files for empty initiatives
 
-### Soon (manual)
+### This Week (manual review)
 
-1. Decide on `current/` folder fate
-2. Add `composio-agent-framework` to roadmap
-3. Create `research.md` for `condorcet-jury-eval` and `internal-search`
+1. **Review `current/` folder** - decide archive vs promote
+2. **Check `condorcet-jury-eval`** - likely redundant with `condorcet-jury-system`
+3. **Progress stale initiatives** - `automated-metrics-observability` and `condorcet-jury-system` approaching 14-day threshold
 
-### Later (when iterating)
+### During Next Iteration
 
-1. Migrate `ComposioAgentFramework` to versioned structure during next `/iterate`
-2. Migrate `UniversalSignalTables` to versioned structure during next `/iterate`
-3. Clean up `SettingsRedesign` root files
+1. Migrate prototype structures to versioned folders during `/iterate` calls
+2. Consider consolidating related initiatives
 
 ---
 
