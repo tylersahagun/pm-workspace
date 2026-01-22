@@ -1,19 +1,19 @@
 {
   "$schema": "pm-workspace-roadmap-v1",
-  "generated_at": "2026-01-22T09:00:00.845012",
+  "generated_at": "2026-01-22T12:50:00.000000",
   "summary": {
-    "total_initiatives": 12,
+    "total_initiatives": 13,
     "by_phase": {
       "discovery": 2,
       "define": 4,
       "build": 5,
-      "validate": 1,
+      "validate": 2,
       "launch": 0,
       "measure": 0,
       "learn": 0
     },
     "health": {
-      "on_track": 11,
+      "on_track": 12,
       "at_risk": 0,
       "blocked": 0,
       "stale": 0,
@@ -341,6 +341,57 @@
       }
     },
     {
+      "id": "composio-agent-framework",
+      "name": "Composio Agent Framework",
+      "hypothesis_id": null,
+      "phase": "validate",
+      "sub_phase": "jury-complete",
+      "status": "on_track",
+      "priority": "P1",
+      "owner": "tyler",
+      "personas": [
+        "revops",
+        "sales-leader",
+        "csm",
+        "sales-rep"
+      ],
+      "pillar": "data-knowledge",
+      "timeline": {
+        "started": "2026-01-22",
+        "target_launch": null,
+        "phase_entered": "2026-01-22T00:00:00.000000",
+        "days_in_phase": 0
+      },
+      "progress": {
+        "discovery": {
+          "status": "complete"
+        },
+        "define": {
+          "status": "complete"
+        },
+        "build": {
+          "status": "complete"
+        },
+        "validate": {
+          "status": "in_progress"
+        },
+        "launch": {
+          "status": "not_started"
+        }
+      },
+      "blockers": [],
+      "next_action": "Address top concerns (activity log, error handling) via /iterate, then schedule Woody design review",
+      "metrics": {
+        "days_in_phase": 0,
+        "total_iterations": 0,
+        "jury_pass_rate": 87,
+        "jury_approval_rate": 68
+      },
+      "dependencies": ["composio-integration"],
+      "related_initiatives": ["hubspot-agent-config-ui"],
+      "_added_by": "maintain fix 2026-01-22"
+    },
+    {
       "id": "crm-readiness-diagnostic",
       "name": "Crm Readiness Diagnostic",
       "hypothesis_id": "hyp-crm-readiness-diagnostic",
@@ -567,6 +618,7 @@
       "customer-journey-map",
       "release-lifecycle-process",
       "hubspot-agent-config-ui",
+      "composio-agent-framework",
       "crm-readiness-diagnostic",
       "condorcet-jury-eval",
       "automated-metrics-observability",

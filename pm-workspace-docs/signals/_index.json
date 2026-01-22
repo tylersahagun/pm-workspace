@@ -1,16 +1,16 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-22T10:30:00.000000",
-  "total_signals": 8,
+  "last_updated": "2026-01-22T12:50:00.000000",
+  "total_signals": 9,
   "by_source": {
-    "transcript": 6,
+    "transcript": 7,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
     "document": 2
   },
   "by_status": {
-    "unprocessed": 1,
+    "unprocessed": 2,
     "processed": 7
   },
   "signals": [
@@ -34,6 +34,23 @@
       "file_path": "signals/transcripts/2026-01-15-customer-call-acme-corp-1225d797.md",
       "hypothesis_matches": [],
       "hypothesis_candidates": []
+    },
+    {
+      "id": "sig-2026-01-21-crispy-product-chat-raw",
+      "type": "transcript",
+      "source": "partner-feedback-session",
+      "topic": "crispy-hubspot-partner-chat-raw-transcript",
+      "captured_at": "2026-01-21T13:30:00.000000",
+      "status": "unprocessed",
+      "severity": "medium",
+      "word_count": 14000,
+      "file_path": "signals/transcripts/2026-01-21-crispy-product-chat.md",
+      "related_signals": ["sig-2026-01-21-crispy-product-feedback"],
+      "personas_mentioned": [
+        "sales-rep",
+        "implementation-partner"
+      ],
+      "_note": "Raw transcript - see sig-2026-01-21-crispy-product-feedback for processed version"
     },
     {
       "id": "sig-2026-01-16-crm-exp-ete-planning",
