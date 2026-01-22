@@ -2,9 +2,9 @@
   "$schema": "pm-workspace-roadmap-v1",
   "generated_at": "2026-01-22T12:50:00.000000",
   "summary": {
-    "total_initiatives": 13,
+    "total_initiatives": 12,
     "by_phase": {
-      "discovery": 2,
+      "discovery": 1,
       "define": 4,
       "build": 5,
       "validate": 2,
@@ -434,49 +434,6 @@
       "metrics": {}
     },
     {
-      "id": "condorcet-jury-eval",
-      "name": "Condorcet Jury Eval",
-      "hypothesis_id": "hyp-condorcet-jury-eval",
-      "phase": "discovery",
-      "sub_phase": null,
-      "status": "on_track",
-      "priority": "P2",
-      "owner": "tyler",
-      "personas": [
-        "sales-rep"
-      ],
-      "pillar": null,
-      "timeline": {
-        "started": "2026-01-15",
-        "target_launch": null,
-        "phase_entered": "2026-01-15T18:38:06.742955",
-        "days_in_phase": 6
-      },
-      "progress": {
-        "discovery": {
-          "status": "in_progress"
-        },
-        "define": {
-          "status": "in_progress"
-        },
-        "build": {
-          "status": "in_progress"
-        },
-        "validate": {
-          "status": "in_progress"
-        },
-        "launch": {
-          "status": "in_progress"
-        }
-      },
-      "blockers": [],
-      "next_action": "Review discovery phase status",
-      "metrics": {
-        "days_in_phase": 0,
-        "total_iterations": 0
-      }
-    },
-    {
       "id": "automated-metrics-observability",
       "name": "Automated Metrics Observability",
       "hypothesis_id": "hyp-automated-metrics-observability",
@@ -620,7 +577,6 @@
       "hubspot-agent-config-ui",
       "composio-agent-framework",
       "crm-readiness-diagnostic",
-      "condorcet-jury-eval",
       "automated-metrics-observability",
       "call-import-engine",
       "rep-workspace"
