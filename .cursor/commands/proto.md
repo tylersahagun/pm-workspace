@@ -177,55 +177,44 @@ npm run storybook -w web    # Opens at http://localhost:6006
 
 ## After Building (REQUIRED STEPS)
 
-### Step 1: Build Storybook (Catch Errors First)
+> ⛔ **STOP**: You MUST complete ALL steps below before responding to the user.
+> The prototype is NOT complete until a Chromatic URL is included in your response.
 
-**MANDATORY**: Always build Storybook before pushing to ensure no TypeScript/import errors:
+### Step 1: Build Storybook
+
+**Run this command** (not optional):
 
 ```bash
-cd elephant-ai
-npm run build-storybook -w web
+cd elephant-ai && npm run build-storybook -w web
 ```
 
-**If build fails:**
-1. Read the error output carefully
-2. Fix TypeScript errors, missing imports, or type issues
-3. Re-run build until it succeeds
-4. Do NOT proceed to Chromatic until build passes
+**If build fails:** Fix errors and re-run. Do NOT proceed until build passes.
 
 ### Step 2: Deploy to Chromatic
 
-**MANDATORY**: After successful build, deploy to Chromatic to get the shareable URL:
+**Run this command** (not optional):
 
 ```bash
-cd elephant-ai
-npm run chromatic
+cd elephant-ai && npm run chromatic
 ```
 
-This uses the project token from `package.json` (`chpt_b6891b00696fe57`).
+**You MUST capture these URLs from the output:**
+- `storybookUrl` → The shareable preview (e.g., `https://<hash>--672502f3cbc6d0a63fdd76aa.chromatic.com`)
+- `buildUrl` → The Chromatic build page
 
-**Chromatic outputs:**
-- `storybookUrl` - The preview URL (e.g., `https://<hash>--<appId>.chromatic.com`)
-- `buildUrl` - The Chromatic build page for visual review
+**If you see "React error #299"**: The Storybook is still published. Look for the `storybookUrl` in the output—it works despite the error.
 
-**Capture these URLs** for the response.
+### Step 3: Verify Before Responding
 
-#### Known Issue: React Error #299
+**Checklist (all must be true):**
+- [ ] `npm run build-storybook -w web` completed successfully
+- [ ] `npm run chromatic` was executed
+- [ ] Chromatic URL captured and will be in response
+- [ ] Changes committed and pushed to elephant-ai submodule
 
-If Chromatic fails with "React error #299" (createRoot conflict), this is a known Storybook 9 + Chromatic compatibility issue.
+**If ANY item is unchecked, go back and complete it.**
 
-**Workaround options:**
-
-1. **Use the published Storybook URL directly** - Chromatic still uploads the Storybook even if story extraction fails. The `storybookUrl` in the output is still accessible.
-
-2. **Use GitHub PR workflow** - Push changes to a PR branch; the `.github/workflows/chromatic.yml` workflow runs automatically and posts the Chromatic link as a PR comment.
-
-3. **Use the standalone prototypes folder** - For isolated prototypes, use `prototypes/` which has a separate Chromatic project:
-   ```bash
-   cd prototypes
-   CHROMATIC_PROJECT_TOKEN="chpt_46b823319a0135f" npm run chromatic
-   ```
-
-### Step 3: Document the Prototype
+### Step 4: Document the Prototype
 
 1. Document in `pm-workspace-docs/initiatives/[project]/prototype-notes.md`:
    - Which options were created

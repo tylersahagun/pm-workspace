@@ -225,30 +225,38 @@ npm run storybook -w web    # http://localhost:6006
 npm run build-storybook -w web
 ```
 
-## Build & Deploy (REQUIRED)
+## Build & Deploy (REQUIRED - DO NOT SKIP)
 
-**Every prototype MUST be deployed to Chromatic for sharing:**
+> ⛔ **BLOCKING REQUIREMENT**: Every prototype MUST be deployed to Chromatic.
+> Your response is INCOMPLETE without a Chromatic URL.
 
-### Step 1: Build (Catch Errors)
+### Step 1: Build Storybook
 ```bash
-cd elephant-ai
-npm run build-storybook -w web
+cd elephant-ai && npm run build-storybook -w web
 ```
-
-If build fails: Fix TypeScript/import errors before proceeding.
+Fix any errors before proceeding.
 
 ### Step 2: Deploy to Chromatic
 ```bash
-cd elephant-ai
-npm run chromatic
+cd elephant-ai && npm run chromatic
 ```
 
-### Step 3: Capture the URL
-Chromatic outputs URLs like:
-- **Storybook URL**: `https://<hash>--<appId>.chromatic.com/`
-- **Build URL**: `https://www.chromatic.com/build?appId=...&number=XX`
+### Step 3: Capture & Include URL
 
-**Include the Chromatic URL in your response** - this is how stakeholders will view the prototype.
+**You MUST extract these from the Chromatic output:**
+- `storybookUrl` → Include in your response (shareable link)
+- `buildUrl` → Include in your response (build details)
+
+**Known issue**: "React error #299" may appear but the Storybook URL still works.
+
+### Pre-Response Checklist
+Before responding, verify:
+- [ ] Build passed
+- [ ] Chromatic deployed  
+- [ ] URL captured
+- [ ] URL included in response
+
+**If URL is missing, your response is incomplete. Go run Chromatic.**
 
 ## After Building
 

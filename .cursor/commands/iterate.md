@@ -147,11 +147,17 @@ Create a new full prototype version **based on prototype type**:
 
 ### Step 7: Publish to Chromatic
 
-Automatic on new versions:
-- Ensure Chromatic is installed: `npm install --save-dev chromatic`
-- Run from the prototype package root with the project token set as env:
-  - `CHROMATIC_PROJECT_TOKEN="chpt_46b823319a0135f" npm run chromatic`
-- If the repo has multiple packages, run it where `storybook` is configured
+> ⛔ **BLOCKING**: You MUST deploy to Chromatic. Response is incomplete without URL.
+
+**Run these commands** (not optional):
+```bash
+cd elephant-ai && npm run build-storybook -w web
+cd elephant-ai && npm run chromatic
+```
+
+**Capture the `storybookUrl` from output** - include it in your response.
+
+**Note**: Uses token `chpt_b6891b00696fe57` (configured in elephant-ai/package.json).
 
 ### Step 8: Update Metadata
 
