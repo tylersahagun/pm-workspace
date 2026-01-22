@@ -162,14 +162,33 @@ Workflow Builder
 
 ## Edge Cases
 
-### Error States
+### Error States (Updated v2 - Jury Top Concern #2)
 
-| Error | UX Response |
-|-------|-------------|
-| Integration connection fails | Inline error with "Try again" + "Get help" |
-| Agent action fails at runtime | Toast notification + entry in activity log |
-| Rate limit hit | "Agent paused—try again in X minutes" |
-| Integration revoked mid-run | Clear notification, prompt to reconnect |
+| Error | UX Response | Recovery Action |
+|-------|-------------|-----------------|
+| Integration connection fails | Inline error with "Try again" + "Get help" | Retry OAuth flow |
+| Agent action fails at runtime | Toast notification + entry in activity log | "View details" → Activity Log |
+| Rate limit hit | "Agent paused—try again in X minutes" | Auto-resume after cooldown |
+| Integration revoked mid-run | Clear notification, prompt to reconnect | "Reconnect [Integration]" button |
+| Partial success (some actions failed) | Summary toast: "2/3 actions completed" | Activity log shows which failed |
+| Network timeout | "Connection lost. Retrying..." | Auto-retry with exponential backoff |
+
+**Error Recovery Flow:**
+```
+Agent action fails
+  → Toast: "Action failed: [brief reason]"
+    → [View Details] → Opens Activity Log
+      → Activity entry shows:
+        - What was attempted
+        - Why it failed
+        - [Retry] button
+        - [Edit Agent] button (if config issue)
+```
+
+**Error Attribution:**
+- Errors clearly show "Agent: [Agent Name]" so users know which agent failed
+- Timestamp helps correlate with specific meetings/triggers
+- Evidence section shows what context the agent had
 
 ### Empty States
 
@@ -290,10 +309,93 @@ Key patterns explored:
 
 ---
 
+### Conversational Setup (Option D) - Adam Feedback Session (2026-01-22)
+
+**Signal:** `sig-2026-01-22-adam-composio-agent-feedback`  
+**Key Insight:** Blank prompt fields intimidate users—conversational setup preferred.
+
+**Proposed Flow:**
+```
+User: "I want to update HubSpot after meetings"
+AI: "That's a little vague. Tell me more."
+User: "After each meeting, summarize key points and update the CRM deal"
+AI: [Shows 3 artifact examples]
+    "Which format do you prefer?"
+User: [Selects Option 2]
+AI: "Is there anything missing? Any edge cases?"
+User: "Looks good"
+AI: "Would you like me to test it?"
+AI: [Shows hypothetical test output]
+    "Does everything look good?"
+User: "Love it"
+AI: "Great! Next step is to activate..."
+```
+
+**Design Implications:**
+- Add "Option D: Conversational Setup" to prototype
+- Include test-before-activate flow in all options
+- Smart suggestions based on user's call history
+
+---
+
+### Activity Log Design (v2 Iteration - Jury Top Concern)
+
+**Signal:** Jury evaluation top concern (26 mentions)
+
+**Required Components:**
+| Component | Purpose | Key Elements |
+|-----------|---------|--------------|
+| `ActivityLog` | Show what agent did | Timeline, per-action breakdown |
+| `ActivityEntry` | Single action row | Timestamp, action, status, evidence |
+| `ActivityDetail` | Expanded view | Full reasoning, confidence, retry button |
+
+**Activity Entry States:**
+- ✅ Success — Green check, "Completed" badge
+- ⏳ Pending — Spinner, "Running..." badge
+- ❌ Error — Red X, error message, "Retry" button
+- ⚠️ Low Confidence — Amber warning, "Review" prompt
+
+**Information Architecture:**
+```
+Activity Log
+├── Today
+│   ├── 10:30 AM — Created email draft for Acme Corp ✅
+│   │   └── [Expand] Evidence: "Meeting discussed Q1 roadmap"
+│   └── 9:15 AM — Updated HubSpot deal ✅
+├── Yesterday
+│   └── 4:45 PM — Failed to create draft ❌
+│       └── [Expand] Error: Gmail not connected. [Retry]
+```
+
+---
+
+### Test Before Activate (Dry Run)
+
+**Signal:** Jury suggestion (18 mentions)
+
+**Flow:**
+1. User finishes configuring agent
+2. "Would you like to test it first?" prompt
+3. Select a real past meeting
+4. Show "Here's what the agent would have done"
+5. Display hypothetical output artifact
+6. User approves → "Enable Agent" becomes available
+
+**UI Pattern:**
+- Modal or slide-out panel
+- Meeting selector (dropdown of recent meetings)
+- Preview card showing hypothetical output
+- "Looks good" / "Edit instructions" actions
+
+---
+
 ## Next Steps
 
-1. **Woody to explore Phase 2 UX** — Agent configurator vision
-2. **Design Phase 1 node UX** — Integration picker + tool selector
-3. **Prototype key flows** — Run by RevOps persona for feedback
-4. **Define component library needs** — New components vs. existing
-5. **Review chat interface spec** — Determine if Adam's patterns apply to agent config
+1. ~~**Woody to explore Phase 2 UX**~~ — Pending Woody review
+2. ~~**Design Phase 1 node UX**~~ ✅ Complete (v1 prototype)
+3. ~~**Prototype key flows**~~ ✅ Complete (v1 with jury validation)
+4. **Build Activity Log component** — Top jury concern (v2 iteration)
+5. **Build Test Before Activate flow** — Second-highest jury suggestion
+6. **Design auth scope UX** — Per-integration workspace/user controls (Adam feedback)
+7. **Explore Option D (Conversational Setup)** — Adam's preferred direction
+8. **Schedule Woody design review** — Phase 2 UX direction

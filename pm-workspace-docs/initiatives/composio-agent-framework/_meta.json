@@ -3,7 +3,7 @@
   "initiative": "composio-agent-framework",
   "hypothesis_id": null,
   "phase": "validate",
-  "sub_phase": "jury-complete",
+  "sub_phase": "iterating",
   "status": "on_track",
   "priority": "P1",
   "owner": "tyler",
@@ -15,7 +15,7 @@
   ],
   "pillar": "data-knowledge",
   "created_at": "2026-01-22T00:00:00.000000",
-  "updated_at": "2026-01-22T00:00:00.000000",
+  "updated_at": "2026-01-22T18:00:00.000000",
   "phase_history": [
     {
       "phase": "discovery",
@@ -39,7 +39,7 @@
     }
   ],
   "blockers": [],
-  "next_action": "Address top concerns (activity log, error handling) via /iterate, then schedule Woody design review",
+  "next_action": "Schedule Woody design review, then run /validate for v2 jury",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
@@ -91,7 +91,7 @@
   },
   "metrics": {
     "days_in_phase": 0,
-    "total_iterations": 0
+    "total_iterations": 1
   },
   "dependencies": [
     "composio-integration"
@@ -100,5 +100,31 @@
     "hubspot-agent-config-ui"
   ],
   "prototype_type": "both",
-  "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/"
+  "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
+  "current_version": "v2",
+  "last_signals_processed": "2026-01-22T18:00:00.000000",
+  "signals_consumed": [
+    "sig-2026-01-22-adam-composio-agent-feedback",
+    "sig-2026-01-22-composio-figma-make-chat-interface"
+  ],
+  "iteration_history": [
+    {
+      "version": "v2",
+      "date": "2026-01-22T18:00:00.000000",
+      "prototype_type": "both",
+      "focus": "Activity log (jury concern #1), Test preview (jury suggestion #2), Error recovery UX",
+      "feedback_source": "jury-evaluation + adam-design-review + figma-make-spec",
+      "signals_consumed": [
+        "sig-2026-01-22-adam-composio-agent-feedback",
+        "sig-2026-01-22-composio-figma-make-chat-interface"
+      ],
+      "changes": [
+        "Added ActivityLog component (v2/components/ActivityLog.tsx)",
+        "Added TestPreview component (v2/components/TestPreview.tsx)",
+        "Updated PRD with auth scope problem and jury results",
+        "Updated Design Brief with error handling UX and conversational flow",
+        "Updated prototype-notes.md with v2 iteration details"
+      ]
+    }
+  ]
 }

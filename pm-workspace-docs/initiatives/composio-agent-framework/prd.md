@@ -51,6 +51,22 @@ Users need a simpler way to create and adopt automations—one where AI agents h
 - "Who did this?" support tickets (should decrease)
 - Manual override/correction rate
 
+### Jury Validation Results (2026-01-22)
+
+| Metric | Value | Target | Status |
+|--------|-------|--------|--------|
+| **Approval Rate** | 68% | ≥60% | ✅ Pass |
+| **Conditional Rate** | 19% | - | - |
+| **Rejection Rate** | 13% | <40% | ✅ Pass |
+| **Combined Pass** | 87% | ≥70% | ✅ Pass |
+
+**Top Concerns (Must Address):**
+1. Audit trail / visibility into what agent did (26 mentions)
+2. Error handling / recovery UX (18 mentions)
+3. Rollback / undo capability (14 mentions)
+
+**Recommended Creative Option:** Option B (Balanced) with 78% approval
+
 ---
 
 ## User Journey
@@ -128,11 +144,25 @@ Admin wants to create email draft automation for reps
   - Connect required integrations
   - Enable/disable per agent
 - Template forking for personalization
+- **Activity Log (REQUIRED):**
+  - Timeline of what agent did + why
+  - Per-run breakdown with evidence/confidence
+  - Error entries with retry capability
+  - Attribution clarity (agent vs. user actions)
+- **Test Before Activate:**
+  - "Dry run" showing hypothetical output
+  - Preview what agent would do on a real call
+  - Builds trust before automation goes live
+- **Conversational Setup (Option D - Adam's Preference):**
+  - Chat-based configuration instead of form fields
+  - AI asks clarifying questions progressively
+  - Shows example outputs, user picks preferred format
 
 **Success criteria:**
 - Non-technical users can create agents without workflow builder
 - Users adopt org agents with 1-click opt-in
 - 50%+ of new automations created via Agent Configurator vs. Workflows
+- **Activity log reduces "who did this?" tickets by 50%**
 
 ---
 
@@ -177,9 +207,10 @@ Admin wants to create email draft automation for reps
 1. **Which integrations are must-haves for launch?** 
    - Hypothesis: Slack, HubSpot, Salesforce, Gmail, ClickUp
    
-2. **What's the error handling UX?**
-   - When agent fails mid-action, how do we notify?
-   - Do we retry? Roll back?
+2. ~~**What's the error handling UX?**~~ ✅ RESOLVED (v2 iteration)
+   - When agent fails: Toast notification + entry in activity log
+   - Retry: User can retry from activity log
+   - Roll back: P2 scope, not MVP
 
 3. **How does this interact with Privacy Determination?**
    - If agent triggers on meeting, does it check privacy first?
@@ -196,6 +227,16 @@ Admin wants to create email draft automation for reps
 6. **Guardrails for destructive actions:**
    - Rate limits?
    - Approval gates for "delete" actions?
+
+### NEW: Workspace vs. User-Level Auth (Critical - from Adam feedback)
+7. **Integration authentication scope problem:**
+   - Workflows run at **workspace level**
+   - Chat integrations run at **personal level**
+   - If agents combine both, who owns the authentication?
+   - **Example**: User creates HubSpot agent with personal auth, sets to "workspace" → 20 people using one person's credentials
+   - **Some integrations easier**: Email (bot), Slack (bot account)
+   - **Hard integrations**: HubSpot needs per-integration visibility controls
+   - **Status**: Design needed for per-integration workspace/user auth controls
 
 ---
 

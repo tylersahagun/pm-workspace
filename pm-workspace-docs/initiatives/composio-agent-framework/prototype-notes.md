@@ -207,8 +207,70 @@ elephant-ai/web/src/components/prototypes/ComposioAgentFramework/
 
 ---
 
+## v2 Iteration (2026-01-22)
+
+### Signals Consumed
+
+| Signal ID | Type | Key Contribution |
+|-----------|------|------------------|
+| `sig-2026-01-22-adam-composio-agent-feedback` | transcript | Conversational setup preference, auth scope problem |
+| `sig-2026-01-22-composio-figma-make-chat-interface` | document | Animation patterns, typewriter effect |
+| Jury Evaluation (100 users) | validation | 87% pass rate, top concerns identified |
+
+### Key Changes Made
+
+#### 1. ActivityLog Component (Jury Top Concern #1)
+
+**Problem addressed:** "Need to see audit trail of what agent did" (26 mentions)
+
+**Features:**
+- Timeline grouped by date (Today, Yesterday, etc.)
+- Per-action expandable entries with evidence
+- Status indicators: success, error, pending, low-confidence
+- Retry capability for failed actions
+- Agent attribution (which agent did what)
+- Confidence indicators
+
+**Location:** `v2/components/ActivityLog.tsx`
+
+#### 2. TestPreview Component (Jury Suggestion #2)
+
+**Problem addressed:** "Show preview before agent runs" (18 mentions)
+
+**Features:**
+- Select a past meeting to test against
+- "Dry run" showing hypothetical output
+- Feedback buttons (Looks good / Needs changes)
+- Edit instructions flow if preview is wrong
+- Builds trust before enabling automation
+
+**Location:** `v2/components/TestPreview.tsx`
+
+#### 3. Error Recovery Flow (Jury Concern #2)
+
+**Problem addressed:** "What happens when an action fails?" (18 mentions)
+
+**Features:**
+- Clear error states with colored borders/backgrounds
+- Error messages with actionable recovery
+- Retry buttons where applicable
+- Link to edit agent if config issue
+
+### Documentation Updates
+
+- **PRD:** Added auth scope problem, jury results, activity log requirement
+- **Design Brief:** Added conversational setup flow, error handling UX, test-before-activate
+
+### Open Items for v3
+
+1. **Conversational Setup (Option D)** — Adam's preference for chat-based configuration
+2. **Workspace vs. User Auth Controls** — Per-integration visibility when shared
+3. **Rollback / Undo** — Jury concern #3 (14 mentions) - deferred to Phase 2
+
+---
+
 ## Next Steps
 
-1. **Run `/validate composio-agent-framework`** to test with synthetic users
-2. **Review with Woody** for Phase 2 UX direction
-3. **Iterate based on feedback** using `/iterate composio-agent-framework`
+1. **Schedule Woody design review** — Phase 2 UX direction
+2. **Run `/validate composio-agent-framework`** for v2 jury
+3. **Show to Caden** — Engineering feasibility check
