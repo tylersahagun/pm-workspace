@@ -281,6 +281,83 @@ Agent action fails
 
 ---
 
+## NEW: Trigger/Integration Ordering UX Problem (2026-01-22)
+
+**Signal:** `sig-2026-01-22-composio-agent-architecture-deep-dive`
+
+### The Problem
+
+> "How do we show all the possible triggers for all possible integrations up front? Like, that just doesn't seem feasible unless you narrow it down."
+
+**User mental model:** "When a meeting ends, update my CRM" (trigger-first)  
+**System requirement:** "Which integration provides that trigger?" (integration-first)
+
+This creates a chicken-and-egg problem:
+- Users don't know which integrations have which triggers
+- Can't show all triggers from all 877 integrations at once
+- First-time users don't know their own tech stack yet
+
+### Proposed Solutions
+
+#### Option 1: Generic Trigger Categories
+```
+"When should this agent run?"
+├── On a schedule (daily, weekly, custom)
+├── After a meeting ends ← AskElephant native
+├── When an event happens in...
+│   └── [Shows integration picker]
+│       └── [Shows integration-specific triggers]
+```
+
+**Pros:** Matches user mental model  
+**Cons:** Hides integration complexity; may confuse power users
+
+#### Option 2: AI-Assisted Progressive Disclosure
+```
+AI: "What do you want this agent to do?"
+User: "Update HubSpot after meetings"
+AI: "Got it! I'll trigger after meetings and connect to HubSpot."
+    [Shows: Trigger: After meeting | Integration: HubSpot]
+AI: "Which HubSpot actions should it have access to?"
+    [Shows: Search/filter for HubSpot tools]
+```
+
+**Pros:** Natural, conversational, already preferred (Option D)  
+**Cons:** Longer flow; requires good NLU
+
+#### Option 3: Smart Defaults + Manual Override
+```
+"Popular triggers:"
+├── After meeting ends (AskElephant)
+├── New email received (Gmail/Outlook)
+├── Deal stage changes (HubSpot/Salesforce)
+└── [+ More triggers...] → Opens full integration picker
+```
+
+**Pros:** Fast for common cases; discoverable for advanced  
+**Cons:** Requires knowing what's "popular"; may not match user's stack
+
+### Tool Discovery at Scale
+
+**Problem:** Slack has 100+ tools. How do users find the right ones?
+
+**Proposed UX:**
+- Search always visible
+- Categorized by action type (Read, Write, Delete)
+- "Recommended for this trigger" section
+- Risk indicators (⚠️) on destructive tools
+- "Select all / Clear all" for bulk actions
+
+### Design Recommendation
+
+Combine **Option 1 + Option 2**:
+1. Start with generic trigger categories (schedule, after meeting, on event)
+2. "On event" reveals AI-assisted integration picker
+3. AI suggests integrations based on user's instruction text
+4. Tool selection uses search + categories + bulk actions
+
+---
+
 ## Design Explorations
 
 ### Chat Interface Prototype (Adam, 2026-01-22)
@@ -386,6 +463,99 @@ Activity Log
 - Meeting selector (dropdown of recent meetings)
 - Preview card showing hypothetical output
 - "Looks good" / "Edit instructions" actions
+
+---
+
+## Phase 3: Skills Layer UX (2026-01-22)
+
+**Signal:** `sig-2026-01-22-composio-agent-architecture-deep-dive`
+
+### What Are Skills?
+
+> "Skills are literally just a massive prompt that teaches [the agent] how to be an expert in a specific topic."
+
+Skills are NOT agents. They're reusable expertise that agents can draw upon.
+
+### UX Mental Model
+
+**For Admins (Creating/Managing Skills):**
+```
+/settings/skills
+├── Built-in Skills (read-only)
+│   ├── RevOps Expert ✓ Enabled
+│   ├── Follow-up Best Practices ✓ Enabled
+│   └── Meeting Summary Templates ○ Disabled
+├── Workspace Skills (admin-created)
+│   ├── [+ Create Skill]
+│   └── "Our Sales Playbook" ✓ Enabled
+└── [Learn about Skills →]
+```
+
+**For Users (Seeing Skills in Agent Config):**
+```
+Agent Builder > Step 4: Skills
+"Which expertise should this agent use?"
+
+[✓] RevOps Expert
+    "CRM best practices for HubSpot/Salesforce"
+    
+[✓] Follow-up Best Practices
+    "How to write effective follow-up emails"
+    
+[ ] Our Sales Playbook (Workspace)
+    "Company-specific sales methodology"
+```
+
+### Skill Builder Flow
+
+```
+Create New Skill
+├── 1. Basic Info
+│   ├── Name: "RevOps Expert"
+│   ├── Description: "CRM best practices for..."
+│   └── Category: [RevOps ▼]
+├── 2. When to Use
+│   ├── "This skill is relevant when..."
+│   └── Keywords: "CRM, HubSpot, deal, contact, property"
+├── 3. Instructions
+│   └── [Large textarea - Markdown supported]
+│       "When updating CRM records, always..."
+└── 4. Publish
+    ├── ○ Draft (only you)
+    ├── ● Enabled for workspace
+    └── [Save Skill]
+```
+
+### Key Design Principles
+
+1. **Skills are invisible until needed**
+   - Users don't configure skills per-agent (mostly)
+   - Agent auto-discovers relevant skills based on task
+   - Advanced: Override auto-selection if needed
+
+2. **Progressive disclosure applies to users too**
+   - Show skill name + description by default
+   - "View full instructions" expands for power users
+   - Don't overwhelm with complexity
+
+3. **Clear distinction from Agents**
+   - Agents = things that DO stuff (active)
+   - Skills = things agents KNOW (passive)
+   - Visual/naming must reinforce this
+
+### Design Questions
+
+1. **Should skills be visible in agent output?**
+   - "This response used: RevOps Expert skill"
+   - Builds trust but adds noise?
+
+2. **Skill conflicts?**
+   - What if two skills give contradictory advice?
+   - Priority system? Or AI resolves?
+
+3. **Skill versioning?**
+   - If admin updates a skill, do agents use new version immediately?
+   - Notification to users? Change log?
 
 ---
 

@@ -8,12 +8,18 @@
 
 ## Technical Overview
 
-This initiative integrates Composio's agent infrastructure into AskElephant, enabling users to leverage 877+ integrations through AI agents. The architecture has two phases:
+This initiative integrates Composio's agent infrastructure into AskElephant, enabling users to leverage 877+ integrations through AI agents.
 
+### Architecture Clarity (2026-01-22)
+> **Composio = Toolbox Only.** Skills, Memory, and Sub-Agents are separate layers we build.
+
+**Phase roadmap:**
 1. **Phase 1:** Universal Agent Node in existing workflow system
-2. **Phase 2:** Standalone Agent Configurator with user-level authentication
+2. **Phase 2:** Standalone Agent Configurator with user-level authentication  
+3. **Phase 3:** Skills Layer (reusable expertise prompts)
+4. **Future:** Memory Layer + Sub-Agent Delegation
 
-Both phases use Composio as the integration backbone, with AskElephant providing the orchestration, UX, and business logic layer.
+Composio provides integrations and tool execution. AskElephant provides orchestration, UX, skills, and business logic.
 
 ---
 
@@ -78,6 +84,49 @@ Both phases use Composio as the integration backbone, with AskElephant providing
                              ▼
                       [Composio Platform]
 ```
+
+### Phase 3: Skills Layer Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  AskElephant Platform                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │                  Skills Registry                    │    │
+│  │  - Workspace Skills (admin-configured)              │    │
+│  │  - Built-in Skills (RevOps, Follow-up, etc.)       │    │
+│  │  - Progressive Disclosure Loader                    │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                            │                                 │
+│                            ▼                                 │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │              Agent Runtime (Updated)                │    │
+│  │  - Skill injection based on task context            │    │
+│  │  - Auto-discovery: sees name/description            │    │
+│  │  - On-demand: loads full instructions when needed   │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Progressive Disclosure Pattern:**
+```
+Skills Registry
+├── RevOpsExpertSkill/
+│   ├── manifest.json        # Name + description (always loaded)
+│   │   {
+│   │     "name": "RevOps Expert",
+│   │     "description": "CRM best practices for HubSpot/Salesforce",
+│   │     "triggers_on": ["CRM update", "deal stage change"]
+│   │   }
+│   └── instructions.md      # Full skill instructions (loaded on demand)
+│       - 500+ lines of CRM hygiene best practices
+│       - Field mapping rules
+│       - Data quality guidelines
+```
+
+Agent sees skill descriptions → decides relevance → loads full context when needed.
 
 ---
 
@@ -204,6 +253,62 @@ interface AgentActivityLog {
     status: 'success' | 'failed';
     error: string | null;
   }>;
+}
+```
+
+### Phase 3: Skills Schema
+
+```typescript
+interface Skill {
+  id: string;
+  workspaceId: string | null; // null = built-in skill
+  
+  // Discovery metadata (always loaded)
+  name: string;
+  description: string;
+  triggersOn: string[]; // Keywords that indicate skill relevance
+  category: 'revops' | 'sales' | 'cs' | 'general';
+  
+  // Configuration
+  scope: 'builtin' | 'workspace' | 'user';
+  enabled: boolean;
+  
+  // Full instructions (loaded on demand)
+  instructionsPath: string; // Path to full instructions markdown
+  instructionsVersion: number;
+  
+  // Metadata
+  createdBy: string | null; // null = AskElephant-authored
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+interface SkillManifest {
+  // Minimal metadata for discovery (always in memory)
+  id: string;
+  name: string;
+  description: string;
+  triggersOn: string[];
+  scope: 'builtin' | 'workspace' | 'user';
+}
+
+interface AgentSkillAssignment {
+  id: string;
+  agentTemplateId: string;
+  skillId: string;
+  enabled: boolean;
+  priority: number; // For conflict resolution
+  assignedAt: Timestamp;
+}
+
+// Skill usage tracking for progressive loading decisions
+interface SkillUsageLog {
+  id: string;
+  agentRunId: string;
+  skillId: string;
+  wasLoaded: boolean; // Did agent decide to load full instructions?
+  loadedAt: Timestamp | null;
+  usedInOutput: boolean; // Did skill influence the output?
 }
 ```
 

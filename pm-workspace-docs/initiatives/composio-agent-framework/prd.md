@@ -1,9 +1,11 @@
 # PRD: Composio Agent Framework
 
-**Status:** Discovery → Define  
+**Status:** Validate → Launch  
 **Owner:** Tyler  
 **Last Updated:** 2026-01-22  
-**Strategic Pillar:** Data Knowledge / AI-First UX
+**Strategic Pillar:** Data Knowledge / AI-First UX  
+**Current Version:** v4  
+**Jury Result:** 92% pass rate, 78% approval (ready for stakeholder review)
 
 ---
 
@@ -164,6 +166,86 @@ Admin wants to create email draft automation for reps
 - 50%+ of new automations created via Agent Configurator vs. Workflows
 - **Activity log reduces "who did this?" tickets by 50%**
 
+### Phase 3: Skills Layer (Long-term Vision)
+
+> **Architecture Clarity (2026-01-22 Deep Dive):**  
+> Composio = **toolbox only** (integrations + tools). Skills, memory, and sub-agents are **separate layers we build on top**.
+
+**What we're building:**
+- **Skills** = Reusable expertise prompts that can be attached to any agent
+  - Name, description, and detailed instructions (large prompt)
+  - Auto-discoverable via progressive disclosure
+  - Workspace-level or user-level configurable
+- **Progressive disclosure pattern:**
+  - Agent always sees skill name + description
+  - Full skill instructions loaded only when agent determines relevance
+  - Enables unlimited skill depth without context window limits
+- **Pre-built skills library:**
+  - RevOps Expert Skill (James-authored HubSpot/CRM best practices)
+  - Follow-up Best Practices
+  - Meeting Summary Templates
+
+**Why this matters:**
+> "The more complex and better the skills get, the less instructions I need to give to the agent because it will then be able to fill in the gaps of my instructions and my prompt by leaning on the skills."
+
+Expert-authored skills make agent setup dramatically simpler for end users—they don't need to write complex prompts because skills encode domain expertise.
+
+**Success criteria:**
+- Users create effective agents with 50% fewer prompt iterations
+- Workspace skills adoption rate >60%
+- Clear terminology distinguishing skills vs. agents in UX
+
+### Future Phases: Memory & Sub-Agents
+
+**Memory Layer:**
+- Short-term: Current conversation history (already exists)
+- Long-term: Persisted key information across sessions
+- Scope options: Workspace-level, user-level, or agent-specific
+
+**Sub-Agent Delegation:**
+- Parent agent can hand off tasks to specialized sub-agents
+- Authentication inheritance rules needed
+- Enables complex multi-step automations without monolithic agents
+
+---
+
+## Architecture Overview
+
+```
+┌──────────────────────────────────────┐
+│            AGENT (Core)              │
+├──────────────────────────────────────┤
+│  ┌─────────┐  ┌──────────────────┐  │
+│  │ Trigger │  │  Instructions    │  │
+│  │ (When)  │  │  (What to do)    │  │
+│  └─────────┘  └──────────────────┘  │
+│                                      │
+│  ┌─────────────────────────────────┐│
+│  │    Toolbox (Composio) ← P1/P2  ││
+│  │  - Integrations                 ││
+│  │  - Tools per integration        ││
+│  └─────────────────────────────────┘│
+│                                      │
+│  ┌───────────┐  ┌────────────────┐  │
+│  │  Skills   │  │  Sub-Agents    │  │
+│  │ ← P3      │  │  ← Future      │  │
+│  └───────────┘  └────────────────┘  │
+│                                      │
+│  ┌─────────────────────────────────┐│
+│  │           Memory ← Future       ││
+│  │  - Short-term (conversation)   ││
+│  │  - Long-term (persistent)      ││
+│  └─────────────────────────────────┘│
+└──────────────────────────────────────┘
+```
+
+**Automation Spectrum:**
+```
+Deterministic ←————————————————→ Autonomous
+Workflows      Agent Nodes       Full Agents
+(P1)          (in workflows)     (P2+)
+```
+
 ---
 
 ## Out of Scope
@@ -227,6 +309,25 @@ Admin wants to create email draft automation for reps
 6. **Guardrails for destructive actions:**
    - Rate limits?
    - Approval gates for "delete" actions?
+
+### NEW: Trigger/Integration Ordering UX (Critical - from Architecture Deep Dive)
+8. **Chicken-and-egg problem:**
+   - Users think trigger-first ("when a meeting ends...") 
+   - System needs integration-first (which integration provides that trigger?)
+   - Can't show all possible triggers for all possible integrations upfront
+   - **Proposed solutions:**
+     1. Generic trigger categories ("On schedule", "On event") that narrow down
+     2. AI-assisted setup that asks clarifying questions
+     3. Common triggers surfaced first with "event-based" revealing integration picker
+
+9. **Tool discovery at scale:**
+   - Slack has 100+ tools - need search/filtering
+   - Progressive disclosure pattern needed
+   - Bulk actions ("Enable all HubSpot tools") vs individual toggles
+
+10. **First-time user context gap:**
+    - Can't show smart defaults without knowing user's tech stack
+    - Need onboarding that captures CRM/tools in use
 
 ### NEW: Workspace vs. User-Level Auth (Critical - from Adam feedback)
 7. **Integration authentication scope problem:**
@@ -296,3 +397,19 @@ Admin wants to create email draft automation for reps
 - **HubSpot Agent Config UI** — Similar UX patterns for integration configuration
 - **Privacy Determination Agent** — Must integrate before automation goes live
 - **Workflow Builder** — Phase 1 builds on this; Phase 2 may replace much of it
+
+### Signals Consumed
+| Signal ID | Date | Source | Key Insight |
+|-----------|------|--------|-------------|
+| `sig-2026-01-22-adam-composio-agent-feedback` | 2026-01-22 | Design review | Conversational setup preferred; auth scope is critical problem |
+| `sig-2026-01-22-composio-figma-make-chat-interface` | 2026-01-22 | Figma Make | Typewriter effects, artifact chains, sticky input patterns |
+| `sig-2026-01-22-composio-agent-architecture-deep-dive` | 2026-01-22 | Architecture discussion | Composio = toolbox only; Skills/Memory/Sub-agents are separate layers |
+
+### Reference: LangChain Agent Model
+The architecture discussion referenced LangChain's agent builder as a model:
+- **Triggers** pipe into the agent
+- **Instructions** define behavior
+- **Toolbox** (Composio) provides integrations
+- **Skills** encode domain expertise (progressive disclosure)
+- **Sub-agents** enable delegation
+- **Memory** provides persistence beyond context window

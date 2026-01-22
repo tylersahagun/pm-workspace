@@ -110,10 +110,11 @@
   "prototype_type": "both",
   "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
   "current_version": "v4",
-  "last_signals_processed": "2026-01-22T20:00:00.000000",
+  "last_signals_processed": "2026-01-22T14:30:00.000000",
   "signals_consumed": [
     "sig-2026-01-22-adam-composio-agent-feedback",
-    "sig-2026-01-22-composio-figma-make-chat-interface"
+    "sig-2026-01-22-composio-figma-make-chat-interface",
+    "sig-2026-01-22-composio-agent-architecture-deep-dive"
   ],
   "iteration_history": [
     {
