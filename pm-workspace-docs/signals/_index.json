@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-22T12:50:00.000000",
-  "total_signals": 9,
+  "last_updated": "2026-01-22T14:30:00.000000",
+  "total_signals": 10,
   "by_source": {
-    "transcript": 7,
+    "transcript": 8,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
@@ -11,7 +11,7 @@
   },
   "by_status": {
     "unprocessed": 2,
-    "processed": 7
+    "processed": 8
   },
   "signals": [
     {
@@ -418,6 +418,89 @@
       ],
       "severity": "high",
       "word_count": 2800
+    },
+    {
+      "id": "sig-2026-01-22-composio-agent-architecture-deep-dive",
+      "type": "transcript",
+      "source": "internal-design-discussion",
+      "topic": "composio-agent-framework-architecture-skills-memory",
+      "captured_at": "2026-01-22T14:00:00.000000",
+      "status": "processed",
+      "initiative": "composio-agent-framework",
+      "file_path": "signals/transcripts/2026-01-22-internal-composio-agent-architecture.md",
+      "related_signals": [
+        "sig-2026-01-22-adam-composio-agent-feedback",
+        "sig-2026-01-22-composio-figma-make-chat-interface"
+      ],
+      "summary": "Deep architecture discussion clarifying Composio scope (toolbox only) vs skills, memory, sub-agents as separate layers. Key UX challenge: trigger/integration ordering creates chicken-and-egg problem.",
+      "problems_extracted": [
+        "Integration/trigger ordering UX - users think trigger-first but system needs integration-first",
+        "Tool discovery at scale - Slack has 100+ tools, need search/filtering",
+        "First-time user context gap - can't show smart defaults without tech stack knowledge",
+        "Skills vs agents naming confusion - need clear mental model"
+      ],
+      "personas_mentioned": [
+        "revops",
+        "agent-builder",
+        "new-user"
+      ],
+      "severity": "high",
+      "word_count": 3200,
+      "key_concepts": {
+        "composio": "Toolbox only - integrations and tools, nothing more",
+        "skills": "Reusable expertise prompts, auto-discoverable via progressive disclosure",
+        "memory": "Short-term (conversation) vs long-term (persistent across sessions)",
+        "sub_agents": "Delegation to specialized agents for specific tasks"
+      },
+      "architecture_components": [
+        "Agent (core)",
+        "Trigger (when)",
+        "Instructions (what)",
+        "Toolbox/Composio (integrations + tools)",
+        "Skills (expertise)",
+        "Sub-agents (delegation)",
+        "Memory (persistence)"
+      ],
+      "key_quotes": [
+        "Composeo is literally just this box right here",
+        "Skills are literally just a massive, like it's a skill name, a description, and then instructions are, like, a massive prompt that teaches it how to be an expert in a specific topic",
+        "The more complex and better the skills get, the less instructions I need to give to the agent",
+        "Long term memory is, like, I have a conversation with the agent, and then I come back and I start a new conversation, and it remembers things from past conversations"
+      ],
+      "feature_requests": [
+        "Generic trigger categories (scheduled, on event) before integration picker",
+        "AI-assisted agent setup via chat",
+        "Workspace-level skills (pre-built expertise)",
+        "Progressive skill loading based on context",
+        "RevOps expert skill (James-authored)",
+        "Memory layer (short-term + long-term)",
+        "Sub-agent delegation"
+      ],
+      "design_patterns": [
+        "Progressive disclosure for skills (name/description always visible, details loaded on demand)",
+        "Cursor rules structure as skills model"
+      ],
+      "strategic_alignment": [
+        "AI-First UX - conversational configuration",
+        "Human Empowerment - skills encode human expertise",
+        "2026 Initiative - Workflow Builder / AI Assistant Tool"
+      ],
+      "hypothesis_candidates": [
+        "Skills reduce agent configuration friction",
+        "Conversational agent setup outperforms forms",
+        "Progressive disclosure scales expertise without context limits"
+      ],
+      "action_items": [
+        { "who": "Matt", "what": "Create skills architecture doc", "status": "pending" },
+        { "who": "Tyler", "what": "Prototype generic trigger categories UX", "status": "pending" },
+        { "who": "Tyler/James", "what": "Draft RevOps expert skill", "status": "pending" },
+        { "who": "Tyler", "what": "Update composio-agent-framework PRD with skills layer", "status": "pending" },
+        { "who": "Adam", "what": "Define skill vs agent terminology in design system", "status": "pending" }
+      ],
+      "participants": [
+        "Tyler",
+        "Matt"
+      ]
     }
   ]
 }
