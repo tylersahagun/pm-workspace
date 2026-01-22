@@ -15,7 +15,7 @@
   ],
   "pillar": "data-knowledge",
   "created_at": "2026-01-22T00:00:00.000000",
-  "updated_at": "2026-01-22T21:00:00.000000",
+  "updated_at": "2026-01-22T22:00:00.000000",
   "phase_history": [
     {
       "phase": "discovery",
@@ -82,14 +82,15 @@
     "recommended_option": "B",
     "option_d_preference": 0.31,
     "top_concerns": [
-      "Agent conflict resolution (multiple agents, same field)",
+      "Agent conflict resolution (multiple agents, same field) - ADDRESSED v4",
       "Template versioning policy",
       "Team adoption reporting"
     ],
     "previous_concerns_resolved": [
       "Audit trail / visibility - RESOLVED (v2 ActivityLog)",
       "Error handling / recovery - RESOLVED (v2 TestPreview)",
-      "Rollback / undo - RESOLVED (v3 RollbackPanel)"
+      "Rollback / undo - RESOLVED (v3 RollbackPanel)",
+      "Agent conflict resolution - RESOLVED (v4 ConflictDetector + ConflictWarning)"
     ]
   },
   "timeline": {
@@ -98,7 +99,7 @@
   },
   "metrics": {
     "days_in_phase": 0,
-    "total_iterations": 2
+    "total_iterations": 3
   },
   "dependencies": [
     "composio-integration"
@@ -108,7 +109,7 @@
   ],
   "prototype_type": "both",
   "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
-  "current_version": "v3",
+  "current_version": "v4",
   "last_signals_processed": "2026-01-22T20:00:00.000000",
   "signals_consumed": [
     "sig-2026-01-22-adam-composio-agent-feedback",
@@ -152,6 +153,20 @@
         "approval_rate": 0.78,
         "improvement": "+10% approval, +5% pass rate vs v1"
       }
+    },
+    {
+      "version": "v4",
+      "date": "2026-01-22T22:00:00.000000",
+      "prototype_type": "both",
+      "focus": "Agent conflict resolution (v3 jury top concern - 9 mentions, High severity)",
+      "feedback_source": "v3 jury evaluation - new top concern",
+      "signals_consumed": [],
+      "changes": [
+        "Added ConflictDetector component - Detect field conflicts during agent creation",
+        "Added ConflictWarning component - Show conflict outcomes in activity log",
+        "Resolution strategies: Priority (overwrite), Merge (append), Skip (defer)",
+        "Created V4Iteration.stories.tsx with complete conflict flow demos"
+      ]
     }
   ]
 }

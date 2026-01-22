@@ -382,9 +382,112 @@ elephant-ai/web/src/components/prototypes/ComposioAgentFramework/v3/
 
 ---
 
+## v4 Iteration (2026-01-22) — FOCUSED
+
+### Problem Addressed
+
+**Agent conflict resolution** — v3 jury's highest-severity new concern (9 mentions)
+
+> "What happens if two agents try to update the same field? Which one wins?"
+
+### What Was Built
+
+#### 1. ConflictDetector Component
+
+**Purpose:** Detect and resolve field conflicts during agent creation.
+
+**Features:**
+- Scans existing agents for field overlap when creating new agent
+- Visual conflict cards showing which agents target same field
+- Three resolution strategies:
+  - **Priority** — This agent's value overwrites others
+  - **Merge** — Values combined (append to text fields)
+  - **Skip** — Don't update if another agent already did
+- Must resolve all conflicts before saving agent
+- Clear progress indicator (N of M resolved)
+
+**Location:** `v4/components/ConflictDetector.tsx`
+
+**Key UX Pattern:**
+```
+[Creating "Post-Meeting Updater"]
+
+⚠️ 1 Field Conflict Detected
+
+┌─────────────────────────────────────────────────┐
+│ 🔶 HubSpot → Deal.Next Steps                    │
+│    Conflicts with: Meeting Follow-up Drafter    │
+│                                                 │
+│    How should this conflict be handled?         │
+│    ○ This agent takes priority                  │
+│    ● Merge values (append)                      │
+│    ○ Skip if already updated                    │
+└─────────────────────────────────────────────────┘
+
+[Save & Continue]
+```
+
+#### 2. ConflictWarning Component
+
+**Purpose:** Show conflict outcomes in Activity Log after agents run.
+
+**Features:**
+- Compact inline badge for timeline views
+- Expandable card showing full conflict details
+- Visualization of both agents + their proposed values
+- Final value display with resolution applied
+- Outcome badges: Priority Applied, Values Merged, Update Skipped
+- "Adjust Conflict Settings" button for quick access
+
+**Location:** `v4/components/ConflictWarning.tsx`
+
+---
+
+## Storybook Stories (v4)
+
+Navigate to `Prototypes/ComposioAgentFramework/V4Iteration/`:
+
+| Story | Description |
+|-------|-------------|
+| `Conflict Detection (During Creation)` | Full conflict resolution flow |
+| `No Conflicts (Clean Creation)` | When fields don't overlap |
+| `Conflict Warnings (Activity Log)` | Runtime conflict display |
+| `Resolution Outcomes (All 3 Types)` | Priority, Merge, Skip examples |
+| `Inline Badges (Compact View)` | Compact conflict indicators |
+| `Complete Conflict Flow` | End-to-end creation → runtime |
+
+---
+
+## Files Created (v4)
+
+```
+elephant-ai/web/src/components/prototypes/ComposioAgentFramework/v4/
+├── index.ts
+├── V4Iteration.stories.tsx
+└── components/
+    ├── index.ts
+    ├── ConflictDetector.tsx
+    └── ConflictWarning.tsx
+```
+
+---
+
+## All Jury Concerns Status
+
+| Concern | Version | Component | Status |
+|---------|---------|-----------|--------|
+| Audit trail / visibility | v2 | `ActivityLog` | ✅ Resolved |
+| Error handling / recovery | v2 | `TestPreview` | ✅ Resolved |
+| Rollback / undo | v3 | `RollbackPanel` | ✅ Resolved |
+| **Agent conflict resolution** | **v4** | **`ConflictDetector` + `ConflictWarning`** | **✅ Resolved** |
+| Template versioning | — | Policy doc | 📋 Not prototype |
+| Team adoption reporting | — | Analytics feature | 📊 Phase 2 |
+
+---
+
 ## Next Steps
 
-1. **Run `/validate composio-agent-framework`** for v3 jury — Test new components
-2. **Schedule Woody design review** — Get sign-off on Option D direction
-3. **Show to Caden** — Engineering feasibility for rollback API
-4. **Consider merging B + D** — Option B form with conversational onboarding
+1. **Schedule Woody design review** — Get sign-off on Option D + conflict resolution
+2. **Show to Caden** — Engineering feasibility for conflict detection API
+3. **Draft template versioning policy** — Document in PRD, not prototype
+4. **Consider phase 2 analytics** — Team adoption dashboards
