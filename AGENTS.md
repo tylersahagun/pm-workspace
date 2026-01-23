@@ -44,10 +44,9 @@ Rules provide **declarative context** that shapes AI behavior. They use `.mdc` f
 | Rule | Purpose | Activation |
 |------|---------|------------|
 | `pm-foundation.mdc` | Core PM copilot behavior, command routing, company context loading | `alwaysApply: true` |
-| `prototype-builder.mdc` | Component patterns for prototypes | Globs: `prototypes/**/*` |
-| `research-analyst.mdc` | Research extraction patterns | Globs: `research/**/*` |
-| `prd-writer.mdc` | PRD structure | Globs: `**/prd*.md` |
-| Others | Specialized contexts | Agent-decided or file patterns |
+| `component-patterns.mdc` | Component organization in elephant-ai | Globs: `elephant-ai/web/src/components/**/*` |
+| `cursor-admin.mdc` | Cursor workspace administration | Globs: `.cursor/**/*` |
+| `growth-companion.mdc` | Personal growth, reflection, resilience | Agent-requestable |
 
 **Key principle**: Only `pm-foundation.mdc` is always-on. All other rules load dynamically to keep context focused.
 
@@ -66,6 +65,8 @@ Skills provide **procedural knowledge** - step-by-step "how-to" instructions tha
 | `signals-synthesis` | Pattern finding | Theme extraction across signals |
 | `agents-generator` | Documentation | Product-focused AGENTS.md patterns |
 | `initiative-status` | Checking initiative health, `/status` | Phase analysis, artifact completeness, next steps |
+| `brainstorm` | Creative ideation, `/brainstorm-board` | Divergent thinking, idea clustering, evaluation |
+| `roadmap-analysis` | Roadmap queries, `/roadmap` | Health assessment, priority analysis, recommendations |
 
 **When to use skills vs rules**: 
 - Rules = static context that shapes behavior
@@ -134,13 +135,14 @@ These enable the AI to:
 
 ### Auto-Execute (Low-Risk)
 
-| Intent | Command | Action |
-|--------|---------|--------|
-| "save", "commit", "push" | `/save` | Execute immediately |
-| "update", "pull", "sync" | `/update` | Execute immediately |
-| "status", "where are we" | `/status` | Execute immediately |
-| "help", "commands" | `/help` | Execute immediately |
-| "generate image", "visualize" | Image generation | Generate directly |
+| Intent | Command | Handler |
+|--------|---------|---------|
+| "save", "commit", "push" | `/save` | Shell wrapper |
+| "update", "pull", "sync" | `/update` | Shell wrapper |
+| "status", "where are we" | `/status` | `initiative-status` skill |
+| "help", "commands" | `/help` | Documentation |
+| "roadmap", "priorities" | `/roadmap` | `roadmap-analysis` skill |
+| "generate image", "visualize" | `/image` | Direct tool |
 
 ### Confirm First (Complex Workflows)
 
@@ -149,8 +151,20 @@ These enable the AI to:
 | "transcript", "interview", "feedback" | `/research [name]` | `research-analyzer` subagent |
 | "PRD", "requirements", "spec" | `/pm [name]` | `prd-writer` skill |
 | "prototype", "mock up", "build UI" | `/proto [name]` | `proto-builder` subagent |
+| "wireframe", "quick mock", "lofi" | `/lofi-proto [name]` | `proto-builder` subagent (lofi mode) |
 | "validate", "test with users" | `/validate [name]` | `validator` subagent |
 | "iterate", "refine" | `/iterate [name]` | `iterator` subagent |
+| "design review", "UX check" | `/design [name]` | `design-companion` skill |
+| "brainstorm", "explore ideas" | `/brainstorm-board [topic]` | `brainstorm` skill |
+| "hypothesis", "assumption" | `/hypothesis [cmd] [name]` | `hypothesis-manager` subagent |
+| "process signals", "ingest" | `/ingest [type]` | `signals-processor` subagent |
+| "find patterns", "synthesize" | `/synthesize [topic]` | `signals-processor` subagent |
+| "figma", "sync design" | `/figma-sync [name] [url]` | `figma-sync` subagent |
+| "in context", "show how it fits" | `/context-proto [name]` | `context-proto-builder` subagent |
+| "where should this go" | `/placement [name]` | `context-proto-builder` subagent |
+| "AGENTS.md", "document code" | `/agents [path]` | `docs-generator` subagent |
+| "maintain", "audit workspace" | `/maintain [cmd]` | `workspace-admin` subagent |
+| "admin", "configure cursor" | `/admin` | `workspace-admin` subagent |
 
 ---
 

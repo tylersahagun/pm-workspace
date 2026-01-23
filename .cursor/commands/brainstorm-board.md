@@ -10,6 +10,8 @@ Generate creative ideas and explore options for a problem or feature.
 
 ## Behavior
 
+**Applies:** `brainstorm` skill
+
 Interactive brainstorming session focused on divergent thinking.
 
 ## Process

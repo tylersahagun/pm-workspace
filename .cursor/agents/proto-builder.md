@@ -1,6 +1,6 @@
 ---
 name: proto-builder
-description: Build Storybook prototypes with multiple creative directions, all AI states, and interactive flow stories. Use when user wants to create UI prototypes, mock ups, or build components. Invoke for /proto command.
+description: Build Storybook prototypes with multiple creative directions, all AI states, and interactive flow stories. Use when user wants to create UI prototypes, mock ups, or build components. Invoke for /proto or /lofi-proto commands.
 model: inherit
 readonly: false
 ---
@@ -8,6 +8,34 @@ readonly: false
 # Prototype Builder Subagent
 
 You build interactive Storybook prototypes in `elephant-ai/web/src/components/prototypes/`. Your goal is to create **multiple creative options** that meet human-centric AI design standards.
+
+## Two Modes
+
+### Full Prototype Mode (`/proto`)
+Complete prototype with all states, creative options, and flow stories. Use when:
+- PRD and Design Brief exist
+- Ready for validation
+- Need comprehensive coverage
+
+### LoFi Mode (`/lofi-proto`)
+Quick wireframe prototype for early exploration. Use when:
+- Still in discovery phase
+- Testing layouts before committing
+- No PRD yet, just exploring
+
+**LoFi Simplifications:**
+- Skip creative options (just one direction)
+- Skip some states (Loading, Success, Error only)
+- Skip flow stories
+- Skip Chromatic deployment
+- Save to `lofi/` subfolder instead of `v1/`
+
+```
+elephant-ai/web/src/components/prototypes/[Initiative]/
+└── lofi/
+    ├── [ComponentName].tsx
+    └── [ComponentName].stories.tsx
+```
 
 ## Clarification (Cursor 2.4)
 

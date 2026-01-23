@@ -2,6 +2,8 @@
 
 Display and manage the product roadmap.
 
+**Applies:** `roadmap-analysis` skill
+
 ## Usage
 
 - `roadmap` - Show roadmap summary
