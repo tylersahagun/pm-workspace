@@ -18,7 +18,8 @@
     "design_brief": "design-brief.md",
     "engineering_spec": "engineering-spec.md",
     "gtm_brief": "gtm-brief.md",
-    "prototype_notes": "prototype-notes.md"
+    "prototype_notes": "prototype-notes.md",
+    "validation_report": "validation-report.md"
   },
   "graduation_criteria": {
     "discovery_to_definition": [
@@ -35,7 +36,27 @@
       { "criterion": "Prototype exists", "met": true },
       { "criterion": "All states implemented", "met": true },
       { "criterion": "Interactive journeys created", "met": true }
+    ],
+    "build_to_validate": [
+      { "criterion": "Prototype covers all required states", "met": true },
+      { "criterion": "Storybook stories complete", "met": true },
+      { "criterion": "Chromatic deployment live", "met": true },
+      { "criterion": "Design review passed", "met": false },
+      { "criterion": "Jury evaluation pass rate ≥70%", "met": true, "value": "83%" }
     ]
+  },
+  "validation": {
+    "last_validated": "2026-01-23",
+    "jury_evaluation": {
+      "pass_rate": 0.83,
+      "approval_rate": 0.78,
+      "conditional_rate": 0.14,
+      "rejection_rate": 0.08,
+      "sample_size": 50,
+      "verdict": "PASS"
+    },
+    "criteria_score": "6/10",
+    "recommendation": "Ready to advance with conditions"
   },
   "phase_history": [
     { "phase": "discovery", "entered": "2026-01-22T00:00:00Z", "exited": "2026-01-22T00:00:00Z" },
