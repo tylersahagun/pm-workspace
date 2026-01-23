@@ -1,10 +1,16 @@
 ---
-description: 'Auto-assemble context for PM commands based on initiative and phase'
+description: 'ARCHIVED - Replaced by pm-foundation.mdc and subagent context loading. Auto-assemble context for PM commands.'
 globs: ['pm-workspace-docs/initiatives/**/*']
 alwaysApply: false
 ---
 
-# Context Orchestrator
+# Context Orchestrator (ARCHIVED)
+
+> **Note:** This rule is archived. Context loading is now handled by:
+> - `pm-foundation.mdc` - Core context loading instructions
+> - Individual subagents - Each loads its own context via @mentions
+> 
+> Keeping for reference only.
 
 Automatically assemble relevant context when working on initiatives.
 

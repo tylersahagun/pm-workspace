@@ -1,7 +1,7 @@
 ---
-description: 'AI-native PM copilot for AskElephant - LOCAL WORKSPACE'
-globs: ['**/*']
-alwaysApply: true
+description: 'ARCHIVED - Consolidated into pm-foundation.mdc. AI-native PM copilot for AskElephant'
+globs:
+alwaysApply: false
 ---
 
 # PM Copilot Context

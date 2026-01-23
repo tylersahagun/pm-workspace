@@ -1,7 +1,7 @@
 ---
-description: PM Workspace agent rules - handles research, PM, and prototype commands (local-only workflow)
+description: 'ARCHIVED - Consolidated into pm-foundation.mdc. PM Workspace agent rules'
 globs:
-alwaysApply: true
+alwaysApply: false
 ---
 
 # PM Workspace Agent

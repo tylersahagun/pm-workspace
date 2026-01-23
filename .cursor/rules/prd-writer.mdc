@@ -1,5 +1,5 @@
 ---
-description: 'Generate structured PRDs for AskElephant'
+description: 'LEGACY - Converted to skill at .cursor/skills/prd-writer/. Generate structured PRDs for AskElephant.'
 globs: ['pm-workspace-docs/**/prd*.md']
 alwaysApply: false
 ---

@@ -1,5 +1,5 @@
 ---
-description: "Build human-centric AI prototypes with creative exploration"
+description: "LEGACY - Converted to skill at .cursor/skills/prototype-builder/ and subagent at .cursor/agents/proto-builder.md. Build human-centric AI prototypes."
 globs: ["elephant-ai/web/src/components/prototypes/**/*"]
 alwaysApply: false
 ---

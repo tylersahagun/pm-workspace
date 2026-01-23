@@ -1,6 +1,6 @@
 # Roadmap Kanban View
 
-**Generated:** 2026-01-23 00:03
+**Generated:** 2026-01-23 09:00
 
 ## Visual Board
 
@@ -38,7 +38,7 @@
 **Condorcet Jury System** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 13
+- Days in phase: 14
 - Next: Review define phase status
 
 **Feature Availability Audit** ✅

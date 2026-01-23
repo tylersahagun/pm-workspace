@@ -1,6 +1,6 @@
 # Product Roadmap
 
-**Generated:** 2026-01-23 00:03
+**Generated:** 2026-01-23 09:00
 **Total Initiatives:** 19
 
 ---
@@ -45,7 +45,7 @@
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury System | tyler | P0 | 13 | ✅ |
+| Condorcet Jury System | tyler | P0 | 14 | ✅ |
 | Feature Availability Audit | tyler | P0 | 9 | ✅ |
 | Automated Metrics Observability | tyler | P2 | 14 | ✅ |
 | Call Import Engine | tyler | P2 | 9 | ✅ |

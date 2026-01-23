@@ -1,5 +1,5 @@
 ---
-description: 'Analyze user research and meeting transcripts with strategic lens'
+description: 'LEGACY - Converted to skill at .cursor/skills/research-analyst/ and subagent at .cursor/agents/research-analyzer.md. Analyze user research.'
 globs: ['pm-workspace-docs/research/**/*', 'pm-workspace-docs/meeting-notes/**/*', 'pm-workspace-docs/floating-docs/**/*']
 alwaysApply: false
 ---

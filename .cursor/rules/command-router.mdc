@@ -1,7 +1,7 @@
 ---
-description: 'Intelligent command routing - recognizes natural language intent and maps to slash commands'
+description: 'ARCHIVED - Consolidated into pm-foundation.mdc. Intelligent command routing - recognizes natural language intent and maps to slash commands'
 globs:
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Command Router

@@ -1,10 +1,17 @@
 ---
-description: 'Visual craft system - spacing, depth, surfaces, and design token memory'
+description: 'ARCHIVED - Moved to prototype-builder skill. Visual craft system reference.'
 globs: ['elephant-ai/web/src/components/prototypes/**/*', 'prototypes/**/*']
 alwaysApply: false
 ---
 
-# Interface Design System
+# Interface Design System (ARCHIVED)
+
+> **Note:** This rule is archived. Design system knowledge is now in:
+> - `.cursor/skills/prototype-builder/SKILL.md` - Design principles
+> - `.interface-design/system.md` - Actual design tokens
+> - `proto-builder` subagent - Loads design system automatically
+> 
+> Keeping for reference only.
 
 Build interfaces with intention. Remember decisions across sessions. Maintain systematic consistency.
 

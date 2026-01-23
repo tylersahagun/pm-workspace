@@ -1,5 +1,5 @@
 ---
-description: 'Condorcet Jury System - Synthetic user validation at every PM phase'
+description: 'LEGACY - Converted to skill at .cursor/skills/jury-system/ and subagent at .cursor/agents/validator.md. Synthetic user validation.'
 globs: ['pm-workspace-docs/initiatives/**/*', 'pm-workspace-docs/personas/**/*']
 alwaysApply: false
 ---

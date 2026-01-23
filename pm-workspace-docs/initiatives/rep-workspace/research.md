@@ -146,9 +146,7 @@ Global chat is a related initiative that affects where chat appears in the rep w
 
 ---
 
-## Evidence Summary
-
-| Source | Date | Type | Validation Strength |
+## Evidence Summary| Source | Date | Type | Validation Strength |
 |--------|------|------|---------------------|
 | Internal planning | 2026-01-16 | Stakeholder | Medium |
 | Maple Billing | 2026-01-21 | Customer | **Strong** - unprompted |*Last updated: 2026-01-21*

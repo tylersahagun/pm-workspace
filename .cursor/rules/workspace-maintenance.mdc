@@ -1,10 +1,16 @@
 ---
-description: 'Workspace maintenance agent - validates structure and keeps files synchronized'
+description: 'ARCHIVED - Moved to workspace-admin subagent. Workspace maintenance reference.'
 globs: ['**/_meta.json', '**/roadmap.json', '**/_index.json']
 alwaysApply: false
 ---
 
-# Workspace Maintenance Rules
+# Workspace Maintenance Rules (ARCHIVED)
+
+> **Note:** This rule is archived. Maintenance is now handled by:
+> - `.cursor/agents/workspace-admin.md` - Full maintenance subagent
+> - `/maintain` command - Audit, fix, sync, clean
+> 
+> Keeping for reference only.
 
 When working with tracked metadata files, validate workspace integrity.
 

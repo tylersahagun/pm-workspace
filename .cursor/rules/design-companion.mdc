@@ -1,5 +1,5 @@
 ---
-description: 'Human-centric AI design companion - reviews PRDs, prototypes, and features for trust, emotion, and accessibility'
+description: 'LEGACY - Converted to skill at .cursor/skills/design-companion/. Human-centric AI design companion.'
 globs: ['**/design-brief.md', '**/prototype-notes.md', '**/*.stories.tsx']
 alwaysApply: false
 ---
