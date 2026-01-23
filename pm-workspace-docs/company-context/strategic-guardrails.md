@@ -220,9 +220,7 @@ These additional checks align work with Tyler's personal and career values. Use 
 |--------|-------------------|
 | Rushing to ship | "What would quality look like if we slowed down?" |
 | Skipping understanding | "Do I deeply understand this problem, or am I jumping to solutions?" |
-| Avoiding challenge | "What's the growth opportunity here, even if it's uncomfortable?" |
-
-### 🤝 Collaboration Check
+| Avoiding challenge | "What's the growth opportunity here, even if it's uncomfortable?" |### 🤝 Collaboration Check
 
 | Signal | Suggested Action |
 |--------|-----------------|
