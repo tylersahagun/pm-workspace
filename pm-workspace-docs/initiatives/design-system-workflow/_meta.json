@@ -1,0 +1,20 @@
+{
+  "initiative_id": "design-system-workflow",
+  "name": "Design System & Workflow Modernization",
+  "phase": "discovery",
+  "created_at": "2026-01-22",
+  "updated_at": "2026-01-22",
+  "owner": "Tyler Sahagun",
+  "stakeholders": ["Skyler", "Adam"],
+  "status": "active",
+  "strategic_pillar": "Quality & Consistency",
+  "tags": ["internal-tooling", "design-system", "developer-experience", "design-handoff"],
+  "graduation_criteria": {
+    "discovery_to_definition": [
+      "Document Skyler's human-first design principles",
+      "Map current vs. desired workflow",
+      "Identify design quality check requirements",
+      "Define token structure approach"
+    ]
+  }
+}
