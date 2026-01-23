@@ -1,617 +1,595 @@
 # Design Handoff
 
-Manage the handoff between PM prototypes (Storybook) and designer refinement (Figma). This command helps you choose the right workflow and tracks handoff state.
+Hand off a PM prototype to a designer for visual refinement. This command generates the complete handoff package and tracks state.
 
-## The Reality
+## Core Principle
 
-**There is no bidirectional sync between Storybook and Figma.** 
+> **Move decisions between tools, not designs.**
 
-- Storybook Connect lets designers VIEW stories in Figma (read-only)
-- @storybook/addon-designs lets devs EMBED Figma in Storybook (read-only)
-- Pixel-level editing MUST happen in Figma
-
-## Choose Your Workflow
-
-### Workflow A: "Figma Refinement" (Recommended for visual polish)
-
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   PM Proto   │ ──▶ │   Designer   │ ──▶ │    Figma     │ ──▶ │  Dev Build   │
-│ (Storybook)  │     │   Reviews    │     │  Refinement  │     │ (from Figma) │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-```
-
-**When to use:**
-- Visual polish needed (spacing, colors, icons)
-- Brand-critical or marketing-facing features
-- Designer wants control over final pixel specs
-
-**Process:**
-1. PM builds functional prototype in Storybook (`/proto`)
-2. Deploy to Chromatic for shareable URL
-3. Designer reviews via Storybook Connect plugin in Figma
-4. Designer creates/refines Figma file with pixel-perfect specs
-5. Figma becomes source of truth for visual design
-6. Dev references both: Figma (visuals) + Storybook (interaction/states)
-
-### Workflow B: "Code-First" (Recommended for functional features)
-
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   PM Proto   │ ──▶ │   Designer   │ ──▶ │   Feedback   │ ──▶ │  Dev Builds  │
-│ (Storybook)  │     │   Reviews    │     │  (Comments)  │     │ (from Proto) │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-```
-
-**When to use:**
-- Functional/internal features
-- Rapid iteration needed
-- Designer bandwidth limited
-- Patterns already exist in design system
-
-**Process:**
-1. PM builds functional prototype in Storybook (`/proto`)
-2. Deploy to Chromatic for shareable URL
-3. Designer reviews and provides feedback (Loom, comments, annotations)
-4. PM/Dev iterates in code (`/iterate`)
-5. Storybook prototype becomes source of truth
-6. Figma NOT required
-
-### Workflow C: "Hybrid" (For complex features)
-
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   PM Proto   │ ──▶ │   Figma      │ ──▶ │ /figma-sync  │ ──▶ │  Dev Build   │
-│ (Storybook)  │     │   Polish     │     │  (Re-sync)   │     │  (Final)     │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-```
-
-**When to use:**
-- Feature needs both rapid prototyping AND visual polish
-- Designer wants to own final specs but PM leads exploration
-- Multi-version iteration expected
-
-**Process:**
-1. PM builds functional prototype in Storybook (`/proto`)
-2. Designer reviews, creates polished Figma version
-3. Run `/figma-sync` to pull designer's specs back into code
-4. Final implementation matches designer's Figma
-5. Both tools stay in sync via Code Connect
+Storybook = truth of implementation (behavior, states, props)  
+Figma = truth of visual intent (spacing, colors, polish)  
+Tokens = bridge between them (portable decisions)
 
 ---
 
-## Setup Requirements
-
-### For Designers (One-time - ~2 minutes)
-
-1. **Install Storybook Connect** in Figma:
-   - [Direct install link](https://www.figma.com/community/plugin/1056265616080331589/storybook-connect)
-   - Click "Try it out" → Authenticate with Chromatic
-   - Use email: `[your-work-email]` (same as Chromatic access)
-
-2. **How to link a story:**
-   - In Figma, select a component/frame
-   - Run plugin: `Cmd/Ctrl + /` → "Storybook Connect"
-   - Paste the story URL from your handoff brief
-   - Link persists automatically across builds
-
-### For PM/Dev (Already configured)
-
-- Chromatic project: `chpt_b6891b00696fe57`
-- `/proto` and `/iterate` commands deploy to Chromatic
-- `/figma-sync` pulls from Figma when ready
-
----
-
-## Auto-Generated Designer Package
-
-When you run `/design-handoff [name]`, the command generates a **Designer Onboarding Package** that includes:
-
-### 1. Pre-formatted Story URLs (Copy-Paste Ready)
-
-```markdown
-## Story URLs for Storybook Connect
-
-Copy these into the Storybook Connect plugin in Figma:
-
-| Component | Story URL |
-|-----------|-----------|
-| Main Component | `https://[chromatic-url]/iframe.html?id=prototypes-[name]--default` |
-| Loading State | `https://[chromatic-url]/iframe.html?id=prototypes-[name]--loading` |
-| Error State | `https://[chromatic-url]/iframe.html?id=prototypes-[name]--error` |
-| Empty State | `https://[chromatic-url]/iframe.html?id=prototypes-[name]--empty` |
-```
-
-### 2. Figma Template File (Optional)
-
-Create a team Figma template with:
-- Standard artboard sizes pre-configured
-- Design system components imported
-- Storybook Connect plugin already installed (per-user, but shows in recents)
-- Documentation page with linking instructions
-
-**Template setup (one-time by design lead):**
-1. Create a Figma file called "Prototype Polish Template"
-2. Add standard artboards, design tokens, component library references
-3. Add a "How to Link Storybook" documentation page
-4. Save to team library as a template
-
-**Designer usage:**
-1. Duplicate template for new handoff
-2. Story URLs already formatted in handoff brief
-3. Just paste URLs into Storybook Connect
-
-### 3. Slack/Email-Ready Handoff Message
-
-The command generates a copy-paste message with context:
-
-```
-🎨 Design Handoff: [Initiative Name]
-
-## The Quick Pitch
-[1-2 sentence problem/solution from PRD]
-
-> "[Key user quote that captures the pain]"
-
-**Impact:** [Revenue/efficiency connection in one line]
-
----
-
-## Links
-- 🎯 **Full Brief (read first!):** [link to design-handoff.md]
-- 🖥️ **Chromatic Preview:** [URL]
-- 📋 **PRD:** [URL] 
-- 📊 **Version:** v[N]
-
----
-
-## Quick Start
-1. **Read the brief** - 5 min to understand the WHY
-2. Duplicate our Figma template: [template-link]
-3. View prototype in Storybook Connect (plugin)
-4. Story URLs in brief
-
----
-
-## Key Design Decisions Already Made
-1. [Decision 1 - e.g., "Progressive disclosure"] - see brief for rationale
-2. [Decision 2 - e.g., "Confidence indicators visible"]
-3. [Decision 3 - e.g., "Undo always available"]
-
----
-
-## What Needs Your Magic ✨
-- [ ] Visual polish (spacing, icons, color)
-- [ ] Micro-copy refinement
-- [ ] Motion/transitions
-- [ ] Empty/error state illustration
-
----
-
-**Questions?** Check the brief first, then ping me!
-Let me know when Figma is ready for `/figma-sync`!
-```
-
----
-
-## Command Usage
-
-### Prerequisites Check
-
-Before running `/design-handoff`, the command verifies these files exist:
-
-| Required | File | What It Provides |
-|----------|------|------------------|
-| ✅ | `prd.md` | Problem, personas, success metrics, scope |
-| ✅ | `design-brief.md` | User flows, interaction patterns |
-| ✅ | `prototype-notes.md` | What was built, Chromatic URL |
-| ✅ | `_meta.json` | Version, prototype type, timestamps |
-| 🟡 | `research.md` | User quotes (recommended but optional) |
-
-**If missing required files:** Command prompts you to run `/PM [name]` or `/proto [name]` first.
-
-### Prototype Completeness Check
-
-The command also verifies the prototype has required elements:
-
-| Required | Element | Why |
-|----------|---------|-----|
-| ✅ | State stories (Loading, Error, Success, Empty) | Shows all component states |
-| ✅ | **Flow stories (`Flow_*`)** | Shows complete user journey |
-| ✅ | Chromatic URL | Shareable preview for designer |
-| 🟡 | Creative options (A, B, C) | Comparison (recommended) |
-
-**If missing flow stories:** Command prompts:
-> ⚠️ No `Flow_*` stories found. Designers need to see the full user journey, not just isolated states.
-> Run `/iterate [name]` with instruction "add flow stories" before handoff.
-
-### Start a Handoff
+## Usage
 
 ```
 /design-handoff [initiative-name]
 ```
 
-**What the command does:**
-
-1. **Loads strategic context:**
-   - `prd.md` → Problem, personas, success metrics, scope
-   - `research.md` → User quotes, pain points, feature requests
-   - `design-brief.md` → User flows, interaction patterns, edge cases
-   - `prototype-notes.md` → Design decisions, rationale, open questions
-   - `company-context/personas.md` → Full persona fears/goals
-   - `company-context/strategic-guardrails.md` → Constraints, anti-patterns
-
-2. **Reads prototype state** from `_meta.json` and Chromatic
-
-3. **Generates comprehensive designer brief** with:
-   - **The Why**: Problem, business impact, why now
-   - **Who it's for**: Personas with fears/goals
-   - **Customer journey**: Before → After transformation
-   - **Design decisions**: What was decided and WHY (with evidence)
-   - **Prototype details**: Chromatic URL, states, what's done
-   - **Polish checklist**: What needs designer attention
-   - **Constraints**: What to preserve, what to avoid
-
-4. **Generates story URLs** for Storybook Connect
-
-5. **Prompts for workflow choice** (A, B, or C)
-
-6. **Creates handoff package:**
-   - `design-handoff.md` - Full strategic brief for designer
-   - `design-handoff-slack.md` - Quick Slack message with links
-   - Updated `_meta.json` with handoff state
-
-7. **Saves to** `pm-workspace-docs/initiatives/[name]/`
-
-### Generated Files
-
-```
-pm-workspace-docs/initiatives/[name]/
-├── design-handoff.md          # Full designer brief
-├── design-handoff-slack.md    # Copy-paste Slack message
-└── _meta.json                 # Updated with handoff state
-```
-
-### Outputs
-
-### Track Handoff State
-
-Add to initiative `_meta.json`:
-
-```json
-{
-  "handoff": {
-    "workflow": "A|B|C",
-    "status": "awaiting_design|in_figma|ready_for_dev|complete",
-    "prototype_url": "https://chromatic.com/...",
-    "figma_url": "https://figma.com/...",
-    "designer": "designer_name",
-    "handoff_date": "2026-01-22",
-    "notes": "Designer focusing on empty states and error messaging"
-  }
-}
-```
-
-### Check Handoff Status
-
-```
-/status [initiative-name]
-```
-
-Shows handoff state if present.
-
 ---
 
-## Designer Brief Template
+## What This Command Does
 
-When handing off to a designer, generate this comprehensive brief by pulling from PRD, research, and company context:
+### Step 1: Validate Prototype Readiness
+
+Check that the prototype is ready for handoff:
+
+```
+Checking: pm-workspace-docs/initiatives/[name]/
+
+Required files:
+✓ prd.md              - Problem, personas, metrics
+✓ design-brief.md     - User flows, interaction patterns  
+✓ prototype-notes.md  - What was built, Chromatic URL
+✓ _meta.json          - Version, timestamps
+
+Required stories:
+✓ State stories       - Loading, Error, Success, Empty
+✓ Flow stories        - Flow_HappyPath, Flow_ErrorRecovery
+✓ Chromatic URL       - Deployed and shareable
+```
+
+**Extract Chromatic URL** from `prototype-notes.md` or `_meta.json`:
+- Look for `storybookUrl` from Chromatic output (e.g., `https://main--67890abc.chromatic.com`)
+- This is the base URL for all story links
+
+**Extract Story IDs** from `.stories.tsx` files:
+1. Read `elephant-ai/web/src/components/prototypes/[InitiativeName]/**/*.stories.tsx`
+2. Extract the `title` from meta (e.g., `'Prototypes/SettingsRedesign/v2/PrivacySettings'`)
+3. Extract exported story names (e.g., `Default`, `Loading`, `Flow_HappyPath`)
+4. Convert to story IDs: `title` → lowercase, `/` → `-`, story name → lowercase with `-`
+
+**Story ID Formula:**
+```
+{title-with-slashes-to-dashes}--{story-name-lowercase}
+
+Example:
+  title: 'Prototypes/SettingsRedesign/v2/PrivacySettings'
+  story: 'Flow_HappyPath'
+  → prototypes-settingsredesign-v2-privacysettings--flow-happy-path
+```
+
+**If missing:** Prompt to run `/proto [name]` or `/iterate [name]` first.
+
+### Step 2: Choose Handoff Workflow
+
+Present workflow options based on feature type:
+
+```
+Which workflow fits this handoff?
+
+[A] Figma Refinement (Designer owns final pixels)
+    → Visual polish needed, brand-critical, marketing-facing
+    → Designer creates Figma, that becomes source of visual truth
+    → Dev builds from: Figma (visuals) + Storybook (behavior)
+
+[B] Code-First (Storybook stays source of truth)  
+    → Functional/internal feature, rapid iteration needed
+    → Designer reviews + provides feedback, no Figma required
+    → Dev builds from: Storybook prototype directly
+
+[C] Token Update (Designer refines visual decisions only)
+    → Spacing, colors, typography adjustments
+    → No new components or layouts needed
+    → Designer updates design tokens → code auto-reflects
+
+[D] Hybrid (Complex features needing both)
+    → PM leads exploration, designer polishes specifics
+    → Both Figma and Storybook maintained
+    → Use component contracts to stay in sync
+```
+
+### Step 3: Generate Handoff Package
+
+Based on workflow choice, generate appropriate files:
+
+#### For Workflow A (Figma Refinement):
+
+Create `pm-workspace-docs/initiatives/[name]/design-handoff.md`:
 
 ```markdown
 # Design Handoff: [Initiative Name]
 
-## 🎯 The Why (Start Here)
+## TL;DR
 
-### Problem We're Solving
-[Pull from PRD problem statement - what pain point are we addressing?]
+**Problem:** [One sentence from PRD]
+**Solution:** [What the prototype does]
+**Your job:** Polish the visual design in Figma
 
-> "[Verbatim user quote from research.md showing the pain]"
-> — [Persona], [Company type]
-
-### Business Impact
-- **Revenue connection**: [How does this feature drive revenue? Pull from PRD success metrics]
-- **Customer retention**: [Does this reduce churn? Improve NPS?]
-- **Efficiency gain**: [Time saved? Friction removed?]
-
-### Why Now?
-[What made this a priority? Customer requests? Competitive pressure? Strategic initiative?]
+> "[Key user quote showing the pain]"
 
 ---
 
-## 👤 Who This Is For
+## Links (Start Here)
 
-### Primary Persona
-**[Persona name]** - [Role]
-
-- **Their goal**: [What are they trying to accomplish?]
-- **Their fear**: [What worries them about AI/automation?]
-- **Success looks like**: [How do they know it worked?]
-
-### Secondary Personas
-- [Other personas affected, if any]
+| What | Link |
+|------|------|
+| 🖥️ **Live Prototype** | [{CHROMATIC_URL}]({CHROMATIC_URL}) |
+| 🎯 **Default State** | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default) |
+| 📋 **Full PRD** | [Link to prd.md] |
+| 🎨 **Figma Template** | [Team template link] |
 
 ---
 
-## 🗺️ Customer Journey
+## What's Built (Don't Redesign)
 
-### Current State (Pain)
-```
-[User action] → [Friction point] → [Negative emotion]
-```
+These decisions are validated—preserve them:
 
-Example:
-```
-Rep opens CRM → Sees stale data → Feels embarrassed in customer call
-```
-
-### Desired State (After This Feature)
-```
-[User action] → [Feature helps] → [Positive outcome]
-```
-
-Example:
-```
-Rep opens CRM → Sees AI-synced data with confidence indicator → Feels prepared
-```
-
-### Journey Map
-| Stage | User Action | User Feeling | Feature Role |
-|-------|-------------|--------------|--------------|
-| Before | [action] | [emotion] | N/A |
-| Trigger | [action] | [emotion] | [how we help] |
-| During | [action] | [emotion] | [how we help] |
-| After | [action] | [emotion] | [outcome] |
+| Decision | Rationale | Evidence |
+|----------|-----------|----------|
+| [e.g., Progressive disclosure] | [Why] | "[User quote]" |
+| [e.g., Confidence indicators visible] | [Why] | [Data point] |
+| [e.g., Undo always available] | [Why] | [Research ref] |
 
 ---
 
-## 🧠 Key Design Decisions (And Why)
+## What Needs Your Magic ✨
 
-### Decision 1: [e.g., "Progressive disclosure over upfront complexity"]
-- **What**: [Description of the decision]
-- **Why**: [Rationale - user research, best practice, business reason]
-- **Evidence**: "[Quote or data point]"
+Polish these areas:
 
-### Decision 2: [e.g., "Suggestion mode, not auto-action"]
-- **What**: [Description]
-- **Why**: [Rationale]
-- **Evidence**: "[Quote or data point]"
-
-### Decision 3: [e.g., "Show confidence levels explicitly"]
-- **What**: [Description]
-- **Why**: [Rationale]
-- **Evidence**: "[Quote or data point]"
+- [ ] **Spacing** - Currently 4px grid, refine rhythm
+- [ ] **Icons** - Placeholders used, select final icons
+- [ ] **Colors** - Verify contrast, brand alignment
+- [ ] **Typography** - Hierarchy, weight, size
+- [ ] **Empty state** - Illustration + messaging
+- [ ] **Error state** - Visuals + tone
+- [ ] **Motion** - Transitions, micro-interactions
 
 ---
 
-## 🎨 Prototype Overview
+## Story URLs (For Storybook Connect)
 
-### Links
-- **Chromatic URL**: [link]
-- **PRD**: [link to pm-workspace-docs]
-- **Research**: [link to research.md]
-- **Version**: v[N]
+**Chromatic Base URL:** `{CHROMATIC_URL}` ← extracted from prototype-notes.md
 
-### States Covered
-- [ ] Default / Happy path
-- [ ] Loading (short)
-- [ ] Loading (long / processing)
-- [ ] Success
-- [ ] Error (with recovery)
-- [ ] Low confidence
-- [ ] Empty state
+Copy these into the Storybook Connect plugin in Figma:
 
-### Interactive User Journeys (Click Through!)
+| State | Story URL |
+|-------|-----------|
+| 🖥️ **Full Storybook** | [{CHROMATIC_URL}]({CHROMATIC_URL}) |
+| Default | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default) |
+| Loading | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--loading]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--loading) |
+| Success | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--success]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--success) |
+| Error | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--error]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--error) |
+| Empty | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--empty]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--empty) |
+| **Flow: Happy Path** | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--flow-happy-path]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--flow-happy-path) |
+| **Flow: Error Recovery** | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--flow-error-recovery]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--flow-error-recovery) |
 
-> 💡 **Start here!** These flow stories show the complete experience, not just isolated states.
-
-| Journey | What It Shows | Chromatic Link |
-|---------|---------------|----------------|
-| `Flow_HappyPath` | Complete success journey | [View →]([url]) |
-| `Flow_ErrorRecovery` | How users recover from errors | [View →]([url]) |
-| `Flow_[EdgeCase]` | [Description] | [View →]([url]) |
-
-**How to use flow stories:**
-1. Click "Next Step →" to advance through the journey
-2. See how states transition (not just what they look like)
-3. Understand the complete user experience
-
-### What's Implemented
-- Functional interaction prototype
-- **Interactive user journeys (Flow_* stories)**
-- Core user flow complete
-- All required states
-- Responsive breakpoints (if applicable)
+> **Story ID format:** `prototypes-{initiative}-v{version}-{componentname}--{storyname}`
+> Example: `prototypes-settingsredesign-v2-privacysettings--default`
 
 ---
 
-## ✨ What Needs Designer Polish
+## Constraints
 
-### Visual Refinement
-- [ ] Spacing refinement (currently using 4px grid)
-- [ ] Icon selection (placeholders used)
-- [ ] Color/contrast verification
-- [ ] Typography hierarchy
-- [ ] Visual weight balance
+**Must preserve:**
+- [Core interaction that tested well]
+- [Trust-building element]
+- [Accessibility requirement]
 
-### Content & Copy
-- [ ] Micro-copy review (button labels, tooltips)
-- [ ] Empty state messaging
-- [ ] Error message tone
-- [ ] Success confirmation copy
-
-### Motion & Delight
-- [ ] Animation timing
-- [ ] Transition easing
-- [ ] Loading state animation
-- [ ] Micro-interactions
-
-### Edge Cases
-- [ ] Empty state illustration
-- [ ] Error state visuals
-- [ ] Low confidence state styling
+**Avoid:**
+- [Anti-pattern from research]
+- [Brand violation]
 
 ---
 
-## 🚫 Constraints & Guardrails
+## When You're Done
 
-### Must Preserve
-- [Core interaction patterns that tested well]
-- [Trust-building elements like receipts/evidence]
-- [Accessibility requirements]
-
-### Avoid
-- [Anti-patterns from research - e.g., "surveillance vibes"]
-- [Brand/tone violations]
-- [Overcomplication]
-
-### Open Questions for Designer
-1. [Question PM still has about visual approach]
-2. [Alternative worth exploring?]
-3. [Anything unclear?]
-
----
-
-## 📋 Handoff Logistics
-
-### Source of Truth Decision
-- [ ] **Figma** will be source of truth (Workflow A)
-- [ ] **Storybook** will be source of truth (Workflow B)
-
-### Story URLs for Storybook Connect
-| Component | Story URL |
-|-----------|-----------|
-| Default | `[url]` |
-| Loading | `[url]` |
-| Error | `[url]` |
-| Empty | `[url]` |
-
-### Timeline
-- **Handoff date**: [date]
-- **Design target**: [date]
-- **Dev start**: [date]
-
-### When Figma is Ready
 1. Share Figma URL with PM
-2. PM runs `/figma-sync [name] [url]` to pull specs
-3. Or: Designer provides feedback for code-first iteration
+2. PM runs `/figma-sync [name] [figma-url]`
+3. Dev builds from your Figma specs
+```
+
+#### For Workflow B (Code-First):
+
+Create `pm-workspace-docs/initiatives/[name]/design-handoff.md`:
+
+```markdown
+# Design Review: [Initiative Name]
+
+## TL;DR
+
+**Problem:** [One sentence from PRD]
+**Solution:** [What the prototype does]  
+**Your job:** Review and provide feedback (no Figma needed)
+
+---
+
+## Links
+
+| What | Link |
+|------|------|
+| 🖥️ **Live Prototype** | [{CHROMATIC_URL}]({CHROMATIC_URL}) |
+| 🎯 **Default State** | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default) |
+| 📋 **Full PRD** | [Link to prd.md] |
+
+---
+
+## Review Checklist
+
+Please review the prototype and provide feedback on:
+
+- [ ] Does the visual hierarchy feel right?
+- [ ] Are the interactions intuitive?
+- [ ] Any spacing/alignment issues?
+- [ ] Color/contrast concerns?
+- [ ] Typography improvements?
+- [ ] Missing states or edge cases?
+
+---
+
+## How to Provide Feedback
+
+**Option 1: Loom** (preferred)
+Record yourself walking through + commenting
+
+**Option 2: Annotations**
+Screenshot + annotate in Figma/FigJam
+
+**Option 3: Written**
+Add comments to this file or Slack thread
+
+---
+
+## After Feedback
+
+1. PM incorporates changes via `/iterate [name]`
+2. You review again
+3. Ship from Storybook (Figma not required)
+```
+
+#### For Workflow C (Token Update):
+
+Create `pm-workspace-docs/initiatives/[name]/design-handoff.md`:
+
+```markdown
+# Token Refinement: [Initiative Name]
+
+## TL;DR
+
+**Current state:** Prototype built in Storybook
+**Your job:** Refine visual tokens (spacing, colors, typography)
+**No Figma components needed** - just update token values
+
+---
+
+## Links
+
+| What | Link |
+|------|------|
+| 🖥️ **Live Prototype** | [{CHROMATIC_URL}]({CHROMATIC_URL}) |
+| 🎯 **Default State** | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default) |
+| 🎨 **Current Tokens** | `.interface-design/system.md` |
+
+---
+
+## Current Token Values
+
+These are the values used in the prototype:
+
+### Spacing
+| Token | Current | Your Refinement |
+|-------|---------|-----------------|
+| Card padding | `p-6` (24px) | |
+| Section gap | `gap-4` (16px) | |
+| Inline gap | `gap-2` (8px) | |
+
+### Colors
+| Token | Current | Your Refinement |
+|-------|---------|-----------------|
+| Surface primary | `slate-950` | |
+| Text muted | `slate-400` | |
+| Action primary | `primary` | |
+
+### Typography
+| Token | Current | Your Refinement |
+|-------|---------|-----------------|
+| Heading | `text-lg font-semibold` | |
+| Body | `text-sm` | |
+| Caption | `text-xs text-muted-foreground` | |
+
+---
+
+## How to Update
+
+**Option 1: Fill in table above**
+I'll update the code to match
+
+**Option 2: Tokens Studio** (if you have it)
+Export updated tokens.json, I'll sync
+
+**Option 3: Annotate Storybook**
+Screenshot what should change
+
+---
+
+## After Token Updates
+
+1. Share token changes with PM
+2. PM updates `.interface-design/system.md`
+3. Components auto-reflect new values
+4. Review in Storybook for approval
+```
+
+#### For Workflow D (Hybrid):
+
+Create `pm-workspace-docs/initiatives/[name]/design-handoff.md`:
+
+```markdown
+# Hybrid Handoff: [Initiative Name]
+
+## TL;DR
+
+**Problem:** [One sentence from PRD]
+**Solution:** [What the prototype does]
+**Your job:** Polish in Figma, we'll sync via component contracts
+
+---
+
+## Links
+
+| What | Link |
+|------|------|
+| 🖥️ **Live Prototype** | [{CHROMATIC_URL}]({CHROMATIC_URL}) |
+| 🎯 **Default State** | [{CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default) |
+| 📋 **Full PRD** | [Link to prd.md] |
+| 📄 **Component Contract** | [Link to component-contract.json] |
+| 🎨 **Figma Template** | [Team template link] |
+
+---
+
+## Component Contract
+
+This is the shared agreement between design + code:
+
+```json
+{
+  "component": "[ComponentName]",
+  "props": {
+    "variant": ["primary", "secondary", "ghost"],
+    "size": ["sm", "md", "lg"],
+    "disabled": "boolean"
+  },
+  "tokens": {
+    "padding": "space.md → space.lg",
+    "borderRadius": "radius.md",
+    "backgroundColor": "color.surface.raised"
+  },
+  "ownership": {
+    "visual_tokens": "design",
+    "props_and_behavior": "engineering"
+  }
+}
+```
+
+**You own:** Visual token values (spacing, colors, radius)
+**Engineering owns:** Props, variants, behavior
+
+---
+
+## Workflow
+
+```
+1. You review Storybook → understand behavior
+2. You polish in Figma → update visual tokens
+3. You share updated contract → token values changed
+4. PM runs /figma-sync → code updates to match
+5. Both tools stay in sync via contract
 ```
 
 ---
 
-## Context Sources (For Generating Brief)
+## What You Can Change (Visual Tokens)
 
-When running `/design-handoff`, pull context from:
+- [ ] Spacing values
+- [ ] Color values  
+- [ ] Border radius
+- [ ] Typography styles
+- [ ] Shadow/elevation
+- [ ] Animation timing
 
-| Section | Source File |
-|---------|-------------|
-| Problem statement | `prd.md` → Problem Statement |
-| User quotes | `research.md` → Key Quotes |
-| Business impact | `prd.md` → Success Metrics |
-| Personas | `prd.md` → Target Personas + `company-context/personas.md` |
-| Customer journey | `design-brief.md` → User Flow |
-| Design decisions | `design-brief.md` → Interaction Patterns + `prototype-notes.md` |
-| Prototype details | `_meta.json` + Chromatic deployment |
-| Constraints | `prd.md` → Out of Scope + `strategic-guardrails.md` |
+## What Stays Fixed (Props & Behavior)
+
+- Variant names (primary, secondary, etc.)
+- Prop types (boolean, enum, etc.)
+- Interaction logic
+- State machine
 
 ---
 
-## Integration with Other Commands
+## When You're Done
 
-| Command | How It Integrates |
-|---------|-------------------|
-| `/proto` | Creates initial prototype, triggers handoff prompt |
-| `/iterate` | Updates prototype, notifies designer of changes |
-| `/figma-sync` | Re-syncs from Figma after designer polish |
+1. Update token values in contract
+2. Share Figma + updated contract
+3. PM runs `/figma-sync [name] [figma-url]`
+4. Review in Storybook for parity check
+```
+
+### Step 4: Generate Slack Message
+
+Create `pm-workspace-docs/initiatives/[name]/design-handoff-slack.md`:
+
+**IMPORTANT:** Replace all placeholders with actual values/URLs extracted from prototype.
+
+```markdown
+🎨 **Design Handoff: [Initiative Name]**
+
+**The quick pitch:**
+[1-2 sentence problem/solution]
+
+> "[Key user quote]"
+
+---
+
+**Links:**
+• 📋 Full brief: [GitHub/local link to design-handoff.md]
+• 🖥️ Prototype: {CHROMATIC_URL}
+• 📊 Version: v{VERSION}
+
+**Key Stories:**
+• [Default]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--default)
+• [All States]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--loading)
+• [Happy Path Flow]({CHROMATIC_URL}/iframe.html?id={STORY_PREFIX}--flow-happy-path)
+
+---
+
+**Your workflow:** [A/B/C/D]
+
+**Quick start:**
+1. Read the brief (5 min)
+2. [Workflow-specific next step]
+3. [Workflow-specific deliverable]
+
+---
+
+Let me know when ready for sync!
+```
+
+### Step 5: Update Meta
+
+Update `pm-workspace-docs/initiatives/[name]/_meta.json` with **actual URLs**:
+
+```json
+{
+  "handoff": {
+    "workflow": "A",
+    "status": "awaiting_design",
+    "handoff_date": "2026-01-22",
+    "designer": null,
+    "chromatic_base_url": "https://main--67890abc.chromatic.com",
+    "story_prefix": "prototypes-settingsredesign-v2-privacysettings",
+    "story_urls": {
+      "default": "https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--default",
+      "loading": "https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--loading",
+      "error": "https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--error",
+      "empty": "https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--empty",
+      "flow_happy_path": "https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--flow-happy-path",
+      "flow_error_recovery": "https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--flow-error-recovery"
+    },
+    "figma_url": null,
+    "notes": null
+  }
+}
+```
+
+### Step 6: Respond
+
+Include the **actual Chromatic URLs** (not placeholders) in the response:
+
+```
+✅ Design handoff package created for [name]!
+
+**Workflow:** [A/B/C/D] - [Description]
+
+**Chromatic Preview:** https://main--67890abc.chromatic.com
+
+**Story Links (click to view):**
+| State | Link |
+|-------|------|
+| Full Storybook | https://main--67890abc.chromatic.com |
+| Default | https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--default |
+| Loading | https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--loading |
+| Error | https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--error |
+| Flow: Happy Path | https://main--67890abc.chromatic.com/iframe.html?id=prototypes-settingsredesign-v2-privacysettings--flow-happy-path |
+
+**Files created:**
+- pm-workspace-docs/initiatives/[name]/design-handoff.md
+- pm-workspace-docs/initiatives/[name]/design-handoff-slack.md
+- pm-workspace-docs/initiatives/[name]/_meta.json (updated)
+
+**Slack message ready to copy:**
+[Include the generated Slack message with real URLs]
+
+**Next steps:**
+1. Send Slack message to designer
+2. Designer follows workflow in brief
+3. When ready: `/figma-sync [name] [figma-url]` (for A/D) or `/iterate [name]` (for B/C)
+```
+
+---
+
+## Workflow Decision Guide
+
+| Feature Type | Recommended | Why |
+|--------------|-------------|-----|
+| Brand-critical / marketing | **A** | Designer needs pixel control |
+| Internal tool / admin | **B** | Speed > polish |
+| Spacing/color refinement | **C** | No new components needed |
+| Complex multi-screen | **D** | Need both exploration + sync |
+| MVP / fast iteration | **B** | Storybook is faster |
+| Launch / GA feature | **A** or **D** | Worth the investment |
+
+---
+
+## Designer Setup (One-Time)
+
+### Storybook Connect Plugin
+
+1. Install: [Storybook Connect](https://www.figma.com/community/plugin/1056265616080331589/storybook-connect)
+2. Authenticate with Chromatic
+3. In Figma: Select frame → Run plugin → Paste story URL
+
+### Figma Template (Optional)
+
+Team template with:
+- Standard artboards
+- Design system components
+- Storybook Connect in recents
+- "How to Link" documentation page
+
+---
+
+## After Designer Completes
+
+| Workflow | Designer Delivers | PM Runs |
+|----------|-------------------|---------|
+| A | Figma URL | `/figma-sync [name] [url]` |
+| B | Feedback (Loom/annotations) | `/iterate [name]` |
+| C | Token updates | Update `system.md`, rebuild |
+| D | Figma URL + updated contract | `/figma-sync [name] [url]` |
+
+---
+
+## Tracking Handoff State
+
+Use `/status [name]` to check:
+
+```
+Handoff Status: [name]
+├── Workflow: A (Figma Refinement)
+├── Status: awaiting_design
+├── Designer: @designer
+├── Handoff date: 2026-01-22
+├── Prototype: https://main--67890abc.chromatic.com
+├── Stories: 6 linked (default, loading, error, empty, flow_happy_path, flow_error_recovery)
+└── Figma: [pending]
+```
+
+Status values:
+- `awaiting_design` - Waiting for designer to start
+- `in_progress` - Designer working in Figma
+- `ready_for_sync` - Designer done, ready for `/figma-sync`
+- `complete` - Synced and approved
+
+---
+
+## Integration
+
+| Command | Relationship |
+|---------|--------------|
+| `/proto` | Creates prototype → triggers handoff prompt |
+| `/iterate` | Updates prototype → can re-trigger handoff |
+| `/figma-sync` | Pulls designer's Figma → updates code |
 | `/status` | Shows handoff state |
-| `/validate` | Can run on either Figma or Storybook source |
-
----
-
-## Recommended: Create a Team Figma Template
-
-**Why:** Reduces designer setup from ~10 minutes to ~1 minute per handoff.
-
-### One-Time Setup (Design Lead)
-
-1. **Create template file:** `AskElephant - Prototype Polish Template`
-
-2. **Add standard pages:**
-   ```
-   📄 Cover (project name, links)
-   📄 How to Use This Template
-   📄 Component Polish
-   📄 States (Loading, Error, Empty, Success)
-   📄 Responsive Breakpoints
-   ```
-
-3. **Pre-configure:**
-   - Import design system components from team library
-   - Add standard artboard sizes (1440px, 1024px, 375px)
-   - Include color/spacing tokens reference
-   - Add "Storybook Connect" to recently used plugins
-
-4. **Add documentation page:**
-   ```markdown
-   # How to Link Storybook
-   
-   1. Select a frame/component
-   2. Press Cmd+/ → "Storybook Connect"
-   3. Paste the story URL from your handoff brief
-   4. Click "Link"
-   
-   Story URLs are in your Slack/handoff message.
-   ```
-
-5. **Save as team template:**
-   - File → Save to Team Library as Template
-   - OR keep in a "Templates" project for duplication
-
-### Designer Workflow (After Template Exists)
-
-```
-1. Receive /design-handoff message in Slack
-2. Click "Duplicate Template" link
-3. Open Storybook Connect, paste URLs from message
-4. Start polishing!
-```
-
-**Time saved:** ~8-10 minutes per handoff
-
----
-
-## Anti-Patterns
-
-🚩 **Expecting bidirectional sync** - It doesn't exist. Choose a source of truth.
-🚩 **Skipping handoff decision** - Ambiguity causes rework
-🚩 **Designer editing code** - Unless they want to, keep them in Figma
-🚩 **Forgetting Chromatic URL** - Designer needs shareable link
-🚩 **No handoff tracking** - Use `_meta.json` to track state
-🚩 **No Figma template** - Every handoff shouldn't require fresh setup
-
----
-
-## Tools Reference
-
-### Storybook Connect (Figma Plugin)
-- **What**: View live Storybook stories in Figma
-- **Direction**: Storybook → Figma (view only)
-- **Docs**: https://chromatic.com/docs/figma-plugin
-
-### @storybook/addon-designs
-- **What**: Embed Figma frames in Storybook
-- **Direction**: Figma → Storybook (view only)
-- **Docs**: https://storybook.js.org/addons/@storybook/addon-designs
-
-### Figma Code Connect (MCP)
-- **What**: Map Figma components to code files
-- **Direction**: Bidirectional mapping (not sync)
-- **Tool**: `mcp_Figma_add_code_connect_map`
+| `/validate` | Can run on Storybook or Figma |

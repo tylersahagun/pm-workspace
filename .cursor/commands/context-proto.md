@@ -504,3 +504,5 @@ export const mockEngagements = [
 🚩 **Forgetting documentation** - Always save placement-research.md with decisions
 🚩 **One option only** - If unclear, show both page AND panel options for comparison
 🚩 **Ignoring existing patterns** - Study similar features in the codebase first
+🚩 **Context views without flows** - Static views ≠ understanding the journey; include `Flow_*` stories
+🚩 **No journey in context** - Designer must see full flow IN the app UI, not just static placement

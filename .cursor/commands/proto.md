@@ -478,3 +478,5 @@ Loading, LoadingLong, Success, Error, LowConfidence, Empty
 🚩 **Surveillance vibes** - Frame as "helps YOU" not "reports ON you"
 🚩 **Replacement framing** - Never imply AI replaces human value
 🚩 **Single option** - Always explore multiple creative directions
+🚩 **States without flows** - Isolated states ≠ understanding the journey; ALWAYS include Flow_* stories
+🚩 **No journey context** - Designer must see HOW user gets here, not just what they see

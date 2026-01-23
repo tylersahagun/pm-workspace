@@ -144,6 +144,8 @@ Create a new full prototype version **based on prototype type**:
 - Replicate all relevant states in the new version (not just a single view)
 - Preserve prior versions for comparison
 - Keep Storybook stories grouped under the version and cover all required states
+- **CRITICAL: Maintain or improve Flow_* stories** - every version needs interactive user journeys
+- Update Flow_* stories if the user journey changed based on feedback
 
 ### Step 7: Publish to Chromatic
 

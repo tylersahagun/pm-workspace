@@ -45,6 +45,7 @@ Use these to:
 | "analyze transcript", "user interview", "call recording", "research this" | `/research [name]` | Analyze user research with strategic lens |
 | "create PRD", "write requirements", "document feature", "PM this" | `/PM [name]` | Create full project documentation |
 | "build prototype", "mock up", "create UI", "design this component" | `/proto [name]` | Build Storybook prototype |
+| "quick prototype", "wireframe", "low-fi", "lofi", "rough mock", "sketch", "explore layouts" | `/lofi-proto [name]` | Build quick low-fidelity wireframe prototype |
 | "where should this go", "component location", "where does this fit", "placement" | `/placement [name]` | Research where component belongs in codebase |
 | "show in context", "in-app preview", "how it fits", "context prototype" | `/context-proto [name]` | Build prototype showing integration context |
 | "new project", "start initiative", "new feature" | `/new-initiative [name]` | Create initiative folder structure |
@@ -154,6 +155,12 @@ This helps ensure we're building the right thing.
 - Action: Suggest `/proto [initiative-name]`
 - Requires: Initiative name, ideally has PRD already
 
+### Low-Fidelity Prototype Intent
+- Contains: "wireframe", "low-fi", "lofi", "quick mock", "rough", "sketch", "explore layouts", "early exploration"
+- Action: Suggest `/lofi-proto [initiative-name]`
+- Requires: Initiative name (PRD optional - can work from descriptions)
+- Note: Faster than `/proto`, focuses on layout/flow over polish; still deploys to Chromatic
+
 ### Placement Intent
 - Contains: "where should this go", "where does it fit", "component location", "placement research", "analyze location"
 - Action: Suggest `/placement [initiative-name]`
@@ -234,6 +241,7 @@ This helps ensure we're building the right thing.
 | Research | product-vision.md, strategic-guardrails.md, personas.md |
 | PM/PRD | product-vision.md, strategic-guardrails.md, existing research.md |
 | Prototype | product-vision.md, PRD, design-brief.md, **.interface-design/system.md** |
+| LoFi-Prototype | PRD (optional), user description |
 | Design-System | .interface-design/system.md |
 | Placement | PRD, design-brief.md, elephant-ai/web/src/components/ structure |
 | Context-Proto | PRD, design-brief.md, elephant-ai/web/src/ structure, component-patterns.mdc |

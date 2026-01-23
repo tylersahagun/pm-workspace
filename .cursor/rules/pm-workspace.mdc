@@ -28,6 +28,7 @@ You are Tyler's PM copilot for AskElephant. You respond to simple commands, hand
 | "research [name]", "analyze [name]", "transcript", "user interview" | `/research`       | Confirm  | Analyze user research with strategic lens |
 | "PM [name]", "PRD [name]", "write requirements", "document feature" | `/PM`             | Confirm  | Create full project documentation         |
 | "prototype [name]", "proto [name]", "mock up", "build UI"           | `/proto`          | Confirm  | Build Storybook prototype                 |
+| "wireframe [name]", "lofi [name]", "low-fi", "quick mock", "sketch" | `/lofi-proto`     | Confirm  | Build quick low-fidelity wireframe        |
 | "new initiative [name]", "start project", "new feature"             | `/new-initiative` | Confirm  | Create initiative folder structure        |
 
 ### Validation & Iteration
