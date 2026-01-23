@@ -1,20 +1,46 @@
 {
   "initiative_id": "design-system-workflow",
   "name": "Design System & Workflow Modernization",
-  "phase": "discovery",
+  "phase": "define",
   "created_at": "2026-01-22",
   "updated_at": "2026-01-22",
   "owner": "Tyler Sahagun",
-  "stakeholders": ["Skyler", "Adam"],
+  "stakeholders": ["Skyler", "Adam", "Engineering"],
   "status": "active",
   "strategic_pillar": "Quality & Consistency",
   "tags": ["internal-tooling", "design-system", "developer-experience", "design-handoff"],
+  "documents": {
+    "research": "research.md",
+    "prd": "prd.md",
+    "design_brief": "design-brief.md",
+    "engineering_spec": "engineering-spec.md",
+    "gtm_brief": "gtm-brief.md"
+  },
   "graduation_criteria": {
     "discovery_to_definition": [
-      "Document Skyler's human-first design principles",
-      "Map current vs. desired workflow",
-      "Identify design quality check requirements",
-      "Define token structure approach"
+      { "criterion": "Document Skyler's human-first design principles", "met": true },
+      { "criterion": "Map current vs. desired workflow", "met": true },
+      { "criterion": "Identify design quality check requirements", "met": true },
+      { "criterion": "Define token structure approach", "met": true }
+    ],
+    "definition_to_build": [
+      { "criterion": "PRD approved by stakeholders", "met": false },
+      { "criterion": "Engineering spec reviewed", "met": false },
+      { "criterion": "Skyler confirms design principles codification", "met": false },
+      { "criterion": "CI workflow skeleton ready", "met": false }
     ]
+  },
+  "phase_history": [
+    { "phase": "discovery", "entered": "2026-01-22T00:00:00Z", "exited": "2026-01-22T00:00:00Z" },
+    { "phase": "define", "entered": "2026-01-22T00:00:00Z", "exited": null }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": ["Skyler's design principle documentation", "Atomic Design reference materials"]
+  },
+  "timeline": {
+    "phase_1_foundation": "4 weeks",
+    "phase_2_enforcement": "4 weeks",
+    "phase_3_scale": "ongoing"
   }
 }
