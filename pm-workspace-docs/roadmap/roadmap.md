@@ -1,6 +1,6 @@
 # Product Roadmap
 
-**Generated:** 2026-01-23 09:00
+**Generated:** 2026-01-24 00:00
 **Total Initiatives:** 19
 
 ---
@@ -9,12 +9,12 @@
 
 | Phase | Count |
 |-------|-------|
-| Discovery | 2 |
-| Define | 8 |
-| Build | 6 |
+| Discovery | 3 |
+| Define | 5 |
+| Build | 7 |
 | Validate | 3 |
 | Launch | 0 |
-| Measure | 0 |
+| Measure | 1 |
 | Learn | 0 |
 
 ---
@@ -23,12 +23,12 @@
 
 | Status | Count |
 |--------|-------|
-| ✅ On Track | 17 |
+| ✅ On Track | 14 |
 | ⚠️ At Risk | 0 |
-| 🚫 Blocked | 0 |
+| 🚫 Blocked | 2 |
 | 💤 Stale | 0 |
 |  In-Progress | 1 |
-|  Active | 1 |
+|  In Progress | 2 |
 
 ---
 
@@ -38,40 +38,39 @@
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Crm Readiness Diagnostic | - | P2 | 0 | ✅ |
-| Internal Search | - | P3 | 0 | ✅ |
+| Crm Readiness Diagnostic | - | P2 | 1 | ✅ |
+| Speaker Id Voiceprint | Delo | P3 | -1 |  |
+| Internal Search | - | P3 | 1 | ✅ |
 
 ### Define
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Condorcet Jury System | tyler | P0 | 14 | ✅ |
-| Feature Availability Audit | tyler | P0 | 9 | ✅ |
-| Automated Metrics Observability | tyler | P2 | 14 | ✅ |
-| Call Import Engine | tyler | P2 | 9 | ✅ |
-| User Onboarding | - | P3 | 0 | ✅ |
-| Speaker Id Voiceprint | - | P3 | 0 | ✅ |
-| Product Usability | - | P3 | 0 | ✅ |
-| Admin Onboarding | - | P3 | 0 | ✅ |
+| Feature Availability Audit | tyler | P0 | 10 | ✅ |
+| User Onboarding | Sam Ho | P2 | -1 | ✅ |
+| Call Import Engine | tyler | P2 | 10 | ✅ |
+| Automated Metrics Observability | tyler | P3 | 1 | ✅ |
+| Admin Onboarding | - | P3 | 1 | ✅ |
 
 ### Build
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Crm Exp Ete | Tyler | P0 | 6 | ✅ |
-| Universal Signal Tables | tyler | P0 | 8 | ✅ |
-| Customer Journey Map | tyler | P0 | 8 | ✅ |
-| Release Lifecycle Process | tyler | P0 | 8 | ✅ |
-| Rep Workspace | Skylar/Tyler | high | 6 |  |
-| Design System Workflow | Tyler Sahagun | P2 | 0 |  |
+| Rep Workspace | Brian/Rob | P0 | -1 |  |
+| Crm Exp Ete | Tyler | P0 | 7 | ✅ |
+| Universal Signal Tables | tyler | P0 | 9 | ✅ |
+| Customer Journey Map | tyler | P0 | 9 | ✅ |
+| Release Lifecycle Process | tyler | P0 | -1 | 🚫 |
+| Product Usability | Knox | P2 | -1 |  |
+| Design System Workflow | tyler | P2 | 1 | ✅ |
 
 ### Validate
 
 | Initiative | Owner | Priority | Days | Status |
 |------------|-------|----------|------|--------|
-| Hubspot Agent Config Ui | tyler | P0 | 8 | ✅ |
-| Composio Agent Framework | tyler | P1 | 0 | ✅ |
-| Settings Redesign | tyler | P2 | 0 | ✅ |
+| Hubspot Agent Config Ui | tyler | P0 | -1 | ✅ |
+| Composio Agent Framework | tyler | P1 | -1 | ✅ |
+| Settings Redesign | Rob | P2 | -1 | 🚫 |
 
 ### Launch
 
@@ -79,7 +78,9 @@ _No initiatives in this phase._
 
 ### Measure
 
-_No initiatives in this phase._
+| Initiative | Owner | Priority | Days | Status |
+|------------|-------|----------|------|--------|
+| Condorcet Jury System | tyler | P0 | 1 | ✅ |
 
 ### Learn
 
@@ -97,20 +98,22 @@ _No stale items._
 
 ### Customer Trust
 
-- **Condorcet Jury System** (define) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
 - **Crm Readiness Diagnostic** (discovery) - P2
+- **User Onboarding** (define) - P2
 - **Call Import Engine** (define) - P2
+- **Product Usability** (build) - P2
 - **Settings Redesign** (validate) - P2
 
 ### Data Knowledge
 
 - **Feature Availability Audit** (define) - P0
 - **Composio Agent Framework** (validate) - P1
-- **Automated Metrics Observability** (define) - P2
+- **Speaker Id Voiceprint** (discovery) - P3
+- **Automated Metrics Observability** (define) - P3
 
 ### Trend Visibility
 
@@ -118,13 +121,9 @@ _No initiatives._
 
 ### Unassigned
 
+- **Rep Workspace** (build) - P0
 - **Crm Exp Ete** (build) - P0
-- **Rep Workspace** (build) - high
-- **Design System Workflow** (build) - P2
 - **Internal Search** (discovery) - P3
-- **User Onboarding** (define) - P3
-- **Speaker Id Voiceprint** (define) - P3
-- **Product Usability** (define) - P3
 - **Admin Onboarding** (define) - P3
 
 ---
@@ -133,53 +132,62 @@ _No initiatives._
 
 ### Sales Rep
 
-- **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
 - **Crm Exp Ete** (build) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
+- **Condorcet Jury System** (measure) - P0
 - **Composio Agent Framework** (validate) - P1
+- **User Onboarding** (define) - P2
 - **Call Import Engine** (define) - P2
+- **Product Usability** (build) - P2
 - **Settings Redesign** (validate) - P2
+- **Speaker Id Voiceprint** (discovery) - P3
 
 ### Sales Leader
 
-- **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
 - **Crm Exp Ete** (build) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
+- **Condorcet Jury System** (measure) - P0
 - **Composio Agent Framework** (validate) - P1
 - **Crm Readiness Diagnostic** (discovery) - P2
-- **Automated Metrics Observability** (define) - P2
+- **User Onboarding** (define) - P2
 - **Call Import Engine** (define) - P2
+- **Speaker Id Voiceprint** (discovery) - P3
+- **Automated Metrics Observability** (define) - P3
 
 ### CSM
 
-- **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
+- **Condorcet Jury System** (measure) - P0
 - **Composio Agent Framework** (validate) - P1
+- **User Onboarding** (define) - P2
 - **Call Import Engine** (define) - P2
+- **Product Usability** (build) - P2
 
 ### RevOps
 
-- **Condorcet Jury System** (define) - P0
 - **Feature Availability Audit** (define) - P0
 - **Crm Exp Ete** (build) - P0
 - **Universal Signal Tables** (build) - P0
 - **Customer Journey Map** (build) - P0
 - **Release Lifecycle Process** (build) - P0
 - **Hubspot Agent Config Ui** (validate) - P0
+- **Condorcet Jury System** (measure) - P0
 - **Composio Agent Framework** (validate) - P1
 - **Crm Readiness Diagnostic** (discovery) - P2
-- **Automated Metrics Observability** (define) - P2
+- **User Onboarding** (define) - P2
 - **Call Import Engine** (define) - P2
+- **Product Usability** (build) - P2
 - **Settings Redesign** (validate) - P2
+- **Automated Metrics Observability** (define) - P3
 
 ---
 

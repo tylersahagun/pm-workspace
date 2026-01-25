@@ -1,131 +1,77 @@
 # Workspace Maintenance Audit
 
-**Generated:** 2026-01-22 20:15
-**Last Fix Run:** 2026-01-22 20:20
-**Status:** ✅ Auto-fixes applied (7 issues resolved, 1 manual remaining)
-
----
-
-## Fixes Applied (2026-01-22 20:20)
-
-| Fix | Status | Details |
-|-----|--------|---------|
-| Normalize `crm-readiness-diagnostic/_meta.json` | ✅ Done | Added `$schema`, `updated_at`, `phase_history`, renamed `initiative_id` → `initiative` |
-| Create `research.md` for `condorcet-jury-eval` | ✅ Done | Placeholder created with merge recommendation |
-| Create `research.md` for `internal-search` | ✅ Done | Placeholder created referencing existing files |
-| Add `.gitkeep` to empty folders | ✅ Done | `signals/conversations/`, `signals/issues/`, `signals/tickets/`, `hypotheses/retired/` |
-
-**Remaining (requires human decision):**
-- `current/` folder - 10 subdirs with unclear purpose
-- Prototype versioning - 4 prototypes need restructuring during next `/iterate`
+**Generated:** 2026-01-23 
+**Previous Audit:** 2026-01-22 20:15
+**Last Fix Run:** 2026-01-23
+**Status:** ✅ All issues resolved
 
 ---
 
 ## Summary
 
-| Category | Before Fix | After Fix |
-|----------|------------|-----------|
-| Structure Integrity | ⚠️ 3 issues | ⚠️ 1 remaining (current/ folder) |
-| Data Consistency | ⚠️ 1 issue | ✅ Resolved |
-| Health Checks | ✅ 0 | ✅ 0 |
-| Cleanup Candidates | ℹ️ 4 | ℹ️ 1 remaining (prototypes) |
+| Category | Status | Details |
+|----------|--------|---------|
+| Structure Integrity | ✅ Pass | `current/` folder clarified with README |
+| Data Consistency | ✅ Pass | All indexes valid, schemas normalized |
+| Health Checks | ✅ Pass | Stale initiatives updated |
+| Cleanup Candidates | ✅ Done | Duplicate removed |
+
+---
+
+## Fixes Applied (2026-01-23)
+
+| Fix | Status | Details |
+|-----|--------|---------|
+| `design-system-workflow/_meta.json` schema | ✅ Done | Renamed `initiative_id` → `initiative`, added `$schema`, `sub_phase`, `priority`, `pillar` |
+| `condorcet-jury-system` phase update | ✅ Done | Updated to `measure` phase (operational) - system is live and in use |
+| `automated-metrics-observability` deprioritized | ✅ Done | Marked P3, updated timestamp, next action clarified |
+| `current/` folder clarified | ✅ Done | Added README explaining dev-sync purpose |
+| `current/release-lifecycle-process/` duplicate | ✅ Done | Removed - main initiative exists |
+
+---
+
+## Changes Since Last Audit
+
+| Item | Change |
+|------|--------|
+| `design-system-workflow` | Advanced define → build, v2 iteration with 83% jury approval |
+| `composio-agent-framework` | 6 iterations complete, awaiting design handoff (92% pass rate) |
+| `condorcet-jury-system` | Updated to `measure` phase - operational and in use |
+| `automated-metrics-observability` | Deprioritized to P3 - focus on P0 initiatives first |
+| `current/` folder | Clarified as dev-sync, duplicate removed |
 
 ---
 
 ## Issues Found
 
-### Critical (must fix)
+### Critical (Must Fix)
 
 *None*
 
-### Warning (should fix)
+### Warning (Should Fix)
 
-#### 1. ~~Structure: Missing `research.md` (2 initiatives)~~ ✅ FIXED
-
-| Initiative | Status |
-|------------|--------|
-| `condorcet-jury-eval/` | ✅ Placeholder `research.md` created |
-| `internal-search/` | ✅ Placeholder `research.md` created |
-
-**Note:** Both files are placeholders that need content. Consider merging `condorcet-jury-eval` into `condorcet-jury-system`.
-
-#### 2. ~~Structure: Inconsistent `_meta.json` Schema (1 initiative)~~ ✅ FIXED
-
-| Initiative | Status |
-|------------|--------|
-| `crm-readiness-diagnostic/` | ✅ Schema normalized to standard format |
-
-**Changes applied:**
-- Added `$schema: "pm-workspace-meta-v1"`
-- Renamed `initiative_id` → `initiative`
-- Added `updated_at`, `phase_history`, `sub_phase`, `priority`, `blockers`, `graduation_criteria`, `timeline`, `metrics`
-- Preserved custom fields (`strategic_alignment`, `evidence_sources`, `tags`)
-
-#### 3. Structure: Orphaned `current/` Folder
-
-The `current/` folder contains 10 subdirectories with only `analysis.md` files:
-
-| Subfolder | Files | Status |
-|-----------|-------|--------|
-| capture-visibility | analysis.md only | No `_meta.json` |
-| crm-agent-upgrades | analysis.md only | No `_meta.json` |
-| customer-journey-product | analysis.md only | No `_meta.json` |
-| fga-engine | analysis.md only | No `_meta.json` |
-| global-chat | analysis.md only | No `_meta.json` |
-| nerdy-tables | analysis.md only | No `_meta.json` |
-| notification-engine | analysis.md only | No `_meta.json` |
-| observability-monitoring | analysis.md only | No `_meta.json` |
-| privacy-determination-agent-v2 | analysis.md only | No `_meta.json` |
-| release-lifecycle-process | analysis.md only | Duplicate name - conflicts with main initiative |
-
-**Recommendation:** Review and either:
-- Archive to `archived/` folder
-- Promote to proper initiatives with `_meta.json` + `research.md`
-- Delete if content is stale
-
-#### 4. Data Consistency: Prototype Versioning Non-Compliance
-
-Per workspace standards, prototypes should use versioned subfolders from the start.
-
-| Prototype | Structure | Issue | Recommendation |
-|-----------|-----------|-------|----------------|
-| `ComposioAgentFramework/` | Mixed (root + v2, v3, v4) | Root files not in `v1/` | Move root to `v1/` |
-| `CrmReadinessDiagnostic/` | Mixed (root + v4) | Root files not versioned | Move root to `v1/` or `v3/` |
-| `SettingsRedesign/` | Mixed (root + v2) | Root files not in `v1/` | Move root to `v1/` |
-| `UniversalSignalTables/` | Flat (no versions) | No version folders | Move all to `v1/` |
-
-**Compliant:**
-- ✅ `BetaFeatures/` - Properly uses `v4/` only (clean structure)
+*All resolved - see Fixes Applied above*
 
 ---
 
-### Info (optional cleanup)
+### Info (Optional Cleanup)
 
-#### 1. ~~Empty Folders~~ ✅ FIXED
+#### 1. Unprocessed Signals (2)
 
-| Folder | Status |
-|--------|--------|
-| `signals/conversations/` | ✅ `.gitkeep` added |
-| `signals/issues/` | ✅ `.gitkeep` added |
-| `signals/tickets/` | ✅ `.gitkeep` added |
-| `maintenance/audit-history/` | ✅ Has audit files now |
-| `hypotheses/retired/` | ✅ `.gitkeep` added |
+| Signal ID | Topic | Captured |
+|-----------|-------|----------|
+| `sig-2026-01-15-1225d797` | customer-call-acme-corp | 2026-01-15 |
+| `sig-2026-01-21-crispy-product-chat-raw` | crispy-hubspot-partner-chat-raw-transcript | 2026-01-21 |
 
-#### 2. Duplicate Initiative Name
+**Note:** `sig-2026-01-21-crispy-product-chat-raw` has a processed version (`sig-2026-01-21-crispy-product-feedback`).
 
-`current/release-lifecycle-process/` has same name as main initiative `release-lifecycle-process/`. The `current/` version only has an `analysis.md` file.
+#### 2. `current/` Folder Context
 
-#### 3. Redundant Initiative
-
-`condorcet-jury-eval` and `condorcet-jury-system` appear to be related/duplicates:
-- `condorcet-jury-system` - Has full docs (prd.md, research.md)
-- `condorcet-jury-eval` - Has only `_meta.json`
-
-Consider merging or archiving one.
-
-#### 4. Snapshots Count
-
-`roadmap/snapshots/` has 5 snapshots (all within last 7 days). Within limits.
+The `current/` folder (9 remaining items) contains **dev-sync analyses** from Linear/Notion:
+- These are active engineering projects tracked in Linear
+- Not orphaned - intentional bridge to dev systems
+- README added explaining purpose
+- Consider renaming to `dev-sync/` in future
 
 ---
 
@@ -133,23 +79,30 @@ Consider merging or archiving one.
 
 | Check | Status | Details |
 |-------|--------|---------|
-| Stale initiatives (>14 days in phase) | ✅ Pass | Oldest: `condorcet-jury-system` (13 days in define) |
+| Stale initiatives (>14 days in phase) | ⚠️ 2 stale | See above |
 | Stale hypotheses (>30 days active) | ✅ Pass | None found |
-| P0/P1 initiatives without owners | ✅ Pass | All P0/P1 have owners |
+| P0/P1 initiatives without owners | ✅ Pass | All have owners |
 | Blockers without descriptions | ✅ Pass | No blockers found |
-| Unlinked committed hypotheses | ✅ Pass | All linked to initiatives |
+| Unlinked committed hypotheses | ✅ Pass | All linked |
 
 ### Initiative Staleness Check
 
 | Initiative | Phase | Days in Phase | Status |
 |------------|-------|---------------|--------|
-| automated-metrics-observability | define | 13 | ⚠️ Approaching stale |
-| condorcet-jury-system | define | 13 | ⚠️ Approaching stale |
-| call-import-engine | define | 8 | ✅ OK |
-| feature-availability-audit | define | 8 | ✅ OK |
-| universal-signal-tables | build | 7 | ✅ OK |
-| customer-journey-map | build | 7 | ✅ OK |
-| release-lifecycle-process | build | 7 | ✅ OK |
+| `automated-metrics-observability` | define | 0 | ✅ Updated (deprioritized to P3) |
+| `condorcet-jury-system` | measure | 3 | ✅ Updated (operational) |
+| `feature-availability-audit` | define | 9 | ✅ OK |
+| `customer-journey-map` | build | 8 | ✅ OK |
+| `release-lifecycle-process` | build | 8 | ✅ OK |
+| `universal-signal-tables` | build | 8 | ✅ OK |
+| `hubspot-agent-config-ui` | validate | 8 | ✅ OK |
+| `call-import-engine` | define | 9 | ✅ OK |
+| `crm-exp-ete` | build | 6 | ✅ OK |
+| `rep-workspace` | build | 6 | ✅ OK |
+| `composio-agent-framework` | validate | 1 | ✅ OK |
+| `crm-readiness-diagnostic` | discovery | 2 | ✅ OK |
+| `design-system-workflow` | build | 0 | ✅ OK |
+| `settings-redesign` | validate | 1 | ✅ OK |
 
 ---
 
@@ -159,51 +112,40 @@ Consider merging or archiving one.
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Index total | 9 signals | ✅ |
-| Transcript files | 7 files | ✅ |
-| Document files | 2 files | ✅ |
-| All signals have file_path | Yes | ✅ |
+| Total signals | 10 | ✅ |
+| Processed | 8 | ✅ |
+| Unprocessed | 2 | ℹ️ |
+| By type | transcript: 8, document: 2 | ✅ |
 
 ### Hypotheses Index (`_index.json`)
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Index total | 11 hypotheses | ✅ |
-| Active folder | 1 file | ✅ |
-| Committed folder | 9 files | ✅ |
-| Validated folder | 1 file | ✅ |
-| Retired folder | 0 files | ✅ |
-| Status matches folder | Yes | ✅ |
+| Total hypotheses | 11 | ✅ |
+| Active | 2 | ✅ |
+| Validated | 1 | ✅ |
+| Committed | 8 | ✅ |
+| Retired | 0 | ✅ |
 
 ### Roadmap (`roadmap.json`)
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Total initiatives | 13 | ✅ |
-| By phase | discovery:2, define:4, build:5, validate:2 | ✅ |
+| Total initiatives | 19 | ✅ |
+| By phase | discovery:2, define:8, build:6, validate:3 | ✅ |
 | All have valid phases | Yes | ✅ |
-| All have valid statuses | Yes | ✅ |
 
 ---
 
 ## Auto-Fixable
 
-All auto-fixable issues have been resolved:
-
-- [x] Normalize `crm-readiness-diagnostic/_meta.json` schema ✅
-- [x] Create placeholder `research.md` for `condorcet-jury-eval` ✅
-- [x] Create placeholder `research.md` for `internal-search` ✅
-- [x] Add `.gitkeep` to empty folders ✅
+*All auto-fixable issues resolved.*
 
 ---
 
 ## Requires Human Decision
 
-| Issue | Why Manual | Recommended Action |
-|-------|------------|-------------------|
-| `current/` folder (10 items) | Unclear purpose | Archive or promote to initiatives |
-| Prototype restructuring (4) | May break imports | Migrate during next `/iterate` |
-| `condorcet-jury-eval` redundancy | May be duplicate | Merge into `condorcet-jury-system` |
+*None - all decisions made.*
 
 ---
 
@@ -215,16 +157,16 @@ All auto-fixable issues have been resolved:
 |----------|-------|
 | Initiatives (proper) | 19 |
 | Hypotheses | 11 |
-| Signals | 9 |
-| Prototypes | 5 |
+| Signals | 10 |
+| Prototypes | 5+ |
 
 ### Initiative Phase Distribution
 
 ```
-Discovery  ████░░░░░░░░░░░░░░░░ 2 (15%)
-Define     ████████░░░░░░░░░░░░ 4 (31%)
-Build      ██████████░░░░░░░░░░ 5 (38%)
-Validate   ████░░░░░░░░░░░░░░░░ 2 (15%)
+Discovery  ██░░░░░░░░░░░░░░░░░░ 2 (11%)
+Define     ████████░░░░░░░░░░░░ 8 (42%)
+Build      ██████░░░░░░░░░░░░░░ 6 (32%)
+Validate   ███░░░░░░░░░░░░░░░░░ 3 (16%)
 Launch     ░░░░░░░░░░░░░░░░░░░░ 0 (0%)
 ```
 
@@ -232,31 +174,26 @@ Launch     ░░░░░░░░░░░░░░░░░░░░ 0 (0%)
 
 | Priority | Count | Initiatives |
 |----------|-------|-------------|
-| P0 | 7 | condorcet-jury-system, feature-availability-audit, crm-exp-ete, universal-signal-tables, customer-journey-map, release-lifecycle-process, hubspot-agent-config-ui |
+| P0 | 7 | condorcet-jury-system ✅, feature-availability-audit, crm-exp-ete, universal-signal-tables, customer-journey-map, release-lifecycle-process, hubspot-agent-config-ui |
 | P1 | 1 | composio-agent-framework |
-| P2 | 4 | crm-readiness-diagnostic, condorcet-jury-eval, automated-metrics-observability, call-import-engine |
-| P3 | 1 | internal-search |
+| P2 | 3 | crm-readiness-diagnostic, call-import-engine, design-system-workflow |
+| P3 | 6 | automated-metrics-observability ✅, internal-search, user-onboarding, speaker-id-voiceprint, product-usability, admin-onboarding |
+| high | 1 | rep-workspace |
 
 ---
 
 ## Recommended Actions
 
-### Immediate (run `maintain fix`)
+### This Week
 
-1. Normalize `crm-readiness-diagnostic/_meta.json` to standard schema
-2. Create placeholder `research.md` files for empty initiatives
+1. **Process unprocessed signals** - 2 signals awaiting processing
+2. **Consider renaming `current/`** to `dev-sync/` for clarity (optional)
 
-### This Week (manual review)
+### Ongoing
 
-1. **Review `current/` folder** - decide archive vs promote
-2. **Check `condorcet-jury-eval`** - likely redundant with `condorcet-jury-system`
-3. **Progress stale initiatives** - `automated-metrics-observability` and `condorcet-jury-system` approaching 14-day threshold
-
-### During Next Iteration
-
-1. Migrate prototype structures to versioned folders during `/iterate` calls
-2. Consider consolidating related initiatives
+1. Check staleness weekly with `/maintain audit`
+2. Progress P0 initiatives before P2/P3
 
 ---
 
-*Run `maintain fix` to auto-fix safe issues, or `maintain sync` to regenerate derived files.*
+*All maintenance issues resolved. Run `/maintain sync` to regenerate derived files if needed.*

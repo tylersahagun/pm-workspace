@@ -7,15 +7,10 @@
   "status": "on_track",
   "priority": "P1",
   "owner": "tyler",
-  "personas": [
-    "revops",
-    "sales-leader",
-    "csm",
-    "sales-rep"
-  ],
+  "personas": ["revops", "sales-leader", "csm", "sales-rep"],
   "pillar": "data-knowledge",
   "created_at": "2026-01-22T00:00:00.000000",
-  "updated_at": "2026-01-22T23:45:00.000000",
+  "updated_at": "2026-01-24T10:30:00.000000",
   "phase_history": [
     {
       "phase": "discovery",
@@ -38,8 +33,17 @@
       "exited": null
     }
   ],
-  "blockers": [],
-  "next_action": "Woody reviews design handoff brief and provides feedback or starts Figma refinement",
+  "blockers": [
+    {
+      "type": "internal-communication",
+      "description": "Revenue team confused about Composio availability - NOT customer-ready yet",
+      "action_required": "Rob to clarify with revenue team",
+      "added": "2026-01-24"
+    }
+  ],
+  "customer_ready": false,
+  "customer_ready_note": "Council of Product 2026-01-24: Composio is NOT live to customers. Revenue team needs clarification that 877 toolkits != 877 working integrations.",
+  "next_action": "Woody reviews design handoff brief; Rob clarifies Composio status to revenue team",
   "graduation_criteria": {
     "discovery_to_define": {
       "user_problems_documented": true,
@@ -75,7 +79,7 @@
     "combined_pass_rate": 0.92,
     "by_persona": {
       "operations": { "pass_rate": 0.94, "approval_rate": 0.82 },
-      "sales_rep": { "pass_rate": 0.90, "approval_rate": 0.74 },
+      "sales_rep": { "pass_rate": 0.9, "approval_rate": 0.74 },
       "sales_leader": { "pass_rate": 0.96, "approval_rate": 0.84 },
       "csm": { "pass_rate": 0.89, "approval_rate": 0.72 }
     },
@@ -110,12 +114,8 @@
     "days_in_phase": 0,
     "total_iterations": 6
   },
-  "dependencies": [
-    "composio-integration"
-  ],
-  "related_initiatives": [
-    "hubspot-agent-config-ui"
-  ],
+  "dependencies": ["composio-integration"],
+  "related_initiatives": ["hubspot-agent-config-ui"],
   "prototype_type": "both",
   "prototype_location": "elephant-ai/web/src/components/prototypes/ComposioAgentFramework/",
   "current_version": "v6",
@@ -212,5 +212,23 @@
         "Created comprehensive Storybook stories with all creative options"
       ]
     }
-  ]
+  ],
+  "linear_project_id": null,
+  "linear_project_url": null,
+  "notion_project_id": null,
+  "notion_project_url": null,
+  "notion_artifacts": {
+    "engineering_specs": [],
+    "design_briefs": [],
+    "launch_planning": []
+  },
+  "github_labels": ["initiative:composio-agent", "agent-framework"],
+  "github_branch_prefix": "feat/composio-agent",
+  "dev_activity": {
+    "last_synced": null,
+    "linear_issues_total": null,
+    "linear_issues_completed": null,
+    "linear_issues_in_progress": null,
+    "github_prs_merged_30d": null
+  }
 }

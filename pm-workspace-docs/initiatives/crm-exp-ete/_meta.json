@@ -48,12 +48,8 @@
     "Every piece of data we push should be good enough to send to a board."
   ],
   "hypothesis_links": [],
-  "related_initiatives": [
-    "hubspot-agent-config-ui"
-  ],
-  "signals": [
-    "sig-2026-01-16-crm-exp-ete-planning"
-  ],
+  "related_initiatives": ["hubspot-agent-config-ui"],
+  "signals": ["sig-2026-01-16-crm-exp-ete-planning"],
   "priority_stack": [
     "Epic 1: Workflow Visibility",
     "Epic 2: Manual Enrollment/Test",
@@ -79,5 +75,23 @@
       "focus": "Skeptic-focused features (ROI, Rollback, Pilot Mode)",
       "feedback_source": "Jury evaluation (25% skeptic pass rate)"
     }
-  ]
+  ],
+  "linear_project_id": "2f33a114-1968-4240-990b-ba3fe02c23be",
+  "linear_project_url": "https://linear.app/askelephant/project/crm-agent-upgrades-2f33a1141968",
+  "notion_project_id": null,
+  "notion_project_url": null,
+  "notion_artifacts": {
+    "engineering_specs": [],
+    "design_briefs": [],
+    "launch_planning": []
+  },
+  "github_labels": ["initiative:crm-exp-ete", "crm-agent"],
+  "github_branch_prefix": "feat/crm",
+  "dev_activity": {
+    "last_synced": null,
+    "linear_issues_total": null,
+    "linear_issues_completed": null,
+    "linear_issues_in_progress": null,
+    "github_prs_merged_30d": null
+  }
 }

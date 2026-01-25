@@ -35,6 +35,23 @@ Also check:
 - `pm-workspace-docs/signals/_index.json` - For linked signals
 - `pm-workspace-docs/roadmap/roadmap.json` - For roadmap position
 
+## MCP Tools Available (Optional Enhancement)
+
+**Server:** `pm-mcp-config` (Composio)
+
+Use MCP tools to enrich initiative status with live data:
+
+| Source | Tools | Enhancement |
+|--------|-------|-------------|
+| **Linear** | `LINEAR_GET_LINEAR_PROJECT`, `LINEAR_SEARCH_ISSUES` | Pull live issue status, assignees, blockers |
+| **PostHog** | `POSTHOG_RETRIEVE_PROJECT_INSIGHT_DETAILS` | Pull current success metric values |
+| **Notion** | `NOTION_RETRIEVE_PAGE` | Sync with Notion project status |
+
+**When to use:**
+- Initiative has `linear_project_id` in `_meta.json` → Query Linear for live dev status
+- Initiative has `posthog.dashboard_id` in `_meta.json` → Query PostHog for metrics
+- Status conflicts between local and external → Show discrepancy in report
+
 ## Analysis Framework
 
 ### Step 1: Read Metadata
