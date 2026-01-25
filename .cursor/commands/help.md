@@ -1,289 +1,108 @@
-# PM Workspace Help
+# Help Command
 
-You are a helpful guide for the PM Workspace. When a user asks for help, understand what they're trying to accomplish and guide them to the right command or workflow.
+Show available commands and guidance.
 
-## How to Respond
+## Usage
 
-1. **Listen** to what the user is trying to do
-2. **Recommend** the best command(s) for their goal
-3. **Explain** briefly what the command does
-4. **Offer** to run it or provide more details
+```
+/help                  # Show all commands
+/help [command-name]   # Show specific command help
+```
 
-## Command Reference
+## Command Categories
 
-### Getting Started (New Users)
+### Core PM Workflows
 
-| Command | What it does | When to use |
-|---------|--------------|-------------|
-| `/setup` | Configure your workspace | First time after cloning the repo |
-| `/help` | Get guidance on commands | When you're not sure what to do |
+| Command | Description |
+|---------|-------------|
+| `/research [name]` | Analyze user research → `research-analyzer` subagent |
+| `/pm [name]` | Create PRD + docs → `prd-writer` skill |
+| `/proto [name]` | Build Storybook prototype → `proto-builder` subagent |
+| `/validate [name]` | Run jury evaluation → `validator` subagent |
+| `/iterate [name]` | Refine with feedback → `iterator` subagent |
 
-### Daily Workflow (Everyone)
+### Quick Actions
 
-| Command | What it does | When to use |
-|---------|--------------|-------------|
-| `/save` | Save and push your work | After making changes you want to keep |
-| `/update` | Get latest team changes | Start of day, or before sharing |
-| `/share` | Create a PR for review | When work is ready for feedback |
-| `/status` | See workspace overview | Check what's active and pending |
+| Command | Description |
+|---------|-------------|
+| `/save` | Stage, commit, and push all changes |
+| `/update` | Pull latest and sync submodules |
+| `/status` | Show workspace overview |
+| `/roadmap` | View/update product roadmap |
+| `/new-initiative [name]` | Create initiative folder |
 
-### Prototyping (Designers & PMs)
+### Design & Validation
 
-| Command | What it does | When to use |
-|---------|--------------|-------------|
-| `/proto [name]` | Build standalone prototype from PRD | Exploring the feature itself |
-| `/context-proto [name]` | Build prototype in app context | Showing where it fits in the app |
-| `/placement [name]` | Deep research on component location | Detailed analysis without building |
-| `/iterate [name]` | Auto-pull signals + refine prototype | After adding feedback signals |
-| `/design [name]` | Review design considerations | Before or during prototyping |
-| `/validate [name]` | Test with synthetic users | After prototype is built |
-| `/design-handoff [name]` | Manage PM→Designer handoff | When prototype needs designer polish |
-| `/figma-sync [name] [url]` | Pull Figma design into Storybook | When designer has Figma ready |
+| Command | Description |
+|---------|-------------|
+| `/design [name]` | Review design considerations |
+| `/lofi-proto [name]` | Build quick wireframe prototype |
 
-### PM Workflows
+### Thinking & Growth
 
-| Command | What it does | When to use |
-|---------|--------------|-------------|
-| `/research [name]` | Analyze user research/transcripts | Processing new user feedback |
-| `/PM [name]` | Create full project documentation | Starting a new initiative |
-| `/new-initiative [name]` | Create initiative folder structure | Setting up a new project |
-| `/hypothesis [name]` | Manage product hypotheses | Tracking assumptions to validate |
-| `/roadmap` | View/update product roadmap | Planning and prioritization |
-| `/brainstorm-board` | Generate creative ideas | Early exploration phase |
+| Command | Description |
+|---------|-------------|
+| `/think` | Guided brainstorming with probing questions |
+| `/teach` | Teach-back challenge to deepen understanding |
+| `/reflect` | Periodic reflection on values and growth |
+| `/unstick` | Problem reframing when blocked |
 
-### Sync & Integration
+### Signals & Sync
 
-| Command | What it does | When to use |
-|---------|--------------|-------------|
-| `/sync` | Pull from all external sources | Getting latest from Linear/Notion |
-| `/sync-linear` | Pull issues from Linear | Syncing specific Linear items |
-| `/sync-notion` | Pull from Notion | Syncing specific Notion items |
-| `/ingest` | Process new signals/feedback | After adding raw feedback files |
-| `/synthesize` | Find patterns across signals | After collecting multiple inputs |
+| Command | Description |
+|---------|-------------|
+| `/ingest` | Process new signals/feedback |
+| `/synthesize` | Find patterns across signals |
+| `/sync` | Process inbox files |
 
-### Maintenance (Advanced)
+## Typical Workflow
 
-| Command | What it does | When to use |
-|---------|--------------|-------------|
-| `/maintain` | Audit and clean workspace | Weekly maintenance |
-| `/admin` | Modify workspace rules/commands | Changing how the workspace works |
-| `/agents` | Generate AGENTS.md documentation | Documenting code for AI |
+```
+1. /research [name]     # Analyze customer feedback
+2. /pm [name]           # Create PRD and docs
+3. /proto [name]        # Build prototype
+4. /validate [name]     # Run jury evaluation
+5. /iterate [name]      # Refine based on feedback
+6. /save                # Commit your work
+```
+
+## Getting Started
+
+- New initiative: `/new-initiative [name]`
+- Have a transcript: `/research [name]` + paste content
+- Ready to build: `/proto [name]`
+- Check progress: `/status [name]`
+
+## Architecture
+
+This workspace uses:
+- **Rules**: Lightweight always-applied context in `pm-foundation.mdc`
+- **Skills**: Specialized knowledge packages in `.cursor/skills/`
+- **Subagents**: Isolated context for complex workflows in `.cursor/agents/`
+- **Commands**: Thin wrappers that delegate to skills/subagents
 
 ---
 
-## Common Questions → Commands
+## Cursor 2.4 Features
 
-### "I just cloned the repo, what do I do?"
-→ Run `/setup` - it will configure everything for you
+| Feature | Usage |
+|---------|-------|
+| **Image Generation** | Say "generate an image of..." to create mockups, diagrams, or visualizations. Images save to `assets/`. |
+| **Clarification Questions** | The agent can ask you questions mid-task when requirements are unclear. |
+| **Built-in Explore** | Codebase research ("how does X work?") runs automatically via the `explore` subagent. |
+| **Readonly Subagents** | Some subagents (like `research-analyzer`, `validator`) run in read-only mode for safety. |
 
-### "I want to build a prototype"
-→ Run `/proto [initiative-name]` - creates components in Storybook
-
-### "How do I save my work?"
-→ Run `/save` - stages, commits, and pushes in one step
-
-### "I want to see my prototype in the browser"
-→ After `/proto`, run this in terminal:
-```bash
-cd elephant-ai && npm run storybook -w web
-```
-Then open http://localhost:6006
-
-### "Someone made changes, how do I get them?"
-→ Run `/update` - pulls latest and syncs the codebase
-
-### "I finished my prototype, now what?"
-→ Run `/context-proto [name]` - see how it fits in the app
-→ Compare standalone vs in-context versions
-→ Then `/share` - creates a Pull Request for review
-
-### "Where should this component live in the app?"
-→ Run `/context-proto [name]` - analyzes codebase AND builds integrated prototype
-→ Or `/placement [name]` - for deep research without building
-
-### "I want to see how my prototype fits with the rest of the app"
-→ Run `/context-proto [name]` - does placement analysis + builds in app context
-
-### "I want to compare standalone vs integrated approaches"
-→ Run both `/proto [name]` and `/context-proto [name]`
-→ Compare in Storybook: `Prototypes/[Name]/Standalone` vs `Prototypes/[Name]/InContext`
-
-### "I have feedback from a user call"
-→ Run `/research [initiative-name]` with the transcript
-
-### "I need to start a new project"
-→ Run `/PM [project-name]` - creates PRD and all documentation
-
-### "I want to see what's being worked on"
-→ Run `/status` - shows active initiatives and their state
-
-### "I need to understand an existing initiative"
-→ Check `pm-workspace-docs/initiatives/[name]/` for all docs
-
-### "I'm stuck and don't know what went wrong"
-→ Run `/update` first (syncs everything), then try again
-
-### "I want to test my design with users"
-→ Run `/validate [name]` - runs synthetic user jury evaluation
-
-### "My prototype is ready for a designer to polish"
-→ Run `/design-handoff [name]` - choose handoff workflow:
-  - **Workflow A (Figma Refinement)**: Designer creates polished Figma version
-  - **Workflow B (Code-First)**: Designer gives feedback, dev iterates in code
-  - **Workflow C (Hybrid)**: Designer polishes in Figma, then `/figma-sync` back
-
-### "How does designer get my Storybook prototype into Figma?"
-→ **There's no direct import.** Options:
-  1. Designer views via Storybook Connect Figma plugin, recreates manually
-  2. Keep prototype in code, designer gives feedback only
-  3. Run `/design-handoff [name]` to choose the right workflow
-
-### "Designer finished the Figma, how do I get it back into code?"
-→ Run `/figma-sync [name] [figma-url]` - extracts variants, generates stories + code
-
----
-
-## Workflow Guides
-
-### Designer Workflow (Typical Day)
+### Image Generation Examples
 
 ```
-1. /update              # Get latest changes
-2. /proto [name]        # Build or continue prototype
-3. [work in Storybook]  # View at localhost:6006
-4. /save                # Save progress
-5. /share               # When ready for feedback
+"Generate an image of a dashboard mockup showing user engagement metrics"
+"Create a visualization of the data flow between CRM and our system"
+"Make a wireframe image of the mobile meeting view"
 ```
 
-### Two-Prototype Comparison Workflow
+### Admin & Configuration
 
-```
-1. /proto [name]         # Standalone: "What should this feature look like?"
-2. /context-proto [name] # In-context: "Where does it live in the app?"
-3. [compare both]        # Review standalone vs integrated approaches
-4. /validate [name]      # Test with synthetic users
-5. /share                # Submit for engineering review
-```
-
-**Note:** `/proto` and `/context-proto` can run independently or together for comparison.
-
-### PM Workflow (New Initiative)
-
-```
-1. /research [name]     # Analyze user feedback
-2. /PM [name]           # Create documentation
-3. /proto [name]        # Build initial prototype
-4. /validate [name]     # Test with synthetic users
-5. /iterate [name]      # Auto-pulls signals, updates docs, rebuilds prototype
-```
-
-### Quick Feedback Loop
-
-```
-1. /save                # Save current state
-2. /share               # Get PR link
-3. [share link]         # Send to stakeholders
-4. [receive feedback]   # Wait for comments
-5. /iterate [name]      # Make changes
-6. /save                # Push updates (PR auto-updates)
-```
-
-### PM→Designer Handoff (Workflow A: Figma Refinement)
-
-```
-1. /proto [name]           # PM builds functional prototype
-2. /save                   # Deploy to Chromatic
-3. /design-handoff [name]  # Generate designer brief
-4. [Designer reviews via Storybook Connect]
-5. [Designer creates polished Figma]
-6. /figma-sync [name] [url] # Pull specs back to code
-7. [Dev implements final version]
-```
-
-### PM→Designer Handoff (Workflow B: Code-First)
-
-```
-1. /proto [name]           # PM builds functional prototype
-2. /save                   # Deploy to Chromatic
-3. /design-handoff [name]  # Share Chromatic URL with designer
-4. [Designer reviews, gives feedback via comments/Loom]
-5. /iterate [name]         # Dev iterates based on feedback
-6. /validate [name]        # Test final version
-```
-
----
-
-## File Locations
-
-| Looking for... | Check here |
-|----------------|------------|
-| Initiative docs | `pm-workspace-docs/initiatives/[name]/` |
-| Prototypes | `elephant-ai/web/src/components/prototypes/` |
-| Research notes | `pm-workspace-docs/research/` |
-| Company context | `pm-workspace-docs/company-context/` |
-| Slash commands | `.cursor/commands/` |
-| AI behavior rules | `.cursor/rules/` |
-
----
-
-## Troubleshooting
-
-### "Command not working"
-1. Make sure you're in the pm-workspace folder
-2. Try `/update` to sync everything
-3. Check if the initiative name is spelled correctly
-
-### "Can't push/save"
-1. Run `/setup` if you haven't yet
-2. Check if you're on your own branch (not main)
-3. Contact Tyler if you need repo access
-
-### "Storybook won't start"
-1. Make sure dependencies are installed: `cd elephant-ai && npm install`
-2. Run: `npm run storybook -w web`
-3. Check nothing else is using port 6006
-
-### "I messed something up"
-Don't worry! Your work is likely safe.
-1. Run `/update` to reset to a clean state
-2. Your previous saves are on GitHub
-3. Ask for help if needed
-
----
-
-## Getting More Help
-
-- **Slack**: Ask in #product or DM Tyler
-- **In Cursor**: Just describe what you want to do
-- **README**: Check `README.md` for quick start guide
-
----
-
-## Response Format
-
-When helping a user, respond like this:
-
-```
-Based on what you're trying to do, I recommend:
-
-**Command:** /[command] [arguments]
-
-**What it does:** [Brief explanation]
-
-**Example:**
-[Show a concrete example if helpful]
-
-Would you like me to run this for you, or would you like more details first?
-```
-
-If their request spans multiple commands, lay out the workflow:
-
-```
-To accomplish this, here's the workflow:
-
-1. First, run `/command1` to [purpose]
-2. Then, run `/command2` to [purpose]
-3. Finally, run `/command3` to [purpose]
-
-Want me to walk you through step by step?
-```
+Use `/admin` to manage workspace configuration:
+- Create/update rules, skills, subagents, commands
+- See Cursor 2.4 file format documentation
+- Archive unused configurations

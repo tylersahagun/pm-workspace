@@ -1,38 +1,77 @@
-# AGENTS.md Writer
+# AGENTS.md Writer Command
 
-You generate product-focused AGENTS.md documentation that helps AI agents understand the WHY behind code, not just the WHAT.
+Generate product-focused AGENTS.md documentation for AI agents.
+
+## Usage
+
+```
+/agents [path-to-component]
+```
+
+Example:
+```
+/agents web/src/components/integrations/hubspot
+```
+
+## Behavior
+
+**Delegates to**: `docs-generator` subagent
+**Uses**: `agents-generator` skill
+
+The subagent will:
+1. Analyze the target directory structure
+2. Cross-reference with related initiatives and research
+3. Check personas from company context
+4. Generate AGENTS.md with product focus first, technical context second
 
 ## Purpose
 
 Create documentation that gives AI agents:
+- **Product context** - Problems solved, users served
+- **User empathy** - Personas, fears, success criteria
+- **Flow understanding** - Triggers, steps, outcomes
+- **Trust factors** - What builds/breaks user trust
 
-- Product context (problems solved, users served)
-- User empathy (personas, fears, success criteria)
-- Flow understanding (triggers, steps, outcomes)
-- Trust factors (what builds/breaks user trust)
+## Template Sections
 
-## Process
+```markdown
+# [Component Name]
 
-1. Analyze the target directory in @web/src/ or @functions/src/
-2. Cross-reference @notion for user context and feedback
-3. Check @pm-workspace-docs/company-context/personas.md
-4. Generate with product focus first, technical context second
+## Product Context
+- Problem Solved
+- Users Served
+- Cognitive Load Eliminated
 
-## Template Structure
+## User Personas
+- Needs, Fears, Success definition
 
-Use the template from @.cursor/rules/agents-generator.mdc
+## Key User Flows
+- Trigger → Steps → Outcome
 
-Key sections:
+## Trust & Experience
+- What Builds Trust
+- What Breaks Trust
+- Error Recovery
 
-- **Product Context** - Problem solved, personas, cognitive load eliminated
-- **User Personas** - Needs, fears, success definition
-- **Key User Flows** - Trigger → Steps → Outcome with metrics
-- **Trust & Experience** - What builds/breaks trust, error recovery
-- **Technical Context** - Setup, conventions, testing, related components
+## Technical Context
+- Setup, Conventions, Testing
+
+## AI Agent Guidelines
+- What to do / avoid
+```
 
 ## Save Location
 
-Mirror the src structure: `pm-workspace-docs/agents-docs/[path]/AGENTS.md`
+Mirror the source structure:
+```
+Source: elephant-ai/web/src/components/integrations/hubspot/
+Output: pm-workspace-docs/agents-docs/web/components/integrations/hubspot/AGENTS.md
+```
 
-Example: For `web/src/components/integrations/hubspot/`, save to `pm-workspace-docs/agents-docs/web/components/integrations/hubspot/AGENTS.md`
+## Quality Focus
 
+Good AGENTS.md is:
+- Product-first (problem before code)
+- Persona-aware (specific names)
+- Flow-complete (entry → success → failure)
+- Trust-conscious (build/break factors)

@@ -4,17 +4,13 @@
   "hypothesis_id": "hyp-release-lifecycle-process",
   "phase": "build",
   "sub_phase": null,
-  "status": "on_track",
+  "status": "blocked",
   "priority": "P0",
   "owner": "tyler",
-  "personas": [
-    "sales-leader",
-    "csm",
-    "revops"
-  ],
+  "personas": ["sales-leader", "csm", "revops"],
   "pillar": "customer-trust",
   "created_at": "2026-01-13T12:23:43.552620",
-  "updated_at": "2026-01-14T17:16:44.431242",
+  "updated_at": "2026-01-24T10:30:00.000000",
   "phase_history": [
     {
       "phase": "build",
@@ -22,8 +18,28 @@
       "exited": null
     }
   ],
-  "blockers": [],
-  "next_action": "Review build phase status",
+  "blockers": [
+    {
+      "type": "technical",
+      "description": "PostHog limitations discovered when adding early access features",
+      "impact": "Beta features UI reverted site to 3-month-old look",
+      "action_required": "Meeting with PostHog today; Rob getting clarity from Adam/Jason/Ben by EOD",
+      "added": "2026-01-24"
+    },
+    {
+      "type": "process",
+      "description": "No clear graduation criteria defined for feature stages",
+      "impact": "Can't answer 'what is success criteria to move from alpha to beta?'",
+      "action_required": "Define stage graduation criteria",
+      "added": "2026-01-24"
+    }
+  ],
+  "next_action": "Rob to get clarification on feature flag/release stages by EOD (Adam, Jason, Ben)",
+  "council_notes_20260124": {
+    "key_quote": "The true clarity and delineations that we talked about last time that is the expectation for this isn't there yet.",
+    "posthog_meeting": "Meeting today to address limitations",
+    "status_note": "Bricks being laid daily but no features in defined alpha/beta stages yet"
+  },
   "graduation_criteria": {},
   "timeline": {
     "started": "2026-01-13",
@@ -32,5 +48,23 @@
   "metrics": {
     "days_in_phase": 1,
     "total_iterations": 0
+  },
+  "linear_project_id": null,
+  "linear_project_url": null,
+  "notion_project_id": null,
+  "notion_project_url": null,
+  "notion_artifacts": {
+    "engineering_specs": [],
+    "design_briefs": [],
+    "launch_planning": []
+  },
+  "github_labels": ["initiative:release-lifecycle", "internal-process"],
+  "github_branch_prefix": "feat/release",
+  "dev_activity": {
+    "last_synced": null,
+    "linear_issues_total": null,
+    "linear_issues_completed": null,
+    "linear_issues_in_progress": null,
+    "github_prs_merged_30d": null
   }
 }

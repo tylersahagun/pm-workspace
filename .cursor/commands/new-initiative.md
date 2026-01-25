@@ -1,32 +1,50 @@
-# New Initiative Setup
+# New Initiative Command
 
-Create a complete initiative folder structure for a new feature or project.
+Create a new initiative folder structure.
 
-## What I'll Create
+## Usage
 
 ```
-pm-workspace-docs/initiatives/[initiative-name]/
-├── prd.md              # Product requirements document
-├── prototype-notes.md  # Notes for prototype development
-├── research.md         # Related research and findings
-└── decisions.md        # Key decisions and rationale
+/new-initiative [name]
 ```
+
+Example:
+```
+/new-initiative hubspot-config
+```
+
+## Behavior
+
+This is a thin wrapper that creates the folder structure.
 
 ## Process
 
-1. Ask for the initiative name and brief description
-2. Create the folder structure
-3. Generate a starter PRD with placeholders
-4. Link to relevant personas from @pm-workspace-docs/company-context/personas.md
+1. **Copy template** - From `initiatives/_template/` to `initiatives/[name]/`
+2. **Initialize meta** - Create `_meta.json` with phase: discovery
+3. **Update title** - If context provided, update PRD title
+4. **Commit** - Push with message "New initiative: [name]"
+
+## Created Files
+
+```
+pm-workspace-docs/initiatives/[name]/
+├── _meta.json          # Phase, status, timestamps
+├── prd.md              # PRD template (empty)
+├── research.md         # Research notes (empty)
+├── design-brief.md     # Design brief template
+├── engineering-spec.md # Eng spec template
+├── gtm-brief.md        # GTM brief template
+├── decisions.md        # Decision log
+└── prototype-notes.md  # Prototype documentation
+```
 
 ## Naming Convention
 
-Use kebab-case for folder names: `fine-grained-access-controls`, `hubspot-sms-integration`
+Use kebab-case: `hubspot-config`, `crm-sync`, `settings-redesign`
 
-## Next Steps After Creation
+## Next Steps
 
-Suggest:
-
-- `/pm` to flesh out the PRD
-- `/research` to analyze related user feedback
-- `/proto` to build prototypes once requirements are clear
+After creating initiative:
+- Have research? Run `/research [name]`
+- Ready for PRD? Run `/pm [name]`
+- Quick prototype? Run `/lofi-proto [name]`

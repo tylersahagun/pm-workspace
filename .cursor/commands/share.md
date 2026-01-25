@@ -1,191 +1,61 @@
-# Share Your Work
+# Share Your Work Command
 
-Create a Pull Request to share your prototypes and changes for review.
+Create a Pull Request to share prototypes and changes for review.
 
 ## Usage
 
-- `/share` - Create a PR with auto-generated description
-- `/share [title]` - Create a PR with a custom title
+```
+/share
+/share [title]
+```
 
-## What This Does
+## Behavior
 
-1. Saves any unsaved changes
-2. Pushes your branch to GitHub
-3. Creates a Pull Request for review
-4. Provides a link to view and discuss
+This is a thin wrapper around git commands. No subagent needed.
 
 ## Process
 
-### Step 1: Check Current Branch
+1. **Check branch** - Must be on feature branch (not main)
+2. **Save changes** - Stage and commit any uncommitted work
+3. **Push to remote** - `git push -u origin [branch]`
+4. **Create PR** - Using `gh pr create` or provide URL
 
-```bash
-cd /Users/tylersahagun/Source/pm-workspace
-BRANCH=$(git branch --show-current)
-```
+## Prerequisites
 
-If on main, stop:
+- Must be on a feature branch (not main)
+- GitHub CLI (`gh`) recommended for auto-create
 
-```
-❌ You're on the main branch!
-
-You need to be on your personal branch to share work.
-Run /setup to create one, or check out an existing branch.
-```
-
-### Step 2: Save Any Unsaved Changes
-
-```bash
-if [ -n "$(git status --porcelain)" ]; then
-    echo "📝 You have unsaved changes. Saving them first..."
-    git add -A
-    git commit -m "Update before sharing"
-fi
-```
-
-### Step 3: Push to GitHub
-
-```bash
-git push -u origin "$BRANCH"
-```
-
-### Step 4: Generate PR Description
-
-Auto-generate based on what changed:
-
-```markdown
-## What's in this PR
-
-[Auto-detect and list:]
-
-- New/updated prototypes in elephant-ai/web/src/components/prototypes/
-- Documentation changes in pm-workspace-docs/
-- Command/rule updates in .cursor/
-
-## Preview
-
-[If prototypes exist:]
-Run Storybook locally to preview:
-\`\`\`bash
-cd elephant-ai && npm run storybook -w web
-\`\`\`
-Then navigate to Prototypes/ in the sidebar.
-
-## Screenshots
-
-[Leave placeholder for user to add]
-
-## Notes
-
-[Any context from recent commits]
-```
-
-### Step 5: Create Pull Request
-
-Use the GitHub CLI if available, otherwise provide URL:
-
-**Option A: GitHub CLI (gh)**
-
-```bash
-if command -v gh &> /dev/null; then
-    gh pr create --title "[PR Title]" --body "[Generated description]" --base main
-fi
-```
-
-**Option B: Generate URL**
-
-```bash
-REPO="tylersahagun/pm-workspace"
-TITLE=$(echo "[PR Title]" | sed 's/ /%20/g')
-URL="https://github.com/${REPO}/compare/main...${BRANCH}?expand=1&title=${TITLE}"
-echo "Open this URL to create your PR: $URL"
-```
-
-### Step 6: Success Message
+## Output
 
 ```
-╔═══════════════════════════════════════════════════════════════╗
-║                    ✅ Ready to Share!                         ║
-╠═══════════════════════════════════════════════════════════════╣
-║                                                               ║
-║  Your changes are pushed and ready for review.                ║
-║                                                               ║
-║  📋 Create your PR here:                                      ║
-║  [GitHub PR URL]                                              ║
-║                                                               ║
-║  What happens next:                                           ║
-║  1. Click the link above                                      ║
-║  2. Review the changes shown                                  ║
-║  3. Add any screenshots or notes                              ║
-║  4. Click "Create Pull Request"                               ║
-║  5. Share the PR link with your team                          ║
-║                                                               ║
-║  💡 Tip: Add screenshots of your prototypes to the PR!        ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
+✅ Ready to Share!
+
+Your changes are pushed and ready for review.
+
+📋 Create your PR here:
+[GitHub PR URL]
+
+What happens next:
+1. Click the link
+2. Review changes
+3. Add screenshots
+4. Create Pull Request
+5. Share with team
+
+💡 Tip: Add screenshots of prototypes!
 ```
-
-## What Reviewers Will See
-
-The PR will show:
-
-- All files you added or changed
-- Visual diffs for code changes
-- A preview link (once Chromatic is set up)
-
-## After Creating the PR
-
-### Getting Feedback
-
-- Reviewers can leave comments on specific lines
-- You'll get email/Slack notifications
-- Check the PR page for any requested changes
-
-### Making Changes After Review
-
-If reviewers request changes:
-
-1. Make the changes locally
-2. Run `/save` to commit them
-3. The PR automatically updates!
-
-No need to create a new PR.
-
-### Merging
-
-Once approved:
-
-1. Tyler or a lead will merge the PR
-2. Your changes become part of main
-3. Everyone gets them on next `/update`
 
 ## Troubleshooting
 
-### "Authentication failed"
+### On main branch
+Run `/setup` to create a feature branch.
 
-You may need to set up GitHub credentials:
+### Auth issues
+Install GitHub CLI: `brew install gh`
+Login: `gh auth login`
 
-- Install GitHub CLI: `brew install gh`
-- Login: `gh auth login`
+### Conflicts
+Run `/update` first to sync with main.
 
-### "Branch has conflicts"
-
-Run `/update` first to sync with main, then try `/share` again.
-
-### PR Already Exists
-
-If a PR already exists for this branch:
-
-```
-ℹ️ A PR already exists for this branch!
-
-View it here: [existing PR URL]
-
-Your new changes have been pushed to the existing PR.
-```
-
-## Tips
-
-- Share early, share often - smaller PRs are easier to review
-- Include context about what you're trying to achieve
-- Screenshots make a huge difference for design work
-- Tag specific people if you need their input
+### PR already exists
+New pushes automatically update the existing PR.

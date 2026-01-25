@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-22T14:30:00.000000",
-  "total_signals": 10,
+  "last_updated": "2026-01-24T10:00:00.000000",
+  "total_signals": 11,
   "by_source": {
-    "transcript": 8,
+    "transcript": 9,
     "ticket": 0,
     "issue": 0,
     "conversation": 0,
@@ -11,7 +11,7 @@
   },
   "by_status": {
     "unprocessed": 2,
-    "processed": 8
+    "processed": 9
   },
   "signals": [
     {
@@ -500,6 +500,80 @@
       "participants": [
         "Tyler",
         "Matt"
+      ]
+    },
+    {
+      "id": "sig-2026-01-24-council-of-product",
+      "type": "transcript",
+      "source": "internal-product-meeting",
+      "topic": "council-of-product-weekly-meeting",
+      "captured_at": "2026-01-24T10:00:00.000000",
+      "status": "processed",
+      "problems_extracted": [
+        "Revenue team confused about Composio availability - not customer-ready",
+        "Release lifecycle/feature flags not fully implemented - PostHog limitations",
+        "No clear definition of time to value per persona",
+        "AI enablement squad feeling sidelined from initiatives",
+        "Site performance work caused visual regression",
+        "User groups status unclear"
+      ],
+      "personas_mentioned": [
+        "sales-rep",
+        "revops",
+        "implementation-partner",
+        "sales-leader",
+        "csm",
+        "ae"
+      ],
+      "severity": "high",
+      "word_count": 4500,
+      "file_path": "signals/transcripts/2026-01-24-council-of-product.md",
+      "related_initiatives": [
+        "rep-workspace",
+        "composio-agent-framework",
+        "settings-redesign",
+        "speaker-id-voiceprint",
+        "product-usability",
+        "user-onboarding",
+        "release-lifecycle-process",
+        "hubspot-agent-config-ui",
+        "crm-readiness-diagnostic"
+      ],
+      "hypothesis_matches": [
+        "rep-workspace",
+        "composio-agent-framework"
+      ],
+      "hypothesis_candidates": [
+        "Rep workspace as viral anchor - gives clear demo story and entry point",
+        "Proactive deal intelligence over explicit action items",
+        "HubSpot sidebar reduces context switching",
+        "Job function segmentation reveals usage patterns"
+      ],
+      "key_quotes": [
+        "I am so freaking impressed by how much work I'm actually getting done through AskElephant now. I now want four chat windows.",
+        "What I'm trying to prove here is the next milestone is that, one, we can take the data and now have it in ours. And then based off that data and the full context of the entity, we can actually drive real actual insights.",
+        "Every feature, you should have some success metric. It doesn't have to be revenue... looking at that usage and what a good usage goal would be to infer that it's worth it."
+      ],
+      "feature_requests": [
+        "Rep workspace with deal context + Composio actions",
+        "HubSpot audit tool for partners",
+        "HubSpot widget/sidebar for internal search",
+        "Peanut SDK integration for desktop dictation",
+        "Slack agent for integration capability questions",
+        "Job title field for PostHog analytics"
+      ],
+      "key_decisions": [
+        "Composio NOT live to customers - revenue team to be clarified",
+        "Global chat open beta target: Feb 1",
+        "Job title field needed for analytics segmentation",
+        "Rep workspace is #1 priority"
+      ],
+      "participants": [
+        "Woody",
+        "Rob",
+        "Sam Ho",
+        "Skylar",
+        "Tyler"
       ]
     }
   ]

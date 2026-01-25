@@ -191,9 +191,84 @@ pm-workspace/
 │   └── personas/             # Synthetic personas for jury system
 ├── .cursor/
 │   ├── commands/             # Slash commands
-│   └── rules/                # AI behavior rules
+│   ├── rules/                # AI behavior rules
+│   ├── skills/               # Specialized knowledge packages
+│   └── agents/               # Subagent configurations
 └── README.md
 ```
+
+---
+
+## How the AI System Works
+
+This workspace uses Cursor 2.4's context management system. Here's how the pieces fit together:
+
+### The Four Layers
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  1. RULES - Shape AI behavior (always-on or file-triggered) │
+│     └── pm-foundation.mdc: Core PM copilot personality      │
+├─────────────────────────────────────────────────────────────┤
+│  2. SKILLS - Procedural "how-to" knowledge                  │
+│     └── prototype-builder, research-analyst, jury-system    │
+├─────────────────────────────────────────────────────────────┤
+│  3. SUBAGENTS - Isolated specialists for complex workflows  │
+│     └── proto-builder, validator, iterator, research-analyzer│
+├─────────────────────────────────────────────────────────────┤
+│  4. COMMANDS - User-facing triggers that route to above     │
+│     └── /proto, /research, /validate, /save, /help          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### What Each Layer Does
+
+| Layer | Location | Purpose | Example |
+|-------|----------|---------|---------|
+| **Rules** | `.cursor/rules/*.mdc` | Persistent context that shapes AI behavior | `pm-foundation.mdc` makes AI act as PM copilot |
+| **Skills** | `.cursor/skills/*/SKILL.md` | Step-by-step procedures for specific tasks | `prototype-builder` knows all required component states |
+| **Subagents** | `.cursor/agents/*.md` | Isolated context for complex multi-step work | `proto-builder` builds prototypes without PM context overhead |
+| **Commands** | `.cursor/commands/*.md` | User-facing entry points | `/proto` → routes to proto-builder subagent |
+
+### How a Request Flows
+
+```
+You: "/proto dashboard-settings"
+  │
+  ├─→ Command: proto.md (thin wrapper)
+  │     └─→ Delegates to: proto-builder subagent
+  │
+  ├─→ Subagent runs in isolated context:
+  │     ├── Loads: PRD, design brief, design system
+  │     ├── Applies: prototype-builder skill
+  │     └── Builds: Components with all states
+  │
+  └─→ Output: Storybook components + Chromatic preview URL
+```
+
+### Why This Architecture?
+
+1. **Focused context** - Subagents only load what they need, not everything
+2. **Specialized expertise** - Each subagent is tuned for its specific task
+3. **Parallel execution** - Multiple subagents can run simultaneously
+4. **Consistent behavior** - Rules ensure the AI acts according to company values
+
+### Cursor 2.4 Features
+
+| Feature | What It Does |
+|---------|--------------|
+| **Image Generation** | Say "generate an image of..." to create mockups |
+| **Clarification Questions** | AI asks questions when requirements are unclear |
+| **Built-in Explore** | Auto-researches codebase for "how does X work?" |
+| **Readonly Subagents** | Some subagents can only read, not modify files |
+
+### Customizing AI Behavior
+
+Use `/admin` to modify:
+- **Rules** - Change how AI behaves across all conversations
+- **Skills** - Add new procedures for specific tasks
+- **Subagents** - Create new specialists for complex workflows
+- **Commands** - Add new slash commands
 
 ---
 

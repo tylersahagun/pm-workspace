@@ -1,142 +1,136 @@
 # Roadmap Kanban View
 
-**Generated:** 2026-01-23 00:03
+**Generated:** 2026-01-24 00:00
 
 ## Visual Board
 
 | Discovery | Define | Build | Validate | Launch |
 |-----------|--------|-------|----------|--------|
-| ✅ Crm Readiness Diagno | ✅ Condorcet Jury Syste | ✅ Crm Exp Ete | ✅ Hubspot Agent Config |  |
-| ✅ Internal Search | ✅ Feature Availability | ✅ Universal Signal Tab | ✅ Composio Agent Frame |  |
-|  | ✅ Automated Metrics Ob | ✅ Customer Journey Map | ✅ Settings Redesign |  |
-|  | ✅ Call Import Engine | ✅ Release Lifecycle Pr |  |  |
-|  | ✅ User Onboarding |  Rep Workspace |  |  |
-|  | ✅ Speaker Id Voiceprin |  Design System Workfl |  |  |
-|  | ✅ Product Usability |  |  |  |
-|  | ✅ Admin Onboarding |  |  |  |
+| ✅ Crm Readiness Diagno | ✅ Feature Availability |  Rep Workspace | ✅ Hubspot Agent Config |  |
+|  Speaker Id Voiceprin | ✅ User Onboarding | ✅ Crm Exp Ete | ✅ Composio Agent Frame |  |
+| ✅ Internal Search | ✅ Call Import Engine | ✅ Universal Signal Tab | 🚫 Settings Redesign |  |
+|  | ✅ Automated Metrics Ob | ✅ Customer Journey Map |  |  |
+|  | ✅ Admin Onboarding | 🚫 Release Lifecycle Pr |  |  |
+|  |  |  Product Usability |  |  |
+|  |  | ✅ Design System Workfl |  |  |
 
 ---
 
 ## Initiative Details
 
-### Discovery (2)
+### Discovery (3)
 
 **Crm Readiness Diagnostic** ✅
 - Priority: P2
 - Owner: Unassigned
-- Days in phase: 0
+- Days in phase: 1
 - Next: Finalize positioning decision (customer-facing vs partner-only)
+
+**Speaker Id Voiceprint** 
+- Priority: P3
+- Owner: Delo
+- Days in phase: -1
+- Next: Delo exploring Hugging Face hosting; vendor conversations for embedding providers
 
 **Internal Search** ✅
 - Priority: P3
 - Owner: Unassigned
-- Days in phase: 0
+- Days in phase: 1
 - Next: Create research.md and PRD
 
-### Define (8)
-
-**Condorcet Jury System** ✅
-- Priority: P0
-- Owner: tyler
-- Days in phase: 13
-- Next: Review define phase status
+### Define (5)
 
 **Feature Availability Audit** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 9
+- Days in phase: 10
 - Next: Review define phase status
 
-**Automated Metrics Observability** ✅
+**User Onboarding** ✅
 - Priority: P2
-- Owner: tyler
-- Days in phase: 14
-- Next: Review define phase status
+- Owner: Sam Ho
+- Days in phase: -1
+- Next: Add job title/function field to onboarding for PostHog analytics segmentation
 
 **Call Import Engine** ✅
 - Priority: P2
 - Owner: tyler
-- Days in phase: 9
+- Days in phase: 10
 - Next: Review define phase status
 
-**User Onboarding** ✅
+**Automated Metrics Observability** ✅
 - Priority: P3
-- Owner: Unassigned
-- Days in phase: 0
-- Next: Review and update initiative details
-
-**Speaker Id Voiceprint** ✅
-- Priority: P3
-- Owner: Unassigned
-- Days in phase: 0
-- Next: Review and update initiative details
-
-**Product Usability** ✅
-- Priority: P3
-- Owner: Unassigned
-- Days in phase: 0
-- Next: Review and update initiative details
+- Owner: tyler
+- Days in phase: 1
+- Next: Deprioritized - revisit after P0 initiatives complete
 
 **Admin Onboarding** ✅
 - Priority: P3
 - Owner: Unassigned
-- Days in phase: 0
+- Days in phase: 1
 - Next: Review and update initiative details
 
-### Build (6)
+### Build (7)
+
+**Rep Workspace** 
+- Priority: P0
+- Owner: Brian/Rob
+- Days in phase: -1
+- Next: Brian proving deal context + Composio actions integration; demo story milestone
 
 **Crm Exp Ete** ✅
 - Priority: P0
 - Owner: Tyler
-- Days in phase: 6
+- Days in phase: 7
 
 **Universal Signal Tables** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 8
+- Days in phase: 9
 - Next: Review build phase status
 
 **Customer Journey Map** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 8
+- Days in phase: 9
 - Next: Review build phase status
 
-**Release Lifecycle Process** ✅
+**Release Lifecycle Process** 🚫
 - Priority: P0
 - Owner: tyler
-- Days in phase: 8
-- Next: Review build phase status
+- Days in phase: -1
+- Next: Rob to get clarification on feature flag/release stages by EOD (Adam, Jason, Ben)
 
-**Rep Workspace** 
-- Priority: high
-- Owner: Skylar/Tyler
-- Days in phase: 6
-
-**Design System Workflow** 
+**Product Usability** 
 - Priority: P2
-- Owner: Tyler Sahagun
-- Days in phase: 0
+- Owner: Knox
+- Days in phase: -1
+- Next: Knox to revert visual regression and provide performance improvement estimate by EOD
+
+**Design System Workflow** ✅
+- Priority: P2
+- Owner: tyler
+- Days in phase: 1
 
 ### Validate (3)
 
 **Hubspot Agent Config Ui** ✅
 - Priority: P0
 - Owner: tyler
-- Days in phase: 8
-- Next: Review validate phase status
+- Days in phase: -1
+- Next: Review validate phase status; explore HubSpot sidebar/widget integration
 
 **Composio Agent Framework** ✅
 - Priority: P1
 - Owner: tyler
-- Days in phase: 0
-- Next: Woody reviews design handoff brief and provides feedback or starts Figma refinement
+- Days in phase: -1
+- Next: Woody reviews design handoff brief; Rob clarifies Composio status to revenue team
 
-**Settings Redesign** ✅
+**Settings Redesign** 🚫
 - Priority: P2
-- Owner: tyler
-- Days in phase: 0
-- Next: Review jury evaluation results
+- Owner: Rob
+- Days in phase: -1
+- Next: Rob to loop in Sam today; incorporate Erica's feedback
 
 ---
 

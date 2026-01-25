@@ -1,9 +1,9 @@
 {
   "$schema": "pm-workspace-hypotheses-index-v1",
-  "last_updated": "2026-01-22T15:00:00.000000",
-  "total": 11,
+  "last_updated": "2026-01-24T10:30:00.000000",
+  "total": 15,
   "by_status": {
-    "active": 2,
+    "active": 6,
     "validated": 1,
     "committed": 8,
     "retired": 0
@@ -217,6 +217,101 @@
       "frequency": "common",
       "created_at": "2026-01-15T18:38:06.757083",
       "validated_at": "2026-01-15T18:38:06.757084"
+    },
+    {
+      "id": "hyp-rep-workspace-viral-anchor",
+      "name": "Rep Workspace as Viral Anchor",
+      "status": "active",
+      "initiative_id": "rep-workspace",
+      "problem_statement": "AskElephant lacks a clear anchor point that makes the product easy to demo, understand, and adopt. Without a clear entry point, reps don't know where to live in AskElephant, demos are harder, and virality is limited.",
+      "personas": [
+        "sales-rep",
+        "ae"
+      ],
+      "evidence_count": 3,
+      "severity": "high",
+      "frequency": "common",
+      "created_at": "2026-01-24T10:30:00.000000",
+      "evidence_sources": [
+        "sig-2026-01-24-council-of-product",
+        "sig-2026-01-21-maple-billing-feedback"
+      ],
+      "key_quotes": [
+        "We see this as, like, a really cool viral thing that could go, like, really hard.",
+        "It gives us, like, an anchor point of this is where you live."
+      ]
+    },
+    {
+      "id": "hyp-proactive-deal-intelligence",
+      "name": "Proactive Deal Intelligence",
+      "status": "active",
+      "initiative_id": "rep-workspace",
+      "problem_statement": "Current action item extraction only captures explicit statements; reps miss implicit opportunities to advance deals. Reps rely on intuition rather than AI-powered guidance for strategic deal moves.",
+      "personas": [
+        "sales-rep"
+      ],
+      "evidence_count": 3,
+      "severity": "high",
+      "frequency": "common",
+      "created_at": "2026-01-24T10:30:00.000000",
+      "evidence_sources": [
+        "sig-2026-01-24-council-of-product",
+        "sig-2026-01-21-crispy-product-feedback"
+      ],
+      "key_quotes": [
+        "Where I really wanna hit is that taking the full context, suggesting and covering hashtags that you may not that weren't spoken",
+        "CRM reporting doesn't answer 'so what?'"
+      ]
+    },
+    {
+      "id": "hyp-hubspot-sidebar-integration",
+      "name": "HubSpot Sidebar Integration",
+      "status": "active",
+      "problem_statement": "Reps won't leave HubSpot to access AskElephant insights, creating a context-switching barrier. AskElephant value is locked behind a tab switch; reps don't get insights at the moment they need them.",
+      "personas": [
+        "sales-rep"
+      ],
+      "evidence_count": 4,
+      "severity": "high",
+      "frequency": "common",
+      "created_at": "2026-01-24T10:30:00.000000",
+      "evidence_sources": [
+        "sig-2026-01-24-council-of-product",
+        "sig-2026-01-21-crispy-product-feedback"
+      ],
+      "related_initiatives": [
+        "hubspot-agent-config-ui",
+        "crm-exp-ete"
+      ],
+      "key_quotes": [
+        "I would love a global chat to be a card or a on the record sidebar in HubSpot directly. I would use the fuck out of that.",
+        "A lot of us actually just want a widget inside of HubSpot that can use internal search to ask questions."
+      ]
+    },
+    {
+      "id": "hyp-job-function-analytics-segmentation",
+      "name": "Job Function Analytics Segmentation",
+      "status": "active",
+      "initiative_id": "user-onboarding",
+      "problem_statement": "Cannot segment product usage by job function/role (AE, SDR, CSM, RevOps, Leader). Product decisions lack persona-specific data; can't answer questions like 'Are AEs using chat with tools?'",
+      "personas": [
+        "product-team",
+        "pmm"
+      ],
+      "evidence_count": 3,
+      "severity": "medium",
+      "frequency": "common",
+      "created_at": "2026-01-24T10:30:00.000000",
+      "evidence_sources": [
+        "sig-2026-01-24-council-of-product"
+      ],
+      "related_initiatives": [
+        "user-onboarding"
+      ],
+      "key_quotes": [
+        "Wanna add it back for analytics and tracking so that we can know which users are using the platform for what reason.",
+        "We have exactly 2,000 users that have a job title. Super weird."
+      ]
     }
   ]
 }
