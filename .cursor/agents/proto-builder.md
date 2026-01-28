@@ -236,11 +236,12 @@ After Chromatic deploy completes, send a DM to Tyler with prototype links.
 **Use the `prototype-notification` skill** (`.cursor/skills/prototype-notification/SKILL.md`):
 
 1. Extract the `storybookUrl` from Chromatic output
-2. Convert initiative slug to PascalCase for Storybook paths
+2. Read `_meta.json` to get `figjam_url` (if available)
 3. Generate URLs:
-   - Chromatic: `[storybookUrl]/?path=/story/prototypes-[InitiativePascalCase]-v1--default`
-   - Local: `http://localhost:6006/?path=/story/prototypes-[InitiativePascalCase]-v1--default`
-   - Docs: `https://github.com/askelephant/pm-workspace/blob/main/pm-workspace-docs/initiatives/[name]/prototype-notes.md`
+   - Chromatic walkthrough: `[storybookUrl]/iframe.html?id=[story-id]&viewMode=story`
+   - FigJam: Use `figjam_url` from `_meta.json`
+   - PRD: `https://github.com/tylersahagun/pm-workspace/blob/main/pm-workspace-docs/initiatives/[name]/prd.md`
+   - Research: `https://github.com/tylersahagun/pm-workspace/blob/main/pm-workspace-docs/initiatives/[name]/research.md`
 4. Send via `SLACK_SEND_MESSAGE` MCP tool to `U08JVM8LBP0` (Tyler)
 
 **MCP Tool Call:**
