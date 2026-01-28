@@ -93,8 +93,9 @@
   },
   "linear_project_id": null,
   "linear_project_url": null,
-  "notion_project_id": null,
-  "notion_project_url": null,
+  "notion_project_id": "2eaf79b2-c8ac-8180-b691-d47b08c84978",
+  "notion_project_url": "https://www.notion.so/Rep-Workspace-2eaf79b2c8ac8180b691d47b08c84978",
+  "visibility": "internal",
   "notion_artifacts": {
     "engineering_specs": [],
     "design_briefs": [],

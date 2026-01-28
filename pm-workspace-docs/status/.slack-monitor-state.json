@@ -1,0 +1,16 @@
+{
+  "last_check": "2026-01-28T03:42:00Z",
+  "last_check_unix": 1769580120,
+  "channels_checked": [
+    "product-forum",
+    "product-updates",
+    "team-dev",
+    "customer-feedback",
+    "churn-alert",
+    "sales-closed-won",
+    "general"
+  ],
+  "messages_found": 28,
+  "action_required": 4,
+  "review": 3
+}

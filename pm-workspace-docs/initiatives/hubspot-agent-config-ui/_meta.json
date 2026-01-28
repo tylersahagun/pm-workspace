@@ -29,6 +29,28 @@
     "technical_options": ["Custom HubSpot CRM Card", "Breeze Agent Integration"],
     "key_quote": "A lot of us actually just want a widget inside of HubSpot that can use internal search to ask questions."
   },
+  "shipped_features_20260126": {
+    "source": "signals/transcripts/2026-01-26-hubspot-salesforce-update.md",
+    "documented_by": "Palmer",
+    "features": [
+      {
+        "name": "AskElephant HubSpot App Card",
+        "status": "shipped",
+        "location": "Contact and Company pages in HubSpot",
+        "capabilities": ["Company info with links to AskElephant", "Recent meetings display", "Chat with HubSpot agent", "Internal search activated"]
+      },
+      {
+        "name": "Structured HubSpot Agent Workflow Action",
+        "status": "shipped",
+        "capabilities": ["Multi-object updates", "Property configuration", "Human-in-the-loop option", "Create if not found", "Append vs replace"]
+      },
+      {
+        "name": "Salesforce Agent",
+        "status": "in_progress",
+        "note": "Open PR - feature parity with HubSpot Agent"
+      }
+    ]
+  },
   "graduation_criteria": {},
   "timeline": {
     "started": "2026-01-07",

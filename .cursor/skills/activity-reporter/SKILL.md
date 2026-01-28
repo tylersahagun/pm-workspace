@@ -24,6 +24,8 @@ Procedural knowledge for generating activity reports that focus on **what happen
 | **Full EOW**      | `/eow`          | ~300 lines | Technical + trends  | PM/Engineering |
 | **Daily Digest**  | `/eod --digest` | ~50 lines  | Newspaper headlines | Anyone         |
 | **Weekly Digest** | `/eow --digest` | ~60 lines  | Newspaper headlines | Anyone         |
+| **Rob Mode**      | `/eod --rob`    | ~40 lines  | Simple + verified   | Revenue/CRO    |
+| **Rob Mode**      | `/eow --rob`    | ~50 lines  | Simple + verified   | Revenue/CRO    |
 
 ### Digest Mode (`--digest` flag)
 
@@ -42,6 +44,116 @@ Quick "Sunday paper" format for **revenue team audience** - business impact, not
 Matt Noxon, Jason, Eduardo, Palmer, Kaden, Dylan, Bryan, Adam, Skylar
 
 **Note:** Highlight any visual/UI changes in the Features section.
+
+### Rob Mode (`--rob` flag)
+
+**Named after:** Robert Henderson (CRO) - optimized for revenue team consumption.
+
+The `--rob` flag generates a **simplified, verified** report designed for the revenue team and executives:
+
+```
+/eod --rob     # Daily Rob report
+/eow --rob     # Weekly Rob report
+```
+
+**Key Differences from `--digest`:**
+
+| Aspect                   | `--digest`       | `--rob`                         |
+| ------------------------ | ---------------- | ------------------------------- |
+| **Reading Level**        | General audience | High school senior (12th grade) |
+| **Technical Jargon**     | Minimal          | **Zero** - plain English only   |
+| **Feature Availability** | Listed           | **Verified against PostHog**    |
+| **Internal Features**    | May appear       | **Automatically hidden**        |
+| **Language**             | Feature-focused  | **Benefit-focused**             |
+
+**Reading Level Requirements:**
+
+- Short sentences (max 15 words)
+- Common words only (no "integration", "workflow", "synchronization")
+- Active voice ("We added X" not "X was implemented")
+- Concrete benefits ("Save time" not "Improved efficiency")
+- No abbreviations without explanation
+
+**Language Transformations:**
+
+| Technical                              | Rob-Friendly                                       |
+| -------------------------------------- | -------------------------------------------------- |
+| "HubSpot integration sync"             | "Your CRM now updates automatically"               |
+| "Workflow automation enhancements"     | "Set it and forget it - less manual work"          |
+| "AI-powered conversation intelligence" | "We watch your calls and find the important stuff" |
+| "Performance optimizations"            | "The app runs faster now"                          |
+| "Bug fixes in recording pipeline"      | "Fixed some issues with call recording"            |
+| "GraphQL query improvements"           | "Faster page loads"                                |
+
+**Mandatory Feature Availability Check:**
+
+When `--rob` is used, ALL features MUST be checked against PostHog:
+
+1. Query PostHog feature flags for each feature mentioned
+2. Only include features with ✅ GA status (100% rollout, no restrictions)
+3. Add availability table ONLY if partial/internal features exist
+4. Remove or grey-out any internal-only features
+5. Add note: "All features listed are available to your team now"
+
+**Rob Mode Sections:**
+
+1. **What's New** (not "Features Shipped")
+   - Plain English descriptions
+   - Customer benefit focus
+   - ✅ All verified as customer-visible
+2. **What We Fixed** (not "Bug Fixes")
+   - Simple descriptions
+   - Focus on user impact
+3. **Revenue Wins** (always included)
+   - Deals closed
+   - SDR stats from #sdr-stats
+   - Expansions, churn saves
+4. **Coming Soon** (not "What's Coming Next")
+   - Plain language previews
+5. **Quick Stats** (simplified)
+   - New features: X
+   - Bugs fixed: X
+   - Deals closed: X
+   - Meetings set: X
+
+**Output:** `rob-YYYY-MM-DD.md` or `rob-YYYY-WXX.md`
+
+**Example Rob Mode Output:**
+
+```markdown
+# What's New This Week
+
+**January 27, 2026**
+
+Hey Revenue Team! Here's what the product team shipped that you can use with customers right now.
+
+## What's New
+
+**Your CRM updates are now instant** — When you update a deal in HubSpot, it shows up in AskElephant right away. No more waiting or refreshing.
+
+**Call recordings load faster** — We made the app quicker. You'll notice pages load faster, especially on big accounts.
+
+## What We Fixed
+
+- Fixed an issue where some mobile users had to log in twice
+- Call recordings now show up properly after outages
+
+## Revenue Wins
+
+**Deals Closed:** 4 new customers ($20.4k ARR)
+**SDR Activity:** 12 meetings set, 3 ICPs held
+**Expansion:** $5.7k from Hadco Construction
+
+## Coming Soon
+
+- Better search across all your conversations
+- Easier way to share meeting notes with your team
+
+---
+
+_All features listed are available to your team now._
+_Report date: January 27, 2026_
+```
 
 **Daily Digest Sections:**
 
@@ -88,31 +200,125 @@ Matt Noxon, Jason, Eduardo, Palmer, Kaden, Dylan, Bryan, Adam, Skylar
 
 ## Data Sources
 
-### 1. Slack - Revenue & Engineering Activity (NEW)
+### 0. HubSpot - Authoritative Revenue Data (PRIMARY)
+
+**Uses:** `hubspot-activity` subagent  
+**MCP Server:** `user-mcp-hubspot-9wje34`
+
+HubSpot provides **authoritative** deal data that should be the primary source for revenue metrics. This is more reliable than Slack posts which may be incomplete.
+
+#### Invoke HubSpot Activity Subagent
+
+```
+Task: hubspot-activity subagent
+Prompt: "Pull HubSpot revenue activity for [time_range]. Return deals closed, deals lost, meetings booked, and metrics."
+Model: fast
+```
+
+#### Data Retrieved
+
+| Metric              | Source                              | Notes                    |
+| ------------------- | ----------------------------------- | ------------------------ |
+| **Deals Closed**    | `deals` with `dealstage=closedwon`  | Authoritative ARR values |
+| **Deals Lost**      | `deals` with `dealstage=closedlost` | Churn/competitive intel  |
+| **Meetings Booked** | `meetings` object                   | SDR sets                 |
+| **ARR Metrics**     | Calculated from deal `amount`       | Total, avg, by rep       |
+
+#### Integration Priority
+
+1. **Primary**: HubSpot data (authoritative values, complete)
+2. **Supplement**: Slack channels (celebrations, quotes, context)
+3. **Merge**: When same deal appears in both, use HubSpot values + Slack context
+
+### 1. Slack - Revenue & Engineering Activity
 
 **Uses:** `slack-sync` skill  
 **MCP Server:** `pm-mcp-config`
 
-Slack provides real-time signals for revenue team wins and engineering updates that aren't captured in GitHub or Linear.
+Slack provides real-time signals for revenue team wins and engineering updates that aren't captured in GitHub or Linear. Use as **supplement** to HubSpot data for qualitative context.
 
 #### Revenue Channels to Monitor
 
-| Channel | Win Type | Priority |
-|---------|----------|----------|
-| #sales-closed-won | Deals closed | HIGH |
-| #team-sales | SDR sets, demo bookings | HIGH |
-| #expansion-opportunities | Expansion wins | MEDIUM |
-| #churn-alert | Churn saves | HIGH |
-| #team-partners | Partner additions | MEDIUM |
-| #customer-quotes | Customer wins/quotes | MEDIUM |
+| Channel                  | Win Type                              | Priority |
+| ------------------------ | ------------------------------------- | -------- |
+| #sales-closed-won        | Deals closed                          | HIGH     |
+| #team-sales              | SDR sets, demo bookings               | HIGH     |
+| **#sdr-stats**           | **Daily SDR metrics (self-reported)** | **HIGH** |
+| #expansion-opportunities | Expansion wins                        | MEDIUM   |
+| #churn-alert             | Churn saves                           | HIGH     |
+| #team-partners           | Partner additions                     | MEDIUM   |
+| #customer-quotes         | Customer wins/quotes                  | MEDIUM   |
+
+#### #sdr-stats Channel (NEW)
+
+**Channel ID:** `C0A05H709SM`  
+**Purpose:** SDRs post daily activity metrics in a structured format
+
+**Message Format (self-reported by SDRs):**
+
+```
+MM/DD/YY
+Conversations: X
+Pitches: X
+Meetings Scheduled: X
+ICP Held: X
+```
+
+**Metrics Explained:**
+| Metric | Definition |
+|--------|------------|
+| **Conversations** | Total outbound conversations (calls, emails, LinkedIn) |
+| **Pitches** | Conversations that reached pitch stage |
+| **Meetings Scheduled** | Demos/meetings booked |
+| **ICP Held** | Meetings that happened with Ideal Customer Profile |
+
+**SDR Team Members (resolve from org-chart.md):**
+| SDR | Slack ID |
+|-----|----------|
+| Adia Barkley (Lead) | `U07JRK6MGL9` |
+| Carter Thomas | `U09S5QQCGS1` |
+| Jamis Benson | `U094PHNHCN8` |
+| Michael Haimowitz | `U098Q4N5PEJ` |
+
+**Extraction Procedure:**
+
+1. Fetch #sdr-stats history for time range
+2. Parse each message for metrics
+3. Match user ID to SDR name
+4. Aggregate per-SDR and team totals
+5. Calculate conversion rates:
+   - **Pitch Rate:** Pitches / Conversations
+   - **Meeting Rate:** Meetings / Pitches
+   - **ICP Hold Rate:** ICP Held / Meetings
+
+**SDR Stats Output Format:**
+
+```markdown
+### 📞 SDR Activity
+
+_Source: #sdr-stats channel (self-reported)_
+
+| SDR               | Conversations | Pitches | Meetings Set | ICP Held |
+| ----------------- | ------------- | ------- | ------------ | -------- |
+| Jamis Benson      | 7             | 6       | 4            | 2        |
+| Carter Thomas     | 8             | 6       | 5            | 1        |
+| Michael Haimowitz | 3             | 2       | 3            | 0        |
+| **Team Total**    | **18**        | **14**  | **12**       | **3**    |
+
+**Conversion Rates:**
+
+- Pitch Rate: 78% (14/18)
+- Meeting Rate: 86% (12/14)
+- ICP Hold Rate: 25% (3/12)
+```
 
 #### Engineering Channels to Monitor
 
-| Channel | Signal Type | Priority |
-|---------|-------------|----------|
-| #product-updates | Release announcements | HIGH |
-| #product-issues | Bugs resolved | MEDIUM |
-| #team-dev-code-review | PR activity | LOW (supplement) |
+| Channel               | Signal Type           | Priority         |
+| --------------------- | --------------------- | ---------------- |
+| #product-updates      | Release announcements | HIGH             |
+| #product-issues       | Bugs resolved         | MEDIUM           |
+| #team-dev-code-review | PR activity           | LOW (supplement) |
 
 #### Slack Tool Calls
 
@@ -136,6 +342,7 @@ Map Slack user IDs to real names using:
 `pm-workspace-docs/company-context/org-chart.md`
 
 Key revenue team members:
+
 - Ben Kinard (U09MLGSC5AL) - Head of Sales
 - Adia Barkley (U07JRK6MGL9) - Founding SDR
 - Michael Cook (U09V1J1VBL4) - AE
@@ -400,39 +607,44 @@ Within each type, organize by product area:
 
 ### Win Categories
 
-| Win Type | Source Channel | Extraction Pattern |
-|----------|---------------|-------------------|
-| **Deals Closed** | #sales-closed-won | Any message = deal celebration |
-| **SDR Sets** | #team-sales | "set", "booked", "demo" |
+| Win Type              | Source Channel                    | Extraction Pattern                   |
+| --------------------- | --------------------------------- | ------------------------------------ |
+| **Deals Closed**      | #sales-closed-won                 | Any message = deal celebration       |
+| **SDR Sets**          | #team-sales                       | "set", "booked", "demo"              |
 | **Partner Additions** | #team-partners, #hubspot-partners | "signed", "new partner", "onboarded" |
-| **Quotes Sent** | #team-sales | "quote", "proposal" |
-| **Expansion Added** | #expansion-opportunities | Any message |
-| **Churn Mitigated** | #churn-alert | "saved", "renewed", "won back" |
-| **Customer Wins** | #customer-quotes | Notable quotes, testimonials |
+| **Quotes Sent**       | #team-sales                       | "quote", "proposal"                  |
+| **Expansion Added**   | #expansion-opportunities          | Any message                          |
+| **Churn Mitigated**   | #churn-alert                      | "saved", "renewed", "won back"       |
+| **Customer Wins**     | #customer-quotes                  | Notable quotes, testimonials         |
 
 ### Revenue Team Members
 
 Map Slack IDs to names (from org-chart.md):
 
 **Sales Leadership:**
+
 - Ben Kinard (U09MLGSC5AL) - Head of Sales
 - James Hinkson (U08QCGQFD1A) - Head of HubSpot Partnership
 
 **Account Executives:**
+
 - Michael Cook (U09V1J1VBL4)
 - Reuben Tang (U09KCQ48NQN)
 - Pete Belliston (U07FAMYTG87)
 
 **SDR Team:**
+
 - Adia Barkley (U07JRK6MGL9) - Founding SDR
 - Carter Thomas (U09S5QQCGS1)
 - Jamis Benson (U094PHNHCN8)
 - Michael Haimowitz (U098Q4N5PEJ)
 
 **Partnerships:**
+
 - Tanner Mattson (U0A6T7A92T0)
 
 **Customer Success:**
+
 - Ben Harrison (U092NQWH9PF) - Head of CX
 - Eli Gomez (U060G4DK1CZ)
 - Parker Alexander (U098T59RUMT) - Expansion
@@ -447,15 +659,34 @@ Map Slack IDs to names (from org-chart.md):
 ## 🎯 Revenue Team Wins
 
 **Period:** [Date Range]
+**Source:** HubSpot (authoritative) + Slack (context)
 
 ### Deals Closed 🎉
-- **[Deal/Company Name]** - Closed by [Rep Name]
-- **[Deal/Company Name]** - Closed by [Rep Name]
+
+| Deal | Rep | ARR | Closed |
+|------|-----|-----|--------|
+| [Company Name] | [Rep Name] | $XX,XXX | [Date] |
+| [Company Name] | [Rep Name] | $XX,XXX | [Date] |
+
+**Total ARR Won:** $XX,XXX | **Deals:** X | **Avg Deal:** $XX,XXX
 
 ### SDR Activity 📞
-- **Adia Barkley**: X sets/demos booked
-- **Jamis Benson**: X sets/demos booked
-- **[SDR Name]**: X sets/demos booked
+
+| Rep | Meetings Booked |
+|-----|-----------------|
+| Adia Barkley | X |
+| Jamis Benson | X |
+| [SDR Name] | X |
+
+**Total Meetings:** X
+
+### Deals Lost 📉
+
+| Deal | Rep | ARR | Reason |
+|------|-----|-----|--------|
+| [Company] | [Rep] | $XX,XXX | [Reason] |
+
+**Lost ARR:** $XX,XXX | **Win Rate:** XX%
 
 ### Partner Wins 🤝
 - **[Partner Name]** - Signed/onboarded by [Rep]
@@ -477,16 +708,18 @@ Map Slack IDs to names (from org-chart.md):
 1. **Load org chart** for Slack ID → Name mapping
 2. **Calculate time range** (today or this week)
 3. **Fetch channels:**
+
    ```
    SLACK_FETCH_CONVERSATION_HISTORY:
    - #sales-closed-won
    - #expansion-opportunities
    - #team-partners
-   
+
    SLACK_SEARCH_MESSAGES:
    - "set" OR "booked" in:#team-sales after:YYYY-MM-DD
    - "saved" OR "renewed" in:#churn-alert after:YYYY-MM-DD
    ```
+
 4. **Parse messages:**
    - Extract deal names, rep names, values (if mentioned)
    - Count SDR sets by rep
@@ -516,6 +749,84 @@ For `--digest` mode, include a condensed revenue section:
 
 ---
 ```
+
+### SDR Activity Section (NEW)
+
+Query HubSpot for meetings created today, filtered by SDR owner IDs:
+
+```markdown
+### 📞 SDR Activity (Meetings Set Today)
+
+| SDR               | Meetings Booked | Notes              |
+| ----------------- | --------------- | ------------------ |
+| Adia Barkley      | X               | [Notable accounts] |
+| Carter Thomas     | X               |                    |
+| Jamis Benson      | X               |                    |
+| Michael Haimowitz | X               |                    |
+
+**SDR Total:** X meetings set
+
+_Note: SDR meeting activity from HubSpot. AE-sourced meetings tracked separately._
+```
+
+**SDR Owner IDs (from org-chart.md):**
+
+- Adia Barkley: 70146239 / 1721345617
+- Carter Thomas: 85047772
+- Jamis Benson: 81467875
+- Michael Haimowitz: 82187301
+
+**AE Owner IDs (for context):**
+
+- Reuben Tang: 83885337
+- Michael Cook: 85535426
+- Ben Kinard: 84501860
+
+**Partnership Owner IDs:**
+
+- Pete Belliston: 668593263
+- Tanner Mattson: 86821908
+- James Hinkson: 79737960
+
+### Feature Availability Section (NEW)
+
+For `--digest` mode, add availability table to NEW FEATURES section:
+
+```markdown
+## ✨ NEW FEATURES
+
+| Feature          | Availability | Notes                    |
+| ---------------- | ------------ | ------------------------ |
+| **Feature Name** | ✅ GA        | `flag-key` at 100%       |
+| **Feature Name** | ⚠️ Partial   | 50% rollout              |
+| **Feature Name** | ❌ Internal  | AskElephant only         |
+| **Feature Name** | ✅ GA        | No flag (shipped direct) |
+```
+
+**Availability Classification:**
+
+- ✅ **GA** — 100% rollout, no workspace restrictions
+- ⚠️ **Partial** — <100% rollout or Early Access linked
+- ❌ **Internal** — Restricted to AskElephant workspace
+- ✅ **No flag** — Feature shipped without flag (backend/native app)
+
+**PostHog Query:**
+
+```
+CallMcpTool: user-mcp-posthog-zps2ir / POSTHOG_LIST_AND_MANAGE_PROJECT_FEATURE_FLAGS
+{ "project_id": "81505", "limit": 100 }
+```
+
+**Flag-to-Feature Mapping (common):**
+| Feature | Flag Key |
+|---------|----------|
+| Notes | `notes-object` |
+| Projects | `projects-page` |
+| Privacy Agent | `privacy-determination-agent` |
+| Global Chat | `global-chat-enabled` |
+| Internal Search | `chat-tool-internal-search` |
+| Composio/Integrations | `composio-enabled` |
+| Dataloaders | `dataloaders-enabled` |
 
 ### No Activity Handling
 
@@ -708,21 +1019,27 @@ Prioritize tomorrow's/next week's focus based on:
 ## 🎯 Revenue Team Wins
 
 ### Deals Closed 🎉
+
 - **[Deal Name]** - Closed by [Rep Name]
 
 ### SDR Activity 📞
+
 - **[SDR Name]**: X sets/demos booked
 
 ### Partner Wins 🤝
+
 - **[Partner Name]** - Signed by [Rep]
 
 ### Expansion Revenue 📈
+
 - **[Account]**: [Expansion] by [CSM]
 
 ### Churn Saves 🛡️
+
 - **[Account]**: Saved by [CSM]
 
 ### Customer Highlights 💬
+
 > "[Quote]" - [Customer]
 
 ---
@@ -785,30 +1102,35 @@ Includes all daily sections plus:
 ## 🎯 Revenue Team Wins (Week)
 
 ### Deals Closed This Week 🎉
-| Deal | Rep | Day |
-|------|-----|-----|
+
+| Deal        | Rep   | Day |
+| ----------- | ----- | --- |
 | [Deal Name] | [Rep] | Mon |
 | [Deal Name] | [Rep] | Wed |
 
 **Total New Customers:** X
 
 ### SDR Leaderboard 📞
-| SDR | Sets | Trend |
-|-----|------|-------|
-| [Name] | X | ↑/↓ |
-| [Name] | X | ↑/↓ |
+
+| SDR    | Sets | Trend |
+| ------ | ---- | ----- |
+| [Name] | X    | ↑/↓   |
+| [Name] | X    | ↑/↓   |
 
 **Total Sets This Week:** X
 
 ### Partner Activity 🤝
+
 - **New Partners:** X signed
 - **Active Onboarding:** X in progress
 
 ### Expansion & Retention 📈
+
 - **Expansion Revenue:** $XXk added
 - **Churn Saves:** X accounts saved
 
 ### Customer Highlights 💬
+
 > "[Best quote of the week]" - [Customer]
 
 ---
@@ -953,6 +1275,7 @@ Priority actions for the coming week:
 ### With slack-sync (NEW)
 
 The `slack-sync` skill handles all Slack MCP tool interactions:
+
 - Use it to fetch revenue channel activity
 - Use it to map Slack user IDs to real names
 - Reference `pm-workspace-docs/company-context/org-chart.md` for team structure
@@ -972,6 +1295,7 @@ After `/sync-dev` completes, suggest running `/eod` for activity summary.
 ### With org-chart.md (NEW)
 
 Load `pm-workspace-docs/company-context/org-chart.md` to:
+
 - Map Slack user IDs to real names
 - Understand reporting structure
 - Identify department ownership
@@ -979,9 +1303,35 @@ Load `pm-workspace-docs/company-context/org-chart.md` to:
 ### With Slack Routing Guide
 
 Reference `pm-workspace-docs/audits/slack-communication-routing-guide.md` for:
+
 - Channel purposes and routing decisions
 - Understanding where signals come from
 - Knowing which channels to check for which signals
+
+### With slack-block-kit Skill (NEW)
+
+When sending reports to Slack (e.g., `/eod --rob` to Robert Henderson), use the **slack-block-kit** skill for formatting:
+
+1. **Read the skill** at `.cursor/skills/slack-block-kit/SKILL.md`
+2. **Select appropriate template**:
+   - `--rob` mode → Use "Rob Report" template (table block for SDR metrics)
+   - `--digest` mode → Use "Daily Digest" or "Newsletter" template
+   - Regular reports → Use "Daily Digest" template
+3. **Apply formatting rules**:
+   - Use `blocks` parameter (not `markdown_text`) for rich layouts
+   - Include fallback `text` field at message root
+   - Only 1 table block per message (place at END of blocks)
+   - Use `context` blocks for metadata/timestamps
+   - Use `header` blocks for section titles
+
+**Template Selection by Mode:**
+
+| Mode       | Template     | Key Blocks Used                     |
+| ---------- | ------------ | ----------------------------------- |
+| `--rob`    | Rob Report   | header, section, divider, **table** |
+| `--digest` | Daily Digest | header, context, section, fields    |
+| Regular    | Daily Digest | header, context, section, fields    |
+| Newsletter | Newsletter   | header, context, divider, accessory |
 
 ### Future: Slack Auto-Post
 
@@ -1023,9 +1373,20 @@ Proceeding with GitHub data only. Linear issue tracking skipped.
 When generating a report:
 
 - [ ] Determine time range (today vs this week)
-- [ ] **Fetch Slack activity (NEW - use slack-sync skill):**
+- [ ] **Fetch HubSpot activity (PRIMARY - use hubspot-activity subagent):**
+  - [ ] Invoke hubspot-activity subagent with time range
+  - [ ] Receive deals closed, deals lost, meetings booked
+  - [ ] Store metrics: total ARR, deal count, win rate
+  - [ ] Map owner IDs to rep names
+- [ ] **Fetch SDR Meeting Activity (from HubSpot):**
+  - [ ] Query meetings created today: `HUBSPOT_SEARCH_CRM_OBJECTS_BY_CRITERIA` with `objectType: meetings`, `hs_createdate >= today`
+  - [ ] Filter by SDR owner IDs: Adia Barkley (70146239), Carter Thomas (85047772), Jamis Benson (81467875), Michael Haimowitz (82187301)
+  - [ ] Count meetings set per SDR
+  - [ ] Also track AE/Partner meetings for context (Reuben, Michael Cook, Pete, Tanner, James)
+- [ ] **Fetch Slack activity (SUPPLEMENT - use slack-sync skill):**
   - [ ] Fetch #sales-closed-won for deals closed
   - [ ] Search #team-sales for SDR sets
+  - [ ] **Fetch #sdr-stats (C0A05H709SM) for SDR daily metrics**
   - [ ] Fetch #expansion-opportunities for expansions
   - [ ] Search #churn-alert for saves
   - [ ] Fetch #team-partners for partner wins
@@ -1036,9 +1397,19 @@ When generating a report:
 - [ ] Query Linear for issue updates (if available)
 - [ ] Map all activity to initiatives
 - [ ] Load initiative context (\_meta.json, artifacts)
+- [ ] **Check Feature Availability (from PostHog):**
+  - [ ] For each new feature shipped, identify related feature flag
+  - [ ] Query PostHog: `POSTHOG_LIST_AND_MANAGE_PROJECT_FEATURE_FLAGS` with project_id `81505`
+  - [ ] Check flag status: active, rollout_percentage, internal restrictions
+  - [ ] Classify: ✅ GA (100% rollout), ⚠️ Partial, ❌ Internal Only
+  - [ ] Add availability table to NEW FEATURES section in digest
 - [ ] **Map Slack user IDs to real names (from org-chart.md)**
 - [ ] Categorize activity (engineering/product/design/revenue)
-- [ ] **Generate Revenue Team Wins section**
+- [ ] **Generate Revenue Team Wins section (merge HubSpot + Slack):**
+  - [ ] Use HubSpot for authoritative deal values and counts
+  - [ ] Use Slack for celebration context and quotes
+  - [ ] Mark deals appearing in both as "verified"
+  - [ ] Include metrics: Total ARR, Deals, Win Rate
 - [ ] Generate stakeholder narratives
 - [ ] Compile focus recommendations
 - [ ] Save report to status/activity/

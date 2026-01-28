@@ -23,55 +23,56 @@ Procedural knowledge for pulling activity from Slack channels using the `pm-mcp-
 
 ### Available Slack Tools
 
-| Tool | Purpose |
-|------|---------|
+| Tool                               | Purpose                              |
+| ---------------------------------- | ------------------------------------ |
 | `SLACK_FETCH_CONVERSATION_HISTORY` | Get messages from a specific channel |
-| `SLACK_SEARCH_MESSAGES` | Search across workspace with filters |
-| `SLACK_LIST_ALL_CHANNELS` | List all channels in workspace |
-| `SLACK_FIND_CHANNELS` | Search for channels by name |
-| `SLACK_LIST_ALL_USERS` | List all users |
-| `SLACK_FIND_USERS` | Search for users by name |
+| `SLACK_SEARCH_MESSAGES`            | Search across workspace with filters |
+| `SLACK_LIST_ALL_CHANNELS`          | List all channels in workspace       |
+| `SLACK_FIND_CHANNELS`              | Search for channels by name          |
+| `SLACK_LIST_ALL_USERS`             | List all users                       |
+| `SLACK_FIND_USERS`                 | Search for users by name             |
 
 ## Reference Files
 
 Before using this skill, load these files for context:
 
-| File | Contains |
-|------|----------|
-| `pm-workspace-docs/company-context/org-chart.md` | All employees with Slack IDs |
-| `pm-workspace-docs/audits/slack-communication-routing-guide.md` | Channel routing decisions |
-| `pm-workspace-docs/audits/channels/` | Detailed channel audits by category |
+| File                                                            | Contains                            |
+| --------------------------------------------------------------- | ----------------------------------- |
+| `pm-workspace-docs/company-context/org-chart.md`                | All employees with Slack IDs        |
+| `pm-workspace-docs/audits/slack-communication-routing-guide.md` | Channel routing decisions           |
+| `pm-workspace-docs/audits/channels/`                            | Detailed channel audits by category |
 
 ## Key Channel IDs
 
 ### Engineering & Product
 
-| Channel | ID | Purpose |
-|---------|-----|---------|
-| #product-updates | (lookup via SLACK_FIND_CHANNELS) | Release announcements |
-| #product-issues | (lookup) | Bug reports and triage |
-| #team-dev-code-review | (lookup) | PR activity |
-| #team-dev | (lookup) | Technical discussions |
-| #epd-all | (lookup) | EPD-wide coordination |
+| Channel               | ID                               | Purpose                |
+| --------------------- | -------------------------------- | ---------------------- |
+| #product-updates      | (lookup via SLACK_FIND_CHANNELS) | Release announcements  |
+| #product-issues       | (lookup)                         | Bug reports and triage |
+| #team-dev-code-review | (lookup)                         | PR activity            |
+| #team-dev             | (lookup)                         | Technical discussions  |
+| #epd-all              | (lookup)                         | EPD-wide coordination  |
 
 ### Revenue Wins
 
-| Channel | ID | Purpose |
-|---------|-----|---------|
-| #sales-closed-won | (lookup) | **Closed deals celebration** |
-| #team-sales | (lookup) | SDR sets, lead activity |
-| #expansion-opportunities | (lookup) | Upsell wins |
-| #revenue | (lookup) | Revenue metrics (private) |
-| #churn-alert | (lookup) | Churn mitigated |
+| Channel                  | ID            | Purpose                                                            |
+| ------------------------ | ------------- | ------------------------------------------------------------------ |
+| #sales-closed-won        | (lookup)      | **Closed deals celebration**                                       |
+| #team-sales              | (lookup)      | SDR sets, lead activity                                            |
+| **#sdr-stats**           | `C0A05H709SM` | **SDR daily metrics (Conversations, Pitches, Meetings, ICP Held)** |
+| #expansion-opportunities | (lookup)      | Upsell wins                                                        |
+| #revenue                 | (lookup)      | Revenue metrics (private)                                          |
+| #churn-alert             | (lookup)      | Churn mitigated                                                    |
 
 ### Customer Success
 
-| Channel | ID | Purpose |
-|---------|-----|---------|
-| #customer-quotes | (lookup) | Notable customer quotes |
+| Channel            | ID       | Purpose                       |
+| ------------------ | -------- | ----------------------------- |
+| #customer-quotes   | (lookup) | Notable customer quotes       |
 | #customer-feedback | (lookup) | Automated feedback extraction |
-| #churn-alert | (lookup) | Churn risk alerts |
-| #case-studies | (lookup) | Case study development |
+| #churn-alert       | (lookup) | Churn risk alerts             |
+| #case-studies      | (lookup) | Case study development        |
 
 ## Fetching Channel History
 
@@ -87,6 +88,7 @@ Before using this skill, load these files for context:
 ```
 
 **Parameters:**
+
 - `channel` (required): Channel ID (e.g., "C1234567890")
 - `oldest` (optional): Start of time range (Unix timestamp)
 - `latest` (optional): End of time range (Unix timestamp)
@@ -97,27 +99,30 @@ Before using this skill, load these files for context:
 ### Calculating Timestamps
 
 For EOD (today):
+
 ```
 oldest = Today midnight (local) → Unix timestamp
 latest = Now → Unix timestamp
 ```
 
 For EOW (this week):
+
 ```
 oldest = Monday 00:00 (local) → Unix timestamp
 latest = Now → Unix timestamp
 ```
 
 **JavaScript conversion:**
+
 ```javascript
 // Today midnight
-new Date().setHours(0,0,0,0) / 1000
+new Date().setHours(0, 0, 0, 0) / 1000;
 
 // This Monday
 const now = new Date();
 const monday = new Date(now.setDate(now.getDate() - now.getDay() + 1));
-monday.setHours(0,0,0,0);
-monday.getTime() / 1000
+monday.setHours(0, 0, 0, 0);
+monday.getTime() / 1000;
 ```
 
 ## Searching Messages
@@ -134,6 +139,7 @@ monday.getTime() / 1000
 ```
 
 **Query Modifiers:**
+
 - `on:YYYY-MM-DD` - Messages on specific date
 - `after:YYYY-MM-DD` - Messages after date
 - `before:YYYY-MM-DD` - Messages before date
@@ -144,27 +150,27 @@ monday.getTime() / 1000
 
 **Common Searches:**
 
-| Search For | Query |
-|------------|-------|
-| Today's closed deals | `in:#sales-closed-won after:2026-01-23` |
-| This week's product updates | `in:#product-updates after:2026-01-20` |
-| Churn alerts today | `in:#churn-alert after:2026-01-23` |
-| Customer quotes this week | `in:#customer-quotes after:2026-01-20` |
-| SDR sets from specific rep | `from:@adia "set" in:#team-sales` |
+| Search For                  | Query                                   |
+| --------------------------- | --------------------------------------- |
+| Today's closed deals        | `in:#sales-closed-won after:2026-01-23` |
+| This week's product updates | `in:#product-updates after:2026-01-20`  |
+| Churn alerts today          | `in:#churn-alert after:2026-01-23`      |
+| Customer quotes this week   | `in:#customer-quotes after:2026-01-20`  |
+| SDR sets from specific rep  | `from:@adia "set" in:#team-sales`       |
 
 ## Revenue Team Wins Extraction
 
 ### Win Types to Track
 
-| Win Type | Channels to Monitor | Signal Patterns |
-|----------|-------------------|-----------------|
-| **Deals Closed** | #sales-closed-won | Any message (celebration format) |
-| **SDR Sets** | #team-sales | "set", "booked", "demo" |
-| **Partner Additions** | #team-partners, #hubspot-partners | "signed", "new partner" |
-| **Quotes Sent** | #team-sales, #revenue | "quote", "proposal sent" |
-| **Expansion Added** | #expansion-opportunities | Any message |
-| **Churn Mitigated** | #churn-alert | "saved", "renewed", "mitigated" |
-| **Customer Wins** | #customer-quotes, #case-studies | Positive quotes, case study mentions |
+| Win Type              | Channels to Monitor               | Signal Patterns                      |
+| --------------------- | --------------------------------- | ------------------------------------ |
+| **Deals Closed**      | #sales-closed-won                 | Any message (celebration format)     |
+| **SDR Sets**          | #team-sales                       | "set", "booked", "demo"              |
+| **Partner Additions** | #team-partners, #hubspot-partners | "signed", "new partner"              |
+| **Quotes Sent**       | #team-sales, #revenue             | "quote", "proposal sent"             |
+| **Expansion Added**   | #expansion-opportunities          | Any message                          |
+| **Churn Mitigated**   | #churn-alert                      | "saved", "renewed", "mitigated"      |
+| **Customer Wins**     | #customer-quotes, #case-studies   | Positive quotes, case study mentions |
 
 ### Extraction Procedure
 
@@ -187,6 +193,49 @@ monday.getTime() / 1000
 5. **Fetch #team-partners** for new partners
    - Query: `"signed" OR "new partner" OR "onboarded" after:YYYY-MM-DD`
 
+### #sdr-stats Extraction (NEW)
+
+**Channel ID:** `C0A05H709SM`
+
+SDRs post daily activity in this format:
+
+```
+MM/DD/YY
+Conversations: X
+Pitches: X
+Meetings Scheduled: X
+ICP Held: X
+```
+
+**Extraction Procedure:**
+
+1. Fetch channel history: `SLACK_FETCH_CONVERSATION_HISTORY` with channel `C0A05H709SM`
+2. Parse each message for the 4 metrics
+3. Map user ID to SDR name (from org-chart.md):
+   - `U094PHNHCN8` → Jamis Benson
+   - `U09S5QQCGS1` → Carter Thomas
+   - `U098Q4N5PEJ` → Michael Haimowitz
+   - `U07JRK6MGL9` → Adia Barkley (lead)
+4. Aggregate per-SDR and team totals
+5. Calculate conversion rates
+
+**Output Format:**
+
+```markdown
+### 📞 SDR Activity
+
+_Source: #sdr-stats channel_
+
+| SDR               | Conversations | Pitches | Meetings Set | ICP Held |
+| ----------------- | ------------- | ------- | ------------ | -------- |
+| Jamis Benson      | 7             | 6       | 4            | 2        |
+| Carter Thomas     | 8             | 6       | 5            | 1        |
+| Michael Haimowitz | 3             | 2       | 3            | 0        |
+| **Team Total**    | **18**        | **14**  | **12**       | **3**    |
+
+**Pitch-to-Meeting:** 86% | **ICP Hold Rate:** 25%
+```
+
 ### Revenue Wins Output Format
 
 ```markdown
@@ -195,23 +244,29 @@ monday.getTime() / 1000
 **Period:** [Date Range]
 
 ### Deals Closed
+
 - [Deal Name] - [Rep Name] ([Value if known])
 - [Deal Name] - [Rep Name]
 
 ### SDR Activity
+
 - [SDR Name]: X sets/demos booked
 - [SDR Name]: X sets/demos booked
 
 ### Partner Additions
+
 - [Partner Name] signed by [Rep]
 
 ### Expansion Wins
+
 - [Account Name]: [Expansion type/value]
 
 ### Churn Saves
+
 - [Account Name]: Saved by [CSM] - [Reason]
 
 ### Notable Customer Wins
+
 - "[Quote excerpt]" - [Customer Name]
 ```
 
@@ -219,12 +274,12 @@ monday.getTime() / 1000
 
 ### Channels to Monitor
 
-| Channel | Signal Type |
-|---------|-------------|
-| #product-updates | Release announcements |
-| #team-dev-code-review | PR activity (automated) |
-| #product-issues | Bugs resolved |
-| #epd-all | Cross-functional updates |
+| Channel               | Signal Type              |
+| --------------------- | ------------------------ |
+| #product-updates      | Release announcements    |
+| #team-dev-code-review | PR activity (automated)  |
+| #product-issues       | Bugs resolved            |
+| #epd-all              | Cross-functional updates |
 
 ### Extraction Procedure
 
@@ -244,12 +299,15 @@ monday.getTime() / 1000
 ## Engineering Updates (from Slack)
 
 ### Releases Announced
+
 - [Feature/Release Name] - [Description]
 
 ### Bugs Resolved
+
 - [Bug Description] - Fixed by [Engineer]
 
 ### Code Review Activity
+
 - X PRs approved
 - Notable reviews: [if any standout discussions]
 ```
@@ -258,18 +316,18 @@ monday.getTime() / 1000
 
 Use the org chart to resolve Slack IDs to names:
 
-| Name | Slack ID | Department |
-|------|----------|------------|
-| Ben Kinard | `U09MLGSC5AL` | Sales (Head) |
-| Adia Barkley | `U07JRK6MGL9` | Sales (SDR Lead) |
-| Michael Cook | `U09V1J1VBL4` | Sales (AE) |
-| Reuben Tang | `U09KCQ48NQN` | Sales (AE) |
-| Ben Harrison | `U092NQWH9PF` | CX (Head) |
-| Eli Gomez | `U060G4DK1CZ` | CX (CSM) |
-| Parker Alexander | `U098T59RUMT` | CX (Expansion) |
-| Bryan Lund | `U086JDRUYFJ` | Engineering |
-| Kaden Wilkinson | `U06EPEY9WNM` | Engineering |
-| Tyler Sahagun | `U08JVM8LBP0` | Product |
+| Name             | Slack ID      | Department       |
+| ---------------- | ------------- | ---------------- |
+| Ben Kinard       | `U09MLGSC5AL` | Sales (Head)     |
+| Adia Barkley     | `U07JRK6MGL9` | Sales (SDR Lead) |
+| Michael Cook     | `U09V1J1VBL4` | Sales (AE)       |
+| Reuben Tang      | `U09KCQ48NQN` | Sales (AE)       |
+| Ben Harrison     | `U092NQWH9PF` | CX (Head)        |
+| Eli Gomez        | `U060G4DK1CZ` | CX (CSM)         |
+| Parker Alexander | `U098T59RUMT` | CX (Expansion)   |
+| Bryan Lund       | `U086JDRUYFJ` | Engineering      |
+| Kaden Wilkinson  | `U06EPEY9WNM` | Engineering      |
+| Tyler Sahagun    | `U08JVM8LBP0` | Product          |
 
 **Note:** Always display real names in reports, not Slack IDs or handles.
 
@@ -295,11 +353,9 @@ When the activity-reporter skill calls slack-sync:
     },
     "revenue_wins": {
       "deals_closed": [
-        {"name": "Acme Corp", "rep": "Michael Cook", "value": "$24k ARR"}
+        { "name": "Acme Corp", "rep": "Michael Cook", "value": "$24k ARR" }
       ],
-      "sdr_sets": [
-        {"sdr": "Adia Barkley", "count": 3}
-      ],
+      "sdr_sets": [{ "sdr": "Adia Barkley", "count": 3 }],
       "expansions": [],
       "churn_saves": [],
       "partner_additions": []
@@ -353,6 +409,7 @@ When syncing Slack for activity reports:
 - [ ] Fetch/search revenue channels:
   - [ ] #sales-closed-won (deals closed)
   - [ ] #team-sales (SDR sets)
+  - [ ] **#sdr-stats (C0A05H709SM) - SDR daily metrics**
   - [ ] #expansion-opportunities (expansions)
   - [ ] #churn-alert (churn saves)
   - [ ] #team-partners (partner wins)
@@ -369,6 +426,6 @@ When syncing Slack for activity reports:
 ## Privacy & Access Notes
 
 - Private channels (#revenue) may not be accessible
-- External partner channels (#ext-*) contain external users
+- External partner channels (#ext-\*) contain external users
 - Some channels have bots posting (high volume, filter carefully)
 - Respect confidentiality of revenue figures in public reports

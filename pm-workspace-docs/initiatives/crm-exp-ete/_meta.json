@@ -2,6 +2,7 @@
   "id": "crm-exp-ete",
   "name": "CRM Experience End-to-End",
   "phase": "build",
+  "status": "on_track",
   "priority": "P0",
   "owner": "Tyler",
   "team": ["Tyler", "Palmer", "Bryan", "Woody"],

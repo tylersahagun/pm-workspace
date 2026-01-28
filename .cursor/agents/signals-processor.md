@@ -18,9 +18,15 @@ Load context:
 - `@pm-workspace-docs/signals/_index.json` (if exists)
 - `@pm-workspace-docs/hypotheses/_index.json` (if exists)
 
+## Skills Available
+
+| Skill | When to Use |
+|-------|-------------|
+| `feature-availability` | When `--customer-check` flag is used - cross-reference against PostHog flags |
+
 ## MCP Tools Available
 
-**Server:** `pm-mcp-config` (Composio)
+**Server:** `user-mcp-config-2mgoji` (Composio)
 
 Use MCP tools to ingest signals from external systems:
 
@@ -33,12 +39,300 @@ Use MCP tools to ingest signals from external systems:
 
 **Tool Naming Convention:** `{TOOLKIT}_{ACTION}_{ENTITY}`
 
-**Usage:** `CallMcpTool: pm-mcp-config / TOOL_NAME`
+**Usage:** `CallMcpTool: user-mcp-config-2mgoji / TOOL_NAME`
 
-**When to use:**
-- `/ingest slack [channel]` → Use Slack tools to pull conversation history
-- `/ingest hubspot [deal-id]` → Use HubSpot tools to pull deal/ticket context
-- `/synthesize` with external data → Query multiple sources for pattern analysis
+---
+
+## Mode 0: Source-Based Ingest (Pull from External Systems)
+
+When user runs `/ingest [source]`, automatically pull and process signals:
+
+### `/ingest slack [channel] [time-range]`
+
+1. **Identify channel** - Map channel name to ID (use `SLACK_FIND_CHANNELS` if needed)
+2. **Fetch messages** - Use `SLACK_SEARCH_MESSAGES` with date filters:
+   ```json
+   {
+     "query": "in:#[channel] after:YYYY-MM-DD",
+     "sort": "timestamp",
+     "sort_dir": "desc",
+     "count": 50
+   }
+   ```
+3. **Filter for signals** - Skip bot messages, look for:
+   - Customer pain points (complaints, frustrations)
+   - Feature requests ("can we", "wish we could", "would be nice")
+   - Process issues (workarounds, manual steps)
+   - Integration gaps ("doesn't work with", "can't sync")
+   - Churn signals (cancellation reasons, at-risk mentions)
+4. **Extract and save** - For each signal, create file with permalink
+
+**Signal Detection Patterns:**
+| Pattern | Signal Type |
+|---------|-------------|
+| "customers are asking", "user said" | Customer feedback |
+| "can we add", "feature request", "would be helpful" | Feature request |
+| "workaround", "manually", "have to" | Process pain |
+| "doesn't work", "broken", "bug" | Product issue |
+| "churned", "cancelled", "at-risk" | Churn signal |
+| "integration", "sync", "connect" | Integration gap |
+
+### Slack Thread Resolution Tracking (REQUIRED)
+
+**Always check full threads for resolutions.** Don't surface problems that have already been fixed.
+
+**Resolution Detection Patterns:**
+| Pattern | Resolution Type | Status |
+|---------|-----------------|--------|
+| "fixed", "resolved", "shipped", "deployed" | Bug fix deployed | 🟢 Resolved |
+| "workaround:", "for now you can", "in the meantime" | Temporary workaround | 🟡 Workaround |
+| "no longer an issue", "working now", "good now" | Self-resolved | 🟢 Resolved |
+| "ticket created", "filed as ASK-", "created Linear" | Tracked in Linear | 📋 Tracked |
+| "PRD created", "added to roadmap", "scheduled for" | Prioritized | 📋 Tracked |
+| "looking into", "investigating", "will check" | In progress | 🔄 In Progress |
+
+**Required Problem Categorization:**
+
+```json
+{
+  "problems_open": [
+    {
+      "description": "Chat timeout on large workspaces",
+      "status": "open",
+      "reporter": "Dylan",
+      "timestamp": "2026-01-25T10:30:00",
+      "permalink": "https://slack.com/..."
+    }
+  ],
+  "problems_resolved": [
+    {
+      "description": "Mobile login redirect issue",
+      "status": "resolved",
+      "resolution": "Fixed in ASK-4537, deployed yesterday",
+      "resolved_by": "Ivan",
+      "resolved_at": "2026-01-26T14:00:00",
+      "permalink": "https://slack.com/..."
+    }
+  ],
+  "problems_workaround": [
+    {
+      "description": "Workflow copy/paste not working",
+      "status": "workaround",
+      "workaround": "Export JSON and reimport manually",
+      "permanent_fix": "ASK-4554 in backlog",
+      "permalink": "https://slack.com/..."
+    }
+  ],
+  "problems_tracked": [
+    {
+      "description": "HubSpot notes not syncing",
+      "status": "tracked",
+      "linear_id": "ASK-4482",
+      "linear_status": "Todo",
+      "permalink": "https://slack.com/..."
+    }
+  ]
+}
+```
+
+**Document Format for Each Problem:**
+
+```markdown
+### Problem: [Description]
+- **Status:** 🔴 Open | 🟡 Workaround | 🟢 Resolved | 📋 Tracked | 🔄 In Progress
+- **Original:** "[Quote]" - @[reporter], [timestamp]
+- **Thread Updates:**
+  - [Update 1 with timestamp]
+  - [Resolution if exists]
+- **Resolution:** [How it was resolved, if applicable]
+- **Linear:** [ASK-XXXX if filed]
+- **Permalink:** [Slack link]
+```
+
+**Summary Section Required:**
+
+```markdown
+## Problem Status Summary
+
+| Status | Count | Description |
+|--------|-------|-------------|
+| 🔴 Open | 5 | Need investigation |
+| 🟡 Workaround | 2 | Has temporary fix |
+| 🟢 Resolved | 8 | Fixed, no longer issues |
+| 📋 Tracked | 4 | Filed in Linear |
+| 🔄 In Progress | 3 | Being worked on |
+
+### Still Needs Help
+[List of open problems]
+
+### Recently Resolved
+[List of fixed problems - celebrate wins!]
+```
+
+### `/ingest linear [project-or-label]`
+
+1. **Search issues** - Use `LINEAR_LIST_LINEAR_ISSUES` or `LINEAR_SEARCH_ISSUES`:
+   ```json
+   {
+     "first": 250
+   }
+   ```
+2. **Filter by labels**:
+   - `customer-reported` → Customer pain point
+   - `feature-request` → Feature request
+   - `area/integrations` → Integration gap
+   - `bug` → Product issue
+3. **Extract context** - Title, description, state, priority, labels
+4. **Link to initiative** - Match `project_id` to initiative `_meta.json`
+
+### Linear Status Separation (REQUIRED)
+
+**Always categorize issues by status** to show fixed vs outstanding:
+
+| Status Category | Linear States | Include In |
+|-----------------|---------------|------------|
+| ✅ **Fixed** | Done, Canceled, Duplicate | `recently_fixed` |
+| 🔄 **In Progress** | In Progress, In Code Review, Acceptance Review | `in_progress` |
+| 📋 **Outstanding** | Todo, Triage, Backlog | `outstanding_critical`, `outstanding_medium`, `backlog_high_impact` |
+
+**Required Output Sections:**
+
+```json
+{
+  "status_breakdown": {
+    "done": 57,
+    "in_progress": 6,
+    "todo": 12,
+    "triage": 17,
+    "backlog": 22
+  },
+  "recently_fixed": [
+    {"id": "VAN-485", "title": "Chat timeouts"}
+  ],
+  "outstanding_critical": [
+    {"id": "ASK-4567", "title": "Platform loading", "priority": 1, "status": "triage"}
+  ],
+  "outstanding_medium": [
+    {"id": "ASK-4558", "title": "Meeting prep workflow", "priority": 3, "status": "todo"}
+  ],
+  "in_progress": [
+    {"id": "ASK-4604", "title": "Enhanced prompt when empty"}
+  ],
+  "backlog_high_impact": [
+    {"id": "CEX-382", "title": "Can't add nodes after workflow builder"}
+  ]
+}
+```
+
+**Document must include sections:**
+1. "✅ Recently Fixed (Key Wins)" - Celebrate progress
+2. "🚨 Outstanding: Needs Immediate Attention" - P1-P2 issues
+3. "🔄 Currently In Progress" - What's being worked
+4. "📦 Backlog: Known Issues Not Yet Scheduled" - For prioritization
+5. "Progress Summary" - Fixed count vs outstanding count
+
+### `/ingest hubspot [deal-id|company-id]`
+
+1. **Fetch deal/company** - Use `HUBSPOT_GET_DEALS` or `HUBSPOT_GET_COMPANY`
+2. **Extract signals**:
+   - Deal lost reason → Competitive/pricing signal
+   - Churn reason → Product gap signal
+   - Notes → Customer pain points
+   - Timeline events → Decision factors
+3. **Save with context** - Include deal stage, ARR, persona
+
+### `/ingest all [time-range]`
+
+Run all source ingests in parallel:
+1. `/ingest slack #product-forum [time-range]`
+2. `/ingest slack #customer-feedback [time-range]`
+3. `/ingest slack #churn-alert [time-range]`
+4. `/ingest linear customer-reported`
+5. Aggregate results and report summary
+
+**Time Range Parsing:**
+| Input | Date Filter |
+|-------|-------------|
+| "today" | `after:YYYY-MM-DD` (today) |
+| "last 24 hours" | Default |
+| "last 7 days" | `after:YYYY-MM-DD` (7 days ago) |
+| "since monday" | `after:YYYY-MM-DD` (last Monday) |
+| "this week" | `after:YYYY-MM-DD` (start of week) |
+
+---
+
+## Slack Signal Output Format
+
+**Save to:** `pm-workspace-docs/signals/slack/YYYY-MM-DD-[topic-slug].md`
+
+```markdown
+# Slack Signal: [Topic]
+
+**Date:** YYYY-MM-DD
+**Source:** Slack (#[channel])
+**Channels Scanned:** [list]
+**Date Range:** [start] to [end]
+
+## Problem Status Summary
+
+| Status | Count | Description |
+|--------|-------|-------------|
+| 🔴 Open | X | Need investigation |
+| 🟡 Workaround | X | Has temporary fix |
+| 🟢 Resolved | X | Fixed, no longer issues |
+| 📋 Tracked | X | Filed in Linear |
+
+## 🔴 Open Problems (Need Help)
+
+### Problem: [Description]
+- **Status:** 🔴 Open
+- **Reporter:** @[name]
+- **Channel:** #[channel]
+- **Original:** "[Quote]" ([timestamp])
+- **Permalink:** [link]
+- **Persona:** [who is affected]
+- **Severity:** High/Medium/Low
+
+[Repeat for each open problem]
+
+## 🟢 Resolved Problems (No Longer Issues)
+
+### Problem: [Description]
+- **Status:** 🟢 Resolved
+- **Original:** "[Quote]" - @[reporter], [timestamp]
+- **Resolution:** "[How it was fixed]" - @[resolver], [timestamp]
+- **Linear:** [ASK-XXXX if applicable]
+
+[Repeat for each resolved problem]
+
+## 🟡 Problems with Workarounds
+
+### Problem: [Description]
+- **Status:** 🟡 Workaround
+- **Workaround:** "[Temporary solution]"
+- **Permanent Fix:** [Status - planned/in progress/backlog]
+
+## 📋 Problems Tracked in Linear
+
+| Problem | Linear ID | Status | Priority |
+|---------|-----------|--------|----------|
+| [desc] | ASK-XXXX | Todo | P3 |
+
+## Feature Requests
+
+[List feature requests from threads]
+
+## Strategic Alignment
+
+- ✅ / ⚠️ / ❌ [Alignment assessment]
+
+## Related
+
+- **Initiative:** [if applicable]
+- **Hypothesis:** [if matches existing]
+```
+
+---
 
 ## Two Modes
 
@@ -268,7 +562,7 @@ linear_getIssueById(id: "ASK-1234")
 
 `pm-workspace-docs/signals/issues/YYYY-MM-DD-[issue-key].md`
 
-### Index Entry
+### Index Entry (Single Issue)
 
 ```json
 {
@@ -286,6 +580,89 @@ linear_getIssueById(id: "ASK-1234")
   "priority": "[P0-P4]",
   "labels": ["bug", "area/chat"],
   "file_path": "signals/issues/YYYY-MM-DD-ASK-4592.md"
+}
+```
+
+### Index Entry (Bulk Linear Ingest)
+
+```json
+{
+  "id": "sig-2026-01-26-linear-all-projects",
+  "type": "issue",
+  "source": "linear-mcp",
+  "topic": "linear-all-projects-signal-ingest",
+  "captured_at": "ISO8601",
+  "status": "processed",
+  "issues_analyzed": 250,
+  "signal_rich_issues": 108,
+  "file_path": "signals/issues/YYYY-MM-DD-linear-[scope].md",
+  "status_breakdown": {
+    "done": 57,
+    "in_progress": 6,
+    "acceptance_review": 8,
+    "todo": 12,
+    "triage": 17,
+    "backlog": 22
+  },
+  "recently_fixed": [
+    {"id": "VAN-485", "title": "Chat timeouts/not responding"}
+  ],
+  "outstanding_critical": [
+    {"id": "ASK-4567", "title": "Platform Loading", "priority": 1, "status": "triage"}
+  ],
+  "outstanding_medium": [
+    {"id": "ASK-4558", "title": "Meeting prep workflow", "priority": 3, "status": "todo"}
+  ],
+  "in_progress": [
+    {"id": "ASK-4604", "title": "Enhanced prompt when empty"}
+  ],
+  "backlog_high_impact": [
+    {"id": "CEX-382", "title": "Can't add nodes after workflow builder"}
+  ]
+}
+```
+
+### Index Entry (Slack Ingest)
+
+```json
+{
+  "id": "sig-2026-01-26-slack-synthesis",
+  "type": "slack",
+  "source": "slack-ingest",
+  "topic": "[topic-slug]",
+  "captured_at": "ISO8601",
+  "status": "processed",
+  "file_path": "signals/slack/YYYY-MM-DD-[topic].md",
+  "channels_scanned": ["#product-forum", "#customer-feedback"],
+  "date_range": "2026-01-12 to 2026-01-26",
+  "problem_status": {
+    "open": 5,
+    "workaround": 2,
+    "resolved": 8,
+    "tracked": 4
+  },
+  "problems_open": [
+    {
+      "description": "Chat timeout on large workspaces",
+      "reporter": "Dylan",
+      "channel": "#product-issues",
+      "permalink": "https://..."
+    }
+  ],
+  "problems_resolved": [
+    {
+      "description": "Mobile login issue",
+      "resolution": "Fixed in ASK-4537",
+      "resolved_by": "Ivan"
+    }
+  ],
+  "problems_tracked": [
+    {
+      "description": "HubSpot notes not syncing",
+      "linear_id": "ASK-4482",
+      "linear_status": "Todo"
+    }
+  ]
 }
 ```
 
@@ -337,5 +714,120 @@ When ingesting a GitHub release/PR summary (`/ingest release`):
 | Issues        | `signals/issues/`        |
 | Conversations | `signals/conversations/` |
 | Releases      | `signals/releases/`      |
+| **Slack**     | `signals/slack/`         |
+| **HubSpot**   | `signals/hubspot/`       |
 | Synthesis     | `research/synthesis/`    |
 | Index         | `signals/_index.json`    |
+
+---
+
+## Customer Check Mode (`--customer-check`)
+
+When the `--customer-check` flag is present, apply the `feature-availability` skill after normal signal processing.
+
+### Trigger
+
+```bash
+/ingest slack #product-updates --customer-check
+/ingest all --customer-check
+```
+
+### Process
+
+1. Complete normal signal extraction
+2. Load `feature-availability` skill from `.cursor/skills/feature-availability/SKILL.md`
+3. Extract feature mentions from signal content
+4. Query PostHog for feature flags:
+   ```
+   CallMcpTool: user-mcp-posthog-zps2ir / POSTHOG_LIST_AND_MANAGE_PROJECT_FEATURE_FLAGS
+   { "project_id": "81505", "limit": 200 }
+   ```
+5. Query Early Access features:
+   ```
+   CallMcpTool: user-mcp-posthog-zps2ir / POSTHOG_LIST_PROJECT_EARLY_ACCESS_FEATURES
+   { "project_id": "81505", "limit": 100 }
+   ```
+6. Classify each feature:
+   - **✅ GA**: 100% rollout, no restrictions
+   - **⚠️ Partial/EA**: < 100% or Early Access linked
+   - **❌ Internal**: AskElephant workspace only
+7. Append availability report to signal file
+8. Generate customer-safe version (internal features removed)
+
+### Output Format
+
+Append to signal file:
+
+```markdown
+---
+
+## Feature Availability Check
+
+**Checked:** YYYY-MM-DD HH:MM
+**PostHog Project:** 81505
+
+### Summary
+
+| Status | Count |
+|--------|-------|
+| ✅ Customer Visible | X |
+| ⚠️ Partial/EA | X |
+| ❌ Internal Only | X |
+
+### Detailed Breakdown
+
+| Feature | Flag Key | Rollout | Status | Notes |
+|---------|----------|---------|--------|-------|
+| [name] | [flag] | [%] | [status] | [notes] |
+
+### ✅ Safe for Customer Communication
+
+- [List of GA features]
+
+### ❌ Remove from Customer Communication
+
+- [List of internal features]
+
+### Customer-Safe Version
+
+[Signal content with internal features removed, rewritten in benefit language]
+```
+
+### Index Entry Addition
+
+Add to signal index entry:
+```json
+{
+  "availability_check": {
+    "checked_at": "ISO8601",
+    "ga_count": 5,
+    "internal_count": 3,
+    "partial_count": 2,
+    "customer_safe_file": "signals/slack/YYYY-MM-DD-[topic]-customer-safe.md"
+  }
+}
+```
+
+### Feature Detection Patterns
+
+Look for these in signal content:
+
+| Pattern | Example |
+|---------|---------|
+| Product features | "Internal Search", "Entity Mentions", "Workflows" |
+| Integration names | "HubSpot", "Salesforce", "Dialpad", "Ringcentral" |
+| Agent names | "Privacy Agent", "Process Agent" |
+| Flag-like names | `chat-tool-internal-search`, `integration-dialpad` |
+| Internal indicators | "internal only", "just us", "our workspace", "before rolling out" |
+
+### Common Flag Mappings
+
+| Feature | Flag Key |
+|---------|----------|
+| Internal Search | `chat-tool-internal-search` |
+| Entity Mentions | `chat-entity-mentions` |
+| Privacy Agent | `privacy-determination-agent` |
+| HubSpot Agent | `hubspot-mcp` |
+| Dialpad | `integration-dialpad` |
+| Ringcentral | `ring-central` |
+| Workflow AI | `workflow-ai-assistant-alpha` |

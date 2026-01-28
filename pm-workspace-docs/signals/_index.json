@@ -1,580 +1,101 @@
 {
   "$schema": "pm-workspace-signals-index-v1",
-  "last_updated": "2026-01-24T10:00:00.000000",
-  "total_signals": 11,
-  "by_source": {
-    "transcript": 9,
-    "ticket": 0,
-    "issue": 0,
-    "conversation": 0,
-    "document": 2
-  },
-  "by_status": {
-    "unprocessed": 2,
-    "processed": 9
-  },
+  "last_updated": "2026-01-28T10:00:00.000000",
+  "total": 19,
   "signals": [
     {
-      "id": "sig-2026-01-15-1225d797",
+      "id": "sig-2026-01-28-tyler-sam-flagship-meeting-recap-ux",
       "type": "transcript",
-      "source": "test-customer-call.md",
-      "topic": "customer-call-acme-corp",
-      "captured_at": "2026-01-15T20:45:24.118321",
-      "status": "unprocessed",
-      "problems_extracted": [
-        "Currently they have to click each one individually which is a problem for their workflow"
-      ],
-      "personas_mentioned": [
-        "sales-rep",
-        "csm",
-        "revops"
-      ],
-      "severity": "medium",
-      "word_count": 109,
-      "file_path": "signals/transcripts/2026-01-15-customer-call-acme-corp-1225d797.md",
-      "hypothesis_matches": [],
-      "hypothesis_candidates": []
-    },
-    {
-      "id": "sig-2026-01-21-crispy-product-chat-raw",
-      "type": "transcript",
-      "source": "partner-feedback-session",
-      "topic": "crispy-hubspot-partner-chat-raw-transcript",
-      "captured_at": "2026-01-21T13:30:00.000000",
-      "status": "unprocessed",
-      "severity": "medium",
-      "word_count": 14000,
-      "file_path": "signals/transcripts/2026-01-21-crispy-product-chat.md",
-      "related_signals": ["sig-2026-01-21-crispy-product-feedback"],
-      "personas_mentioned": [
-        "sales-rep",
-        "implementation-partner"
-      ],
-      "_note": "Raw transcript - see sig-2026-01-21-crispy-product-feedback for processed version"
-    },
-    {
-      "id": "sig-2026-01-16-crm-exp-ete-planning",
-      "type": "transcript",
-      "source": "internal-planning-session",
-      "topic": "crm-exp-ete-experience-planning",
-      "captured_at": "2026-01-16T15:30:00.000000",
+      "source": "voice-memo",
+      "topic": "flagship-meeting-recap-ux",
+      "captured_at": "2026-01-28T10:00:00.000000",
+      "participants": ["Tyler Sahagun", "Sam"],
       "status": "processed",
-      "initiative": "crm-exp-ete",
-      "problems_extracted": [
-        "Zero visibility into workflow execution",
-        "Testing workflows triggers cascading side effects",
-        "Configuration takes 80+ hours per workflow",
-        "Noxin workflow builder creates bad CRM workflows",
-        "Property creation requires manual HubSpot work",
-        "Data quality failures are catastrophic"
-      ],
-      "personas_mentioned": [
-        "revops",
-        "sales-rep",
-        "implementation-team"
-      ],
-      "severity": "critical",
-      "word_count": 5500,
-      "file_path": "signals/transcripts/2026-01-16-internal-crm-exp-ete-planning.md",
-      "hypothesis_matches": [
-        "Epic 1: Visibility Center",
-        "Epic 2: Approval Gates",
-        "Epic 3: Admin Config Simplification",
-        "Epic 10: AI Config Assistant"
-      ],
-      "hypothesis_candidates": [
-        "Bad data from automation causes churn faster than missing features"
-      ],
-      "key_quotes": [
-        "Bad data is worse than no data because you're gonna double down on the wrong decision",
-        "I have a workflow that I have eighty hours in",
-        "The experience of using it is painful"
-      ],
-      "priority_stack": [
-        "Workflow visibility",
-        "Manual enrollment/test",
-        "AI context for CRM",
-        "Property creation"
+      "path": "signals/transcripts/2026-01-28-tyler-sam-flagship-meeting-recap-ux.md",
+      "problems_identified": 5,
+      "feature_requests": 6,
+      "hypothesis_candidates": 3,
+      "strategic_alignment": "strong",
+      "related_initiatives": ["global-chat", "settings-redesign"],
+      "key_themes": [
+        "ai-first-ux",
+        "chat-configuration",
+        "meeting-recap",
+        "flagship-experience",
+        "zero-to-one"
       ]
     },
     {
-      "id": "sig-2026-01-21-crispy-product-feedback",
-      "type": "transcript",
-      "source": "partner-feedback-session",
-      "topic": "crispy-hubspot-partner-product-feedback",
-      "captured_at": "2026-01-21T14:00:00.000000",
-      "status": "processed",
-      "problems_extracted": [
-        "AskElephant success depends on HubSpot configuration quality",
-        "Sales reps won't leave HubSpot to use AskElephant",
-        "Global Chat should be embedded in HubSpot as sidebar",
-        "Workflow builder has too many confusing legacy nodes",
-        "No visibility into what workflows are actually doing",
-        "Meeting prep takes too long - reps don't do it",
-        "CRM reporting doesn't answer 'so what?'"
-      ],
-      "personas_mentioned": [
-        "sales-rep",
-        "sales-leader",
-        "revops",
-        "implementation-partner",
-        "hubspot-admin"
-      ],
-      "severity": "high",
-      "word_count": 14000,
-      "file_path": "signals/transcripts/2026-01-21-crispy-product-feedback-session.md",
-      "related_signals": ["sig-2026-01-21-zipcio-ai-service-methodology"],
-      "hypothesis_matches": [
-        "hyp-hubspot-agent-config-ui",
-        "hyp-customer-journey-map",
-        "hyp-universal-signal-tables"
-      ],
-      "hypothesis_candidates": [
-        "HubSpot sidebar integration for Global Chat",
-        "CRM readiness diagnostic tool",
-        "Proactive deal intelligence / AI sales manager",
-        "Hidden auto-fill fields strategy"
-      ],
-      "key_quotes": [
-        "I would love a global chat to be a card or a on the record sidebar in HubSpot directly. I would use the fuck out of that.",
-        "Sales reps just wanna do whatever they're rogue cowboys want to do... Make money.",
-        "AskElephant is really only successful if you have the right bill or, like, data, right chart",
-        "I am convinced that [hidden auto-fill fields] is the best practice of the future"
-      ],
-      "feature_requests": [
-        "HubSpot sidebar integration",
-        "Workflow folders/organization",
-        "Auto-generated workflow summaries",
-        "Hidden auto-fill fields",
-        "Property creation from AskElephant",
-        "Best practice workflow recommendations"
-      ],
-      "competitive_intel": {
-        "fathom": "Product sucks, no real CRM integration",
-        "hubspot_breeze": "Reference model for sidebar integration",
-        "ebsta": "Failed forecasting tool - bad data problem"
-      },
-      "participants": [
-        "Woody",
-        "Brian",
-        "Palmer",
-        "Tyler",
-        "Sam Ho",
-        "Crispy"
-      ]
+      "id": "sig-2026-01-22-composio-figma-make-chat-interface-spec",
+      "path": "signals/documents/2026-01-22-composio-figma-make-chat-interface-spec.md"
     },
     {
-      "id": "sig-2026-01-21-zipcio-ai-service-methodology",
-      "type": "document",
-      "source": "partner-shared-document",
-      "topic": "zipcio-ai-as-a-service-methodology",
-      "captured_at": "2026-01-21T14:30:00.000000",
-      "status": "processed",
-      "file_path": "signals/documents/Zipcio_ AI as a Service.md",
-      "related_signals": ["sig-2026-01-21-crispy-product-feedback"],
-      "summary": "Zipcio's 3-phase service methodology showing AskElephant positioned as Phase 3 (Revenue Intelligence) - introduced ONLY after HubSpot is properly configured in Phases 1-2",
-      "key_insights": [
-        "AskElephant is Phase 3 of 3 - last step after CRM is clean",
-        "24+ hours of prerequisite work before AskElephant implementation",
-        "Pricing: $5,000 for Phase 3 AskElephant setup",
-        "Success metrics: 80% calls scoring 7+, <10 violations per rep/week",
-        "Systems stack: HubSpot + AskElephant + Supered"
-      ],
-      "deliverables_mentioned": [
-        "AI Enriched Scoring Rubric",
-        "Supered Process Board with Rules",
-        "The Zipcio Sales Agent (AskElephant agent)",
-        "Custom HubSpot properties for quali tracking"
-      ],
-      "phase_breakdown": {
-        "phase_1": {
-          "name": "Definition and Acquisition",
-          "focus": "ICP definition, Clay tables, lead enrichment",
-          "asks_elephant_used": false,
-          "hours": 26,
-          "price": "$4,500 per persona"
-        },
-        "phase_2": {
-          "name": "Conversion",
-          "focus": "Sales sequences, messaging, nurture flows",
-          "asks_elephant_used": false,
-          "hours": 27,
-          "price": "$5,000 + $1,000/sequence"
-        },
-        "phase_3": {
-          "name": "Revenue Intelligence",
-          "focus": "AI Sales Manager, scoring rubrics, process rules",
-          "asks_elephant_used": true,
-          "hours": 24,
-          "price": "$5,000"
-        }
-      },
-      "strategic_implications": [
-        "Partners need 50+ hours of CRM work before AskElephant is viable",
-        "AskElephant is positioned as 'capstone' not 'foundation'",
-        "Clear success metrics partners track (call scores, violations)",
-        "Supered is complementary tool in partner stack"
-      ],
-      "personas_mentioned": [
-        "implementation-partner",
-        "revops",
-        "sales-leader"
-      ]
+      "id": "sig-Zipcio_ AI as a Service",
+      "path": "signals/documents/Zipcio_ AI as a Service.md"
     },
     {
-      "id": "sig-2026-01-21-maple-billing-feedback",
-      "type": "transcript",
-      "source": "customer-feedback-call",
-      "topic": "maple-billing-deal-workspace-feedback",
-      "captured_at": "2026-01-21T16:00:00.000000",
-      "status": "processed",
-      "problems_extracted": [
-        "Chat history lacks company/account context for navigation",
-        "No deal-centric workspace - must leave HubSpot to find context",
-        "HubSpot activities not stored locally - must fetch on demand",
-        "HubSpot agent behavior inconsistent",
-        "Workflow sidebar organization confusing"
-      ],
-      "personas_mentioned": [
-        "sales-rep",
-        "solo-rep"
-      ],
-      "severity": "high",
-      "word_count": 2500,
-      "file_path": "signals/transcripts/2026-01-21-maple-billing-feedback.md",
-      "related_initiatives": [
-        "rep-workspace",
-        "customer-journey-map"
-      ],
-      "hypothesis_matches": [
-        "rep-workspace",
-        "hyp-customer-journey-map",
-        "hyp-hubspot-agent-config-ui"
-      ],
-      "hypothesis_candidates": [
-        "Solo rep persona needs self-coaching, not team monitoring"
-      ],
-      "key_quotes": [
-        "A pipeline view of mirroring my HubSpot pipeline into AskElephant for me to very quickly start to say, hey. Let me hop in on a per account basis or a per deal basis",
-        "I'm actually way more interested in coaching from the aspect of, like, cool. Pull out some the common questions that have been asked across all my transcripts",
-        "Can we add the context of either company or something to that just so that I have a bit of ability to delineate between them"
-      ],
-      "feature_requests": [
-        "Pipeline/deal workspace mirroring HubSpot",
-        "Company context in chat list",
-        "Proactive CRM field suggestions",
-        "Deal creation prompts"
-      ],
-      "participants": [
-        "Jared Henriques (Maple)",
-        "Madelaine Gibson (Maple)",
-        "Tyler Sahagun",
-        "Skylar Sanford"
-      ],
-      "action_items": [
-        "Send structured outputs video to Jared - Tyler",
-        "Check Maple HubSpot agent setup with improvements - Skylar",
-        "Add company/account context to chat list - Product backlog"
-      ]
+      "id": "sig-2026-01-26-linear-all-projects",
+      "path": "signals/issues/2026-01-26-linear-all-projects.md"
     },
     {
-      "id": "sig-2026-01-21-crm-diagnostic-prototype-feedback",
-      "type": "transcript",
-      "source": "internal-prototype-review",
-      "topic": "crm-readiness-diagnostic-positioning-feedback",
-      "captured_at": "2026-01-21T19:00:00.000000",
-      "status": "processed",
-      "initiative": "crm-readiness-diagnostic",
-      "problems_extracted": [
-        "Customer-facing diagnostic may threaten HubSpot partner business model",
-        "Auto-fix functionality crosses partner territory",
-        "Current positioning could damage partner relationships"
-      ],
-      "personas_mentioned": [
-        "implementation-partner",
-        "hubspot-partner"
-      ],
-      "severity": "high",
-      "frequency": "critical-strategic-decision",
-      "word_count": 1500,
-      "file_path": "signals/transcripts/2026-01-21-crispy-feedback.md",
-      "related_signals": [
-        "sig-2026-01-21-crispy-product-feedback",
-        "sig-2026-01-21-zipcio-ai-service-methodology"
-      ],
-      "key_quotes": [
-        "If we make it super easy for us to simulate the fix and fix and go do that, then it comes up with a question of why is Crispy even needed?",
-        "I wanna make sure that we're not only stepping on toes, but crushing toes. That could burn potential partnerships in the future.",
-        "So what if instead, this is not check your HubSpot health. This is a tool only for partners, and it's part of our partner program.",
-        "We wanna give you more billable hours. We want to actually increase your top line.",
-        "They would want essentially that to be almost private. Creating that moat around their money making tool."
-      ],
-      "strategic_implications": [
-        "Partner-first positioning may be optimal path",
-        "Diagnostic should enable partners, not replace them",
-        "Premium pricing opportunity (~$500/month for partners)",
-        "Auto-fix feature is high-risk for partner relationships"
-      ],
-      "action_items": [
-        "Show prototype to James for additional input",
-        "Show prototype to Crispy directly - gauge reaction",
-        "Design partner-only variant of diagnostic"
-      ],
-      "decision_required": {
-        "question": "Should CRM Readiness Diagnostic be customer-facing, partner-only, or hybrid?",
-        "options": [
-          "Customer-facing (current v2)",
-          "Partner-only (premium tool)",
-          "Hybrid (basic for customers, advanced for partners)"
-        ],
-        "stakeholders": ["Tyler", "James", "Crispy"],
-        "deadline": "Before v3 prototype"
-      },
-      "participants": [
-        "Tyler",
-        "Matt"
-      ]
+      "id": "sig-2026-01-26-linear-product-team-backlog",
+      "path": "signals/issues/2026-01-26-linear-product-team-backlog.md"
     },
     {
-      "id": "sig-2026-01-22-composio-figma-make-chat-interface",
-      "type": "document",
-      "source": "figma-make-design-artifact",
-      "topic": "composio-agent-chat-interface-options-abc",
-      "captured_at": "2026-01-22T10:00:00.000000",
-      "status": "processed",
-      "initiative": "composio-agent-framework",
-      "file_path": "signals/documents/2026-01-22-composio-figma-make-chat-interface-spec.md",
-      "summary": "Figma Make prototype spec from Adam exploring chat interface patterns for agent interaction. Includes typewriter effects, sequential artifact reveal, and sticky input patterns.",
-      "design_patterns": [
-        "Sequential message reveal with typewriter effect",
-        "Artifact chains that fade in after text completes",
-        "Sticky footer input card with auto-expanding textarea",
-        "onAnimationEnd callbacks for timing (not timeouts)",
-        "FadeInWrapper component pattern"
-      ],
-      "ux_implications": [
-        "Simulated AI thinking state builds trust",
-        "Character-by-character streaming shows responsiveness",
-        "Secure connection indicator addresses trust concerns"
-      ],
-      "applies_to": [
-        "Phase 2: Agent Configurator UX",
-        "Natural Language Instructions",
-        "Agent Activity/Response Display"
-      ],
-      "open_questions": [
-        "Does pattern apply to workflow builder node or standalone chat only?",
-        "Should Suggested Workflows map to Composio integrations?",
-        "How does Secure connection relate to OAuth flows?"
-      ],
-      "creator": "Adam",
-      "tool": "Figma Make",
-      "variants": ["Option A", "Option B", "Option C"]
+      "id": "sig-2026-01-26-14day-slack-synthesis",
+      "path": "signals/slack/2026-01-26-14day-slack-synthesis.md"
+    },
+    {
+      "id": "sig-2026-01-21-crispy-feedback",
+      "path": "signals/transcripts/2026-01-21-crispy-feedback.md"
     },
     {
       "id": "sig-2026-01-22-adam-composio-agent-feedback",
-      "type": "transcript",
-      "source": "internal-design-review",
-      "topic": "composio-agent-framework-design-walkthrough",
-      "captured_at": "2026-01-22T10:30:00.000000",
-      "status": "processed",
-      "initiative": "composio-agent-framework",
-      "file_path": "signals/transcripts/2026-01-22-adam-composio-agent-feedback.md",
-      "related_signals": ["sig-2026-01-22-composio-figma-make-chat-interface"],
-      "summary": "Adam + Tyler walkthrough of Figma Make Options A/B/C. Key finding: conversational agent setup preferred over form fields. Critical problem identified: workspace vs user-level authentication for shared agents.",
-      "problems_extracted": [
-        "Workspace vs user-level authentication conflict when agents are shared",
-        "Blank prompt fields intimidate users - no guidance",
-        "Non-deterministic output - customers want consistent formatting",
-        "Option C missing visibility settings (draft/shared/recommended)"
-      ],
-      "feature_requests": [
-        "Conversational agent setup (chat-based configuration)",
-        "Test agent before activating (hypothetical output preview)",
-        "Smart suggestions based on user context/call history",
-        "Automatic agent detection in chat (no explicit invocation)",
-        "Per-integration workspace/user auth controls"
-      ],
-      "design_decisions": [
-        "Option B preferred over Option A (cleaner layout)",
-        "Option C best for conversational setup but needs visibility settings",
-        "Agents should auto-detect in chat, no @-mention needed"
-      ],
-      "key_quotes": [
-        "The agent is supposed to replace workflows... it's actually supposed to automate things in the background",
-        "People see this blank text field and they have no clue what to do",
-        "If we're combining the integration experience with the workflow experience into one experience, then we're presented with this really big problem",
-        "Unlike Pipedream where you have to toggle on your agents, you can actually just say [in chat]... and it should know which ones to use",
-        "You set up your agent in chat. It's like a conversation"
-      ],
-      "action_items": [
-        { "who": "Adam", "what": "Send conversational agent prototype to Tyler", "status": "pending" },
-        { "who": "Tyler", "what": "Show prototype to Caden", "status": "pending" },
-        { "who": "Tyler", "what": "Create v2 of Figma Make prototype", "status": "pending" }
-      ],
-      "participants": [
-        "Adam",
-        "Tyler"
-      ],
-      "severity": "high",
-      "word_count": 2800
+      "path": "signals/transcripts/2026-01-22-adam-composio-agent-feedback.md"
     },
     {
-      "id": "sig-2026-01-22-composio-agent-architecture-deep-dive",
-      "type": "transcript",
-      "source": "internal-design-discussion",
-      "topic": "composio-agent-framework-architecture-skills-memory",
-      "captured_at": "2026-01-22T14:00:00.000000",
-      "status": "processed",
-      "initiative": "composio-agent-framework",
-      "file_path": "signals/transcripts/2026-01-22-internal-composio-agent-architecture.md",
-      "related_signals": [
-        "sig-2026-01-22-adam-composio-agent-feedback",
-        "sig-2026-01-22-composio-figma-make-chat-interface"
-      ],
-      "summary": "Deep architecture discussion clarifying Composio scope (toolbox only) vs skills, memory, sub-agents as separate layers. Key UX challenge: trigger/integration ordering creates chicken-and-egg problem.",
-      "problems_extracted": [
-        "Integration/trigger ordering UX - users think trigger-first but system needs integration-first",
-        "Tool discovery at scale - Slack has 100+ tools, need search/filtering",
-        "First-time user context gap - can't show smart defaults without tech stack knowledge",
-        "Skills vs agents naming confusion - need clear mental model"
-      ],
-      "personas_mentioned": [
-        "revops",
-        "agent-builder",
-        "new-user"
-      ],
-      "severity": "high",
-      "word_count": 3200,
-      "key_concepts": {
-        "composio": "Toolbox only - integrations and tools, nothing more",
-        "skills": "Reusable expertise prompts, auto-discoverable via progressive disclosure",
-        "memory": "Short-term (conversation) vs long-term (persistent across sessions)",
-        "sub_agents": "Delegation to specialized agents for specific tasks"
-      },
-      "architecture_components": [
-        "Agent (core)",
-        "Trigger (when)",
-        "Instructions (what)",
-        "Toolbox/Composio (integrations + tools)",
-        "Skills (expertise)",
-        "Sub-agents (delegation)",
-        "Memory (persistence)"
-      ],
-      "key_quotes": [
-        "Composeo is literally just this box right here",
-        "Skills are literally just a massive, like it's a skill name, a description, and then instructions are, like, a massive prompt that teaches it how to be an expert in a specific topic",
-        "The more complex and better the skills get, the less instructions I need to give to the agent",
-        "Long term memory is, like, I have a conversation with the agent, and then I come back and I start a new conversation, and it remembers things from past conversations"
-      ],
-      "feature_requests": [
-        "Generic trigger categories (scheduled, on event) before integration picker",
-        "AI-assisted agent setup via chat",
-        "Workspace-level skills (pre-built expertise)",
-        "Progressive skill loading based on context",
-        "RevOps expert skill (James-authored)",
-        "Memory layer (short-term + long-term)",
-        "Sub-agent delegation"
-      ],
-      "design_patterns": [
-        "Progressive disclosure for skills (name/description always visible, details loaded on demand)",
-        "Cursor rules structure as skills model"
-      ],
-      "strategic_alignment": [
-        "AI-First UX - conversational configuration",
-        "Human Empowerment - skills encode human expertise",
-        "2026 Initiative - Workflow Builder / AI Assistant Tool"
-      ],
-      "hypothesis_candidates": [
-        "Skills reduce agent configuration friction",
-        "Conversational agent setup outperforms forms",
-        "Progressive disclosure scales expertise without context limits"
-      ],
-      "action_items": [
-        { "who": "Matt", "what": "Create skills architecture doc", "status": "pending" },
-        { "who": "Tyler", "what": "Prototype generic trigger categories UX", "status": "pending" },
-        { "who": "Tyler/James", "what": "Draft RevOps expert skill", "status": "pending" },
-        { "who": "Tyler", "what": "Update composio-agent-framework PRD with skills layer", "status": "pending" },
-        { "who": "Adam", "what": "Define skill vs agent terminology in design system", "status": "pending" }
-      ],
-      "participants": [
-        "Tyler",
-        "Matt"
-      ]
+      "id": "sig-2026-01-22-internal-composio-agent-architecture",
+      "path": "signals/transcripts/2026-01-22-internal-composio-agent-architecture.md"
+    },
+    {
+      "id": "sig-2026-01-21-maple-billing-feedback",
+      "path": "signals/transcripts/2026-01-21-maple-billing-feedback.md"
     },
     {
       "id": "sig-2026-01-24-council-of-product",
-      "type": "transcript",
-      "source": "internal-product-meeting",
-      "topic": "council-of-product-weekly-meeting",
-      "captured_at": "2026-01-24T10:00:00.000000",
-      "status": "processed",
-      "problems_extracted": [
-        "Revenue team confused about Composio availability - not customer-ready",
-        "Release lifecycle/feature flags not fully implemented - PostHog limitations",
-        "No clear definition of time to value per persona",
-        "AI enablement squad feeling sidelined from initiatives",
-        "Site performance work caused visual regression",
-        "User groups status unclear"
-      ],
-      "personas_mentioned": [
-        "sales-rep",
-        "revops",
-        "implementation-partner",
-        "sales-leader",
-        "csm",
-        "ae"
-      ],
-      "severity": "high",
-      "word_count": 4500,
-      "file_path": "signals/transcripts/2026-01-24-council-of-product.md",
-      "related_initiatives": [
-        "rep-workspace",
-        "composio-agent-framework",
-        "settings-redesign",
-        "speaker-id-voiceprint",
-        "product-usability",
-        "user-onboarding",
-        "release-lifecycle-process",
-        "hubspot-agent-config-ui",
-        "crm-readiness-diagnostic"
-      ],
-      "hypothesis_matches": [
-        "rep-workspace",
-        "composio-agent-framework"
-      ],
-      "hypothesis_candidates": [
-        "Rep workspace as viral anchor - gives clear demo story and entry point",
-        "Proactive deal intelligence over explicit action items",
-        "HubSpot sidebar reduces context switching",
-        "Job function segmentation reveals usage patterns"
-      ],
-      "key_quotes": [
-        "I am so freaking impressed by how much work I'm actually getting done through AskElephant now. I now want four chat windows.",
-        "What I'm trying to prove here is the next milestone is that, one, we can take the data and now have it in ours. And then based off that data and the full context of the entity, we can actually drive real actual insights.",
-        "Every feature, you should have some success metric. It doesn't have to be revenue... looking at that usage and what a good usage goal would be to infer that it's worth it."
-      ],
-      "feature_requests": [
-        "Rep workspace with deal context + Composio actions",
-        "HubSpot audit tool for partners",
-        "HubSpot widget/sidebar for internal search",
-        "Peanut SDK integration for desktop dictation",
-        "Slack agent for integration capability questions",
-        "Job title field for PostHog analytics"
-      ],
-      "key_decisions": [
-        "Composio NOT live to customers - revenue team to be clarified",
-        "Global chat open beta target: Feb 1",
-        "Job title field needed for analytics segmentation",
-        "Rep workspace is #1 priority"
-      ],
-      "participants": [
-        "Woody",
-        "Rob",
-        "Sam Ho",
-        "Skylar",
-        "Tyler"
-      ]
+      "path": "signals/transcripts/2026-01-24-council-of-product.md"
+    },
+    {
+      "id": "sig-2026-01-26-council-of-product",
+      "path": "signals/transcripts/2026-01-26-council-of-product.md"
+    },
+    {
+      "id": "sig-2026-01-21-crispy-product-chat",
+      "path": "signals/transcripts/2026-01-21-crispy-product-chat.md"
+    },
+    {
+      "id": "sig-2026-01-16-internal-crm-exp-ete-planning",
+      "path": "signals/transcripts/2026-01-16-internal-crm-exp-ete-planning.md"
+    },
+    {
+      "id": "sig-2026-01-26-hubspot-salesforce-update",
+      "path": "signals/transcripts/2026-01-26-hubspot-salesforce-update.md"
+    },
+    {
+      "id": "sig-2026-01-26-product-sync-roicx",
+      "path": "signals/transcripts/2026-01-26-product-sync-roicx.md"
+    },
+    {
+      "id": "sig-2026-01-21-crispy-product-feedback-session",
+      "path": "signals/transcripts/2026-01-21-crispy-product-feedback-session.md"
+    },
+    {
+      "id": "sig-2026-01-15-customer-call-acme-corp-1225d797",
+      "path": "signals/transcripts/2026-01-15-customer-call-acme-corp-1225d797.md"
+    },
+    {
+      "id": "sig-2026-01-27-tyler-sam-prioritization-workflow",
+      "path": "signals/transcripts/2026-01-27-tyler-sam-prioritization-workflow.md"
     }
   ]
 }
