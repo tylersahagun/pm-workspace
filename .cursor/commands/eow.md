@@ -9,6 +9,7 @@ Generate a comprehensive end-of-week activity report with velocity trends, phase
 ```
 /eow                    # Full end-of-week report
 /eow --digest           # Quick "Sunday paper" weekly edition (~2 min read)
+/eow --rob              # Simplified weekly report for revenue team (verified availability)
 /eow --compare          # Include last week comparison with trends
 /eow --team [key]       # Focus on specific Linear team (ASK, VAN, CEX, EPD)
 /eow --json             # Output JSON format only
@@ -39,6 +40,57 @@ Add `--digest` for a revenue-team friendly weekly summary (no technical jargon, 
 Matt Noxon, Jason, Eduardo, Palmer, Kaden, Dylan, Bryan, Adam, Skylar
 
 **Excluded from digest:** PM workspace advances, PR counts, GitHub handles, technical infrastructure
+
+## Rob Mode
+
+Add `--rob` for a **simplified, availability-verified** weekly report for the revenue team:
+
+```
+/eow --rob
+```
+
+**Output:** `rob-YYYY-WXX.md` (~50 lines)
+**Audience:** CRO (Robert Henderson), revenue leadership, sales/CS teams
+
+**Key Features:**
+- **High school senior reading level** - Zero technical jargon
+- **Availability verified** - All features checked against PostHog flags
+- **Internal features hidden** - Only shows customer-visible features
+- **Benefit-focused language** - Plain English descriptions
+- **SDR leaderboard** - Weekly stats from #sdr-stats channel
+
+| Section         | What's Included                          |
+| --------------- | ---------------------------------------- |
+| What's New      | Plain English features (verified GA)     |
+| What We Fixed   | Simple bug fix descriptions              |
+| Revenue Wins    | Deals, SDR leaderboard, expansions       |
+| Coming Soon     | Next week preview in plain language      |
+| Week Stats      | Features, bugs, deals, meetings set      |
+
+**Example Output:**
+```markdown
+# This Week in Product
+**Week of January 20-26, 2026**
+
+## What's New (for customers)
+
+**Find any conversation instantly** — Search now works across all your calls, not just recent ones.
+
+**Faster everything** — We made the app quicker. Big accounts load in half the time.
+
+## Revenue Wins
+
+**Deals Closed:** 12 new customers ($85k ARR)
+**SDR Leaderboard:**
+1. Jamis Benson - 18 meetings set
+2. Carter Thomas - 15 meetings set
+3. Michael Haimowitz - 12 meetings set
+
+**Expansion:** $24k from 3 accounts
+
+---
+*All features listed are available to your team now.*
+```
 
 ## What It Does
 

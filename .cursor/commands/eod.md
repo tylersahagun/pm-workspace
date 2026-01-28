@@ -9,6 +9,7 @@ Generate a comprehensive end-of-day activity report summarizing work done across
 ```
 /eod                        # Full end-of-day report
 /eod --digest               # Quick "Sunday paper" summary (~2 min read)
+/eod --rob                  # Simplified report for revenue team (verified availability)
 /eod --initiative [name]    # Focus on specific initiative
 /eod --json                 # Output JSON format only
 /eod --no-save              # Display but don't save to file
@@ -37,6 +38,42 @@ Add `--digest` for a revenue-team friendly summary (no technical jargon, no PR c
 
 **Team Members (use names, not handles):**
 Matt Noxon, Jason, Eduardo, Palmer, Kaden, Dylan, Bryan, Adam, Skylar
+
+## Rob Mode
+
+Add `--rob` for a **simplified, availability-verified** report optimized for Robert Henderson (CRO) and the revenue team:
+
+```
+/eod --rob
+```
+
+**Output:** `rob-YYYY-MM-DD.md` (~40 lines)
+**Audience:** CRO, revenue leadership, sales/CS teams
+
+**Key Features:**
+- **High school senior reading level** - Zero technical jargon
+- **Availability verified** - All features checked against PostHog flags
+- **Internal features hidden** - Only shows customer-visible features
+- **Benefit-focused language** - "Your CRM updates instantly" not "HubSpot sync improvements"
+- **SDR stats included** - Pulls from #sdr-stats channel
+
+| Section       | What's Included                          |
+| ------------- | ---------------------------------------- |
+| What's New    | Plain English, benefit-focused features  |
+| What We Fixed | Simple bug fix descriptions              |
+| Revenue Wins  | Deals, SDR stats, expansions             |
+| Coming Soon   | Upcoming in plain language               |
+| Quick Stats   | Features, bugs, deals, meetings          |
+
+**Example Transformations:**
+| Technical | Rob-Friendly |
+|-----------|--------------|
+| "HubSpot integration sync" | "Your CRM now updates automatically" |
+| "Performance optimizations" | "The app runs faster now" |
+| "AI conversation intelligence" | "We watch your calls and find the important stuff" |
+
+**Availability Check:**
+All features are verified against PostHog. Only ✅ GA (100% rollout) features appear. Report ends with: *"All features listed are available to your team now."*
 
 ## What It Does
 

@@ -12,18 +12,23 @@ You build interactive Storybook prototypes in `elephant-ai/web/src/components/pr
 ## Two Modes
 
 ### Full Prototype Mode (`/proto`)
+
 Complete prototype with all states, creative options, and flow stories. Use when:
+
 - PRD and Design Brief exist
 - Ready for validation
 - Need comprehensive coverage
 
 ### LoFi Mode (`/lofi-proto`)
+
 Quick wireframe prototype for early exploration. Use when:
+
 - Still in discovery phase
 - Testing layouts before committing
 - No PRD yet, just exploring
 
 **LoFi Simplifications:**
+
 - Skip creative options (just one direction)
 - Skip some states (Loading, Success, Error only)
 - Skip flow stories
@@ -61,19 +66,21 @@ You can continue reading files while waiting for clarification.
 ## Design Principles
 
 ### Trust Before Automation
+
 - New features start as suggestions, not automations
 - Show receipts (evidence) for every AI decision
 - Make confidence levels explicit
 - Graceful failure > silent failure
 
 ### Creative Exploration (Required)
+
 For each major component, create 2-3 creative directions:
 
-| Direction | User Control | Trust Required | Best Persona |
-|-----------|-------------|----------------|--------------|
-| Option A | Maximum | Low | New users, skeptics |
-| Option B | Balanced | Medium | Most users |
-| Option C | Minimal | High | Power users |
+| Direction | User Control | Trust Required | Best Persona        |
+| --------- | ------------ | -------------- | ------------------- |
+| Option A  | Maximum      | Low            | New users, skeptics |
+| Option B  | Balanced     | Medium         | Most users          |
+| Option C  | Minimal      | High           | Power users         |
 
 ## Required AI States
 
@@ -137,11 +144,156 @@ Capture the `storybookUrl` from Chromatic output and include in your response.
 ## After Building
 
 1. Document in `pm-workspace-docs/initiatives/[project]/prototype-notes.md`
-2. Update `_meta.json` with:
+2. **Generate FigJam Customer Story** (if not already created) - see below
+3. Update `_meta.json` with:
    - `phase: "build"`
    - `current_version: "v1"`
    - `chromatic_url: "[captured URL]"`
-3. Commit and push elephant-ai submodule
+   - `figjam_url: "[FigJam URL]"` (from step 2)
+4. Commit and push elephant-ai submodule
+5. **Send Slack notification** using the `prototype-notification` skill (see below)
+
+## FigJam Customer Story Generation (REQUIRED)
+
+Before sending the Slack notification, generate a FigJam diagram that visualizes the customer story.
+
+### Check if FigJam Exists
+
+Read `_meta.json` and check for `figjam_url`. If it exists and is valid, skip generation.
+
+### Generate FigJam
+
+Use the Figma MCP `generate_diagram` tool to create a flowchart showing:
+
+1. **Current State (Pain)** - Extract from PRD Problem Statement + Research quotes
+2. **User Stories by Persona** - Extract from PRD User Stories section
+3. **Future State (Solution)** - Extract from PRD Goals and User Flows
+
+**MCP Tool Call:**
+
+```
+Server: user-Figma
+Tool: generate_diagram
+Arguments:
+  name: "[Initiative Name] - Customer Story"
+  mermaidSyntax: [See template below]
+  userIntent: "Visualize the customer problem and user stories for stakeholder alignment"
+```
+
+**Mermaid Template:**
+
+```mermaid
+flowchart LR
+    subgraph Current["CURRENT STATE: The Problem"]
+        direction TB
+        C1["Pain Step 1"] --> C2["Pain Step 2"]
+        C2 --> C3["Pain Step 3"]
+        Pain1(["Quote from research"])
+        Pain2(["Impact: quantified metric"])
+    end
+    subgraph Stories["USER STORIES"]
+        direction TB
+        P1["Primary: As a [persona], I want..."]
+        P2["Secondary: As a [persona], I want..."]
+        Transform(["Transformation moment"])
+    end
+    subgraph Future["FUTURE STATE: The Solution"]
+        direction TB
+        F1["Solution Step 1"] --> F2["Solution Step 2"]
+        F2 --> F3["Outcome"]
+        Win1(["Success metric target"])
+    end
+    Current -->|"Insight"| Stories
+    Stories -->|"Enables"| Future
+    style Current fill:#ffcccc
+    style Stories fill:#fff3cd
+    style Future fill:#d4edda
+```
+
+**Content Extraction:**
+
+1. Read `pm-workspace-docs/initiatives/[name]/prd.md`
+2. Extract from "Problem Statement" section → Current State steps
+3. Extract from "Evidence" section → Pain quotes
+4. Extract from "User Stories" section → Per-persona stories
+5. Extract from "Goals" section → Success metrics
+
+### Save FigJam URL
+
+After the MCP tool returns the URL, update `_meta.json`:
+
+```json
+{
+  "figjam_url": "https://www.figma.com/...",
+  "figjam_generated": "YYYY-MM-DD"
+}
+```
+
+## Slack Notification (REQUIRED for /proto)
+
+After Chromatic deploy completes, send a DM to Tyler with prototype links.
+
+**Use the `prototype-notification` skill** (`.cursor/skills/prototype-notification/SKILL.md`):
+
+1. Extract the `storybookUrl` from Chromatic output
+2. Read `_meta.json` to get `figjam_url` (if available)
+3. Generate URLs:
+   - Chromatic walkthrough: `[storybookUrl]/iframe.html?id=[story-id]&viewMode=story`
+   - FigJam: Use `figjam_url` from `_meta.json`
+   - PRD: `https://github.com/tylersahagun/pm-workspace/blob/main/pm-workspace-docs/initiatives/[name]/prd.md`
+   - Research: `https://github.com/tylersahagun/pm-workspace/blob/main/pm-workspace-docs/initiatives/[name]/research.md`
+4. Send via `SLACK_SEND_MESSAGE` MCP tool to `U08JVM8LBP0` (Tyler)
+
+**MCP Tool Call:**
+
+```json
+CallMcpTool: user-mcp-config-2mgoji / SLACK_SEND_MESSAGE
+{
+  "channel": "U08JVM8LBP0",
+  "text": "Prototype Ready: [Initiative Name]",
+  "blocks": [
+    {
+      "type": "header",
+      "text": { "type": "plain_text", "text": ":art: Prototype Ready: [Initiative]", "emoji": true }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Here's the prototype that's been generated for *[initiative]*.\n\n:paintbrush: *[X] Creative Options* created\n:white_check_mark: All AI states implemented\n:runner: Flow stories included"
+      }
+    },
+    { "type": "divider" },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": ":chromatic: View on Chromatic", "emoji": true },
+          "url": "[CHROMATIC_URL]",
+          "style": "primary"
+        },
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": ":computer: View Locally", "emoji": true },
+          "url": "[LOCAL_URL]"
+        },
+        {
+          "type": "button",
+          "text": { "type": "plain_text", "text": ":page_facing_up: Documentation", "emoji": true },
+          "url": "[DOCS_URL]"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [{ "type": "mrkdwn", "text": ":package: Version: *v1*" }]
+    }
+  ]
+}
+```
+
+**Skip notification for `/lofi-proto`** (no Chromatic deploy).
 
 ## Response Format
 
@@ -152,7 +304,7 @@ Capture the `storybookUrl` from Chromatic output and include in your response.
 
 🎨 **Creative Options (v1):**
 - Option A: Maximum Control - [description]
-- Option B: Balanced (Recommended) - [description]  
+- Option B: Balanced (Recommended) - [description]
 - Option C: Maximum Efficiency - [description]
 
 📦 **All States:** Loading, LoadingLong, Success, Error, LowConfidence, Empty
@@ -169,6 +321,6 @@ Capture the `storybookUrl` from Chromatic output and include in your response.
 
 - Single option (always explore 2-3 directions)
 - Missing states (all AI states required)
-- States without flows (always include Flow_* stories)
+- States without flows (always include Flow\_\* stories)
 - Confident wrongness (show uncertainty appropriately)
 - Surveillance vibes ("helps YOU" not "reports ON you")

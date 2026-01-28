@@ -43,13 +43,13 @@ Use these to:
 
 ### pm-mcp-config Toolkit Reference
 
-| Toolkit | Tools | Key Operations |
-|---------|-------|----------------|
-| **Slack** | 110+ | `SLACK_FETCH_CONVERSATION_HISTORY`, `SLACK_SEARCH_MESSAGES`, `SLACK_SEND_MESSAGE`, `SLACK_LIST_ALL_CHANNELS`, `SLACK_FIND_USERS` |
-| **Linear** | 35+ | `LINEAR_CREATE_LINEAR_ISSUE`, `LINEAR_SEARCH_ISSUES`, `LINEAR_UPDATE_ISSUE`, `LINEAR_LIST_LINEAR_PROJECTS`, `LINEAR_LIST_LINEAR_CYCLES` |
-| **Notion** | 55+ | `NOTION_CREATE_NOTION_PAGE`, `NOTION_QUERY_DATABASE`, `NOTION_SEARCH_NOTION_PAGE`, `NOTION_UPDATE_PAGE` |
-| **HubSpot** | 200+ | `HUBSPOT_GET_CONTACT_IDS`, `HUBSPOT_GET_DEALS`, `HUBSPOT_CREATE_TICKET`, `HUBSPOT_GET_COMPANY`, `HUBSPOT_LIST_ASSETS` |
-| **PostHog** | 300+ | `POSTHOG_RETRIEVE_PROJECT_INSIGHTS`, `POSTHOG_CREATE_PROJECT_COHORTS`, `POSTHOG_RETRIEVE_PROJECT_INSIGHT_DETAILS` |
+| Toolkit     | Tools | Key Operations                                                                                                                          |
+| ----------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Slack**   | 110+  | `SLACK_FETCH_CONVERSATION_HISTORY`, `SLACK_SEARCH_MESSAGES`, `SLACK_SEND_MESSAGE`, `SLACK_LIST_ALL_CHANNELS`, `SLACK_FIND_USERS`        |
+| **Linear**  | 35+   | `LINEAR_CREATE_LINEAR_ISSUE`, `LINEAR_SEARCH_ISSUES`, `LINEAR_UPDATE_ISSUE`, `LINEAR_LIST_LINEAR_PROJECTS`, `LINEAR_LIST_LINEAR_CYCLES` |
+| **Notion**  | 55+   | `NOTION_CREATE_NOTION_PAGE`, `NOTION_QUERY_DATABASE`, `NOTION_SEARCH_NOTION_PAGE`, `NOTION_UPDATE_PAGE`                                 |
+| **HubSpot** | 200+  | `HUBSPOT_GET_CONTACT_IDS`, `HUBSPOT_GET_DEALS`, `HUBSPOT_CREATE_TICKET`, `HUBSPOT_GET_COMPANY`, `HUBSPOT_LIST_ASSETS`                   |
+| **PostHog** | 300+  | `POSTHOG_RETRIEVE_PROJECT_INSIGHTS`, `POSTHOG_CREATE_PROJECT_COHORTS`, `POSTHOG_RETRIEVE_PROJECT_INSIGHT_DETAILS`                       |
 
 **Tool Naming Convention:** `{TOOLKIT}_{ACTION}_{ENTITY}` (e.g., `SLACK_FETCH_CONVERSATION_HISTORY`)
 
@@ -57,13 +57,13 @@ Use these to:
 
 **Key Channels by Function:**
 
-| Function | Primary Channels |
-|----------|-----------------|
-| Revenue Wins | #sales-closed-won, #team-sales, #expansion-opportunities |
-| Customer Signals | #customer-feedback, #customer-quotes, #churn-alert |
-| Engineering | #product-updates, #team-dev, #product-issues |
-| Product | #product-forum, #product-requests |
-| Company-wide | #general, #watering-hole |
+| Function         | Primary Channels                                         |
+| ---------------- | -------------------------------------------------------- |
+| Revenue Wins     | #sales-closed-won, #team-sales, #expansion-opportunities |
+| Customer Signals | #customer-feedback, #customer-quotes, #churn-alert       |
+| Engineering      | #product-updates, #team-dev, #product-issues             |
+| Product          | #product-forum, #product-requests                        |
+| Company-wide     | #general, #watering-hole                                 |
 
 ---
 
@@ -71,46 +71,59 @@ Use these to:
 
 ### Auto-Execute (Low-Risk)
 
-| Intent Patterns                                                   | Command                            | Description                                                                |
-| ----------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------- |
-| "save", "commit", "push", "backup"                                | `/save`                            | Stage, commit, push changes                                                |
-| "update", "pull", "sync", "get latest"                            | `/update`                          | Pull latest, sync submodules                                               |
-| "status", "where are we", "current state"                         | `/status`                          | Show workspace/initiative status (uses `initiative-status` skill)          |
-| "status all", "all initiatives", "portfolio status", "everything" | `/status-all`                      | Full portfolio report with artifact matrix (uses `portfolio-status` skill) |
-| "help", "what commands", "how do I"                               | `/help`                            | Show command guidance                                                      |
-| "roadmap", "priorities", "what's planned"                         | `/roadmap`                         | View/update roadmap                                                        |
-| "generate image", "create mockup image", "visualize diagram"      | Image generation                   | Generate images directly (saves to `assets/`)                              |
-| "sync linear", "linear progress", "cycle status"                  | `/sync-linear`                     | Sync Linear projects/cycles (uses `linear-sync` skill)                     |
-| "sync github", "what shipped", "release notes"                    | `/sync-github`                     | Sync GitHub PRs/merges (uses `github-sync` skill)                          |
-| "sync notion", "notion projects", "notion status"                 | `/sync-notion`                     | Sync Notion Projects/Specs/Briefs (uses `notion-sync` skill)               |
-| "sync dev", "dev status", "pipeline status"                       | `/sync-dev`                        | Unified Notion + Linear + GitHub sync                                      |
-| "visual digest", "poster", "shareable digest"                     | `/visual-digest`                   | Generate branded visual for sharing                                        |
-| "publish digest", "release notes page", "digest website"          | `/publish-digest`                  | Publish digest to shareable website                                        |
-| "end of day", "what did I do today", "daily report", "eod"        | `/eod`                             | End-of-day activity report (uses `activity-reporter` skill)                |
-| "end of week", "weekly report", "week summary", "eow"             | `/eow`                             | End-of-week activity report with trends (uses `activity-reporter` skill)   |
-| "quick summary", "headlines", "digest", "sunday paper"            | `/eod --digest` or `/eow --digest` | Quick newspaper-style summary                                              |
+| Intent Patterns                                                            | Command                            | Description                                                                |
+| -------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------- |
+| "save", "commit", "push", "backup"                                         | `/save`                            | Stage, commit, push changes                                                |
+| "update", "pull", "sync", "get latest"                                     | `/update`                          | Pull latest, sync submodules                                               |
+| "status", "where are we", "current state"                                  | `/status`                          | Show workspace/initiative status (uses `initiative-status` skill)          |
+| "status all", "all initiatives", "portfolio status", "everything"          | `/status-all`                      | Full portfolio report with artifact matrix (uses `portfolio-status` skill) |
+| "help", "what commands", "how do I"                                        | `/help`                            | Show command guidance                                                      |
+| "roadmap", "priorities", "what's planned"                                  | `/roadmap`                         | View/update roadmap                                                        |
+| "generate image", "create mockup image", "visualize diagram"               | Image generation                   | Generate images directly (saves to `assets/`)                              |
+| "sync linear", "linear progress", "cycle status"                           | `/sync-linear`                     | Sync Linear projects/cycles (uses `linear-sync` skill)                     |
+| "sync github", "what shipped", "release notes"                             | `/sync-github`                     | Sync GitHub PRs/merges (uses `github-sync` skill)                          |
+| "sync notion", "notion projects", "notion status"                          | `/sync-notion`                     | Sync Notion Projects/Specs/Briefs (uses `notion-sync` skill)               |
+| "sync dev", "dev status", "pipeline status"                                | `/sync-dev`                        | Unified Notion + Linear + GitHub sync                                      |
+| "visual digest", "poster", "shareable digest"                              | `/visual-digest`                   | Generate branded visual for sharing                                        |
+| "publish digest", "release notes page", "digest website"                   | `/publish-digest`                  | Publish digest to shareable website                                        |
+| "end of day", "what did I do today", "daily report", "eod"                 | `/eod`                             | End-of-day activity report (uses `activity-reporter` skill)                |
+| "end of week", "weekly report", "week summary", "eow"                      | `/eow`                             | End-of-week activity report with trends (uses `activity-reporter` skill)   |
+| "quick summary", "headlines", "digest", "sunday paper"                     | `/eod --digest` or `/eow --digest` | Quick newspaper-style summary                                              |
+| "slack update", "what's happening on slack", "slack digest", "check slack" | `/slack-monitor`                   | Scan Slack for activity since last check (uses `slack-monitor` subagent)   |
+| "mark slack as read", "caught up on slack", "clear slack"                  | `/slack-monitor mark as read`      | Update last-check timestamp without scanning                               |
 
 ### Confirm First (Complex Workflows)
 
-| Intent Patterns                                                                   | Command                    | Delegates To                 |
-| --------------------------------------------------------------------------------- | -------------------------- | ---------------------------- |
-| "transcript", "interview", "call recording", "research this", "customer feedback" | `/research [name]`         | `research-analyzer` subagent |
-| "PRD", "requirements", "spec", "document feature", "PM this"                      | `/pm [name]`               | `prd-writer` skill           |
-| "prototype", "mock up", "build UI", "create component", "storybook"               | `/proto [name]`            | `proto-builder` subagent     |
-| "validate", "test with users", "run jury", "user feedback"                        | `/validate [name]`         | `validator` subagent         |
-| "iterate", "refine", "update based on feedback", "new version"                    | `/iterate [name]`          | `iterator` subagent          |
-| "wireframe", "lofi", "low-fi", "quick mock", "sketch"                             | `/lofi-proto [name]`       | Lightweight prototype        |
-| "new initiative", "start project", "new feature"                                  | `/new-initiative [name]`   | Create folder structure      |
-| "where should this go", "component location", "placement"                         | `/placement [name]`        | Research placement           |
-| "in context", "in-app preview", "show how it fits"                                | `/context-proto [name]`    | Context prototype            |
-| "share", "create PR", "ready for review"                                          | `/share`                   | Create Pull Request          |
-| "figma", "sync design", "figma to code"                                           | `/figma-sync [name] [url]` | Figma sync workflow          |
-| "design review", "UX check", "design considerations"                              | `/design [name]`           | `design-companion` skill     |
-| "hypothesis", "assumption to test", "we believe"                                  | `/hypothesis [name]`       | Track hypothesis             |
-| "brainstorm", "generate ideas", "explore options"                                 | `/brainstorm-board`        | Creative ideation            |
-| "process signals", "new feedback", "ingest"                                       | `/ingest`                  | Process signals              |
-| "find patterns", "synthesize", "what themes"                                      | `/synthesize`              | Pattern synthesis            |
-| "posthog", "analytics", "metrics", "dashboards", "success criteria"               | `/posthog [mode]`          | `posthog-analyst` subagent   |
+| Intent Patterns                                                                           | Command                        | Delegates To                             |
+| ----------------------------------------------------------------------------------------- | ------------------------------ | ---------------------------------------- |
+| "transcript", "interview", "call recording", "research this", "customer feedback"         | `/research [name]`             | `research-analyzer` subagent             |
+| "PRD", "requirements", "spec", "document feature", "PM this"                              | `/pm [name]`                   | `prd-writer` skill                       |
+| "prototype", "mock up", "build UI", "create component", "storybook"                       | `/proto [name]`                | `proto-builder` subagent                 |
+| "validate", "test with users", "run jury", "user feedback"                                | `/validate [name]`             | `validator` subagent                     |
+| "iterate", "refine", "update based on feedback", "new version"                            | `/iterate [name]`              | `iterator` subagent                      |
+| "wireframe", "lofi", "low-fi", "quick mock", "sketch"                                     | `/lofi-proto [name]`           | Lightweight prototype                    |
+| "new initiative", "start project", "new feature"                                          | `/new-initiative [name]`       | Create folder structure                  |
+| "where should this go", "component location", "placement"                                 | `/placement [name]`            | Research placement                       |
+| "in context", "in-app preview", "show how it fits"                                        | `/context-proto [name]`        | Context prototype                        |
+| "share", "create PR", "ready for review"                                                  | `/share`                       | Create Pull Request                      |
+| "figma", "sync design", "figma to code"                                                   | `/figma-sync [name] [url]`     | Figma sync workflow                      |
+| "design review", "UX check", "design considerations"                                      | `/design [name]`               | `design-companion` skill                 |
+| "hypothesis", "assumption to test", "we believe"                                          | `/hypothesis [name]`           | Track hypothesis                         |
+| "brainstorm", "generate ideas", "explore options"                                         | `/brainstorm-board`            | Creative ideation                        |
+| "process signals", "new feedback", "ingest"                                               | `/ingest`                      | Process signals                          |
+| "ingest slack", "pull slack signals", "slack to signals"                                  | `/ingest slack [channel]`      | Pull signals from Slack                  |
+| "ingest linear", "linear signals", "customer issues"                                      | `/ingest linear`               | Pull signals from Linear                 |
+| "ingest hubspot", "deal signals", "churn reasons"                                         | `/ingest hubspot [id]`         | Pull signals from HubSpot                |
+| "ingest all", "pull all signals", "ingest everything"                                     | `/ingest all`                  | Pull from all sources                    |
+| "customer check", "what's customer facing", "feature flags"                               | `/ingest ... --customer-check` | Check feature availability               |
+| "availability check", "check flags", "what's GA"                                          | `/availability-check`          | PostHog feature flag check               |
+| "notion admin", "notion cleanup", "notion projects", "prd in notion", "eow sync"          | `/notion-admin [mode]`         | `notion-admin` subagent                  |
+| "full sync", "sync everything", "sync notion with questions", "audit data"                | `/full-sync`                   | Interactive PM ↔ Notion sync             |
+| "create subpages", "notion subpages", "sync documentation to notion", "add prd to notion" | `/full-sync --subpages`        | Create documentation subpages in Notion  |
+| "create notion projects", "add to notion", "initiative to notion", "publish initiatives"  | `/full-sync --create-projects` | Create Notion projects from PM workspace |
+| "find patterns", "synthesize", "what themes"                                              | `/synthesize`                  | Pattern synthesis                        |
+| "posthog", "analytics", "metrics", "dashboards", "success criteria"                       | `/posthog [mode]`              | `posthog-analyst` subagent               |
+| "figjam", "diagram", "flowchart", "sequence diagram", "gantt", "state diagram"            | `/figjam [description]`        | `figjam-generator` subagent              |
 
 ### Thinking & Growth (Tyler-Specific)
 
@@ -154,21 +167,21 @@ Use these to:
 
 ## Key Locations
 
-| Content Type     | Location                                     |
-| ---------------- | -------------------------------------------- |
-| Company context  | `pm-workspace-docs/company-context/`         |
-| **Org Chart**    | `pm-workspace-docs/company-context/org-chart.md` |
-| Initiatives      | `pm-workspace-docs/initiatives/[name]/`      |
-| Research         | `pm-workspace-docs/research/`                |
-| Personas         | `pm-workspace-docs/personas/`                |
-| Prototypes       | `elephant-ai/web/src/components/prototypes/` |
-| Signals          | `pm-workspace-docs/signals/`                 |
-| Status Reports   | `pm-workspace-docs/status/`                  |
-| Activity Reports | `pm-workspace-docs/status/activity/`         |
-| Sync Queue       | `pm-workspace-docs/sync-queue.md`            |
-| Design system    | `.interface-design/system.md`                |
-| **Slack Routing** | `pm-workspace-docs/audits/slack-communication-routing-guide.md` |
-| **Channel Audits** | `pm-workspace-docs/audits/channels/`        |
+| Content Type       | Location                                                        |
+| ------------------ | --------------------------------------------------------------- |
+| Company context    | `pm-workspace-docs/company-context/`                            |
+| **Org Chart**      | `pm-workspace-docs/company-context/org-chart.md`                |
+| Initiatives        | `pm-workspace-docs/initiatives/[name]/`                         |
+| Research           | `pm-workspace-docs/research/`                                   |
+| Personas           | `pm-workspace-docs/personas/`                                   |
+| Prototypes         | `elephant-ai/web/src/components/prototypes/`                    |
+| Signals            | `pm-workspace-docs/signals/`                                    |
+| Status Reports     | `pm-workspace-docs/status/`                                     |
+| Activity Reports   | `pm-workspace-docs/status/activity/`                            |
+| Sync Queue         | `pm-workspace-docs/sync-queue.md`                               |
+| Design system      | `.interface-design/system.md`                                   |
+| **Slack Routing**  | `pm-workspace-docs/audits/slack-communication-routing-guide.md` |
+| **Channel Audits** | `pm-workspace-docs/audits/channels/`                            |
 
 ---
 
@@ -311,6 +324,10 @@ These run in isolated context for complex workflows:
 | `hypothesis-manager`    | Manage hypothesis lifecycle                                        | `/hypothesis`                  | fast    |
 | `workspace-admin`       | Workspace maintenance and admin                                    | `/maintain`, `/admin`          | fast    |
 | `posthog-analyst`       | PostHog analytics lifecycle - dashboards, metrics, cohorts, alerts | `/posthog`                     | inherit |
+| `slack-monitor`         | Scan Slack for activity and response recommendations               | `/slack-monitor`               | fast    |
+| `notion-admin`          | Notion workspace admin - Projects, Launches, PRDs, EOW syncs       | `/notion-admin`                | fast    |
+| `hubspot-activity`      | Pull revenue activity from HubSpot for EOD/EOW reports             | (internal)                     | fast    |
+| `figjam-generator`      | Generate diagrams in FigJam using Mermaid.js                       | `/figjam`                      | fast    |
 
 **Built-in Subagents (Cursor 2.4):**
 

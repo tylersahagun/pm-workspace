@@ -1,0 +1,82 @@
+{
+  "$schema": "pm-workspace-meta-v1",
+  "initiative": "flagship-meeting-recap",
+  "hypothesis_id": "hyp-meeting-summary-flagship-drives-growth",
+  "phase": "build",
+  "sub_phase": "prototype-complete",
+  "status": "in_progress",
+  "priority": "P1",
+  "owner": "Tyler",
+  "personas": ["sales-rep", "csm", "sales-leader"],
+  "pillar": "data-knowledge",
+  "created_at": "2026-01-28T10:00:00.000000",
+  "updated_at": "2026-01-28T03:45:00.000000",
+  "current_version": "v1",
+  "prototype_location": "prototypes/src/components/FlagshipMeetingRecap/v1/",
+  "chromatic_url": "https://672502f3cbc6d0a63fdd76aa-owwwxtdyme.chromatic.com/iframe.html?id=flagshipmeetingrecap-walkthrough-completewalkthrough--default&viewMode=story",
+  "figjam_url": "https://www.figma.com/online-whiteboard/create-diagram/8fdb3d58-1f13-4901-b07a-0474aad77030",
+  "figjam_generated": "2026-01-28",
+  "phase_history": [
+    {
+      "phase": "discovery",
+      "entered": "2026-01-27T00:00:00.000000",
+      "exited": "2026-01-28T10:00:00.000000",
+      "notes": "Evidence from Tyler-Sam conversations (Jan 27, Jan 28)"
+    },
+    {
+      "phase": "define",
+      "entered": "2026-01-28T10:00:00.000000",
+      "exited": "2026-01-28T03:45:00.000000",
+      "notes": "PRD, design brief, design audit, placement research complete"
+    },
+    {
+      "phase": "build",
+      "entered": "2026-01-28T03:45:00.000000",
+      "exited": null,
+      "notes": "Storybook prototype v1 complete"
+    }
+  ],
+  "blockers": [],
+  "next_action": "Deploy to Chromatic, run /validate for jury evaluation",
+  "signals": [
+    "sig-2026-01-28-tyler-sam-flagship-meeting-recap-ux",
+    "sig-2026-01-27-tyler-sam-prioritization-workflow",
+    "sig-2026-01-26-council-of-product",
+    "sig-2026-01-24-council-of-product",
+    "sig-2026-01-26-14day-slack-synthesis"
+  ],
+  "related_initiatives": [
+    "settings-redesign",
+    "product-usability",
+    "composio-agent-framework"
+  ],
+  "graduation_criteria": {
+    "discovery_to_define": {
+      "evidence_points": 5,
+      "persona_validated": true,
+      "outcome_chain_defined": true
+    },
+    "define_to_build": {
+      "prd_approved": false,
+      "design_brief_exists": false,
+      "engineering_alignment": false
+    }
+  },
+  "timeline": {
+    "started": "2026-01-28",
+    "target_launch": null
+  },
+  "metrics": {
+    "days_in_phase": 0,
+    "total_iterations": 1
+  },
+  "key_themes": [
+    "ai-first-ux",
+    "chat-configuration",
+    "meeting-recap",
+    "flagship-experience",
+    "zero-to-one",
+    "workflow-simplification"
+  ],
+  "visibility": "internal"
+}
